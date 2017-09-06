@@ -1,8 +1,10 @@
 import React from 'react';
-import Grid from 'material-ui/Grid';
+import Grid  from 'material-ui/Grid';
 
-import EmbedPlayer from '../Components/EmbedPlayer';
-import TwitchChat  from '../Components/TwitchChat';
+import EmbedPlayer    from '../Components/EmbedPlayer';
+import TwitchChat     from '../Components/TwitchChat';
+import PlayerControls from '../Components/PlayerControls';
+import PlayerChannelsList from '../Components/PlayerChannelsList';
 
 class Player extends React.Component {
   
@@ -13,6 +15,90 @@ class Player extends React.Component {
   }
 
   render() {
+
+    const channelsMap = [
+      {
+        type: 'tw',
+        name: 'BdoubleO',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/517b7b22d24c1849-profile_image-300x300.png'
+      },
+      {
+        type: 'tw',
+        name: 'wolvesatmydoor',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/504ced8a97f2f6a5-profile_image-300x300.png'
+      },
+      {
+        type: 'yt',
+        name: 'Northernlion',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/northernlion-profile_image-24031606a8e430c3-300x300.png'
+      },
+      {
+        type: 'tw',
+        name: 'Northernlion',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/northernlion-profile_image-24031606a8e430c3-300x300.png'
+      },
+      {
+        type: 'yt',
+        name: 'Last_Grey_Wolf',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/0434b290530af95a-profile_image-300x300.png'
+      },
+      {
+        type: 'tw',
+        name: 'Last_Grey_Wolf',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/0434b290530af95a-profile_image-300x300.png'
+      },
+      {
+        type: 'yt',
+        name: 'DanGheesling',
+        thumbUri: 'https://yt3.ggpht.com/-Okp3KzEB6xc/AAAAAAAAAAI/AAAAAAAAAAA/AkWCDXngQjs/s176-c-k-no-mo-rj-c0xffffff/photo.jpg'
+      },
+      {
+        type: 'tw',
+        name: 'DanGheesling',
+        thumbUri: 'https://yt3.ggpht.com/-Okp3KzEB6xc/AAAAAAAAAAI/AAAAAAAAAAA/AkWCDXngQjs/s176-c-k-no-mo-rj-c0xffffff/photo.jpg'
+      },
+      {
+        type: 'yt',
+        name: 'michaelalfox',
+        thumbUri: 'https://yt3.ggpht.com/-MgNHVOdUNEE/AAAAAAAAAAI/AAAAAAAAAAA/oQBTxr6rOQc/s176-c-k-no-mo-rj-c0xffffff/photo.jpg'
+      },
+      {
+        type: 'tw',
+        name: 'michaelalfox',
+        thumbUri: 'https://yt3.ggpht.com/-MgNHVOdUNEE/AAAAAAAAAAI/AAAAAAAAAAA/oQBTxr6rOQc/s176-c-k-no-mo-rj-c0xffffff/photo.jpg'
+      },
+      {
+        type: 'tw',
+        name: 'Grimmmz',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/grimmmz-profile_image-b6c4dd27a4b900a3-300x300.png'
+      },
+      {
+        type: 'tw',
+        name: 'Anthony_Kongphan',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/anthony_kongphan-profile_image-779ae9619d16e5d4-300x300.png'
+      },
+      {
+        type: 'tw',
+        name: 'DrDisRespectLive',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/drdisrespectlive-profile_image-abc1fc67d2ea1ae1-300x300.png'
+      },
+    ]
+
+    const channels = channelsMap.filter( (channel) => {
+      if (this.props.match.params.source === 'tw' && channel.type === this.props.match.params.source) {
+        switch(channel.name.toLowerCase()) {
+          case this.props.match.params.id:
+          case this.props.match.params.id2:
+          case this.props.match.params.id3:
+          case this.props.match.params.id4:
+            return true;
+          default:
+            return false;
+        }
+      }
+      return false;
+    });
+    console.log(channels);
 
     return (
       <div className="Player-wrapper flex">
@@ -96,18 +182,21 @@ class Player extends React.Component {
 
         </Grid>
 
-        { !!(this.props.match.source === 'tw') &&
-          <div style={{width: '400px', height:'100%', backgroundColor: '#ccc'}} className="flex-item">
+        { !!(this.props.match.params.source === 'tw') &&
+          <div style={{width: '400px', height:'100%', backgroundColor: '#ccc', border: '1px solid #ccc', boxSizing: 'border-box'}} className="flex-item">
             <TwitchChat id={this.props.match.params.id}/>
           </div>
         }
+
+        <PlayerChannelsList channels={channels}/>
+        <PlayerControls />        
       </div>
     );
   }
   
    _onReady(event) {
      // access to player in all event handlers via event.target 
-    //  event.target.pauseVideo();
+     event.target.pauseVideo();
    }
 }
 

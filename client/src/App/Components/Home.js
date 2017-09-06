@@ -23,6 +23,17 @@ const styles = theme => ({
 const recentActivity = [
   {
     type: 'tw',
+    title: 'The Northernlion Live Super Show!',
+    route: '/tw/northernlion',
+    channels: [
+      {
+        name: 'Northernlion',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/northernlion-profile_image-24031606a8e430c3-300x300.png'
+      },
+    ]
+  },
+  {
+    type: 'tw',
     title: '5th 4th 3rd....',
     route: '/tw/bdoubleo',
     channels: [
