@@ -1,22 +1,17 @@
 import React from 'react';
-import YouTube from 'react-youtube';
 import Grid from 'material-ui/Grid';
+
+import EmbedPlayer from '../Components/EmbedPlayer';
 
 class Player extends React.Component {
   
   constructor(props) {
     super(props);
+
     console.log(props);
   }
 
   render() {
-    const opts = {
-      height: '100%',
-      width: '100%',
-      playerVars: { // https://developers.google.com/youtube/player_parameters 
-        autoplay: 1
-      }
-    };
 
     return (
       <div className="Player-wrapper">
@@ -24,97 +19,79 @@ class Player extends React.Component {
           
           <Grid item xs={12}>
             <Grid container spacing={0} justify="center" direction="row" className="Player-container">
-              {(() => { if ( this.props.match.params.id && !this.props.match.params.id2 ) {
-                return (
-                  <Grid item xs={12}>
-                    <div className="Player flex-item">
-                      <YouTube
-                        videoId={this.props.match.params.id}
-                        opts={opts}
-                        onReady={this._onReady}
-                      />
-                    </div>
-                  </Grid>
-                )
-              } })()}
-              {(() => { if ( this.props.match.params.id && this.props.match.params.id2 ) {
-                return (
-                  <Grid item xs={12} md={6}>
-                    <div className="Player flex-item">
-                      <YouTube
-                        videoId={this.props.match.params.id}
-                        opts={opts}
-                        onReady={this._onReady}
-                      />
-                    </div>
-                  </Grid>
-                )
-              } })()}
-              {(() => { if ( this.props.match.params.id2 ) {
-                return (
-                  <Grid item xs={12} md={6}>
-                    <div className="Player flex-item">
-                      <YouTube
-                        videoId={this.props.match.params.id2}
-                        opts={opts}
-                        onReady={this._onReady}
-                      />
-                    </div>
-                  </Grid>
-                )
-              } })()}
+              
+              { (this.props.match.params.id && !this.props.match.params.id2) ? (
+                <Grid item xs={12}>
+                  <div className="Player flex-item">
+                    <EmbedPlayer
+                      source={this.props.match.params.source}
+                      id={this.props.match.params.id}
+                    />
+                  </div>
+                </Grid>
+              ) : null }
+              
+              { (this.props.match.params.id && this.props.match.params.id2) ? (
+                <Grid item xs={12} md={6}>
+                  <div className="Player flex-item">
+                    <EmbedPlayer
+                      source={this.props.match.params.source}
+                      id={this.props.match.params.id}
+                    />
+                  </div>
+                </Grid>
+              ) : null}
+              { (this.props.match.params.id2) ? (
+                <Grid item xs={12} md={6}>
+                  <div className="Player flex-item">
+                  <EmbedPlayer
+                    source={this.props.match.params.source}
+                    id={this.props.match.params.id2}
+                  />
+                  </div>
+                </Grid>
+              ) : null }
             </Grid>
           </Grid>
 
-          {(() => { if ( this.props.match.params.id3 || this.props.match.params.id4 ) {
-            return (
+          { (this.props.match.params.id3 || this.props.match.params.id4 ) ? (
               <Grid item xs={12}>
 
                 <Grid container spacing={0} justify="center" direction="row" className="Player-container">
-                  {(() => { if ( this.props.match.params.id3 && !this.props.match.params.id4 ) {
-                    return (
-                      <Grid item xs={12}>
-                        <div className="Player flex-item">
-                          <YouTube
-                            videoId={this.props.match.params.id3}
-                            opts={opts}
-                            onReady={this._onReady}
-                          />
-                        </div>
-                      </Grid>
-                    )
-                  } })()}
-                  {(() => { if ( this.props.match.params.id3 && this.props.match.params.id4  ) {
-                    return (
-                      <Grid item xs={12} md={6}>
-                        <div className="Player flex-item">
-                          <YouTube
-                            videoId={this.props.match.params.id3}
-                            opts={opts}
-                            onReady={this._onReady}
-                          />
-                        </div>
-                      </Grid>
-                    )
-                  } })()}
-                  {(() => { if ( this.props.match.params.id4 ) {
-                    return (
-                      <Grid item xs={12} md={6}>
-                        <div className="Player flex-item">
-                          <YouTube
-                            videoId={this.props.match.params.id4}
-                            opts={opts}
-                            onReady={this._onReady}
-                          />
-                        </div>
-                      </Grid>
-                    )
-                  } })()}
+                  { (this.props.match.params.id3 && !this.props.match.params.id4) ? (
+                    <Grid item xs={12}>
+                      <div className="Player flex-item">
+                      <EmbedPlayer
+                        source={this.props.match.params.source}
+                        id={this.props.match.params.id3}
+                      />
+                      </div>
+                    </Grid>
+                  ) : null }
+                  { (this.props.match.params.id3 && this.props.match.params.id4 ) ? (
+                    <Grid item xs={12} md={6}>
+                      <div className="Player flex-item">
+                      <EmbedPlayer
+                        source={this.props.match.params.source}
+                        id={this.props.match.params.id3}
+                      />
+                      </div>
+                    </Grid>
+                  ) : null }
+                  { (this.props.match.params.id4) ? (
+                    <Grid item xs={12} md={6}>
+                      <div className="Player flex-item">
+                      <EmbedPlayer
+                        source={this.props.match.params.source}
+                        id={this.props.match.params.id4}
+                      />
+                      </div>
+                    </Grid>
+                  ) : null }
                 </Grid>
 
               </Grid>
-            )
-          } })()}
+            ) : null}
 
         </Grid>
       </div>

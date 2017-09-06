@@ -101,7 +101,7 @@ header nav .top-nav-items {
 
 
 div.recent-activity-wrapper {
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
 }
 div.recent-activity-wrapper h3 {
   display: flex;

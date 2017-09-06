@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 // import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
@@ -22,6 +21,32 @@ const styles = theme => ({
 });
 
 const recentActivity = [
+  {
+    type: 'tw',
+    title: '5th 4th 3rd....',
+    route: '/tw/bdoubleo',
+    channels: [
+      {
+        name: 'BdoubleO',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/517b7b22d24c1849-profile_image-300x300.png'
+      }
+    ]
+  },
+  {
+    type: 'tw',
+    title: 'Multi-stream',
+    route: '/tw/bdoubleo/nobodyepic',
+    channels: [
+      {
+        name: 'BdoubleO',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/517b7b22d24c1849-profile_image-300x300.png'
+      },
+      {
+        name: 'NobodyEpic',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/2df17b12822bb83a-profile_image-300x300.png'
+      }
+    ]
+  },
   {
     type: 'yt',
     title: 'Multi-tube',
@@ -59,7 +84,7 @@ const recentActivity = [
   {
     type: 'tw',
     title: 'Multi-stream',
-    route: '/tw/s65A6QrScVI',
+    route: '/tw/grimmmz',
     channels: [
       {
         name: 'Grimmmz',
@@ -90,32 +115,25 @@ class Home extends React.Component {
   render() {
     const classes = this.props.classes;
 
+    const recentActivityList = recentActivity.map( (activityItem, index) => {
+      return (
+        <Grid item key={index}>
+          <RecentChannelItem activityItem={activityItem}/>
+        </Grid>
+      )
+    })
+
     return (
       <div className={classes.root}>
         <Grid container spacing={24} justify="center">
           <Grid item xs={12} md={9}>
-            <Grid container spacing={24} >
+            <Grid container spacing={0} >
               
               <Grid item xs={12} className="recent-activity-wrapper">
                 <h3><Link to='/recents'>Recent Activity</Link> <ChevronRight/></h3>
                 <Grid container spacing={8} >
-                  <Grid item>
-                    <RecentChannelItem hover="hover" activityItem={recentActivity[0]}/>
-                  </Grid>
-                  <Grid item>
-                    <RecentChannelItem hover="" activityItem={recentActivity[1]}/>
-                  </Grid>
-                  <Grid item>
-                    <RecentChannelItem hover="" activityItem={recentActivity[2]}/>
-                  </Grid>
+                  { recentActivityList }
                 </Grid>
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <Paper className={classes.paper}>xs=12, md=6</Paper>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Paper className={classes.paper}>xs=12, md=6</Paper>
               </Grid>
             </Grid>
           </Grid>
