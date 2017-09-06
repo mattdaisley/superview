@@ -20,7 +20,7 @@ class Player extends React.Component {
           <Grid item xs={12}>
             <Grid container spacing={0} justify="center" direction="row" className="Player-container">
               
-              { (this.props.match.params.id && !this.props.match.params.id2) ? (
+              { !!(this.props.match.params.id && !this.props.match.params.id2) &&
                 <Grid item xs={12}>
                   <div className="Player flex-item">
                     <EmbedPlayer
@@ -29,9 +29,9 @@ class Player extends React.Component {
                     />
                   </div>
                 </Grid>
-              ) : null }
+              }
               
-              { (this.props.match.params.id && this.props.match.params.id2) ? (
+              { !!(this.props.match.params.id && this.props.match.params.id2) &&
                 <Grid item xs={12} md={6}>
                   <div className="Player flex-item">
                     <EmbedPlayer
@@ -40,8 +40,8 @@ class Player extends React.Component {
                     />
                   </div>
                 </Grid>
-              ) : null}
-              { (this.props.match.params.id2) ? (
+              }
+              { !!(this.props.match.params.id2) &&
                 <Grid item xs={12} md={6}>
                   <div className="Player flex-item">
                   <EmbedPlayer
@@ -50,15 +50,15 @@ class Player extends React.Component {
                   />
                   </div>
                 </Grid>
-              ) : null }
+              }
             </Grid>
           </Grid>
 
-          { (this.props.match.params.id3 || this.props.match.params.id4 ) ? (
+          { !!(this.props.match.params.id3 || this.props.match.params.id4 ) &&
               <Grid item xs={12}>
 
                 <Grid container spacing={0} justify="center" direction="row" className="Player-container">
-                  { (this.props.match.params.id3 && !this.props.match.params.id4) ? (
+                  { !!(this.props.match.params.id3 && !this.props.match.params.id4) &&
                     <Grid item xs={12}>
                       <div className="Player flex-item">
                       <EmbedPlayer
@@ -67,8 +67,8 @@ class Player extends React.Component {
                       />
                       </div>
                     </Grid>
-                  ) : null }
-                  { (this.props.match.params.id3 && this.props.match.params.id4 ) ? (
+                  }
+                  { !!(this.props.match.params.id3 && this.props.match.params.id4 ) &&
                     <Grid item xs={12} md={6}>
                       <div className="Player flex-item">
                       <EmbedPlayer
@@ -77,8 +77,8 @@ class Player extends React.Component {
                       />
                       </div>
                     </Grid>
-                  ) : null }
-                  { (this.props.match.params.id4) ? (
+                  }
+                  { !!(this.props.match.params.id4) &&
                     <Grid item xs={12} md={6}>
                       <div className="Player flex-item">
                       <EmbedPlayer
@@ -87,11 +87,11 @@ class Player extends React.Component {
                       />
                       </div>
                     </Grid>
-                  ) : null }
+                  }
                 </Grid>
 
               </Grid>
-            ) : null}
+            }
 
         </Grid>
       </div>

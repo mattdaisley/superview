@@ -54,11 +54,9 @@ li {
   flex-grow: 1;
 }
 
-/* header {
-  background-color: #222;
-  height: 5rem;
-  color: white;
-} */
+header {
+  position: fixed;
+}
 
 header li {
   /* height: 5rem; */
@@ -89,8 +87,8 @@ header nav .top-nav-items {
 
 .side-nav-container {
   width: 100px;
-  position: absolute;
-  top: 14px;
+  position: fixed;
+  top: 84px;
   left: 0;
   bottom: 0;
   padding: 6px;

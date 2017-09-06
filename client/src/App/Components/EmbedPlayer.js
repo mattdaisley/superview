@@ -22,19 +22,19 @@ class EmbedPlayer extends React.Component {
 
     return (
       <div className="Player flex-item">
-        { (this.props.source === 'yt') ? (
+        { !!(this.props.source === 'yt') &&
           <YouTube
             videoId={this.props.id}
             opts={opts}
             onReady={this._onReady}
           />
-        ) : null }
+        }
 
-        { (this.props.source === 'tw') ? (
+        { !!(this.props.source === 'tw') &&
           <TwitchPlayer
             id={this.props.id}
           />
-        ) : null }
+        }
       </div>
     );
   }

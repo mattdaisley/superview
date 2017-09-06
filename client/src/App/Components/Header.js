@@ -23,7 +23,7 @@ class Header extends React.Component {
     }
 
     return (
-      <AppBar position="static" className="top-nav-app-bar" style={HeaderStyle}>
+      <AppBar position="fixed" className="top-nav-app-bar" style={HeaderStyle}>
         <Toolbar disableGutters className="flex">
           <div className="menu-button-wrapper">
             <IconButton className="menu-button" aria-label="Menu">
