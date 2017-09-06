@@ -31,13 +31,10 @@ class Header extends React.Component {
             </IconButton>
           </div>
 
-          <Typography type="title" color="inherit" className="flex-item-grow">
-            {/* <ul className="flex flex-vertical top-nav-items">
-              <li className="flex-item"><Link to='/'>Home</Link></li>
-              <li className="flex-item"><Link to='/recents'>Recents</Link></li>
-              <li className="flex-item-grow"></li>
-            </ul> */}
+          <Typography type="title" className="App-logo-text flex-item-grow">
+            SuperView
           </Typography>
+
           <Button>Login</Button>
         </Toolbar>
       </AppBar>
