@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -30,9 +30,6 @@ class Header extends React.Component {
               <MenuIcon />
             </IconButton>
           </div>
-
-          <Button color="contrast"><Link to='/'>Home</Link></Button>
-          <Button color="contrast"><Link to='/recents'>Recents</Link></Button>
 
           <Typography type="title" color="inherit" className="flex-item-grow">
             {/* <ul className="flex flex-vertical top-nav-items">

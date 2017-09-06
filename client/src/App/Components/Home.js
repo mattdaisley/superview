@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
 import RecentChannelItem from '../Components/RecentChannelItem';
