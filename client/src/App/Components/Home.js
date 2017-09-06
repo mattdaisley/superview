@@ -139,12 +139,12 @@ class Home extends React.Component {
               <Grid item xs={12} className="recent-activity-wrapper">
                 <h3><Link to='/tw/live'>Live Channels on Twitch</Link> <ChevronRight/></h3>
                 <Grid container spacing={8} >
-                  <Grid item xs={2}>
+                  <Grid item xs={6} sm={3} className="list-grid-item">
                     <div style={ {width: '100%'} }>
                       <img src="https://static-cdn.jtvnw.net/previews-ttv/live_user_bdoubleo-320x180.jpg" alt="bdoubleo" style={ {width: '100%'} } />
                     </div>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={6} sm={3} className="list-grid-item">
                     <div style={ {width: '100%'} }>
                       <img src="https://static-cdn.jtvnw.net/previews-ttv/live_user_stockstream-320x180.jpg" alt="stockstream" style={ {width: '100%'} } />
                     </div>
@@ -155,12 +155,12 @@ class Home extends React.Component {
               <Grid item xs={12} className="recent-activity-wrapper">
                 <h3><Link to='/yt/subscriptions'>Recent from your YouTube subscriptions</Link> <ChevronRight/></h3>
                 <Grid container spacing={8} >
-                  <Grid item xs={2}>
+                  <Grid item xs={6} sm={3} className="list-grid-item">
                     <div style={ {width: '100%'} }>
                       <img src="https://i.ytimg.com/vi/U5kQq2P50QY/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLCUJat6Cf58B1E-oO6glixdcJ0weA" alt="dan" style={ {width: '100%'} } />
                     </div>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={6} sm={3} className="list-grid-item">
                     <div style={ {width: '100%'} }>
                       <img src="https://i.ytimg.com/vi/VCiTarqUyXM/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLBWbfzvu5RRytl1htmDrCFhNLFFXg" alt="nl" style={ {width: '100%'} } />
                     </div>

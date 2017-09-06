@@ -175,6 +175,13 @@ div.recent-activity-wrapper h3 a:hover {
 
 
 
+.list-grid-item {
+  /* max-width: 250px; */
+}
+
+
+
+
 
 div.Player-wrapper {
   box-sizing: border-box;
