@@ -150,7 +150,16 @@ div.recent-activity-wrapper h3 a:hover {
 
 
 
+
 div.Player-wrapper {
+  box-sizing: border-box;
+  width: calc(100% - 180px);
+  height: 100%;
+  max-height: calc(100vh - 185px);
+  background-color: #000;
+  margin: 20px auto;
+}
+div.Player-container {
   box-sizing: border-box;
   width: 100%;
   height: 100%;

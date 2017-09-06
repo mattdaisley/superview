@@ -20,10 +20,10 @@ class Player extends React.Component {
 
     return (
       <div className="Player-wrapper">
-        <Grid container spacing={0} direction="row" className="Player-wrapper">
+        <Grid container spacing={0} direction="row" className="Player-container">
           
           <Grid item xs={12}>
-            <Grid container spacing={0} justify="center" direction="row" className="Player-wrapper">
+            <Grid container spacing={0} justify="center" direction="row" className="Player-container">
               {(() => { if ( this.props.match.params.id && !this.props.match.params.id2 ) {
                 return (
                   <Grid item xs={12}>
@@ -70,7 +70,7 @@ class Player extends React.Component {
             return (
               <Grid item xs={12}>
 
-                <Grid container spacing={0} justify="center" direction="row" className="Player-wrapper">
+                <Grid container spacing={0} justify="center" direction="row" className="Player-container">
                   {(() => { if ( this.props.match.params.id3 && !this.props.match.params.id4 ) {
                     return (
                       <Grid item xs={12}>
