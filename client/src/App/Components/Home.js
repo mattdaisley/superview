@@ -35,22 +35,22 @@ const recentActivity = [
   {
     type: 'tw',
     title: 'Multi-stream',
-    route: '/tw/bdoubleo/nobodyepic',
+    route: '/tw/bdoubleo/wolvesatmydoor',
     channels: [
       {
         name: 'BdoubleO',
         thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/517b7b22d24c1849-profile_image-300x300.png'
       },
       {
-        name: 'NobodyEpic',
-        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/2df17b12822bb83a-profile_image-300x300.png'
+        name: 'wolvesatmydoor',
+        thumbUri: 'https://static-cdn.jtvnw.net/jtv_user_pictures/504ced8a97f2f6a5-profile_image-300x300.png'
       }
     ]
   },
   {
     type: 'yt',
     title: 'Multi-tube',
-    route: '/yt/s65A6QrScVI/8vNjD_3Fopc/UHfJsxg6_5E/gNPeqSGtAm0',
+    route: '/yt/e-Y4QLalzjw/7m04pIMVAZY/U5kQq2P50QY/KKHmRFLs00g',
     channels: [
       {
         name: 'Northernlion',

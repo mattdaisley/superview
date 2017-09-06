@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from 'material-ui/Grid';
 
 import EmbedPlayer from '../Components/EmbedPlayer';
+import TwitchChat  from '../Components/TwitchChat';
 
 class Player extends React.Component {
   
@@ -14,8 +15,8 @@ class Player extends React.Component {
   render() {
 
     return (
-      <div className="Player-wrapper">
-        <Grid container spacing={0} direction="row" className="Player-container">
+      <div className="Player-wrapper flex">
+        <Grid container spacing={0} direction="row" className="Player-container flex-item">
           
           <Grid item xs={12}>
             <Grid container spacing={0} justify="center" direction="row" className="Player-container">
@@ -94,6 +95,12 @@ class Player extends React.Component {
             }
 
         </Grid>
+
+        { !!(this.props.match.source === 'tw') &&
+          <div style={{width: '400px', height:'100%', backgroundColor: '#ccc'}} className="flex-item">
+            <TwitchChat id={this.props.match.params.id}/>
+          </div>
+        }
       </div>
     );
   }
