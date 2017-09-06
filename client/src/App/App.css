@@ -1,0 +1,172 @@
+div#root, div#root > div {
+  width: 100%;
+  height: 100%;
+}
+
+.App {
+  text-align: center;
+  font-size: 12px;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 5rem;
+}
+
+html, body {
+  background-color: #efefef;
+  width: 100%;
+  height: 100%; 
+}
+
+ol, ul, li { 
+  margin: 0; padding: 0; border: 0;
+}
+
+li {
+  display: list-item;
+}
+
+/* header {
+  background-color: #222;
+  height: 5rem;
+  color: white;
+} */
+
+header li {
+  /* height: 5rem; */
+}
+
+header nav .app-logo-wrapper {
+  max-width: 115px;
+}
+
+header nav .top-nav-items {
+  font-size: 1rem;
+  line-height: 2rem;
+}
+
+.top-nav-app-bar .menu-button-wrapper {
+  margin-left: 12px;
+  margin-right: 20px;
+}
+
+.top-nav-app-bar a {
+  min-width: 0;
+  color: #444;
+  text-decoration: none;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+}
+
+.flex-vertical {
+  align-items: center;
+}
+
+.flex-item {
+  flex: 0 1 auto;
+}
+
+.flex-item-grow {
+  flex-grow: 1;
+}
+
+div.recent-activity-wrapper {
+  margin-bottom: 50px;
+}
+div.recent-activity-wrapper h3 {
+  display: flex;
+  align-items: center;
+}
+div.recent-activity-wrapper h3 a{
+  font-size: 16px;
+  text-decoration: none;
+  color: #444;
+}
+div.recent-activity-wrapper h3 a:hover {
+  text-decoration: underline;
+}
+.recent-channel-item-container {
+  width: 90px;
+  height: 100%;
+  position: relative;
+}
+.recent-channel-item-container .image-wrapper {
+  height: 90px;
+}
+.recent-channel-item-container .image-wrapper.yt {
+  background-color: #FF0000;
+}
+.recent-channel-item-container .image-wrapper.tw {
+  background-color: #4B367C;
+}
+.recent-channel-item-container .image-wrapper div{
+  overflow: hidden;
+  float: left;
+}
+.recent-channel-item-container .image-wrapper div.image-sm{
+  width: 45px;
+  height: 45px;
+}
+.recent-channel-item-container .image-wrapper div.image-lg{
+  width: 90px;
+  height: 90px;
+}
+.recent-channel-item-container .image-wrapper img{
+  width: 100%;
+}
+.recent-channel-item-container .details {
+  margin-top: 10px;
+  position: relative;
+  overflow-x: visible;
+  overflow-y: visible;
+  white-space: nowrap;
+  opacity: 0.000001;
+  padding-bottom: 5px;
+}
+.recent-channel-item-container .details.hover {
+  opacity: 1;
+}
+.recent-channel-item-container .details a {
+  font-size: 14px;
+  color: #444;
+  text-decoration: none;
+}
+.recent-channel-item-container .details a:hover {
+  text-decoration: underline;
+}
+.recent-channel-item-container .details a.channel-link {
+  font-size: 12px;
+}
+
+
+
+
+div.Player-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 185px);
+  background-color: #000;
+}
+div.Player {
+  width: 100%;
+  min-width: 50%;
+  height: 100%;
+  max-height: calc(100vh - 185px);
+}
+
+
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
