@@ -38,7 +38,7 @@ class Header extends React.Component {
               <li className="flex-item-grow"></li>
             </ul> */}
           </Typography>
-          <Button color="contrast">Login</Button>
+          <Button>Login</Button>
         </Toolbar>
       </AppBar>
       // <header>
