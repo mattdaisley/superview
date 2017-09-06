@@ -28,19 +28,20 @@ class ChannelDetails extends Component {
     const hover = this.props.hover;
     const title = this.props.title;
     const channels = this.props.channels;
-    const links = channels.map( (channel, index) => (
-      <span key={index}>
-        {channel.name}
-        {(() => {
-          if (index !== channels.length-1) { return (<span>/</span>) }
-        })()}
-      </span>
-    ));
+
+    var channelNames;
+    if ( channels.length > 2 ) {
+      channelNames = channels[0].name + ' and ' + (channels.length - 1) + ' others'
+    } else if ( channels.length === 2 ) {
+      channelNames = channels[0].name + ', ' + channels[1].name
+    } else {
+      channelNames = channels[0].name
+    }
 
     return (
       <div className={hover + ' details'}>
-        <div><Link to='/'>{title}</Link></div>
-        <a className="channel-link" href="http://youtube.com">{links}</a>
+        <div>{title}</div>
+        <div className="channel-names">{channelNames}</div>
       </div>
     );
   }
@@ -75,8 +76,10 @@ class RecentChannelItem extends Component {
     const channels = this.props.activityItem.channels;
     return (
       <div className="recent-channel-item-container" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-        <Link to={route}><ChannelImage channels={channels} type={type} /></Link>
-        <ChannelDetails hover={hover} title={title} channels={channels}/>
+        <Link to={route}>
+          <ChannelImage channels={channels} type={type} />
+          <ChannelDetails hover={hover} title={title} channels={channels}/>
+        </Link>
       </div>
     );
   }

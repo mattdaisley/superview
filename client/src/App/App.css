@@ -95,6 +95,12 @@ div.recent-activity-wrapper h3 a:hover {
   height: 100%;
   position: relative;
 }
+.recent-channel-item-container a {
+  text-decoration: none;
+}
+.recent-channel-item-container a .details:hover {
+  text-decoration: underline;
+}
 .recent-channel-item-container .image-wrapper {
   height: 90px;
 }
@@ -131,15 +137,13 @@ div.recent-activity-wrapper h3 a:hover {
 .recent-channel-item-container .details.hover {
   opacity: 1;
 }
-.recent-channel-item-container .details a {
+.recent-channel-item-container .details div{
   font-size: 14px;
+  line-height: 20px;
   color: #444;
   text-decoration: none;
 }
-.recent-channel-item-container .details a:hover {
-  text-decoration: underline;
-}
-.recent-channel-item-container .details a.channel-link {
+.recent-channel-item-container div.details > div.channel-names{
   font-size: 12px;
 }
 
