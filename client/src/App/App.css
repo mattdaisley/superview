@@ -88,11 +88,12 @@ header nav .top-nav-items {
 
 
 .side-nav-container {
-  width: 90px;
+  width: 100px;
   position: absolute;
-  top: 20px;
+  top: 14px;
   left: 0;
   bottom: 0;
+  padding: 6px;
 }
 
 
@@ -177,7 +178,7 @@ div.recent-activity-wrapper h3 a:hover {
 
 div.Player-wrapper {
   box-sizing: border-box;
-  width: calc(100% - 180px);
+  width: calc(100% - 200px);
   height: 100%;
   max-height: calc(100vh - 185px);
   background-color: #000;
