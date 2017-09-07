@@ -6,16 +6,20 @@ class ChannelImage extends Component {
 
   render() {
 
-    const type = this.props.type;
-    const channels = this.props.channels;
-    const imgSize = channels.length < 2 ? 'image-lg' : 'image-sm';
-    const images = channels.map( (channel, index) => 
-      <div className={imgSize} key={index}><img src={channel.thumbUri} alt={channel.name}/></div>
+    let type = this.props.type;
+    let channels = this.props.channels;
+    let thumb = this.props.thumb;
+    let imgSize = (channels.length < 2 && !thumb) ? 'image-lg' : 'image-sm';
+    let images = channels.map( (channel, index) =>
+      <div className={imgSize} key={index}><img src={channel.channelThumb} alt={channel.name}/></div>
     );
 
     return (
       <div className={type + ' image-wrapper'}>
-        {images}
+        { !!thumb && <img className="thumb" src={thumb.url} width={thumb.width} height={thumb.height} /> }
+        <div className={`thumb-solo-${!!thumb} channel-thumbs`}>
+          {images}
+        </div>
       </div>
     );
   }
@@ -70,14 +74,25 @@ class RecentChannelItem extends Component {
 
   render() {
     const hover = (this.state.hover) ? 'hover' : '';
-    const type = this.props.activityItem.type;
-    const route = this.props.activityItem.route;
-    const title = this.props.activityItem.title;
-    const channels = this.props.activityItem.channels;
+    const activityItem = this.props.activityItem;
+    const type = activityItem.type;
+    const route = activityItem.route;
+    const title = activityItem.title;
+    const channels = activityItem.channels;
+
+    let itemStyle = {};
+    // if ( activityItem.thumb ) {
+    //   itemStyle = {
+    //     backgroundImage: `url(${activityItem.thumb.url})`,
+    //     backgroundSize: `${activityItem.thumb.width})px ${activityItem.thumb.height}px`,
+    //     width: activityItem.thumb.width
+    //   };
+    // }
+    console.log('itemstyle', itemStyle);
     return (
-      <div className="recent-channel-item-container" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+      <div className={`recent-channel-item-container ${!!activityItem.thumb ? 'lg' : 'sm'}`} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} style={itemStyle}>
         <Link to={route}>
-          <ChannelImage channels={channels} type={type} />
+          <ChannelImage thumb={activityItem.thumb} channels={channels} type={type} />
           <ChannelDetails hover={hover} title={title} channels={channels}/>
         </Link>
       </div>

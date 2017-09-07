@@ -120,6 +120,9 @@ div.recent-activity-wrapper h3 a:hover {
   height: 100%;
   position: relative;
 }
+.recent-channel-item-container.lg {
+  width: 120px;
+}
 .recent-channel-item-container a {
   text-decoration: none;
 }
@@ -128,6 +131,7 @@ div.recent-activity-wrapper h3 a:hover {
 }
 .recent-channel-item-container .image-wrapper {
   height: 90px;
+  position: relative;
 }
 .recent-channel-item-container .image-wrapper.yt {
   background-color: #FF0000;
@@ -139,13 +143,22 @@ div.recent-activity-wrapper h3 a:hover {
   overflow: hidden;
   float: left;
 }
+.recent-channel-item-container .image-wrapper .thumb{
+  position: absolute;
+}
+.recent-channel-item-container .image-wrapper .channel-thumbs{
+  position: absolute;
+}
+.recent-channel-item-container .image-wrapper .channel-thumbs.thumb-solo-true{
+  bottom: 0; right: 0;
+}
 .recent-channel-item-container .image-wrapper div.image-sm{
   width: 45px;
   height: 45px;
 }
 .recent-channel-item-container .image-wrapper div.image-lg{
-  width: 90px;
-  height: 90px;
+  width: 100%;
+  /* height: 90px; */
 }
 .recent-channel-item-container .image-wrapper img{
   width: 100%;

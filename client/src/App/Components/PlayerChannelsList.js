@@ -17,7 +17,7 @@ class PlayerChannelsList extends React.Component {
     const channelAvatars = this.props.channels.map( channel => {
       return (
         <Button aria-label={channel.name} key={channel.name}>
-          <Avatar alt={channel.name} className="channel-avatar" src={channel.thumbUri} />
+          <Avatar alt={channel.name} className="channel-avatar" src={channel.channelThumb} />
         </Button>
       )
     })
