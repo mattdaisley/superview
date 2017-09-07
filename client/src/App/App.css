@@ -116,7 +116,7 @@ div.recent-activity-wrapper h3 a:hover {
   text-decoration: underline;
 }
 .recent-channel-item-container {
-  width: 90px;
+  width: 92px;
   height: 100%;
   position: relative;
 }
@@ -132,12 +132,7 @@ div.recent-activity-wrapper h3 a:hover {
 .recent-channel-item-container .image-wrapper {
   height: 90px;
   position: relative;
-}
-.recent-channel-item-container .image-wrapper.yt {
-  background-color: #FF0000;
-}
-.recent-channel-item-container .image-wrapper.tw {
-  background-color: #4B367C;
+  border: 1px solid #ccc;
 }
 .recent-channel-item-container .image-wrapper div{
   overflow: hidden;
