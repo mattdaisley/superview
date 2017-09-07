@@ -87,17 +87,13 @@ class RecentChannelItem extends Component {
 
   render() {
     let hover = (this.state.hover) ? 'hover' : '';
-    let activityItem = this.props.activityItem;
-    let type = activityItem.type;
-    let title = activityItem.title;
-    let channels = activityItem.channels;
-    let route = activityItem.route;
-    // let route = type + '/' + channels.map( (channel) => channel.name).join('/');
+
+    let {type, title, channels, route, thumb} = this.props.activityItem;
 
     return (
-      <div className={`recent-channel-item-container ${!!activityItem.thumb ? 'lg' : 'sm'}`} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+      <div className={`recent-channel-item-container ${!!thumb ? 'lg' : 'sm'}`} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
         <Link to={route}>
-          <ChannelImage thumb={activityItem.thumb} channels={channels} type={type} />
+          <ChannelImage thumb={thumb} channels={channels} type={type} />
           <ChannelDetails hover={hover} title={title} channels={channels}/>
         </Link>
       </div>

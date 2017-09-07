@@ -113,6 +113,9 @@ class Player extends React.Component {
     });
     console.log(channels);
 
+    let {source, id} = this.props.match.params;
+    let {hideChannelsList} = this.state;
+
     return (
       <div id="player-wrapper" className="Player-wrapper flex">
         <Grid container spacing={0} direction="row" className="Player-container flex-item">
@@ -195,13 +198,13 @@ class Player extends React.Component {
 
         </Grid>
 
-        { !!(this.props.match.params.source === 'tw') &&
-          <div style={{width: '400px', height:'100%', backgroundColor: '#ccc', border: '1px solid #ccc', boxSizing: 'border-box'}} className={'flex-item hidden-'+this.state.hideChannelsList}>
-            <TwitchChat id={this.props.match.params.id}/>
+        { !!(source === 'tw') &&
+          <div style={{width: '400px', height:'100%', backgroundColor: '#ccc', border: '1px solid #ccc', boxSizing: 'border-box'}} className={'flex-item hidden-'+hideChannelsList}>
+            <TwitchChat id={id}/>
           </div>
         }
 
-        <PlayerChannelsList channels={channels} className={'hidden-'+this.state.hideChannelsList}/>
+        <PlayerChannelsList channels={channels} className={'hidden-'+hideChannelsList}/>
 
         <PlayerControls onFullScreenChange={this.onFullScreenChange}/>   
       </div>

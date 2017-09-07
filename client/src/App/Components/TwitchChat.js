@@ -15,13 +15,15 @@ class TwitchChat extends React.Component {
       }
     };
 
+    let {id} = this.props;
+
     return (
 
       <iframe frameBorder="0"
         scrolling="yes"
-        id={this.props.id}
-        title={this.props.id}
-        src={'http://www.twitch.tv/'+this.props.id+'/chat'}
+        id={id}
+        title={id}
+        src={'http://www.twitch.tv/'+id+'/chat'}
         height={opts.height}
         width={opts.width}>
       </iframe>

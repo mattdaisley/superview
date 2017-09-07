@@ -15,10 +15,12 @@ class TwitchPlayer extends React.Component {
       }
     };
 
+    let {id} = this.props;
+
     return (
       <iframe
-        src={'http://player.twitch.tv/?channel='+this.props.id}
-        title={this.props.id}
+        src={'http://player.twitch.tv/?channel='+id}
+        title={id}
         height={opts.height}
         width={opts.width}
         frameBorder="0"

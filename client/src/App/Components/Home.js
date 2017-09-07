@@ -169,7 +169,7 @@ class Home extends React.Component {
   // }
 
   render() {
-    const classes = this.props.classes;
+    const {classes} = this.props;
 
     const recentActivityList = recentActivity.map( (activityItem, index) => {
       return (
