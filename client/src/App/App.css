@@ -54,6 +54,15 @@ li {
   flex-grow: 1;
 }
 
+.hidden-true {
+  display: none;
+}
+.hidden-false {
+  display: initial;
+}
+
+
+
 header nav .app-logo-wrapper {
   max-width: 115px;
 }

@@ -9,6 +9,11 @@ import ModeEditIcon from 'material-ui-icons/ModeEdit';
 class PlayerChannelsList extends React.Component {
   render() {
 
+    let parentClassName = '';
+    if(this.props.className !== undefined){
+      parentClassName = this.props.className
+    }
+
     const channelAvatars = this.props.channels.map( channel => {
       return (
         <Button aria-label={channel.name} key={channel.name}>
@@ -18,7 +23,7 @@ class PlayerChannelsList extends React.Component {
     })
 
     return (
-      <div className="player-channel-list-container">
+      <div className={'player-channel-list-container ' + parentClassName}>
         {channelAvatars}
         <Button aria-label="edit">
           <ModeEditIcon />

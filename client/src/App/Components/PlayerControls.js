@@ -16,12 +16,14 @@ class PlayerControls extends React.Component {
   
   constructor(props) {
     super(props);
+    console.log('PlayerControls props', props);
 
     this.state = {
       playing: true
     }
 
     this.togglePlayPause = this.togglePlayPause.bind(this);
+    this.toggleFullScreen = this.toggleFullScreen.bind(this);
   }
 
   togglePlayPause() {
@@ -30,6 +32,37 @@ class PlayerControls extends React.Component {
         playing: !prevState.playing
       };
     });
+  }
+
+  toggleFullScreen() {
+    if (
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    ) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    } else {
+      let element = document.getElementById('player-wrapper');
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    }
+    this.props.onFullScreenChange();
   }
 
   render() {
@@ -63,7 +96,7 @@ class PlayerControls extends React.Component {
                 <IconButton aria-label="Menu">
                   <SettingsIcon/>
                 </IconButton>
-                <IconButton aria-label="Menu">
+                <IconButton aria-label="Menu" onClick={this.toggleFullScreen}>
                   <FullscreenIcon/>
                 </IconButton>
               </Grid>
