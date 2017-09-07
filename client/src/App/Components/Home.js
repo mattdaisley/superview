@@ -125,6 +125,21 @@ const recentActivity = [
   {
     type: 'tw',
     title: 'Multi-stream',
+    route: '/tw/grimmmz/Anthony_Kongphan',
+    channels: [
+      {
+        name: 'Grimmmz',
+        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/grimmmz-profile_image-b6c4dd27a4b900a3-300x300.png'
+      },
+      {
+        name: 'Anthony_Kongphan',
+        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/anthony_kongphan-profile_image-779ae9619d16e5d4-300x300.png'
+      },
+    ]
+  },,
+  {
+    type: 'tw',
+    title: 'Multi-stream',
     route: '/tw/grimmmz/Anthony_Kongphan/DrDisRespectLive',
     channels: [
       {

@@ -8,21 +8,22 @@ class ChannelImage extends Component {
 
     let type = this.props.type;
     let thumb = this.props.thumb;
-    let channels;
+    let channels = this.props.channels;
+    let channelThumbs;
     switch (this.props.channels.length) {
       case 3:
-        channels = [...this.props.channels, this.props.channels[0]];
+        channelThumbs = [...channels, channels[0]];
         break;
       case 2:
-        channels = [...this.props.channels, ...this.props.channels.slice().reverse()].slice(0,4);
+        channelThumbs = [...channels, ...channels.slice().reverse()].slice(0,4);
         break;
       default:
-        channels = this.props.channels;
+        channelThumbs = channels;
         break;
     }
-    let imgSize = (this.props.channels.length === 1 && !thumb) ? 'image-lg' : 'image-sm';
+    let imgSize = (channels.length === 1 && !thumb) ? 'image-lg' : 'image-sm';
     
-    let images = channels.map( (channel, index) =>
+    let images = channelThumbs.map( (channel, index) =>
       <div className={imgSize} key={index}><img src={channel.channelThumb} alt={channel.name}/></div>
     );
 
@@ -85,12 +86,13 @@ class RecentChannelItem extends Component {
   }
 
   render() {
-    const hover = (this.state.hover) ? 'hover' : '';
-    const activityItem = this.props.activityItem;
-    const type = activityItem.type;
-    const route = activityItem.route;
-    const title = activityItem.title;
-    const channels = activityItem.channels;
+    let hover = (this.state.hover) ? 'hover' : '';
+    let activityItem = this.props.activityItem;
+    let type = activityItem.type;
+    let title = activityItem.title;
+    let channels = activityItem.channels;
+    let route = activityItem.route;
+    // let route = type + '/' + channels.map( (channel) => channel.name).join('/');
 
     return (
       <div className={`recent-channel-item-container ${!!activityItem.thumb ? 'lg' : 'sm'}`} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
