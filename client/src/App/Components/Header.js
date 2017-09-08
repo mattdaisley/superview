@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 
 import { withStyles } from 'material-ui/styles';
@@ -10,6 +11,11 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 
 class Header extends React.Component {
+  
+  // constructor(props) {
+  //   super(props);
+  // }
+  
   render() {
 
     const HeaderStyle = {
@@ -36,5 +42,14 @@ class Header extends React.Component {
     );
   }
 }
+
+Header.propTypes = {
+  title: PropTypes.string.isRequired
+}
+
+Header.defaultProps = {
+  title: 'SuperView'
+}
+
 
 export default withStyles()(Header);

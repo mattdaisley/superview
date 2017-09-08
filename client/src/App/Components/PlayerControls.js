@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Grid          from 'material-ui/Grid';
 // import BottomNavigation from 'material-ui/BottomNavigation';
@@ -16,7 +17,7 @@ class PlayerControls extends React.Component {
   
   constructor(props) {
     super(props);
-    console.log('PlayerControls props', props);
+    // console.log('PlayerControls props', props);
 
     this.state = {
       playing: true
@@ -106,6 +107,10 @@ class PlayerControls extends React.Component {
       </div>
     );
   }
+}
+
+PlayerControls.propTypes = {
+  onFullScreenChange: PropTypes.func
 }
 
 export default PlayerControls;

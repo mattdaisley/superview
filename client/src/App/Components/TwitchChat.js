@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class TwitchChat extends React.Component {
   
   // constructor(props) {
   //   super(props);
+  //   // console.log('TwitchChat props', props);
   // }
 
   render() {
@@ -29,6 +31,10 @@ class TwitchChat extends React.Component {
       </iframe>
     );
   }
+}
+
+TwitchChat.propTypes = {
+  id: PropTypes.string.isRequired
 }
 
 export default TwitchChat;

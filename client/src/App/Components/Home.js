@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 // import PropTypes from 'prop-types';
@@ -34,7 +35,7 @@ const recentActivity = [
       {
         name: 'Northernlion',
         channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/northernlion-profile_image-24031606a8e430c3-300x300.png'
-      },
+      }
     ]
   },
   {
@@ -80,7 +81,7 @@ const recentActivity = [
       {
         name: 'DanGheesling',
         channelThumb: 'https://yt3.ggpht.com/-Okp3KzEB6xc/AAAAAAAAAAI/AAAAAAAAAAA/AkWCDXngQjs/s176-c-k-no-mo-rj-c0xffffff/photo.jpg'
-      },
+      }
     ]
   },
   {
@@ -113,13 +114,13 @@ const recentActivity = [
     thumb: {
       width: 120,
       height: 90,
-      url: 'https://i.ytimg.com/vi/e-Y4QLalzjw/hqdefault.jpg',
+      url: 'https://i.ytimg.com/vi/e-Y4QLalzjw/hqdefault.jpg'
     },
     channels: [
       {
         name: 'Northernlion',
         channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/northernlion-profile_image-24031606a8e430c3-300x300.png'
-      },
+      }
     ]
   },
   {
@@ -134,9 +135,9 @@ const recentActivity = [
       {
         name: 'Anthony_Kongphan',
         channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/anthony_kongphan-profile_image-779ae9619d16e5d4-300x300.png'
-      },
+      }
     ]
-  },,
+  },
   {
     type: 'tw',
     title: 'Multi-stream',
@@ -155,17 +156,13 @@ const recentActivity = [
         channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/drdisrespectlive-profile_image-abc1fc67d2ea1ae1-300x300.png'
       }
     ]
-  },
+  }
 ]
 
 class Home extends React.Component {
   
   // constructor(props) {
-    // super(props);
-
-    // propTypes = {
-    //   classes: PropTypes.object.isRequired
-    // }
+  //   super(props);
   // }
 
   render() {
@@ -230,4 +227,9 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  classes: PropTypes.object.isRequired
+}
+
 export default withStyles(styles)(Home);

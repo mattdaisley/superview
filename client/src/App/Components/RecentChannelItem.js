@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 
 class ChannelImage extends Component {
+  
+  // constructor(props) {
+  //   super(props);
+  //   // console.log('ChannelImage props', props);
+  // }
 
   render() {
 
-    let type = this.props.type;
     let thumb = this.props.thumb;
     let channels = this.props.channels;
     let channelThumbs;
@@ -39,14 +44,17 @@ class ChannelImage extends Component {
 } 
 
 class ChannelDetails extends Component {
+  
+  // constructor(props) {
+  //   super(props);
+  //   // console.log('ChannelDetails props', props);
+  // }
 
   render() {
 
-    const hover = this.props.hover;
-    const title = this.props.title;
-    const channels = this.props.channels;
+    let {hover, title, channels} = this.props;
 
-    var channelNames;
+    let channelNames;
     if ( channels.length > 2 ) {
       channelNames = channels[0].name + ' and ' + (channels.length - 1) + ' others'
     } else if ( channels.length === 2 ) {
@@ -68,6 +76,7 @@ class RecentChannelItem extends Component {
   
   constructor(props) {
     super(props);
+    // console.log('RecentChannelItem props', props);
 
     this.state = {
       hover: false
@@ -99,6 +108,61 @@ class RecentChannelItem extends Component {
       </div>
     );
   }
+}
+
+RecentChannelItem.propTypes = {
+  activityItem: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+
+    type: PropTypes.oneOf(['tw','yt']).isRequired,
+    
+    route: PropTypes.string.isRequired,
+
+    channels: PropTypes.array.isRequired,
+
+    thumb: PropTypes.shape({
+      width: PropTypes.number,
+      height: PropTypes.number,
+      url: PropTypes.string,
+    }),
+  })
+}
+
+ChannelImage.propTypes = {
+
+  channels: PropTypes.arrayOf( 
+    PropTypes.shape({
+      name: PropTypes.string,
+      channelThumb: PropTypes.string,
+    })
+  ).isRequired,
+
+  type: PropTypes.oneOf(['tw', 'yt']).isRequired,
+
+  thumb: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+    url: PropTypes.string,
+  }),
+}
+
+ChannelDetails.propTypes = {
+
+  type: PropTypes.oneOf(['hover', '']),
+
+  title: PropTypes.string.isRequired,
+
+  channels: PropTypes.arrayOf( 
+    PropTypes.shape({
+      name: PropTypes.string,
+      channelThumb: PropTypes.string,
+    })
+  ).isRequired,
+
+}
+
+ChannelDetails.defaultProps = {
+  hover: ''
 }
 
 export default RecentChannelItem;

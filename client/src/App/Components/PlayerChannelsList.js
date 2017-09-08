@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 
 import Avatar from 'material-ui/Avatar';
@@ -7,6 +8,12 @@ import ModeEditIcon from 'material-ui-icons/ModeEdit';
 
 
 class PlayerChannelsList extends React.Component {
+  
+  // constructor(props) {
+  //   super(props);
+  //   console.log('PlayerChannelsList props', props);
+  // }
+
   render() {
 
     let parentClassName = '';
@@ -31,6 +38,17 @@ class PlayerChannelsList extends React.Component {
       </div>
     );
   }
+}
+
+PlayerChannelsList.propTypes = {
+  channels: PropTypes.arrayOf( 
+    PropTypes.shape({
+      type: PropTypes.oneOf(['tw', 'yt']),
+      name: PropTypes.string,
+      channelThumb: PropTypes.string,
+    })
+  ).isRequired,
+  className: PropTypes.any
 }
 
 export default PlayerChannelsList;

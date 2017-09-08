@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class TwitchPlayer extends React.Component {
   
   // constructor(props) {
   //   super(props);
+  //   // console.log('TwitchPlayer props', props);
   // }
 
   render() {
@@ -29,6 +31,10 @@ class TwitchPlayer extends React.Component {
       </iframe>
     );
   }
+}
+
+TwitchPlayer.propTypes = {
+  id: PropTypes.string.isRequired
 }
 
 export default TwitchPlayer;

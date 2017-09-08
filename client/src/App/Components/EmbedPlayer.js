@@ -1,15 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import YouTube from 'react-youtube';
 
 import TwitchPlayer from '../Components/TwitchPlayer'
 
 class EmbedPlayer extends React.Component {
   
-  constructor(props) {
-    super(props);
-
-    console.log(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   render() {
     const opts = {
@@ -45,6 +45,11 @@ class EmbedPlayer extends React.Component {
      // access to player in all event handlers via event.target 
     //  event.target.pauseVideo();
    }
+}
+
+EmbedPlayer.propTypes = {
+  source: PropTypes.oneOf(['tw', 'yt']).isRequired,
+  id: PropTypes.string.isRequired
 }
 
 export default EmbedPlayer;

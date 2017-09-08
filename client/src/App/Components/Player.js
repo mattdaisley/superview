@@ -11,7 +11,6 @@ class Player extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(props);
     this.onFullScreenChange = this.onFullScreenChange.bind(this);
     
     this.state = {
@@ -111,7 +110,6 @@ class Player extends React.Component {
       }
       return false;
     });
-    console.log(channels);
 
     let {source, id} = this.props.match.params;
     let {hideChannelsList} = this.state;

@@ -7,6 +7,12 @@ import RestoreIcon from 'material-ui-icons/Restore';
 
 
 class SideNav extends React.Component {
+
+  // constructor(props) {
+  //   super(props);
+  //   // console.log('SideNav props', props);
+  // }
+
   render() {
 
     return (
