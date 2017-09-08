@@ -17,8 +17,7 @@ export const setRecentChannelsItem = (newItem) => {
   }
 
   if ( filteredItems.length !== 0 ) {
-    filteredItems[0].timestamp = Date.now()
-    filteredItems[0].tile = newItem.tile
+    filteredItems = newItem
   } else {
     newItem.timestamp = Date.now();
     recentChannelsItems.push(newItem);

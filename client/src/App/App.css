@@ -201,32 +201,6 @@ div.recent-activity-wrapper h3 a:hover {
 
 
 
-
-div.Player-wrapper {
-  box-sizing: border-box;
-  width: calc(100% - 200px);
-  height: 100%;
-  max-height: calc(100vh - 220px);
-  background-color: #000;
-  margin: 20px auto;
-}
-div.Player-container {
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  max-height: calc(100vh - 220px);
-  background-color: #000;
-}
-div.Player {
-  width: 100%;
-  min-width: 50%;
-  height: 100%;
-  max-height: calc(100vh - 220px);
-}
-
-
-
-
 .player-channel-list-container {
   width: 100px;
   position: fixed;

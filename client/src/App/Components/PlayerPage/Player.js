@@ -1,5 +1,4 @@
 import React from 'react';
-import Grid  from 'material-ui/Grid';
 import { connect } from 'react-redux';
 
 import { setRecentChannelsItem } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
@@ -9,6 +8,8 @@ import PlayerControls     from './PlayerControls/PlayerControls';
 import PlayerChannelsList from './PlayerChannelsList';
 import EmbedPlayer        from './EmbedPlayer';
 import TwitchChat         from '../../Components/Twitch/TwitchChat';
+
+import './Player.css';
 
 /*
 const recentActivity = [
@@ -207,7 +208,8 @@ class Player extends React.Component {
     
     this.state = {
       hideChat: false,
-      hideChannelsList: false
+      hideChannelsList: false,
+      layout: 4
     }
   }
 
@@ -300,99 +302,33 @@ class Player extends React.Component {
 
   render() {
 
-    let {source, id} = this.props.match.params;
-    let {hideChannelsList} = this.state;
+    let {source} = this.props.match.params;
+    let {hideChannelsList, layout} = this.state;
+
+    let ids = Object.keys(this.props.match.params).filter( (key) => key.substring(0,2) === 'id' && this.props.match.params[key] !== undefined );
+    let players = ids.map( (id, index) => {
+      return (
+        <EmbedPlayer
+          key={index}
+          className={'layout' + layout + ' player' + index}
+          source={this.props.match.params.source}
+          id={id} 
+        />
+      )
+    })
 
     return (
       <div id="player-wrapper" className="Player-wrapper flex">
       
-        <div>{this.props.channels ? (this.props.channels[0] ? this.props.channels[0].name : '') : ''}</div>
+        {/* <div>{this.props.channels ? (this.props.channels[0] ? this.props.channels[0].name : '') : ''}</div> */}
+        {/* <div>{this.props.channelDetails ? (this.props.channelDetails[0] ? this.props.channelDetails[0].game : '') : ''}</div> */}
 
-        <div>{this.props.channelDetails ? (this.props.channelDetails[0] ? this.props.channelDetails[0].game : '') : ''}</div>
-        <Grid container spacing={0} direction="row" className="Player-container flex-item">
-          
-          <Grid item xs={12}>
-            <Grid container spacing={0} justify="center" direction="row" className="Player-container">
-              
-              { !!(this.props.match.params.id && !this.props.match.params.id2) &&
-                <Grid item xs={12}>
-                  <div className="Player flex-item">
-                    <EmbedPlayer
-                      source={this.props.match.params.source}
-                      id={this.props.match.params.id}
-                    />
-                  </div>
-                </Grid>
-              }
-              
-              { !!(this.props.match.params.id && this.props.match.params.id2) &&
-                <Grid item xs={12} md={6}>
-                  <div className="Player flex-item">
-                    <EmbedPlayer
-                      source={this.props.match.params.source}
-                      id={this.props.match.params.id}
-                    />
-                  </div>
-                </Grid>
-              }
-              { !!(this.props.match.params.id2) &&
-                <Grid item xs={12} md={6}>
-                  <div className="Player flex-item">
-                  <EmbedPlayer
-                    source={this.props.match.params.source}
-                    id={this.props.match.params.id2}
-                  />
-                  </div>
-                </Grid>
-              }
-            </Grid>
-          </Grid>
-
-          { !!(this.props.match.params.id3 || this.props.match.params.id4 ) &&
-              <Grid item xs={12}>
-
-                <Grid container spacing={0} justify="center" direction="row" className="Player-container">
-                  { !!(this.props.match.params.id3 && !this.props.match.params.id4) &&
-                    <Grid item xs={12}>
-                      <div className="Player flex-item">
-                      <EmbedPlayer
-                        source={this.props.match.params.source}
-                        id={this.props.match.params.id3}
-                      />
-                      </div>
-                    </Grid>
-                  }
-                  { !!(this.props.match.params.id3 && this.props.match.params.id4 ) &&
-                    <Grid item xs={12} md={6}>
-                      <div className="Player flex-item">
-                      <EmbedPlayer
-                        source={this.props.match.params.source}
-                        id={this.props.match.params.id3}
-                      />
-                      </div>
-                    </Grid>
-                  }
-                  { !!(this.props.match.params.id4) &&
-                    <Grid item xs={12} md={6}>
-                      <div className="Player flex-item">
-                      <EmbedPlayer
-                        source={this.props.match.params.source}
-                        id={this.props.match.params.id4}
-                      />
-                      </div>
-                    </Grid>
-                  }
-                </Grid>
-
-              </Grid>
-            }
-
-        </Grid>
+        <div className="Player-container flex-item">
+          {players}
+        </div>
 
         { !!(source === 'tw') &&
-          <div style={{width: '400px', height:'100%', backgroundColor: '#ccc', border: '1px solid #ccc', boxSizing: 'border-box'}} className={'flex-item hidden-'+hideChannelsList}>
-            <TwitchChat id={id}/>
-          </div>
+          <TwitchChat hideChannelsList={hideChannelsList} id={this.props.match.params.id}/>
         }
 
         <PlayerChannelsList channels={this.props.channels} className={'hidden-'+hideChannelsList}/>

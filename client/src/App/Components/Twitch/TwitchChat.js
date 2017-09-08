@@ -18,23 +18,29 @@ class TwitchChat extends React.Component {
     };
 
     let {id} = this.props;
+    
+    let colors = ['red', 'green', 'cyan', 'yellow', 'maroon', 'purple', 'olive', 'navy', 'teal', 'aqua', 'fuchsia']
+    let color = colors[Math.floor(Math.random()*colors.length)]
+    // let color = '#ccc';
 
     return (
-
-      <iframe frameBorder="0"
-        scrolling="yes"
-        id={id}
-        title={id}
-        src={'http://www.twitch.tv/'+id+'/chat'}
-        height={opts.height}
-        width={opts.width}>
-      </iframe>
+      <div style={{width: '400px', height:'100%', backgroundColor: color, border: '1px solid #ccc', boxSizing: 'border-box'}} className={'flex-item hidden-'+this.props.hideChannelsList}>
+        {/* <iframe frameBorder="0"
+          scrolling="yes"
+          id={id}
+          title={id}
+          src={'http://www.twitch.tv/'+id+'/chat'}
+          height={opts.height}
+          width={opts.width}>
+        </iframe> */}
+      </div>
     );
   }
 }
 
 TwitchChat.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  hideChannelsList: PropTypes.bool.isRequired
 }
 
 export default TwitchChat;

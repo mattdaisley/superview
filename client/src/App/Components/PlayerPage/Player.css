@@ -1,0 +1,175 @@
+
+div.Player-wrapper {
+  box-sizing: border-box;
+  width: calc(100% - 200px);
+  height: 100%;
+  max-height: calc(100vh - 220px);
+  background-color: #000;
+  margin: 20px auto;
+}
+div.Player-container {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 220px);
+  background-color: #000;
+  position: relative;
+}
+div.Player {
+  width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 220px);
+  position: absolute;
+  -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+  animation-duration: 4s;
+}
+
+div.Player.layout1.player1 {
+  width: 50%; height: 100%; top: 0; left: 0;
+}
+div.Player.layout1.player2 {
+  width: 50%; height: 100%; top: 0; right: 0;
+}
+
+div.Player.layout2.player1 {
+  width: 100%; height: 50%; top: 0; left: 0;
+}
+div.Player.layout2.player2 {
+  width: 100%; height: 50%; bottom: 0; left: 0;
+}
+
+div.Player.layout3.player1 {
+  width: 100%; height: 50%; top: 0; left: 0;
+}
+div.Player.layout3.player2 {
+  width: 50%; height: 50%; bottom: 0; left: 0;
+}
+div.Player.layout3.player3 {
+  width: 50%; height: 50%; bottom: 0; right: 0;
+}
+
+div.Player.layout4.player1 {
+  width: 50%; height: 100%; top: 0; left: 0;
+}
+div.Player.layout4.player2 {
+  width: 50%; height: 50%; top: 0; right: 0;
+}
+div.Player.layout4.player3 {
+  width: 50%; height: 50%; bottom: 0; right: 0;
+}
+
+div.Player.layout5.player1 {
+  width: 50%; height: 50%; top: 0; left: 0;
+}
+div.Player.layout5.player2 {
+  width: 50%; height: 50%; top: 0; right: 0;
+}
+div.Player.layout5.player3 {
+  width: 50%; height: 50%; bottom: 0; left: 0;
+}
+div.Player.layout5.player4 {
+  width: 50%; height: 50%; bottom: 0; right: 0;
+}
+
+div.Player.layout6.player1 {
+  width: 100%; height: 50%; top: 0; left: 0;
+}
+div.Player.layout6.player2 {
+  width: calc(100% / 3); height: 50%; bottom: 0; left: 0;
+}
+div.Player.layout6.player3 {
+  width: calc(100% / 3); height: 50%; bottom: 0; left: calc(100% / 3);
+}
+div.Player.layout6.player4 {
+  width: calc(100% / 3); height: 50%; bottom: 0; right: 0;
+}
+
+div.Player.layout7.player1 {
+  width: 50%; height: 50%; top: 0; left: 0;
+}
+div.Player.layout7.player2 {
+  width: 50%; height: 50%; top: 0; right: 0;
+}
+div.Player.layout7.player3 {
+  width: calc(100% / 3); height: 50%; bottom: 0; left: 0;
+}
+div.Player.layout7.player4 {
+  width: calc(100% / 3); height: 50%; bottom: 0; left: calc(100% / 3);
+}
+div.Player.layout7.player5 {
+  width: calc(100% / 3); height: 50%; bottom: 0; right: 0;
+}
+
+div.Player.layout8.player1 {
+  width: calc(100% / 3); height: 50%; top: 0; left: 0;
+}
+div.Player.layout8.player2 {
+  width: calc(100% / 3); height: 50%; top: 0; left: calc(100% / 3);
+}
+div.Player.layout8.player3 {
+  width: calc(100% / 3); height: 50%; top: 0; right: 0;
+}
+div.Player.layout8.player4 {
+  width: 50%; height: 50%; bottom: 0; left: 0;
+}
+div.Player.layout8.player5 {
+  width: 50%; height: 50%; bottom: 0; right: 0;
+}
+
+
+div.Player.layout9.player1 {
+  width: 50%; height: calc(100% / 3); top: 0; left: 0;
+}
+div.Player.layout9.player2 {
+  width: 50%; height: calc(100% / 3); top: calc(100% / 3); left: 0;
+}
+div.Player.layout9.player3 {
+  width: 50%; height: calc(100% / 3); bottom: 0; left: 0;
+}
+div.Player.layout9.player4 {
+  width: 50%; height: 50%; top: 0; right: 0;
+}
+div.Player.layout9.player5 {
+  width: 50%; height: 50%; bottom: 0; right: 0;
+}
+
+
+div.Player.layout10.player1 {
+  width: 50%; height: calc(100% / 3); top: 0; left: 0;
+}
+div.Player.layout10.player2 {
+  width: 50%; height: calc(100% / 3); top: calc(100% / 3); left: 0;
+}
+div.Player.layout10.player3 {
+  width: 50%; height: calc(100% / 3); bottom: 0; left: 0;
+}
+div.Player.layout10.player4 {
+  width: 50%; height: calc(100% / 3); top: 0; right: 0;
+}
+div.Player.layout10.player5 {
+  width: 50%; height: calc(100% / 3); top: calc(100% / 3); right: 0;
+}
+div.Player.layout10.player6 {
+  width: 50%; height: calc(100% / 3); bottom: 0; right: 0;
+}
+
+
+div.Player.layout11.player1 {
+  width: calc(100% / 3); height: 50%; top: 0; left: 0;
+}
+div.Player.layout11.player2 {
+  width: calc(100% / 3); height: 50%; top: 0; left: calc(100% / 3);
+}
+div.Player.layout11.player3 {
+  width: calc(100% / 3); height: 50%; top: 0; right: 0;
+}
+div.Player.layout11.player4 {
+  width: calc(100% / 3); height: 50%; bottom: 0; left: 0;
+}
+div.Player.layout11.player5 {
+  width: calc(100% / 3); height: 50%; bottom: 0; left: calc(100% / 3);
+}
+div.Player.layout11.player6 {
+  width: calc(100% / 3); height: 50%; bottom: 0; right: 0;
+}
+

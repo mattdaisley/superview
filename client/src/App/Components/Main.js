@@ -13,10 +13,7 @@ class Main extends React.Component {
           <Route exact path='/' component={Home}/>
           <Route exact path='/recents' component={Recents}/>
 
-          <Route path='/:source/:id/:id2/:id3/:id4' component={Player}/>
-          <Route path='/:source/:id/:id2/:id3' component={Player}/>
-          <Route path='/:source/:id/:id2' component={Player}/>
-          <Route path='/:source/:id' component={Player}/>
+          <Route path='/:source/:id/:id2?/:id3?/:id4?/:id5?/:id6?' component={Player}/>
         </Switch>
       </div>
     );

@@ -42,7 +42,7 @@ class Header extends React.Component {
           </Typography>
 
           { !this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogin}>Login to Twitch</Button> }
-          { !!this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> }
+          {/* { !!this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> } */}
         </Toolbar>
       </AppBar>
       
