@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getLoginStatus, twitchLogin, twitchLogout } from '../Redux/ActionCreators';
+import { getLoginStatus, twitchLogin, twitchLogout } from '../Redux/Twitch/TwitchActionCreators';
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';

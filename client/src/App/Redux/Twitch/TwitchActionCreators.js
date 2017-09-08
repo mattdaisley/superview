@@ -1,4 +1,4 @@
-import * as types from './Types';
+import * as types from '../Types';
 
 export const getLoginStatus = () => ({
   type: types.LOGIN_STATUS,

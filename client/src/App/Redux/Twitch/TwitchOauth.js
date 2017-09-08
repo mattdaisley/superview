@@ -1,4 +1,4 @@
-import * as types from './Types';
+import * as types from '../Types';
 
 // Initial (starting) state
 export const initialState = {

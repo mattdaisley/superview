@@ -1,6 +1,6 @@
-import * as types from './Types';
+import * as types from '../Types';
 
-import { setToken, removeToken, hasToken } from '../Util/tokenTwitch';
+import { setToken, removeToken, hasToken } from '../../Util/tokenTwitch';
 
 const twitchOauthMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'twitchOauth') {
