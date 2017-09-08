@@ -13,7 +13,7 @@ export const reducer = (state = initialState, action) => {
     case types.GET_TWITCH_CHANNEL:
       return { ...state, channels: action.payload}
     case types.GET_TWITCH_CHANNEL_DETAILS:
-      return { ...state, channelDetails: [...state.channelDetails, ...action.payload]}
+      return { ...state, channelDetails: action.payload}
     default:
       return state;
   }

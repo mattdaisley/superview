@@ -7,22 +7,27 @@ export const getRecentChannelsItems = () => {
 
 // this should set an array of Channels items
 export const setRecentChannelsItem = (newItem) => {
-  let recentChannelsItems = getRecentChannelsItems() || [];
-  let filteredItems = [];
-  if ( recentChannelsItems.length !== 0 ) {
-    filteredItems = recentChannelsItems.filter( (item) => {
-      return item.route === newItem.route
-    });
-    
-  }
+  let recentChannelsItems = Object.assign([], getRecentChannelsItems()) || [];
+  let newRecentItems = [];
+  let found = false;
 
-  if ( filteredItems.length !== 0 ) {
-    filteredItems = newItem
-  } else {
-    newItem.timestamp = Date.now();
-    recentChannelsItems.push(newItem);
+  newItem.timestamp = Date.now();
+
+  if ( recentChannelsItems.length !== 0 ) {
+    newRecentItems = recentChannelsItems.map( item => {
+      if ( item.route === newItem.route ) {
+        found = true;
+        return newItem
+      }
+      return item
+    })
   }
-  window.localStorage.setItem(RECENT_CHANNELS_KEY, JSON.stringify(recentChannelsItems))
+  
+  if ( !found ) {
+    newRecentItems.push(newItem);
+  }
+  
+  window.localStorage.setItem(RECENT_CHANNELS_KEY, JSON.stringify(newRecentItems))
 }
 
 export const removeRecentChannelsItem = (route) => {

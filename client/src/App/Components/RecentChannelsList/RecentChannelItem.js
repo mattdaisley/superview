@@ -32,7 +32,7 @@ class RecentChannelItem extends Component {
 
     let {type, title, channels, route, thumb} = this.props.activityItem;
 
-    let itemStyle = !!thumb ? { width: thumb.width } : {}
+    let itemStyle = (channels.length === 1) ? { width: thumb.width } : {}
     let itemClasses = ['recent-channel-item-container'];
 
     return (

@@ -27,16 +27,27 @@ const twitchApiMiddleware = store => next => action => {
         })
       break
     case types.GET_TWITCH_CHANNEL_DETAILS:
-      fetch(url, {headers: headers})
-        .then(resp => resp.json())
-        .then(json => {
-          // console.log(json);
+
+      let promises = action.meta.channels.map( channel => {
+        // console.log(channel);
+        return new Promise( (resolve, reject) => {
+          fetch(url + channel._id, {headers: headers})
+            .then(resp => resp.json())
+            .then(json => {
+              resolve(json)
+            })
+        })
+      })
+
+      Promise.all( promises )
+        .then( users => {
           let newAction = Object.assign({}, action, {
-            payload: json.streams
+            payload: users
           });
           delete newAction.meta;
           store.dispatch(newAction);
         })
+      
       break
     default:
       break

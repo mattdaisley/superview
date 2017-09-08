@@ -18,7 +18,7 @@ const MainControls = (props) => {
           </IconButton>
           {/* fullscreen button */}
           {/* props = toggleFullScreen */}
-          <ToggleFullscreenButton isFullscreen={props.isFullscreen} toggleFullScreen={props.toggleFullScreen}/>
+          <ToggleFullscreenButton fullscreenContainer={props.fullscreenContainer} isFullscreen={props.isFullscreen} toggleFullScreen={props.toggleFullScreen}/>
           {/* fullscreen button */}
         </Grid>
       </Grid>
@@ -29,7 +29,8 @@ const MainControls = (props) => {
 
 MainControls.propTypes = {
   isFullscreen: PropTypes.bool,
-  toggleFullScreen: PropTypes.func.isRequired
+  toggleFullScreen: PropTypes.func.isRequired,
+  fullscreenContainer: PropTypes.string,
 }
 
 export default MainControls

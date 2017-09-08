@@ -52,7 +52,7 @@ class PlayerControls extends React.Component {
           {/* left controls */}
 
           <MainControls playing={this.state.playing} togglePlayPause={this.togglePlayPause}/>
-          <RightControls isFullscreen={this.state.isFullscreen} toggleFullScreen={this.toggleFullScreen}/>
+          <RightControls fullscreenContainer={this.props.fullscreenContainer} isFullscreen={this.state.isFullscreen} toggleFullScreen={this.toggleFullScreen}/>
         </Toolbar>
       </div>
     );
@@ -60,7 +60,8 @@ class PlayerControls extends React.Component {
 }
 
 PlayerControls.propTypes = {
-  onFullScreenChange: PropTypes.func
+  onFullScreenChange: PropTypes.func,
+  fullscreenContainer: PropTypes.string,
 }
 
 export default PlayerControls;

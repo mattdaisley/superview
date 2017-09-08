@@ -37,6 +37,14 @@ div.Player {
 div.Player.fullscreen {
   max-height: 100%;
 }
+div.player-loading {
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 div.Player.layout0.player0 {
   width: 100%; height: 100%; top: 0; left: 0;

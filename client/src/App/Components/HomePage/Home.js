@@ -23,7 +23,6 @@ class Home extends React.Component {
   render() {
 
     const sortByTimestmap = (a, b) => {
-      console.log(a.timestamp, b.timestamp);
       if (a.timestamp > b.timestamp) return -1;
       if (a.timestamp < b.timestamp) return 1;
       return 0;

@@ -22,19 +22,15 @@ export const getTwitchChannel = (users) => {
 
 export const getTwitchChannelDetails = (channels) => {
   
-  const requestEnpoint = 'streams'
+  const requestEnpoint = 'channels'
 
-  channels = (channels.constructor === Array) ? channels.map( channel => channel._id ).join(',') : channels;
-  
   return ({
     type: types.GET_TWITCH_CHANNEL_DETAILS,
     meta: {
       type: 'twitchApi',
-      payload: {},
       clientId: clientId,
-      url: requestUri + requestEnpoint + '?channel=' + channels
+      url: requestUri + requestEnpoint + '/',
+      channels: channels,
     }
   })
 }
-
-//https://api.twitch.tv/kraken/users?login=dallas,dallasnchains

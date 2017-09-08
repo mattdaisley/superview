@@ -32,7 +32,7 @@ class RecentChannelImage extends Component {
 
     return (
       <div className={'image-wrapper'}>
-        { !!thumb && <img alt="channel thumbnail" className="thumb" src={thumb.url} width={thumb.width} height={thumb.height} /> }
+        { !!thumb && <img alt="channel thumbnail" className="thumb" src={thumb.urls[0]} width={thumb.width} height={thumb.height} /> }
         <div className={`thumb-solo-${!!thumb} channel-thumbs`}>
           {images}
         </div>
