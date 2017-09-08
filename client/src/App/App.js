@@ -6,6 +6,7 @@ import 'typeface-roboto';
 
 import Header from './Components/Header';
 import Main from './Components/Main';
+import SideNav from './Components/SideNav';
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
       <div>
         <Header />
         <Main />
+        <SideNav/>
       </div>
     );
   }

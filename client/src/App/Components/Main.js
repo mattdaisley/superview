@@ -1,16 +1,14 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Home    from './Home';
-import SideNav from './SideNav';
-import Recents from './Recents';
-import Player  from './Player';
+import Home    from '../Components/HomePage/Home';
+import Recents from '../Components/RecentsPage/Recents';
+import Player  from '../Components/PlayerPage/Player';
 
 class Main extends React.Component {
   render() {
     return (
       <div className="main-container">
-        <SideNav/>
 
         <Switch>
           <Route exact path='/' component={Home}/>

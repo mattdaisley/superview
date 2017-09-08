@@ -1,10 +1,10 @@
 import React from 'react';
 import Grid  from 'material-ui/Grid';
 
-import EmbedPlayer    from '../Components/EmbedPlayer';
-import TwitchChat     from '../Components/TwitchChat';
-import PlayerControls from '../Components/PlayerControls';
-import PlayerChannelsList from '../Components/PlayerChannelsList';
+import PlayerControls     from './PlayerControls';
+import PlayerChannelsList from './PlayerChannelsList';
+import EmbedPlayer        from '../../Components/Util/EmbedPlayer';
+import TwitchChat         from '../../Components/Twitch/TwitchChat';
 
 class Player extends React.Component {
   

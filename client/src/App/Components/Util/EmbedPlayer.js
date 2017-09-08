@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import YouTube from 'react-youtube';
 
-import TwitchPlayer from '../Components/TwitchPlayer'
+import TwitchPlayer from '../../Components/Twitch/TwitchPlayer'
 
 class EmbedPlayer extends React.Component {
   

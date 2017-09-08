@@ -7,7 +7,7 @@ import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
-import RecentChannelItem from '../Components/RecentChannelItem';
+import RecentChannelItem from '../../Components/RecentChannelsList/RecentChannelItem';
 
 const styles = theme => ({
   root: {
