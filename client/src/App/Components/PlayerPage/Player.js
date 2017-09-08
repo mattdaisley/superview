@@ -3,12 +3,14 @@ import Grid  from 'material-ui/Grid';
 import { connect } from 'react-redux';
 
 import { setRecentChannelsItem } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
+import { getTwitchChannel } from '../../Redux/PlayerDetails/PlayerDetailsActionCreators';
 
 import PlayerControls     from './PlayerControls/PlayerControls';
 import PlayerChannelsList from './PlayerChannelsList';
 import EmbedPlayer        from './EmbedPlayer';
 import TwitchChat         from '../../Components/Twitch/TwitchChat';
 
+/*
 const recentActivity = [
   {
     type: 'tw',
@@ -160,6 +162,22 @@ const recentActivity = [
   },
   {
     type: 'tw',
+    title: 'ttest',
+    route: '/tw/armorra',
+    thumb: {
+      width: 160,
+      height: 90,
+      url: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_armorra-320x180.jpg'
+    },
+    channels: [
+      {
+        name: 'armorra',
+        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/armorra-profile_image-b6c4dd27a4b900a3-300x300.png'
+      }
+    ]
+  },
+  {
+    type: 'tw',
     title: 'Multi-stream',
     route: '/tw/grimmmz/Anthony_Kongphan/DrDisRespectLive',
     channels: [
@@ -178,6 +196,7 @@ const recentActivity = [
     ]
   }
 ]
+*/
 
 class Player extends React.Component {
   
@@ -193,10 +212,52 @@ class Player extends React.Component {
   }
 
   componentWillMount() {
-    let activityItem = recentActivity.filter( (item) => {
-      return item.route === this.props.location.pathname
-    });
-    this.props.setRecentChannelsItem(activityItem[0]);
+    // let activityItem = recentActivity.filter( (item) => {
+    //   return item.route === this.props.location.pathname
+    // });
+    // this.props.setRecentChannelsItem(activityItem[0]);
+    this.props.getTwitchChannel(this.props.location.pathname.substring(4).split('/'));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // console.log('componentWillReceiveProps', this.props, nextProps);
+    if ( this.props.channelDetails !== nextProps.channelDetails ) {
+      // console.log(this.props);
+      // console.log('componentWillReceiveProps', nextProps.channelDetails);
+      let recentActivityItem;
+
+      if ( nextProps.channelDetails.length > 0 ) {
+        let multiTitle = (this.props.match.params.source === 'tw') ? 'stream' : 'tube';
+        let title = (this.props.channels.length > 1) ? 'Multi-' + multiTitle : nextProps.channelDetails[0].channel.status
+        recentActivityItem = {
+          type: nextProps.match.params.source,
+          title: title,
+          route: this.props.location.pathname,
+          channels: nextProps.channelDetails.map( channelDetails => {
+            // console.log(channelDetails)
+            return {name: channelDetails.channel.display_name, channelThumb: channelDetails.channel.logo}
+          }),
+        }
+        if ( this.props.channels.length === 1 ) {
+          recentActivityItem.thumb = {
+            width: 160,
+            height: 90,
+            url: nextProps.channelDetails[0].preview.medium
+          }
+        }
+      } else {
+        recentActivityItem = {
+          type: nextProps.match.params.source,
+          title: 'Offline',
+          route: this.props.location.pathname,
+          channels: this.props.channels.map( channel => {
+            // console.log(channel)
+            return {name: channel.display_name, channelThumb: channel.logo}
+          }),
+        }
+      }
+      nextProps.setRecentChannelsItem(recentActivityItem);
+    }
   }
 
   onFullScreenChange() {
@@ -239,92 +300,15 @@ class Player extends React.Component {
 
   render() {
 
-    const channelsMap = [
-      {
-        type: 'tw',
-        name: 'BdoubleO',
-        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/517b7b22d24c1849-profile_image-300x300.png'
-      },
-      {
-        type: 'tw',
-        name: 'wolvesatmydoor',
-        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/504ced8a97f2f6a5-profile_image-300x300.png'
-      },
-      {
-        type: 'yt',
-        name: 'Northernlion',
-        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/northernlion-profile_image-24031606a8e430c3-300x300.png'
-      },
-      {
-        type: 'tw',
-        name: 'Northernlion',
-        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/northernlion-profile_image-24031606a8e430c3-300x300.png'
-      },
-      {
-        type: 'yt',
-        name: 'Last_Grey_Wolf',
-        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/0434b290530af95a-profile_image-300x300.png'
-      },
-      {
-        type: 'tw',
-        name: 'Last_Grey_Wolf',
-        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/0434b290530af95a-profile_image-300x300.png'
-      },
-      {
-        type: 'yt',
-        name: 'DanGheesling',
-        channelThumb: 'https://yt3.ggpht.com/-Okp3KzEB6xc/AAAAAAAAAAI/AAAAAAAAAAA/AkWCDXngQjs/s176-c-k-no-mo-rj-c0xffffff/photo.jpg'
-      },
-      {
-        type: 'tw',
-        name: 'DanGheesling',
-        channelThumb: 'https://yt3.ggpht.com/-Okp3KzEB6xc/AAAAAAAAAAI/AAAAAAAAAAA/AkWCDXngQjs/s176-c-k-no-mo-rj-c0xffffff/photo.jpg'
-      },
-      {
-        type: 'yt',
-        name: 'michaelalfox',
-        channelThumb: 'https://yt3.ggpht.com/-MgNHVOdUNEE/AAAAAAAAAAI/AAAAAAAAAAA/oQBTxr6rOQc/s176-c-k-no-mo-rj-c0xffffff/photo.jpg'
-      },
-      {
-        type: 'tw',
-        name: 'michaelalfox',
-        channelThumb: 'https://yt3.ggpht.com/-MgNHVOdUNEE/AAAAAAAAAAI/AAAAAAAAAAA/oQBTxr6rOQc/s176-c-k-no-mo-rj-c0xffffff/photo.jpg'
-      },
-      {
-        type: 'tw',
-        name: 'Grimmmz',
-        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/grimmmz-profile_image-b6c4dd27a4b900a3-300x300.png'
-      },
-      {
-        type: 'tw',
-        name: 'Anthony_Kongphan',
-        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/anthony_kongphan-profile_image-779ae9619d16e5d4-300x300.png'
-      },
-      {
-        type: 'tw',
-        name: 'DrDisRespectLive',
-        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/drdisrespectlive-profile_image-abc1fc67d2ea1ae1-300x300.png'
-      },
-    ]
-
-    const channels = channelsMap.filter( (channel) => {
-      if ( channel.type === this.props.match.params.source ) {
-        
-        let name = channel.name.toLowerCase();
-        let params = this.props.match.params;
-        if ( params.id && params.id.toLowerCase() === name ) return true;
-        if ( params.id2 && params.id2.toLowerCase() === name ) return true;
-        if ( params.id3 && params.id3.toLowerCase() === name ) return true;
-        if ( params.id4 && params.id4.toLowerCase() === name ) return true;
-      }
-      return false;
-    });
-
     let {source, id} = this.props.match.params;
     let {hideChannelsList} = this.state;
 
     return (
       <div id="player-wrapper" className="Player-wrapper flex">
+      
+        <div>{this.props.channels ? (this.props.channels[0] ? this.props.channels[0].name : '') : ''}</div>
+
+        <div>{this.props.channelDetails ? (this.props.channelDetails[0] ? this.props.channelDetails[0].game : '') : ''}</div>
         <Grid container spacing={0} direction="row" className="Player-container flex-item">
           
           <Grid item xs={12}>
@@ -411,8 +395,7 @@ class Player extends React.Component {
           </div>
         }
 
-        <PlayerChannelsList channels={channels} className={'hidden-'+hideChannelsList}/>
-
+        <PlayerChannelsList channels={this.props.channels} className={'hidden-'+hideChannelsList}/>
         <PlayerControls onFullScreenChange={this.onFullScreenChange}/>   
       </div>
     );
@@ -426,16 +409,19 @@ class Player extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    recentActivity: state.recentChannels.recentChannels
+    recentActivity: state.recentChannels.recentChannels,
+    channels: state.twitchDetails.channels,
+    channelDetails: state.twitchDetails.channelDetails,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  setRecentChannelsItem: (item) => dispatch(setRecentChannelsItem(item))
+  setRecentChannelsItem: (item) => dispatch(setRecentChannelsItem(item)),
+  getTwitchChannel: (channels) => dispatch(getTwitchChannel(channels)),
 })
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Player);
 

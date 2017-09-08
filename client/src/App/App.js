@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import querystring from 'query-string';
 import { connect } from 'react-redux';
 
-import { twitchLoginSuccess } from './Redux/ActionCreators';
+import { twitchLoginSuccess } from './Redux/Twitch/TwitchActionCreators';
 
 import Header  from './Components/Header';
 import Main    from './Components/Main';

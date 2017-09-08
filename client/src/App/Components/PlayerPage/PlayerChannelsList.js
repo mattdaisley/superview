@@ -24,7 +24,7 @@ class PlayerChannelsList extends React.Component {
     const channelAvatars = this.props.channels.map( channel => {
       return (
         <Button aria-label={channel.name} key={channel.name}>
-          <Avatar alt={channel.name} className="channel-avatar" src={channel.channelThumb} />
+          <Avatar alt={channel.name} className="channel-avatar" src={channel.logo} />
         </Button>
       )
     })
@@ -42,11 +42,7 @@ class PlayerChannelsList extends React.Component {
 
 PlayerChannelsList.propTypes = {
   channels: PropTypes.arrayOf( 
-    PropTypes.shape({
-      type: PropTypes.oneOf(['tw', 'yt']),
-      name: PropTypes.string,
-      channelThumb: PropTypes.string,
-    })
+    PropTypes.object
   ).isRequired,
   className: PropTypes.any
 }

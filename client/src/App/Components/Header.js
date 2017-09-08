@@ -19,7 +19,7 @@ class Header extends React.Component {
 
   componentWillMount() {
     this.props.getLoginStatus();
-    console.log(this.props.loggedIn);
+    // console.log(this.props.loggedIn);
   }
   
   render() {

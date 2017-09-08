@@ -1,5 +1,8 @@
 import * as types from '../Types';
 
+const clientId = '0ajwj4yx39smt1qtzfhrgjihvuo1wr';
+const requestUri = 'https://api.twitch.tv/kraken/';
+
 export const getLoginStatus = () => ({
   type: types.LOGIN_STATUS,
   meta: {
@@ -7,21 +10,22 @@ export const getLoginStatus = () => ({
   }
 })
 
+export const twitchLogin = () => {
+  
+  const requestEnpoint = 'oauth2/authorize'
+  const redirectUri = 'http://localhost:3000';
+  const responseType = 'token';
+  const scope = 'user_read';
 
-const requestUri = 'https://api.twitch.tv/kraken/oauth2/authorize';
-const clientId = '0ajwj4yx39smt1qtzfhrgjihvuo1wr';
-const redirectUri = 'http://localhost:3000';
-const responseType = 'token';
-const scope = 'user_read';
-
-export const twitchLogin = ( ) => ({
-  type: types.LOGIN_REQUEST,
-  meta: {
-    type: 'twitchOauth',
-    payload: {},
-    url: requestUri + '?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&response_type=' + responseType + '&scope=' + scope
-  }
-})
+  return ({
+    type: types.LOGIN_REQUEST,
+    meta: {
+      type: 'twitchOauth',
+      payload: {},
+      url: requestUri + requestEnpoint + '?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&response_type=' + responseType + '&scope=' + scope
+    }
+  })
+}
 
 export const twitchLoginSuccess = ({token, expiresAt}) => {
   return ({
