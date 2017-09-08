@@ -1,23 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import './App.css';
-
-import 'typeface-roboto';
-
-import Header from './Components/Header';
-import Main from './Components/Main';
+import Header  from './Components/Header';
+import Main    from './Components/Main';
 import SideNav from './Components/SideNav';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
+import './App.css';
+import 'typeface-roboto';
+
+const App = props => {
+  
+  return (
+    <Router>
+      <div className="router-container">
         <Header />
         <Main />
         <SideNav/>
       </div>
-    );
-  }
+    </Router>
+  );
+
 }
 
 export default App;

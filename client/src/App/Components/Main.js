@@ -9,7 +9,6 @@ class Main extends React.Component {
   render() {
     return (
       <div className="main-container">
-
         <Switch>
           <Route exact path='/' component={Home}/>
           <Route exact path='/recents' component={Recents}/>

@@ -3,6 +3,11 @@ div#root, div#root > div {
   height: 100%;
 }
 
+.root {
+  flex-grow: 1;
+  margin-top: 30px;
+}
+
 .App {
   text-align: center;
   font-size: 12px;

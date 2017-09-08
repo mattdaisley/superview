@@ -1,25 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-// import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { fetchNewTime } from '../../Redux/ActionCreators';
+
 import Grid from 'material-ui/Grid';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
 import RecentChannelItem from '../../Components/RecentChannelsList/RecentChannelItem';
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    marginTop: 30,
-  },
-  paper: {
-    padding: 16,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-});
 
 const recentActivity = [
   {
@@ -177,12 +165,16 @@ const recentActivity = [
 
 class Home extends React.Component {
   
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+    console.log('Home props', props);
+  }
+
+  componentWillMount() {
+    this.props.updateTime();
+  }
 
   render() {
-    const {classes} = this.props;
 
     const recentActivityList = recentActivity.map( (activityItem, index) => {
       return (
@@ -193,7 +185,15 @@ class Home extends React.Component {
     })
 
     return (
-      <div className={classes.root}>
+      <div className="root">
+        <p>
+          Current time: {this.props.currentTime} 
+          <button onClick={this.props.updateTime}>
+            Update time
+          </button>
+        </p>
+        
+
         <Grid container spacing={24} justify="center">
           <Grid item xs={12} md={9}>
             <Grid container spacing={0} >
@@ -244,8 +244,16 @@ class Home extends React.Component {
   }
 }
 
-Home.propTypes = {
-  classes: PropTypes.object.isRequired
+const mapStateToProps = state => {
+  return {
+    currentTime: state.currentTime.currentTime
+  }
 }
+const mapDispatchToProps = dispatch => ({
+  updateTime: () => dispatch(fetchNewTime())
+})
 
-export default withStyles(styles)(Home);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);
