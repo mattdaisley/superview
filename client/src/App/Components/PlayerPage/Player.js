@@ -3,7 +3,7 @@ import Grid  from 'material-ui/Grid';
 
 import PlayerControls     from './PlayerControls/PlayerControls';
 import PlayerChannelsList from './PlayerChannelsList';
-import EmbedPlayer        from '../../Components/Util/EmbedPlayer';
+import EmbedPlayer        from './EmbedPlayer';
 import TwitchChat         from '../../Components/Twitch/TwitchChat';
 
 class Player extends React.Component {

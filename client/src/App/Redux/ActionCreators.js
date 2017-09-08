@@ -1,20 +1,49 @@
 import * as types from './Types';
 
-const host = 'https://andthetimeis.com'
-export const fetchNewTime = ( timezone = 'mdt', str='now' ) => ({
-  type: types.FETCH_NEW_TIME,
-  payload: new Date().toString(),
+export const getLoginStatus = () => ({
+  type: types.LOGIN_STATUS,
   meta: {
-    type: 'api',
-    url: host + '/' + timezone + '/' + str + '.json'
+    type: 'twitchOauth'
   }
 })
 
-export const login = (user) => ({
-  type: types.LOGIN,
-  payload: user
+/*
+  https://api.twitch.tv/kraken/oauth2/authorize
+    ?client_id=<your client ID>
+    &redirect_uri=<your registered redirect URI>
+    &response_type=<type>
+    &scope=<space-separated list of scopes>
+*/
+const requestUri = 'https://api.twitch.tv/kraken/oauth2/authorize';
+const clientId = '0ajwj4yx39smt1qtzfhrgjihvuo1wr';
+const redirectUri = 'http://localhost:3000';
+const responseType = 'token';
+const scope = 'user_read';
+
+export const twitchLogin = ( ) => ({
+  type: types.LOGIN_REQUEST,
+  meta: {
+    type: 'twitchOauth',
+    payload: {},
+    url: requestUri + '?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&response_type=' + responseType + '&scope=' + scope
+  }
 })
 
-export const logout = () => ({
+export const twitchLoginSuccess = ({token, expiresAt}) => {
+  return ({
+    
+    type: types.LOGIN_SUCCESS,
+    payload: true,
+    meta: {
+      type: 'twitchOauth',
+      token,
+      expiresAt
+    }
+  })
+}
+
+export const twitchLogout = () => ({
   type: types.LOGOUT,
+  payload: false,
+  meta: { type: 'twitchOauth' }
 })

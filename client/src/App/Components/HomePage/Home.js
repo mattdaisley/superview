@@ -1,8 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-
-import { fetchNewTime } from '../../Redux/ActionCreators';
 
 import Grid from 'material-ui/Grid';
 import ChevronRight from 'material-ui-icons/ChevronRight';
@@ -165,14 +162,10 @@ const recentActivity = [
 
 class Home extends React.Component {
   
-  constructor(props) {
-    super(props);
-    console.log('Home props', props);
-  }
-
-  componentWillMount() {
-    this.props.updateTime();
-  }
+  // constructor(props) {
+  //   super(props);
+  //   // console.log('Home props', props);
+  // }
 
   render() {
 
@@ -186,14 +179,6 @@ class Home extends React.Component {
 
     return (
       <div className="root">
-        <p>
-          Current time: {this.props.currentTime} 
-          <button onClick={this.props.updateTime}>
-            Update time
-          </button>
-        </p>
-        
-
         <Grid container spacing={24} justify="center">
           <Grid item xs={12} md={9}>
             <Grid container spacing={0} >
@@ -244,16 +229,4 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    currentTime: state.currentTime.currentTime
-  }
-}
-const mapDispatchToProps = dispatch => ({
-  updateTime: () => dispatch(fetchNewTime())
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+export default Home;

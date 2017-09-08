@@ -1,16 +1,13 @@
 import { combineReducers } from 'redux';
 
-import * as currentUser from './CurrentUser';
-import * as currentTime from './CurrentTime';
+import * as twitchOauth from './TwitchOauth';
 
 export const rootReducer = combineReducers({
-  currentTime: currentTime.reducer,
-  currentUser: currentUser.reducer,
+  twitchOauth: twitchOauth.reducer,
 })
 
 export const initialState = {
-  currentTime: currentTime.initialState,
-  currentUser: currentUser.initialState,
+  twitchOauth: twitchOauth.initialState,
 }
 
 export default rootReducer

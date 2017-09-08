@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import { withStyles } from 'material-ui/styles';
+import { getLoginStatus, twitchLogin, twitchLogout } from '../Redux/ActionCreators';
+
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -15,6 +16,11 @@ class Header extends React.Component {
   // constructor(props) {
   //   super(props);
   // }
+
+  componentWillMount() {
+    this.props.getLoginStatus();
+    console.log(this.props.loggedIn);
+  }
   
   render() {
 
@@ -35,7 +41,8 @@ class Header extends React.Component {
             SuperView
           </Typography>
 
-          <Button>Login</Button>
+          { !this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogin}>Login to Twitch</Button> }
+          { !!this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> }
         </Toolbar>
       </AppBar>
       
@@ -51,5 +58,18 @@ Header.defaultProps = {
   title: 'SuperView'
 }
 
+const mapStateToProps = state => {
+  return {
+    loggedIn: state.twitchOauth.loggedIn
+  }
+}
+const mapDispatchToProps = dispatch => ({
+  twitchLogin: () => dispatch(twitchLogin()),
+  twitchLogout: () => dispatch(twitchLogout()),
+  getLoginStatus: () => dispatch(getLoginStatus())
+})
 
-export default withStyles()(Header);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);
