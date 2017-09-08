@@ -32,8 +32,11 @@ class RecentChannelItem extends Component {
 
     let {type, title, channels, route, thumb} = this.props.activityItem;
 
+    let itemStyle = !!thumb ? { width: thumb.width } : {}
+    let itemClasses = ['recent-channel-item-container'];
+
     return (
-      <div className={`recent-channel-item-container ${!!thumb ? 'lg' : 'sm'}`} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+      <div className={itemClasses.join(' ')} style={itemStyle} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
         <Link to={route}>
           <RecentChannelImage thumb={thumb} channels={channels} type={type} />
           <RecentChannelDetails hover={hover} title={title} channels={channels}/>

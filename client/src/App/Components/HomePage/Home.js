@@ -27,7 +27,7 @@ const recentActivity = [
     title: 'The Northernlion Live Super Show!',
     route: '/tw/northernlion',
     thumb: {
-      width: 120,
+      width: 160,
       height: 90,
       url: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_northernlion-320x180.jpg'
     },
@@ -43,7 +43,7 @@ const recentActivity = [
     title: '5th 4th 3rd....',
     route: '/tw/bdoubleo',
     thumb: {
-      width: 120,
+      width: 160,
       height: 90,
       url: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_bdoubleo-320x180.jpg'
     },
@@ -51,6 +51,22 @@ const recentActivity = [
       {
         name: 'BdoubleO',
         channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/517b7b22d24c1849-profile_image-300x300.png'
+      }
+    ]
+  },
+  {
+    type: 'tw',
+    title: 'Anthony | 50% off Subs this Month !!! #FullSelloutMode',
+    route: '/tw/Anthony_Kongphan',
+    thumb: {
+      width: 160,
+      height: 90,
+      url: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_anthony_kongphan-320x180.jpg'
+    },
+    channels: [
+      {
+        name: 'Anthony_Kongphan',
+        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/anthony_kongphan-profile_image-779ae9619d16e5d4-300x300.png'
       }
     ]
   },

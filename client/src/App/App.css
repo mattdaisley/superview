@@ -120,9 +120,9 @@ div.recent-activity-wrapper h3 a:hover {
   height: 100%;
   position: relative;
 }
-.recent-channel-item-container.lg {
+/* .recent-channel-item-container.lg {
   width: 120px;
-}
+} */
 .recent-channel-item-container a {
   text-decoration: none;
 }
