@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid  from 'material-ui/Grid';
 
-import PlayerControls     from './PlayerControls';
+import PlayerControls     from './PlayerControls/PlayerControls';
 import PlayerChannelsList from './PlayerChannelsList';
 import EmbedPlayer        from '../../Components/Util/EmbedPlayer';
 import TwitchChat         from '../../Components/Twitch/TwitchChat';
@@ -20,6 +20,35 @@ class Player extends React.Component {
   }
 
   onFullScreenChange() {
+    console.log('Player onFullscreenChange');
+    if (
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    ) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    } else {
+      let element = document.getElementById('player-wrapper');
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    }
+
     this.setState((prevState, props) => {
       return {
         hideChat: !prevState.hideChat,
