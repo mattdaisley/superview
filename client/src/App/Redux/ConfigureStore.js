@@ -4,6 +4,7 @@ import { rootReducer, initialState } from './Reducers'
 
 import loggingMiddleware     from './LoggingMiddleware';
 import twitchOauthMiddleware from './Twitch/TwitchOauthMiddleware';
+import recentChannelsMiddleware from './RecentChannels/RecentChannelsMiddleware';
 
 export const ConfigureStore = () => {
   const store = createStore(
@@ -12,6 +13,7 @@ export const ConfigureStore = () => {
     applyMiddleware(
       loggingMiddleware,
       twitchOauthMiddleware,
+      recentChannelsMiddleware,
     )
   );
 

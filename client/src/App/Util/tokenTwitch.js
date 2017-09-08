@@ -6,13 +6,11 @@ export const getExpiresAt = () =>
 
 export const hasToken = () => {
   const token = getToken();
-  console.log('hasToken', token);
   return token !== null;
 }
 
 export const getToken = () => {
   const expires_at = getExpiresAt()
-  console.log('in getToken', expires_at, expires_at === null, window.localStorage.getItem(TOKEN_KEY));
   if (expires_at === null || expires_at > new Date().getTime()) {
     return window.localStorage.getItem(TOKEN_KEY) || null
   }
