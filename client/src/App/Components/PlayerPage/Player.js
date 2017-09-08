@@ -206,19 +206,42 @@ class Player extends React.Component {
 
     this.onFullScreenChange = this.onFullScreenChange.bind(this);
     
+    const ids = Object.keys(this.props.match.params).filter( (key) => key.substring(0,2) === 'id' && this.props.match.params[key] !== undefined );
+    let layout;
+    switch(ids.length) {
+      case 6:
+        layout = 10;
+        break;
+      case 5:
+        layout = 7;
+        break;
+      case 4: 
+        layout = 5;
+        break;
+      case 3:
+        layout = 3;
+        break;
+      case 2:
+        layout = 1;
+        break;
+      case 1:
+      default:
+        layout = 0;
+        break;
+    }
+
     this.state = {
       hideChat: false,
       hideChannelsList: false,
-      layout: 4
+      isFullscreen: false,
+      layout: layout,
+      ids: ids
     }
   }
 
   componentWillMount() {
-    // let activityItem = recentActivity.filter( (item) => {
-    //   return item.route === this.props.location.pathname
-    // });
-    // this.props.setRecentChannelsItem(activityItem[0]);
-    this.props.getTwitchChannel(this.props.location.pathname.substring(4).split('/'));
+    let channels = this.props.location.pathname.substring(4).split('/').filter( item => item !== '' );
+    this.props.getTwitchChannel(channels);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -294,6 +317,7 @@ class Player extends React.Component {
 
     this.setState((prevState, props) => {
       return {
+        isFullscreen: !prevState.isFullscreen,
         hideChat: !prevState.hideChat,
         hideChannelsList: !prevState.hideChannelsList
       };
@@ -304,31 +328,30 @@ class Player extends React.Component {
 
     let {source} = this.props.match.params;
     let {hideChannelsList, layout} = this.state;
-
-    let ids = Object.keys(this.props.match.params).filter( (key) => key.substring(0,2) === 'id' && this.props.match.params[key] !== undefined );
-    let players = ids.map( (id, index) => {
+    let fullscreenClass = (this.state.isFullscreen) ? 'fullscreen' : '';
+    let players = this.state.ids.map( (id, index) => {
       return (
         <EmbedPlayer
           key={index}
-          className={'layout' + layout + ' player' + index}
+          className={['layout' + layout,'player' + index, fullscreenClass].join(' ')}
           source={this.props.match.params.source}
-          id={id} 
+          id={this.props.match.params[id]} 
         />
       )
     })
 
     return (
-      <div id="player-wrapper" className="Player-wrapper flex">
+      <div id="player-wrapper" className={['Player-wrapper','flex',fullscreenClass].join(' ')}>
       
         {/* <div>{this.props.channels ? (this.props.channels[0] ? this.props.channels[0].name : '') : ''}</div> */}
         {/* <div>{this.props.channelDetails ? (this.props.channelDetails[0] ? this.props.channelDetails[0].game : '') : ''}</div> */}
 
-        <div className="Player-container flex-item">
+        <div className={['Player-container','flex-item',fullscreenClass].join(' ')}>
           {players}
         </div>
 
         { !!(source === 'tw') &&
-          <TwitchChat hideChannelsList={hideChannelsList} id={this.props.match.params.id}/>
+          <TwitchChat hideChannelsList={hideChannelsList} id={this.props.match.params.id1}/>
         }
 
         <PlayerChannelsList channels={this.props.channels} className={'hidden-'+hideChannelsList}/>

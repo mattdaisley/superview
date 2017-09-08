@@ -28,14 +28,16 @@ class Home extends React.Component {
       if (a.timestamp < b.timestamp) return 1;
       return 0;
     }
-
-    const recentActivityList = this.props.recentActivity.sort(sortByTimestmap).map( (activityItem, index) => {
-      return (
-        <Grid item key={index}>
-          <RecentChannelItem activityItem={activityItem}/>
-        </Grid>
-      )
-    })
+    let recentActivityList = null;
+    if ( this.props.recentActivity ) {
+       recentActivityList = this.props.recentActivity.sort(sortByTimestmap).map( (activityItem, index) => {
+        return (
+          <Grid item key={index}>
+            <RecentChannelItem activityItem={activityItem}/>
+          </Grid>
+        )
+      })
+    }
 
     return (
       <div className="root">
