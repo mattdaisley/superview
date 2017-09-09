@@ -1,13 +1,51 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React       from 'react';
 import { connect } from 'react-redux';
 
 import { getRecentChannelsItems } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
 
-import Grid from 'material-ui/Grid';
-import ChevronRight from 'material-ui-icons/ChevronRight';
+import Grid         from 'material-ui/Grid';
 
-import RecentChannelItem from '../../Components/RecentChannelsList/RecentChannelItem';
+import RecentChannelsGrid  from '../../Components/RecentChannelsList/RecentChannelsGrid';
+import TwitchFollowingGrid from '../../Components/TwitchFollowingGrid/TwitchFollowingGrid';
+
+const twLiveChannels = [
+  {
+    "_id": 23937446096,
+    "average_fps": 60,
+    "channel": {
+      "_id": 121059319,
+      "broadcaster_language": "en",
+      "created_at": "2016-04-06T04:12:40Z",
+      "display_name": "MOONMOON_OW",
+      "followers": 251103,
+      "game": "Overwatch",
+      "language": "en",
+      "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/moonmoon_ow-profile_image-0fe586039bb28259-300x300.png",
+      "mature": true,
+      "name": "moonmoon_ow",
+      "partner": true,
+      "profile_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/moonmoon_ow-profile_banner-13fbfa1ba07bcd8a-480.png",
+      "profile_banner_background_color": null,
+      "status": "KKona where my Darryl subs at KKona",
+      "updated_at": "2016-12-15T19:34:46Z",
+      "url": "https://www.twitch.tv/moonmoon_ow",
+      "video_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/moonmoon_ow-channel_offline_image-2b3302e20384eee8-1920x1080.png",
+      "views": 9865358
+    },
+    "created_at": "2016-12-15T14:55:49Z",
+    "delay": 0,
+    "game": "Overwatch",
+    "is_playlist": false,
+    "preview": {
+      "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_moonmoon_ow-640x360.jpg",
+      "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_moonmoon_ow-320x180.jpg",
+      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_moonmoon_ow-80x45.jpg",
+      "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_moonmoon_ow-{width}x{height}.jpg"
+    },
+    "video_height": 720,
+    "viewers": 11211
+ }
+]
 
 class Home extends React.Component {
   
@@ -22,66 +60,24 @@ class Home extends React.Component {
 
   render() {
 
-    const sortByTimestmap = (a, b) => {
-      if (a.timestamp > b.timestamp) return -1;
-      if (a.timestamp < b.timestamp) return 1;
-      return 0;
-    }
-    let recentActivityList = null;
-    if ( this.props.recentActivity ) {
-       recentActivityList = this.props.recentActivity.sort(sortByTimestmap).map( (activityItem, index) => {
-        return (
-          <Grid item key={index}>
-            <RecentChannelItem activityItem={activityItem}/>
-          </Grid>
-        )
-      })
-    }
-
     return (
       <div className="root">
         <Grid container spacing={24} justify="center">
           <Grid item xs={12} md={9}>
             <Grid container spacing={0} >
               
-              <Grid item xs={12} className="recent-activity-wrapper">
-                <h3><Link to='/recents'>Recent Activity</Link> <ChevronRight/></h3>
-                <Grid container spacing={8} >
-                  { recentActivityList }
-                </Grid>
+              <Grid item xs={12}>
+                <RecentChannelsGrid recentActivity={this.props.recentActivity}></RecentChannelsGrid>
               </Grid>
               
-              <Grid item xs={12} className="recent-activity-wrapper">
-                <h3><Link to='/tw/live'>Live Channels on Twitch</Link> <ChevronRight/></h3>
-                <Grid container spacing={8} >
-                  <Grid item xs={6} sm={3} className="list-grid-item">
-                    <div style={ {width: '100%'} }>
-                      <img src="https://static-cdn.jtvnw.net/previews-ttv/live_user_bdoubleo-320x180.jpg" alt="bdoubleo" style={ {width: '100%'} } />
-                    </div>
-                  </Grid>
-                  <Grid item xs={6} sm={3} className="list-grid-item">
-                    <div style={ {width: '100%'} }>
-                      <img src="https://static-cdn.jtvnw.net/previews-ttv/live_user_stockstream-320x180.jpg" alt="stockstream" style={ {width: '100%'} } />
-                    </div>
-                  </Grid>
-                </Grid>
+              <Grid item xs={12}>
+                <TwitchFollowingGrid liveChannels={twLiveChannels}></TwitchFollowingGrid>
               </Grid>
               
-              <Grid item xs={12} className="recent-activity-wrapper">
-                <h3><Link to='/yt/subscriptions'>Recent from your YouTube subscriptions</Link> <ChevronRight/></h3>
-                <Grid container spacing={8} >
-                  <Grid item xs={6} sm={3} className="list-grid-item">
-                    <div style={ {width: '100%'} }>
-                      <img src="https://i.ytimg.com/vi/U5kQq2P50QY/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLCUJat6Cf58B1E-oO6glixdcJ0weA" alt="dan" style={ {width: '100%'} } />
-                    </div>
-                  </Grid>
-                  <Grid item xs={6} sm={3} className="list-grid-item">
-                    <div style={ {width: '100%'} }>
-                      <img src="https://i.ytimg.com/vi/VCiTarqUyXM/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLBWbfzvu5RRytl1htmDrCFhNLFFXg" alt="nl" style={ {width: '100%'} } />
-                    </div>
-                  </Grid>
-                </Grid>
+              <Grid item xs={12}>
+                <TwitchFollowingGrid liveChannels={twLiveChannels}></TwitchFollowingGrid>
               </Grid>
+
             </Grid>
           </Grid>
         </Grid>

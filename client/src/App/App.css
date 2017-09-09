@@ -111,21 +111,22 @@ button.twitch-login-logout {
 
 
 
-div.recent-activity-wrapper {
+div.grid-header {
   /* margin-bottom: 50px; */
 }
-div.recent-activity-wrapper h3 {
+div.grid-header h3 {
   display: flex;
   align-items: center;
 }
-div.recent-activity-wrapper h3 a{
+div.grid-header h3 a{
   font-size: 16px;
   text-decoration: none;
   color: #444;
 }
-div.recent-activity-wrapper h3 a:hover {
+div.grid-header h3 a:hover {
   text-decoration: underline;
 }
+
 .recent-channel-item-container {
   width: 92px;
   height: 100%;
