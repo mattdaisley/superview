@@ -238,6 +238,7 @@ class Player extends React.Component {
     }
     if ( !this.props.youtubeLoggedIn && source === 'yt' ) {
       this.props.setMessage({type: 'info', message: 'Log in to YouTube to view video details and channel info'})
+      this.setState({loaded:true});
     }
 
 
@@ -280,6 +281,10 @@ class Player extends React.Component {
       if ( source === 'tw' && this.props.channelDetails !== nextProps.channelDetails ) {
         this.setState({loaded:true})
         this.props.setRecentChannelsItem(source, nextProps.channels, nextProps.channelDetails);
+      }
+      console.log(source, this.state.loaded, !this.props.youtubeLoggedIn);
+      if ( source === 'yt' && !this.props.youtubeLoggedIn ) {
+        this.setState({loaded:true})
       }
       if ( source === 'yt' && this.props.youtubeChannelDetails !== nextProps.youtubeChannelDetails ) {
         this.setState({loaded:true})
@@ -361,7 +366,7 @@ class Player extends React.Component {
   }
 
   getPlayerWrapper(validAndUniqueVideoIds, playerChannelDetails) {
-    
+    console.log('in getPlayerWrapper');
     const { params } = this.props.match;
     const { source } = params;
     const { hideChannelsList, isFullscreen } = this.state;
@@ -420,23 +425,33 @@ class Player extends React.Component {
     const playerChannels = ( source === 'tw' ) ? this.props.channels : ( source === 'yt' ? this.props.youtubeChannels : [] );
     const playerChannelDetails = ( source === 'tw' ) ? this.props.channelDetails : ( source === 'yt' ? this.props.youtubeChannelDetails : [] );
     console.log('player render: playerChannels, playerChannelDetails', playerChannels, playerChannelDetails);
-    // finally, determine if the channels are loading, had an error, or are loaded and ready for videos to be played
-    if ( playerChannels.length === 0 || playerChannelDetails.length === 0) 
-      return this.getLoadingWrapper();
-    if ( playerChannels[0] && playerChannels.status === 'error' ) 
-      return this.getErrorWrapper();
-    if ( playerChannelDetails[0] && playerChannelDetails.status === 'error' ) 
-      return this.getErrorWrapper();
+
+    let validAndUniqueVideoIds = [];
     
-    const validAndUniqueVideoIds = this.getValidAndUniqueVideoIds(source, params, playerChannels);
-    // console.log(validAndUniqueVideoIds);
-    // check if the existing path requests a video or channel that did not have a matching api response
-    // if there was an invalid id/channel, redirect to a route with only the valid ids
-    const pathname = '/'+source+'/'+validAndUniqueVideoIds.join('/');
-    if ( pathname.toLowerCase() !== this.props.location.pathname.toLowerCase() ) {
-      this.context.router.history.push(pathname);
-      return (<div></div>)
+    if ( source === 'tw' || (source === 'yt' && !!this.props.youtubeLoggedIn) ) {
+      // finally, determine if the channels are loading, had an error, or are loaded and ready for videos to be played
+      if ( playerChannels.length === 0 || playerChannelDetails.length === 0) 
+        return this.getLoadingWrapper();
+      if ( playerChannels[0] && playerChannels.status === 'error' ) 
+        return this.getErrorWrapper();
+      if ( playerChannelDetails[0] && playerChannelDetails.status === 'error' ) 
+        return this.getErrorWrapper();
+      
+      validAndUniqueVideoIds = this.getValidAndUniqueVideoIds(source, params, playerChannels);
+      // console.log(validAndUniqueVideoIds);
+      // check if the existing path requests a video or channel that did not have a matching api response
+      // if there was an invalid id/channel, redirect to a route with only the valid ids
+      const pathname = '/'+source+'/'+validAndUniqueVideoIds.join('/');
+      if ( pathname.toLowerCase() !== this.props.location.pathname.toLowerCase() ) {
+        this.context.router.history.push(pathname);
+        return (<div></div>)
+      }
+    } else {
+      validAndUniqueVideoIds = Object.keys(params)
+        .map( key => ( key === 'source' ) ? undefined : params[key] )
+        .filter( (elem, pos, arr) => arr.indexOf(elem) === pos && elem !== undefined)
     }
+    console.log(validAndUniqueVideoIds);
 
     // console.log('getting player');
     return this.getPlayerWrapper(validAndUniqueVideoIds, playerChannelDetails);
