@@ -17,6 +17,7 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
 
+    this.twitchLogin  = this.twitchLogin.bind(this);
     this.youtubeLogin = this.youtubeLogin.bind(this);
   }
 
@@ -24,6 +25,10 @@ class Header extends React.Component {
     this.props.getTwitchLoginStatus();
     this.props.getYoutubeLoginStatus();
     // console.log(this.props.loggedIn);
+  }
+
+  twitchLogin() {
+    this.props.twitchLogin( window.location.href );
   }
   
   youtubeLogin() {
@@ -49,7 +54,7 @@ class Header extends React.Component {
             SuperView
           </Typography>
 
-          { !this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogin}>Login to Twitch</Button> }
+          { !this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.twitchLogin}>Login to Twitch</Button> }
           { !this.props.youtubeLoggedIn && <Button className="youtube-login-logout" onClick={this.youtubeLogin}>Login to YouTube</Button> }
           {/* { !!this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> } */}
         </Toolbar>
@@ -80,7 +85,7 @@ const mapStateToProps = state => {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  twitchLogin: ()           => dispatch(twitchLogin()),
+  twitchLogin: (referrer)           => dispatch(twitchLogin(referrer)),
   twitchLogout: ()          => dispatch(twitchLogout()),
   getTwitchLoginStatus: ()  => dispatch(getTwitchLoginStatus()),
   youtubeLogin: (referrer)  => dispatch(youtubeLogin(referrer)),

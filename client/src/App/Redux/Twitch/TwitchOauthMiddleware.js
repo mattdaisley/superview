@@ -26,6 +26,8 @@ const twitchOauthMiddleware = store => next => action => {
       });
       delete newLoginAction.meta;
       store.dispatch(newLoginAction);
+      console.log(newLoginAction);
+      if ( action.meta.referrer ) window.location.href = action.meta.referrer
       break
     case types.TWITCH_LOGIN_FAILURE:
     case types.TWITCH_LOGOUT:

@@ -12,24 +12,25 @@ export const getTwitchLoginStatus = () => ({
   }
 })
 
-export const twitchLogin = () => {
+export const twitchLogin = ( referrer ) => {
   
   const requestEnpoint = 'oauth2/authorize'
   const redirectUri = 'http://localhost:3000';
   const responseType = 'token';
   const scope = 'user_read';
+  const state = 'twitchLoggedIn,' + referrer;
 
   return ({
     type: types.TWITCH_LOGIN_REQUEST,
     meta: {
       type: 'twitchOauth',
       payload: {},
-      url: requestUri + requestEnpoint + '?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&response_type=' + responseType + '&scope=' + scope
+      url: requestUri + requestEnpoint + '?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&response_type=' + responseType + '&scope=' + scope + '&state=' + state
     }
   })
 }
 
-export const twitchLoginSuccess = ({token, expiresAt}) => {
+export const twitchLoginSuccess = ({token, expiresAt, referrer}) => {
   return ({
     
     type: types.TWITCH_LOGIN_SUCCESS,
@@ -37,7 +38,8 @@ export const twitchLoginSuccess = ({token, expiresAt}) => {
     meta: {
       type: 'twitchOauth',
       token,
-      expiresAt
+      expiresAt,
+      referrer
     }
   })
 }

@@ -15,6 +15,7 @@ const twitchApiMiddleware = store => next => action => {
     'Client-ID': clientId
   }
 
+  console.log(hasToken(), getToken());
   if ( hasToken() ) {
     headers['Authorization'] = 'OAuth ' + getToken()
   }

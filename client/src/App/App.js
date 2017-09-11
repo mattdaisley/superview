@@ -38,7 +38,8 @@ class App extends React.Component {
         console.log(result);
         if ( state.length > 0 && state[0] === 'youtubeLoggedIn' ) {
           this.props.youtubeLoginSuccess(result);
-        } else {
+        }
+        if ( state.length > 0 && state[0] === 'twitchLoggedIn' ) {
           this.props.twitchLoginSuccess(result);
         }
         // resolve(result)
