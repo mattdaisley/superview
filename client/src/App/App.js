@@ -9,6 +9,7 @@ import { youtubeLoginSuccess } from './Redux/Youtube/YoutubeActionCreators';
 import Header  from './Components/Header';
 import Main    from './Components/Main';
 import SideNav from './Components/SideNav';
+import PlayerChannelsList from './Components/PlayerChannelsList';
 
 import './App.css';
 import 'typeface-roboto';
@@ -50,12 +51,17 @@ class App extends React.Component {
   }
 
   render() {
+    let playerChannelDetails = [];
+    if ( this.props.channelDetails.length > 0 ) playerChannelDetails = this.props.channelDetails;
+    if ( this.props.youtubeChannelDetails.length > 0 ) playerChannelDetails = this.props.youtubeChannelDetails;
+
     return (
       <Router>
         <div className="router-container">
           <Header />
           <Main />
-          <SideNav/>
+          <SideNav />
+          <PlayerChannelsList channels={playerChannelDetails}/>
         </div>
       </Router>
     );
@@ -66,7 +72,9 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    twitchLoggedIn: state.twitchOauth.loggedIn
+    twitchLoggedIn: state.twitchOauth.loggedIn,
+    channelDetails: state.twitchDetails.channelDetails,
+    youtubeChannelDetails: state.youtubeDetails.channelDetails,
   }
 }
 const mapDispatchToProps = dispatch => ({

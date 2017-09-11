@@ -2,7 +2,7 @@ import React     from 'react';
 import PropTypes from 'prop-types';
 
 import PlayerControls     from './PlayerControls/PlayerControls';
-import PlayerChannelsList from './PlayerChannelsList';
+// import PlayerChannelsList from './PlayerChannelsList';
 import EmbedPlayer        from './EmbedPlayer';
 import TwitchChat         from '../../Components/Twitch/TwitchChat';
 
@@ -44,9 +44,9 @@ const PlayerWrapper = (props) => {
         <TwitchChat hideChannelsList={props.hideChannelsList} id={'grimmmz'}/>
       }
 
-      { props.playerChannelDetails.length > 0 && 
+      {/* { props.playerChannelDetails.length > 0 && 
         <PlayerChannelsList channels={props.playerChannelDetails} className={'hidden-'+props.hideChannelsList}/>
-      }
+      } */}
 
       <PlayerControls fullscreenContainer={'player-wrapper'} onFullScreenChange={props.onFullScreenChange}/>   
     </div>
