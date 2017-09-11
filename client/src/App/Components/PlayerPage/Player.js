@@ -58,7 +58,7 @@ class Player extends React.Component {
       return;
     }
 
-    this.setLoadedOnChannelDetailsLoad(nextProps)
+    this.setLoadedOnChannelDetailsLoad(source, nextProps)
   }
   
   /*
@@ -153,7 +153,7 @@ class Player extends React.Component {
   /*
    * updates state.loaded when the channel details have been loaded from youtube or twitch
    */
-  setLoadedOnChannelDetailsLoad(nextProps) {
+  setLoadedOnChannelDetailsLoad(source, nextProps) {
     
     if ( nextProps.channelDetails.length > 0 ) {
 
@@ -162,9 +162,10 @@ class Player extends React.Component {
       const newChannelDetails = nextProps.channelDetails.map( channelDetails => channelDetails.id );
 
       if ( !PlayerUtils.compareArrays(oldChannelDetails, newChannelDetails) ) {
-        // console.log('props.newChannelDetails updated', oldChannelDetails, newChannelDetails)
+
         if ( newChannelDetails.length > 0 ) {
           this.setState( {loaded: true} )
+          this.props.setRecentChannelsItem(source, nextProps.channels, nextProps.channelDetails);
         }
       }
 
@@ -177,9 +178,10 @@ class Player extends React.Component {
       const newChannelDetails = nextProps.youtubeChannelDetails.map( channelDetails => channelDetails.id );
 
       if ( !PlayerUtils.compareArrays(oldChannelDetails, newChannelDetails) ) {
-        // console.log('props.newChannelDetails updated', oldChannelDetails, newChannelDetails)
+
         if ( newChannelDetails.length > 0 ) {
           this.setState( {loaded: true} )
+          this.props.setRecentChannelsItem(source, nextProps.youtubeChannels, nextProps.youtubeChannelDetails);
         }
       }
 

@@ -29,7 +29,7 @@ const twitchApiMiddleware = store => next => action => {
           if ( json._total > 0) {
             
             const formattedChannels = formatChannels(json.users);
-            // console.log(url, json, formattedChannels);
+            console.log(url, json, formattedChannels);
 
             actionItem = { payload: formattedChannels }
             store.dispatch(getTwitchChannelDetails(formattedChannels));
@@ -49,7 +49,7 @@ const twitchApiMiddleware = store => next => action => {
             .then(resp => resp.json())
             .then(json => {
               const formattedChannelDetails = formatChannelDetails(json);
-              // console.log(url + channel.channel_id, json, formattedChannelDetails);
+              console.log(url + channel.channel_id, json, formattedChannelDetails);
 
               resolve(formattedChannelDetails)
             })
@@ -122,7 +122,7 @@ const formatChannelDetails = ( channelDetails ) => {
     id: channelDetails._id,
     title: channelDetails.status,
     name: channelDetails.display_name,
-    logo: channelDetails.logo,
+    logo: (channelDetails.logo !== null) ? channelDetails.logo : 'https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png',
     description: channelDetails.description
   }
 }
