@@ -29,6 +29,7 @@ const twitchApiMiddleware = store => next => action => {
           if ( json._total > 0) {
             
             const formattedChannels = formatChannels(json.users);
+            // console.log(url, json, formattedChannels);
 
             actionItem = { payload: formattedChannels }
             store.dispatch(getTwitchChannelDetails(formattedChannels));

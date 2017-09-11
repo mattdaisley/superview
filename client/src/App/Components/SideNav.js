@@ -27,7 +27,12 @@ class SideNav extends React.Component {
             <RestoreIcon />
           </Button>
         </Link>
-        <Link to='/tw/grimmmmz/anthony_kongphan'>
+        <Link to='/tw/grimmmz/anthony_kongphan'>
+          <Button aria-label="restore">
+            <RestoreIcon />
+          </Button>
+        </Link>
+        <Link to='/tw/bdoubleo/wolvesatmydoor'>
           <Button aria-label="restore">
             <RestoreIcon />
           </Button>

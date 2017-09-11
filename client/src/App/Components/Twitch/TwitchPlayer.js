@@ -11,9 +11,7 @@ class TwitchPlayer extends React.Component {
   }
 
   componentWillMount() {
-    console.log(window.Twitch);
     if ( !window.Twitch ) {
-      console.log('twitch');
       let twitchEmbed = document.createElement('script');
       twitchEmbed.src='http://player.twitch.tv/js/embed/v1.js';
       
@@ -27,7 +25,6 @@ class TwitchPlayer extends React.Component {
   }
 
   onTwitchReady() {
-    console.log(window.Twitch);
     if (window.Twitch && window.Twitch.Player && window.Twitch.Player instanceof Function) {
       clearInterval(this.state.intervalId)
 
