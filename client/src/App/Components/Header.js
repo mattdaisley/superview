@@ -1,15 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React       from 'react';
+import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getLoginStatus, twitchLogin, twitchLogout } from '../Redux/Twitch/TwitchActionCreators';
+import { getTwitchLoginStatus, twitchLogin, twitchLogout }    from '../Redux/Twitch/TwitchActionCreators';
+import { getYoutubeLoginStatus, youtubeLogin, youtubeLogout } from '../Redux/Youtube/YoutubeActionCreators';
 
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
+import AppBar     from 'material-ui/AppBar';
+import Toolbar    from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
+import Button     from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
+import MenuIcon   from 'material-ui-icons/Menu';
 
 class Header extends React.Component {
   
@@ -18,7 +19,8 @@ class Header extends React.Component {
   // }
 
   componentWillMount() {
-    this.props.getLoginStatus();
+    this.props.getTwitchLoginStatus();
+    this.props.getYoutubeLoginStatus();
     // console.log(this.props.loggedIn);
   }
   
@@ -41,9 +43,15 @@ class Header extends React.Component {
             SuperView
           </Typography>
 
-          { !this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogin}>Login to Twitch</Button> }
+          { !this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogin}>Login to Twitch</Button> }
+          { !this.props.youtubeLoggedIn && <Button className="youtube-login-logout" onClick={this.props.youtubeLogin}>Login to YouTube</Button> }
           {/* { !!this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> } */}
         </Toolbar>
+        { this.props.messages.length > 0 && (
+          <div className="messages-container">
+            <div className={this.props.messages[0].type + '-message'}>{this.props.messages[0].message}</div>
+          </div>
+        )}
       </AppBar>
       
     );
@@ -60,13 +68,18 @@ Header.defaultProps = {
 
 const mapStateToProps = state => {
   return {
-    loggedIn: state.twitchOauth.loggedIn
+    twitchLoggedIn:  state.twitchOauth.loggedIn,
+    youtubeLoggedIn: state.youtubeOauth.loggedIn,
+    messages: state.messages.messages,
   }
 }
 const mapDispatchToProps = dispatch => ({
-  twitchLogin: () => dispatch(twitchLogin()),
-  twitchLogout: () => dispatch(twitchLogout()),
-  getLoginStatus: () => dispatch(getLoginStatus())
+  twitchLogin:           () => dispatch(twitchLogin()),
+  twitchLogout:          () => dispatch(twitchLogout()),
+  getTwitchLoginStatus:  () => dispatch(getTwitchLoginStatus()),
+  youtubeLogin:          () => dispatch(youtubeLogin()),
+  youtubeLogout:         () => dispatch(youtubeLogout()),
+  getYoutubeLoginStatus: () => dispatch(getYoutubeLoginStatus()),
 })
 
 export default connect(

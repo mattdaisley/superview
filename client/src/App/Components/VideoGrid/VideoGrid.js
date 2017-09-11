@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 
 import Grid      from 'material-ui/Grid';
 
+import VideoGridItem from './VideoGridItem';
+
+import './VideoGrid.css';
+
 class VideoGrid extends React.Component {
   
   // constructor(props) {
@@ -11,19 +15,11 @@ class VideoGrid extends React.Component {
   // }
 
   render() {
+    let videoItems = this.props.videoItems.map( (videoItem, index) => <VideoGridItem key={index} videoItem={videoItem}></VideoGridItem> )
 
     return (
       <Grid container spacing={8} >
-        <Grid item xs={6} sm={3} className="list-grid-item">
-          <div style={ {width: '100%'} }>
-            <img src="https://static-cdn.jtvnw.net/previews-ttv/live_user_bdoubleo-320x180.jpg" alt="bdoubleo" style={ {width: '100%'} } />
-          </div>
-        </Grid>
-        <Grid item xs={6} sm={3} className="list-grid-item">
-          <div style={ {width: '100%'} }>
-            <img src="https://static-cdn.jtvnw.net/previews-ttv/live_user_stockstream-320x180.jpg" alt="stockstream" style={ {width: '100%'} } />
-          </div>
-        </Grid>
+        { !!videoItems.length && videoItems }
       </Grid>
     );
   }

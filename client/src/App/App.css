@@ -108,6 +108,20 @@ button.twitch-login-logout {
 }
 
 
+div.messages-container {
+  position: absolute;
+  width: 100%;
+  bottom: -20px;
+}
+div.info-message {
+  width: 100%;
+  text-align: center;
+  background-color: #B3E5FC;
+  font-size: 14px;
+  padding: 5px;
+  border: 1px solid #81D4FA;
+  color: #0277BD;
+}
 
 
 

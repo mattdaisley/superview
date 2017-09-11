@@ -7,11 +7,11 @@ import ChevronRight from 'material-ui-icons/ChevronRight';
 
 import RecentChannelItem from '../../Components/RecentChannelsList/RecentChannelItem';
 
-class RecentChannelsGrid extends React.Component {
+class RecentChannelsList extends React.Component {
   
   // constructor(props) {
   //   super(props);
-  //   // console.log('RecentChannelsGrid props', props);
+  //   // console.log('RecentChannelsList props', props);
   // }
 
   render() {
@@ -44,8 +44,8 @@ class RecentChannelsGrid extends React.Component {
   }
 }
 
-RecentChannelsGrid.propTypes = {
+RecentChannelsList.propTypes = {
   recentActivity: PropTypes.arrayOf( PropTypes.object ).isRequired
 }
 
-export default RecentChannelsGrid;
+export default RecentChannelsList;

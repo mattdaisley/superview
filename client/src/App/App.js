@@ -3,7 +3,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import querystring from 'query-string';
 import { connect } from 'react-redux';
 
-import { twitchLoginSuccess } from './Redux/Twitch/TwitchActionCreators';
+import { twitchLoginSuccess }  from './Redux/Twitch/TwitchActionCreators';
+import { youtubeLoginSuccess } from './Redux/Youtube/YoutubeActionCreators';
 
 import Header  from './Components/Header';
 import Main    from './Components/Main';
@@ -31,7 +32,12 @@ class App extends React.Component {
           token: response.access_token,
           expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null
         }
-        this.props.twitchLoginSuccess(result);
+
+        if ( response.state === 'youtubeLoggedIn' ) {
+          this.props.youtubeLoginSuccess(result);
+        } else {
+          this.props.twitchLoginSuccess(result);
+        }
         // resolve(result)
       } else {
         // reject(response.error || 'Unknown error.')
@@ -56,11 +62,12 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: state.twitchOauth.loggedIn
+    twitchLoggedIn: state.twitchOauth.loggedIn
   }
 }
 const mapDispatchToProps = dispatch => ({
-  twitchLoginSuccess: (result) => dispatch(twitchLoginSuccess(result))
+  twitchLoginSuccess: (result) => dispatch(twitchLoginSuccess(result)),
+  youtubeLoginSuccess: (result) => dispatch(youtubeLoginSuccess(result)),
 })
 
 export default connect(

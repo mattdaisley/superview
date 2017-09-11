@@ -27,12 +27,12 @@ class RecentChannelImage extends Component {
     let imgSize = (channels.length === 1 && !thumb) ? 'image-lg' : 'image-sm';
     
     let images = channelThumbs.map( (channel, index) =>
-      <div className={imgSize} key={index}><img src={channel.channelThumb} alt={channel.name}/></div>
+      <div className={imgSize} key={index}><img src={channel.logo} alt={channel.title}/></div>
     );
 
     return (
       <div className={'image-wrapper'}>
-        { !!thumb && <img alt="channel thumbnail" className="thumb" src={thumb.urls[0]} width={thumb.width} height={thumb.height} /> }
+        { !!thumb && <img alt="channel thumbnail" className="thumb" src={thumb.url} width={thumb.width} height={thumb.height} /> }
         <div className={`thumb-solo-${!!thumb} channel-thumbs`}>
           {images}
         </div>
@@ -44,10 +44,7 @@ class RecentChannelImage extends Component {
 RecentChannelImage.propTypes = {
 
   channels: PropTypes.arrayOf( 
-    PropTypes.shape({
-      name: PropTypes.string,
-      channelThumb: PropTypes.string,
-    })
+    PropTypes.object
   ).isRequired,
 
   type: PropTypes.oneOf(['tw', 'yt']).isRequired,

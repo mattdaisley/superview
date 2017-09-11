@@ -1,6 +1,6 @@
 import * as types from '../Types';
 
-import { getTwitchChannelDetails } from '../PlayerDetails/PlayerDetailsActionCreators'
+import { getTwitchChannelDetails } from './TwitchActionCreators'
 
 const twitchApiMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'twitchApi') {
@@ -18,12 +18,19 @@ const twitchApiMiddleware = store => next => action => {
       fetch(url, {headers: headers})
         .then(resp => resp.json())
         .then(json => {
-          let newAction = Object.assign({}, action, {
-            payload: json.users
-          });
+          console.log(url, json);
+          let actionItem = { payload: [{status:'error'}] }
+          if ( json._total > 0) {
+            
+            const formattedChannels = formatChannels(json.users);
+
+            actionItem = { payload: formattedChannels }
+            store.dispatch(getTwitchChannelDetails(formattedChannels));
+          }
+          
+          let newAction = Object.assign({}, action, actionItem);
           delete newAction.meta;
           store.dispatch(newAction);
-          store.dispatch(getTwitchChannelDetails(json.users));
         })
       break
     case types.GET_TWITCH_CHANNEL_DETAILS:
@@ -31,10 +38,17 @@ const twitchApiMiddleware = store => next => action => {
       let promises = action.meta.channels.map( channel => {
         // console.log(channel);
         return new Promise( (resolve, reject) => {
-          fetch(url + channel._id, {headers: headers})
+          fetch(url + channel.channel_id, {headers: headers})
             .then(resp => resp.json())
             .then(json => {
-              resolve(json)
+              const formattedChannelDetails = formatChannelDetails(json);
+              console.log(url + channel.channel_id, json, formattedChannelDetails);
+
+              resolve(formattedChannelDetails)
+            })
+            .catch(err => {
+              console.log(err);
+              reject(err);
             })
         })
       })
@@ -53,6 +67,37 @@ const twitchApiMiddleware = store => next => action => {
       break
   }
 
+}
+
+const formatChannels = ( channels ) => {
+
+  return [...channels].map( channel => {
+    return {
+      id: channel.name,
+      channel_id: channel._id,
+      title: channel.display_name,
+      description: channel.bio,
+      published_at: channel.created_at,
+      logo: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_{user}-320x180.jpg'.replace('{user}', channel.name),
+      stats: {
+        views: undefined,
+        likes: undefined,
+        dislikes: undefined,
+        comments: undefined,
+      }
+    }
+  })
+}
+
+
+const formatChannelDetails = ( channelDetails ) => {
+  return {
+    id: channelDetails._id,
+    title: channelDetails.status,
+    name: channelDetails.display_name,
+    logo: channelDetails.logo,
+    description: channelDetails.description
+  }
 }
 
 export default twitchApiMiddleware

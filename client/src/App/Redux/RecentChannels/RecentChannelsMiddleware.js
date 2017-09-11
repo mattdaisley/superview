@@ -6,7 +6,7 @@ const recentChannelsMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'recentChannels') {
     return next(action);
   }
-
+  console.log(action.meta);
   switch (action.type) {
     case types.GET_RECENT_CHANNELS_ITEMS:
       let newGetAction = Object.assign({}, action, {
@@ -16,7 +16,7 @@ const recentChannelsMiddleware = store => next => action => {
       store.dispatch(newGetAction);
       break
     case types.SET_RECENT_CHANNELS_ITEM:
-      setRecentChannelsItem( formatRecentChannelDetails(action.meta.source, action.meta.item) )
+      setRecentChannelsItem( formatRecentChannelDetails(action.meta.source, action.meta.channels, action.meta.channelDetails) )
       let newSetAction = Object.assign({}, action, {
         payload: getRecentChannelsItems()
       });
@@ -29,32 +29,44 @@ const recentChannelsMiddleware = store => next => action => {
 
 }
 
-const formatRecentChannelDetails = ( source, channelDetails ) => {
+const formatRecentChannelDetails = ( source, channels, channelDetails ) => {
+  console.log('formatting recent channel details', channels, channelDetails);
   switch (source) {
+    case 'yt':
+      return formatYoutubeVideoDetails(channels, channelDetails);
     case 'tw':
     default:
-      return formatTwitchChannelDetails(channelDetails);
+      return formatTwitchStreamDetails(channels, channelDetails);
   }
 }
 
-const formatTwitchChannelDetails = ( channelDetails ) => {
+const formatYoutubeVideoDetails = ( channels, channelDetails ) => {
 
-  const title     = (channelDetails.length > 1) ? 'Multi-stream' : channelDetails[0].status;
-  const route     = channelDetails.map( channel => channel.name ).join('/');
-  const thumbSize = { width: 160, height: 90 };
-  const thumbPath = 'https://static-cdn.jtvnw.net/previews-ttv/live_user_{user}-{width}x{height}.jpg';
-  const thumbUrls = channelDetails.map( channel => thumbPath.replace('{user}', channel.name).replace('{width}', thumbSize.width).replace('{height}', thumbSize.height));
-  const thumb     = { width: thumbSize.width, height: thumbSize.height, urls: thumbUrls }
-  const channels  = channelDetails.map( channel => { 
-    return { name: channel.display_name, channelThumb: channel.logo } 
-  })
+  return {
+    type: 'yt',
+    title: (channels.length > 1) ? 'Multi-tube' : channels[0].title,
+    route: '/yt/' + channels.map( channel => channel.id ).join('/'),
+    thumb: {
+      width: 160,
+      height: 90,
+      url: channels[0].logo,
+    },
+    channels: channelDetails,
+  }
+}
+
+const formatTwitchStreamDetails = ( channels, channelDetails ) => {
 
   return {
     type: 'tw',
-    title: title,
-    route: '/tw/' + route,
-    thumb: thumb,
-    channels: channels
+    title: (channels.length > 1) ? 'Multi-stream' : channelDetails[0].title,
+    route: '/tw/' + channels.map( channel => channel.id ).join('/'),
+    thumb: {
+      width: 160,
+      height: 90,
+      url: channels[0].logo,
+    },
+    channels: channelDetails,
   }
 }
 

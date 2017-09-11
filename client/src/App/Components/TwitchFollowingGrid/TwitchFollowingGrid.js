@@ -14,6 +14,7 @@ class TwitchFollowingGrid extends React.Component {
   // }
 
   render() {
+    console.log(this.props.liveChannels);
 
     return (
       <div>
@@ -21,7 +22,7 @@ class TwitchFollowingGrid extends React.Component {
         <VideoGrid videoItems={this.props.liveChannels}></VideoGrid>
       </div>
     );
-    
+
   }
 }
 

@@ -7,11 +7,12 @@ export const getRecentChannelsItems = () => ({
   }
 })
 
-export const setRecentChannelsItem = (source, item) => ({
+export const setRecentChannelsItem = (source, channels, channelDetails) => ({
   type: types.SET_RECENT_CHANNELS_ITEM,
   meta: {
     type: 'recentChannels',
     source: source,
-    item: item,
+    channels: channels,
+    channelDetails: channelDetails
   }
 })

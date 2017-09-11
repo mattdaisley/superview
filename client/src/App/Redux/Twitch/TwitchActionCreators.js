@@ -1,10 +1,12 @@
 import * as types from '../Types';
 
-const clientId = '0ajwj4yx39smt1qtzfhrgjihvuo1wr';
-const requestUri = 'https://api.twitch.tv/kraken/';
+import config from './TwitchConfig';
 
-export const getLoginStatus = () => ({
-  type: types.LOGIN_STATUS,
+const clientId = config.clientId;
+const requestUri = config.requestUri;
+
+export const getTwitchLoginStatus = () => ({
+  type: types.TWITCH_LOGIN_STATUS,
   meta: {
     type: 'twitchOauth'
   }
@@ -18,7 +20,7 @@ export const twitchLogin = () => {
   const scope = 'user_read';
 
   return ({
-    type: types.LOGIN_REQUEST,
+    type: types.TWITCH_LOGIN_REQUEST,
     meta: {
       type: 'twitchOauth',
       payload: {},
@@ -30,7 +32,7 @@ export const twitchLogin = () => {
 export const twitchLoginSuccess = ({token, expiresAt}) => {
   return ({
     
-    type: types.LOGIN_SUCCESS,
+    type: types.TWITCH_LOGIN_SUCCESS,
     payload: true,
     meta: {
       type: 'twitchOauth',
@@ -41,7 +43,51 @@ export const twitchLoginSuccess = ({token, expiresAt}) => {
 }
 
 export const twitchLogout = () => ({
-  type: types.LOGOUT,
+  type: types.TWITCH_LOGOUT,
   payload: false,
   meta: { type: 'twitchOauth' }
 })
+
+export const getTwitchChannel = (users) => {
+  
+  const requestEnpoint = 'users'
+
+  users = (users.constructor === Array) ? users.join(',') : users;
+  
+  return ({
+    type: types.GET_TWITCH_CHANNEL,
+    meta: {
+      type: 'twitchApi',
+      payload: {},
+      clientId: clientId,
+      url: requestUri + requestEnpoint + '?login=' + users
+    }
+  })
+}
+
+export const resetTwitchChannel = () => {
+  return ({
+    type: types.RESET_TWITCH_CHANNEL
+  })
+}
+
+export const resetTwitchChannelDetails = () => {
+  return ({
+    type: types.RESET_TWITCH_CHANNEL_DETAILS
+  })
+}
+
+export const getTwitchChannelDetails = (channels) => {
+  
+  const requestEnpoint = 'channels'
+
+  return ({
+    type: types.GET_TWITCH_CHANNEL_DETAILS,
+    meta: {
+      type: 'twitchApi',
+      clientId: clientId,
+      url: requestUri + requestEnpoint + '/',
+      channels: channels,
+    }
+  })
+}

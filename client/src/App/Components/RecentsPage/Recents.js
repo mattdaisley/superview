@@ -8,6 +8,7 @@ class Recents extends React.Component {
   // }
 
   render() {
+    console.log('Recents');
     return (
       <h3>Recents</h3>
     );

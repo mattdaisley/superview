@@ -1,5 +1,5 @@
-const TOKEN_KEY = 'tokenTwitch'
-const EXPIRES_AT_KEY = 'twitchExpiresAt'
+const TOKEN_KEY = 'tokenYoutube'
+const EXPIRES_AT_KEY = 'youtubeExpiresAt'
 
 export const getExpiresAt = () =>
   window.localStorage.getItem(EXPIRES_AT_KEY) || null

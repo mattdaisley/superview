@@ -2,21 +2,17 @@ import * as types from '../Types';
 
 // Initial (starting) state
 export const initialState = {
-  loggedIn: false
+  messages: []
 }
 
 // Our root reducer starts with the initial state
 // and must return a representation of the next state
 export const reducer = (state = initialState, action) => {
   switch(action.type) {
-    case types.TWITCH_LOGIN_STATUS:
-      return { ...state, loggedIn: action.payload}
-    case types.TWITCH_LOGIN_REQUEST:
-      return { ...state}
-    case types.TWITCH_LOGIN_SUCCESS:
-      return { ...state, loggedIn: action.payload}
-    case types.TWITCH_LOGOUT:
-      return { ...state, loggedIn: action.payload}
+    case types.SET_MESSAGE:
+      return { ...state, messages: [...state.messages, action.payload] }
+    case types.REMOVE_MESSAGE:
+      return { ...state, messages: [...state.messages.slice(0, action.payload), ...state.messages.slice(action.payload + 1)] }
     default:
       return state;
   }
