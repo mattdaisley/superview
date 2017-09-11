@@ -40,8 +40,8 @@ const PlayerWrapper = (props) => {
         {embedPlayers}
       </div>
 
-      { !!(props.source === 'tw') && 
-        <TwitchChat hideChannelsList={props.hideChannelsList} id={'grimmmz'}/>
+      { !!(props.source === 'tw' && props.playerChannelDetails.length > 0) && 
+        <TwitchChat hideChannelsList={props.hideChannelsList} id={props.playerChannelDetails[0].name}/>
       }
 
       {/* { props.playerChannelDetails.length > 0 && 

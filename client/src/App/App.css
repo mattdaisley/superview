@@ -226,7 +226,13 @@ div.grid-header h3 a:hover {
   padding: 6px;
   box-sizing: border-box;
 }
+.player-channel-list-container button {
+  display: block;
+  margin: 0 auto 10px;
+}
 .player-channel-list-container .channel-avatar {
+  width: 56px;
+  height: 56px;
 }
 
 

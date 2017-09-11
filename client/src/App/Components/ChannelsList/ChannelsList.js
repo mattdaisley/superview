@@ -5,13 +5,14 @@ import PropTypes from 'prop-types';
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
 import ModeEditIcon from 'material-ui-icons/ModeEdit';
+import AddIcon from 'material-ui-icons/Add';
 
 
-class PlayerChannelsList extends React.Component {
+class ChannelsList extends React.Component {
   
   // constructor(props) {
   //   super(props);
-  //   console.log('PlayerChannelsList props', props);
+  //   console.log('ChannelsList props', props);
   // }
 
   render() {
@@ -22,7 +23,7 @@ class PlayerChannelsList extends React.Component {
 
     const channelAvatars = this.props.channels.map( channel => {
       return (
-        <Button aria-label={channel.title} key={channel.id}>
+        <Button fab aria-label={channel.title} key={channel.id} className="action">
           <Avatar alt={channel.title} className="channel-avatar" src={channel.logo} />
         </Button>
       )
@@ -31,19 +32,20 @@ class PlayerChannelsList extends React.Component {
     return (
       <div className={'player-channel-list-container ' + parentClassName}>
         {channelAvatars}
-        <Button aria-label="edit">
-          <ModeEditIcon />
+        <Button fab color="accent" aria-label="edit" className="action">
+          { this.props.channels.length > 0 && <ModeEditIcon /> }
+          { this.props.channels.length === 0 && <AddIcon /> }
         </Button>
       </div>
     );
   }
 }
 
-PlayerChannelsList.propTypes = {
+ChannelsList.propTypes = {
   channels: PropTypes.arrayOf( 
     PropTypes.object
   ).isRequired,
   className: PropTypes.any
 }
 
-export default PlayerChannelsList;
+export default ChannelsList;

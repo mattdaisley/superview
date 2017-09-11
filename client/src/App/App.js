@@ -9,7 +9,13 @@ import { youtubeLoginSuccess } from './Redux/Youtube/YoutubeActionCreators';
 import Header  from './Components/Header';
 import Main    from './Components/Main';
 import SideNav from './Components/SideNav';
-import PlayerChannelsList from './Components/PlayerChannelsList';
+import ChannelsList from './Components/ChannelsList/ChannelsList';
+
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import blue from 'material-ui/colors/blue';
+import green  from 'material-ui/colors/green';
+import red    from 'material-ui/colors/red';
+import Button from 'material-ui/Button';
 
 import './App.css';
 import 'typeface-roboto';
@@ -54,16 +60,29 @@ class App extends React.Component {
     let playerChannelDetails = [];
     if ( this.props.channelDetails.length > 0 ) playerChannelDetails = this.props.channelDetails;
     if ( this.props.youtubeChannelDetails.length > 0 ) playerChannelDetails = this.props.youtubeChannelDetails;
+    
+    const theme = createMuiTheme({
+      palette: {
+        primary: {
+          ...green,
+          A400: '#00e677',
+        },
+        secondary: blue,
+        error: red,
+      },
+    });
 
     return (
-      <Router>
-        <div className="router-container">
-          <Header />
-          <Main />
-          <SideNav />
-          <PlayerChannelsList channels={playerChannelDetails}/>
-        </div>
-      </Router>
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <div className="router-container">
+            <Header />
+            <Main />
+            <SideNav />
+            <ChannelsList channels={playerChannelDetails}/>
+          </div>
+        </Router>
+      </MuiThemeProvider>
     );
   }
 
