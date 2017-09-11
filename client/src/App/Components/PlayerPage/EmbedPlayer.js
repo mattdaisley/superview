@@ -28,13 +28,13 @@ class EmbedPlayer extends React.Component {
 
     let {source, id} = this.props;
 
-    // let colors = ['red', 'green', 'cyan', 'yellow', 'maroon', 'purple', 'olive', 'navy', 'teal', 'aqua', 'fuchsia']
-    // let color = colors[Math.floor(Math.random()*colors.length)]
+    let colors = ['red', 'green', 'cyan', 'yellow', 'maroon', 'purple', 'olive', 'navy', 'teal', 'aqua', 'fuchsia']
+    let color = colors[Math.floor(Math.random()*colors.length)]
 
     return (
-      // <div className={"Player flex-item " + parentClassName} style={{backgroundColor:color}}>
-      <div className={"Player flex-item " + parentClassName}>
-        { !!(source === 'yt') &&
+      <div className={"Player flex-item " + parentClassName} style={{backgroundColor:color}}>
+      {/* <div className={"Player flex-item " + parentClassName}> */}
+        {/* { !!(source === 'yt') &&
           <YouTube
             videoId={id}
             opts={opts}
@@ -46,7 +46,7 @@ class EmbedPlayer extends React.Component {
           <TwitchPlayer
             id={id}
           />
-        }
+        } */}
       </div>
     );
   }

@@ -6,7 +6,7 @@ import Grid      from 'material-ui/Grid';
 
 const VideoGridItem = (props) => {
   return (
-    <Grid item xs={6} sm={4} xl={3} className="list-grid-item">
+    <Grid item xs={12} sm={6} md={4} xl={3} className="list-grid-item">
       <div className="list-grid-item-wrapper">
         <div className="list-grid-thumb">
           <img src={props.videoItem.logo} alt={props.videoItem.title} style={ {width: '100%'} } />
@@ -17,7 +17,7 @@ const VideoGridItem = (props) => {
             <div className="list-grid-details">
               <div className="list-grid-details-title">{props.videoItem.title}</div>
               <div className="list-grid-details-channel">{props.videoItem.name}</div>
-              <div className="list-grid-details-info">{props.videoItem.stats.views.toLocaleString('en-IN')}</div>
+              <div className="list-grid-details-info">{props.videoItem.stats.views.toLocaleString('en-IN')} viewers</div>
             </div>
           </Link>
         </div>

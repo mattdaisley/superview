@@ -23,7 +23,7 @@ const youtubeApiMiddleware = store => next => action => {
         .then(json => {
           console.log(url, json);
           let actionItem = { payload: [{status:'error'}] }
-          if ( json.pageInfo.totalResults > 0) {
+          if ( !json.error && json.pageInfo.totalResults > 0) {
 
             const formattedVideos = formatVideos(json.items);
 

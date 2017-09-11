@@ -22,18 +22,21 @@ class App extends React.Component {
 
     if ( hash ) {
       const response = querystring.parse(hash.substr(1))
+      const state = ( response.state ) ? response.state.split(',') : [];
       // if (response.state !== state) {
         // reject('Invalid state returned.')
       // }
   
       if (response.access_token) {
         const expiresIn = response.expires_in ? parseInt(response.expires_in, 10) : NaN
+        const referrer = state[1]
         const result = {
           token: response.access_token,
-          expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null
+          expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
+          referrer,
         }
-
-        if ( response.state === 'youtubeLoggedIn' ) {
+        console.log(result);
+        if ( state.length > 0 && state[0] === 'youtubeLoggedIn' ) {
           this.props.youtubeLoginSuccess(result);
         } else {
           this.props.twitchLoginSuccess(result);

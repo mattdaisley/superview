@@ -14,9 +14,11 @@ import MenuIcon   from 'material-ui-icons/Menu';
 
 class Header extends React.Component {
   
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+
+    this.youtubeLogin = this.youtubeLogin.bind(this);
+  }
 
   componentWillMount() {
     this.props.getTwitchLoginStatus();
@@ -24,6 +26,10 @@ class Header extends React.Component {
     // console.log(this.props.loggedIn);
   }
   
+  youtubeLogin() {
+    this.props.youtubeLogin( window.location.href );
+  }
+
   render() {
 
     const HeaderStyle = {
@@ -44,7 +50,7 @@ class Header extends React.Component {
           </Typography>
 
           { !this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogin}>Login to Twitch</Button> }
-          { !this.props.youtubeLoggedIn && <Button className="youtube-login-logout" onClick={this.props.youtubeLogin}>Login to YouTube</Button> }
+          { !this.props.youtubeLoggedIn && <Button className="youtube-login-logout" onClick={this.youtubeLogin}>Login to YouTube</Button> }
           {/* { !!this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> } */}
         </Toolbar>
         { this.props.messages.length > 0 && (
@@ -74,11 +80,11 @@ const mapStateToProps = state => {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  twitchLogin:           () => dispatch(twitchLogin()),
-  twitchLogout:          () => dispatch(twitchLogout()),
-  getTwitchLoginStatus:  () => dispatch(getTwitchLoginStatus()),
-  youtubeLogin:          () => dispatch(youtubeLogin()),
-  youtubeLogout:         () => dispatch(youtubeLogout()),
+  twitchLogin: ()           => dispatch(twitchLogin()),
+  twitchLogout: ()          => dispatch(twitchLogout()),
+  getTwitchLoginStatus: ()  => dispatch(getTwitchLoginStatus()),
+  youtubeLogin: (referrer)  => dispatch(youtubeLogin(referrer)),
+  youtubeLogout: ()         => dispatch(youtubeLogout()),
   getYoutubeLoginStatus: () => dispatch(getYoutubeLoginStatus()),
 })
 

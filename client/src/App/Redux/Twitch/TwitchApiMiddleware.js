@@ -24,7 +24,7 @@ const twitchApiMiddleware = store => next => action => {
       fetch(url, {headers: headers})
         .then(resp => resp.json())
         .then(json => {
-          console.log(url, json);
+          // console.log(url, json);
           let actionItem = { payload: [{status:'error'}] }
           if ( json._total > 0) {
             
@@ -48,7 +48,7 @@ const twitchApiMiddleware = store => next => action => {
             .then(resp => resp.json())
             .then(json => {
               const formattedChannelDetails = formatChannelDetails(json);
-              console.log(url + channel.channel_id, json, formattedChannelDetails);
+              // console.log(url + channel.channel_id, json, formattedChannelDetails);
 
               resolve(formattedChannelDetails)
             })

@@ -15,8 +15,6 @@ class PlayerChannelsList extends React.Component {
   // }
 
   render() {
-    console.log(this.props.channels);
-
     let parentClassName = '';
     if(this.props.className !== undefined){
       parentClassName = this.props.className

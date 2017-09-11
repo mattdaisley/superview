@@ -13,26 +13,28 @@ export const getYoutubeLoginStatus = () => ({
   }
 })
 
-export const youtubeLogin = () => {
+export const youtubeLogin = ( referrer ) => {
   
   const requestEnpoint = 'o/oauth2/v2/auth'
   const redirectUri = 'http://localhost:3000';
   const responseType = 'token';
   const scope = 'https://www.googleapis.com/auth/youtube.readonly';
-  const state = 'youtubeLoggedIn';
+  const state = 'youtubeLoggedIn,' + referrer;
   const includeGrantedScopes = true;
+  const prompt = 'none';
 
   return ({
     type: types.YOUTUBE_LOGIN_REQUEST,
     meta: {
       type: 'youtubeOauth',
       payload: {},
-      url: oauthRequestUri + requestEnpoint + '?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&response_type=' + responseType + '&scope=' + scope + '&include_granted_scopes=' + includeGrantedScopes + '&state=' + state
+      url: oauthRequestUri + requestEnpoint + '?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&response_type=' + responseType + '&scope=' + scope + '&include_granted_scopes=' + includeGrantedScopes + '&state=' + state + '&prompt=' + prompt
     }
   })
 }
 
-export const youtubeLoginSuccess = ({token, expiresAt}) => {
+export const youtubeLoginSuccess = ({token, expiresAt, referrer}) => {
+  console.log(token, expiresAt, referrer);
   return ({
     
     type: types.YOUTUBE_LOGIN_SUCCESS,
@@ -40,7 +42,8 @@ export const youtubeLoginSuccess = ({token, expiresAt}) => {
     meta: {
       type: 'youtubeOauth',
       token,
-      expiresAt
+      expiresAt,
+      referrer
     }
   })
 }

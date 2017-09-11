@@ -223,7 +223,7 @@ class Player extends React.Component {
   }
 
   componentWillMount() {
-    // console.log(this.props);
+    console.log(this.props);
     const { source } = this.props.match.params;
 
     if ( this.props.channels.length === 0 && source === 'tw' && !this.state.channelsRequested ) {
@@ -271,7 +271,7 @@ class Player extends React.Component {
       let pathname = '/'+source + '/' + uniqueChannels.join('/');
       this.context.router.history.push(pathname);
       this.setState({loaded:false})
-      console.log('history push', pathname);
+      // console.log('history push', pathname);
     } else {
       // console.log(source, this.props);
       if ( source === 'tw' && !this.state.channelsRequested ) {
@@ -282,7 +282,7 @@ class Player extends React.Component {
         this.setState({loaded:true})
         this.props.setRecentChannelsItem(source, nextProps.channels, nextProps.channelDetails);
       }
-      console.log(source, this.state.loaded, !this.props.youtubeLoggedIn);
+      // console.log(source, this.state.loaded, !this.props.youtubeLoggedIn);
       if ( source === 'yt' && !this.props.youtubeLoggedIn ) {
         this.setState({loaded:true})
       }
@@ -338,7 +338,7 @@ class Player extends React.Component {
       .map( key => ( key === 'source' ) ? undefined : params[key] )
       .filter( (elem, pos, arr) => arr.indexOf(elem) === pos )
 
-    console.log('getValidAndUniqueVideoIds', uniqueVideoIds);
+    // console.log('getValidAndUniqueVideoIds', uniqueVideoIds);
     // videoIds of channels/videos that had a matching api response item
     switch ( source ) {
       case 'tw':
@@ -366,7 +366,7 @@ class Player extends React.Component {
   }
 
   getPlayerWrapper(validAndUniqueVideoIds, playerChannelDetails) {
-    console.log('in getPlayerWrapper');
+    // console.log('in getPlayerWrapper');
     const { params } = this.props.match;
     const { source } = params;
     const { hideChannelsList, isFullscreen } = this.state;
@@ -424,7 +424,7 @@ class Player extends React.Component {
     
     const playerChannels = ( source === 'tw' ) ? this.props.channels : ( source === 'yt' ? this.props.youtubeChannels : [] );
     const playerChannelDetails = ( source === 'tw' ) ? this.props.channelDetails : ( source === 'yt' ? this.props.youtubeChannelDetails : [] );
-    console.log('player render: playerChannels, playerChannelDetails', playerChannels, playerChannelDetails);
+    // console.log('player render: playerChannels, playerChannelDetails', playerChannels, playerChannelDetails);
 
     let validAndUniqueVideoIds = [];
     
@@ -442,6 +442,7 @@ class Player extends React.Component {
       // check if the existing path requests a video or channel that did not have a matching api response
       // if there was an invalid id/channel, redirect to a route with only the valid ids
       const pathname = '/'+source+'/'+validAndUniqueVideoIds.join('/');
+      // console.log(pathname, this.props.location.pathname);
       if ( pathname.toLowerCase() !== this.props.location.pathname.toLowerCase() ) {
         this.context.router.history.push(pathname);
         return (<div></div>)
@@ -451,7 +452,7 @@ class Player extends React.Component {
         .map( key => ( key === 'source' ) ? undefined : params[key] )
         .filter( (elem, pos, arr) => arr.indexOf(elem) === pos && elem !== undefined)
     }
-    console.log(validAndUniqueVideoIds);
+    // console.log(validAndUniqueVideoIds);
 
     // console.log('getting player');
     return this.getPlayerWrapper(validAndUniqueVideoIds, playerChannelDetails);

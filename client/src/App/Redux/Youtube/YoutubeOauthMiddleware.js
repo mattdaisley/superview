@@ -26,6 +26,7 @@ const youtubeOauthMiddleware = store => next => action => {
       });
       delete newLoginAction.meta;
       store.dispatch(newLoginAction);
+      // if ( action.meta.referrer ) window.location.href = action.meta.referrer
       break
     case types.YOUTUBE_LOGIN_FAILURE:
     case types.YOUTUBE_LOGOUT:
