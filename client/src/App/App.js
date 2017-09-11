@@ -58,8 +58,15 @@ class App extends React.Component {
 
   render() {
     let playerChannelDetails = [];
-    if ( this.props.channelDetails.length > 0 ) playerChannelDetails = this.props.channelDetails;
-    if ( this.props.youtubeChannelDetails.length > 0 ) playerChannelDetails = this.props.youtubeChannelDetails;
+    let source = '';
+    if ( this.props.channelDetails.length > 0 ) { 
+      playerChannelDetails = this.props.channelDetails;
+      source = 'tw';
+    }
+    if ( this.props.youtubeChannelDetails.length > 0 ) { 
+      playerChannelDetails = this.props.youtubeChannelDetails;
+      source = 'yt';
+    }
     
     const theme = createMuiTheme({
       palette: {
@@ -79,7 +86,7 @@ class App extends React.Component {
             <Header />
             <Main />
             <SideNav />
-            <ChannelsList channels={playerChannelDetails}/>
+            <ChannelsList source={source} channels={playerChannelDetails}/>
           </div>
         </Router>
       </MuiThemeProvider>

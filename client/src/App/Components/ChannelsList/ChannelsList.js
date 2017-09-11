@@ -1,19 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
 
-import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button';
-import ModeEditIcon from 'material-ui-icons/ModeEdit';
-import AddIcon from 'material-ui-icons/Add';
+import ChannelListAvatars from './ChannelListAvatars';
+import ChannelListEdit    from './ChannelListEdit';
 
 
 class ChannelsList extends React.Component {
   
-  // constructor(props) {
-  //   super(props);
-  //   console.log('ChannelsList props', props);
-  // }
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      mode: 'edit',
+    }
+
+    this.onEditToggle = this.onEditToggle.bind(this);
+  }
+
+  onEditToggle() {
+    console.log('toggle');
+    if ( this.state.mode === 'list' ) this.setState( {mode: 'edit'} )
+    if ( this.state.mode === 'edit' ) this.setState( {mode: 'list'} )
+  }
 
   render() {
     let parentClassName = '';
@@ -21,27 +29,17 @@ class ChannelsList extends React.Component {
       parentClassName = this.props.className
     }
 
-    const channelAvatars = this.props.channels.map( channel => {
-      return (
-        <Button fab aria-label={channel.title} key={channel.id} className="action">
-          <Avatar alt={channel.title} className="channel-avatar" src={channel.logo} />
-        </Button>
-      )
-    })
-
     return (
-      <div className={'player-channel-list-container ' + parentClassName}>
-        {channelAvatars}
-        <Button fab color="accent" aria-label="edit" className="action">
-          { this.props.channels.length > 0 && <ModeEditIcon /> }
-          { this.props.channels.length === 0 && <AddIcon /> }
-        </Button>
+      <div>
+        { this.state.mode === 'list' && <ChannelListAvatars channels={this.props.channels} className={parentClassName} onEditToggle={this.onEditToggle}/> }
+        { this.state.mode === 'edit' && <ChannelListEdit source={this.props.source} channels={this.props.channels} className={parentClassName} onEditToggle={this.onEditToggle}/> }
       </div>
     );
   }
 }
 
 ChannelsList.propTypes = {
+  source: PropTypes.string,
   channels: PropTypes.arrayOf( 
     PropTypes.object
   ).isRequired,

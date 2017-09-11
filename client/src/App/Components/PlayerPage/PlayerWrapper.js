@@ -26,8 +26,6 @@ const PlayerWrapper = (props) => {
       />
     )
   })
-
-  console.log(props.playerChannelDetails);
   
   return (
     <div id="player-wrapper" className={['Player-wrapper','flex',fullscreenClass].join(' ')}>

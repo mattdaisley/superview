@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { setRecentChannelsItem } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
 import { getTwitchChannel, resetTwitchChannel, resetTwitchChannelDetails } from '../../Redux/Twitch/TwitchActionCreators';
-import { getYoutubeChannel, resetYoutubeChannel, resetYoutubeChannelDetails } from '../../Redux/Youtube/YoutubeActionCreators';
+import { getYoutubeChannel, resetYoutubeChannel, resetYoutubeChannelDetails, getYoutubeLoginStatus } from '../../Redux/Youtube/YoutubeActionCreators';
 import { setMessage } from '../../Redux/Messages/MessagesActionCreators';
 
 import PlayerWrapper        from './PlayerWrapper';
@@ -38,7 +38,9 @@ class Player extends React.Component {
   }
 
   componentWillMount() {
+    console.log('componentWillMount', this.props)
     this.registerPlayerSources(this.props);
+    this.props.getYoutubeLoginStatus();
   }
   
   componentWillUnmount() {
@@ -47,7 +49,7 @@ class Player extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('componentWillReceiveProps', this.props, nextProps);
+    console.log('componentWillReceiveProps', this.props, nextProps);
     const { source } = nextProps.match.params;
 
     if ( this.resetIfNewPathname(nextProps) ) return;
@@ -75,7 +77,8 @@ class Player extends React.Component {
 
     this.setState( {channelsRequested: true, playerSources: uniqueVideoIds} );
     if ( source === 'tw' ) props.getTwitchChannel(uniqueVideoIds);
-    if ( source === 'yt' ) props.getYoutubeChannel(uniqueVideoIds);
+    if ( source === 'yt' && props.youtubeLoggedIn ) props.getYoutubeChannel(uniqueVideoIds);
+    // if ( !props.youtubeLoggedIn ) 
   }
 
   /*
@@ -84,6 +87,7 @@ class Player extends React.Component {
    */
   reRouteIfDuplicateSources(source, videoIds, uniqueVideoIds) {
     if ( !PlayerUtils.compareArrays(videoIds, uniqueVideoIds) ) {
+      console.log('reRouteIfDuplicateSources');
       let pathname = '/'+source + '/' + uniqueVideoIds.join('/');
       this.context.router.history.push(pathname);
       return true; 
@@ -120,7 +124,7 @@ class Player extends React.Component {
 
         if ( !PlayerUtils.compareArrays(newChannelIds, this.state.playerSources) ) {
           let pathname = '/'+ source + '/' + newChannelIds.join('/');
-          // console.log('new pathname', pathname);
+          console.log('new pathname', pathname);
           this.context.router.history.push(pathname);
           return;
         }
@@ -136,11 +140,11 @@ class Player extends React.Component {
       const newChannelIds = nextProps.youtubeChannels.map( channel => channel.id );
 
       if ( !PlayerUtils.compareArrays(oldChannelIds, newChannelIds) ) {
-        // console.log('props.channels updated', oldChannelIds, newChannelIds)
+        console.log('props.youtubeChannels updated', oldChannelIds, newChannelIds)
 
         if ( !PlayerUtils.compareArrays(newChannelIds, this.state.playerSources) ) {
           let pathname = '/'+ source + '/' + newChannelIds.join('/');
-          // console.log('new pathname', pathname);
+          console.log('new pathname', pathname);
           this.context.router.history.push(pathname);
           return;
         }
@@ -268,6 +272,7 @@ const mapDispatchToProps = dispatch => ({
   getYoutubeChannel: (channels) => dispatch(getYoutubeChannel(channels)),
   resetYoutubeChannel: () => dispatch(resetYoutubeChannel()),
   resetYoutubeChannelDetails: () => dispatch(resetYoutubeChannelDetails()),
+  getYoutubeLoginStatus: () => dispatch(getYoutubeLoginStatus()),
 
   setMessage: (message) => dispatch(setMessage(message)),
 })

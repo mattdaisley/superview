@@ -222,9 +222,21 @@ div.grid-header h3 a:hover {
   position: fixed;
   top: 84px;
   right: 0;
-  bottom: 0;
   padding: 6px;
   box-sizing: border-box;
+}
+.player-channel-list-container.edit {
+  width: 600px;
+  top: 86px;
+  right: 15px;
+  padding: 0;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+.player-channel-list-container.edit .search-icon {
+  text-align: center;
+  padding: 0 10px;
+  margin-right: 10px;
 }
 .player-channel-list-container button {
   display: block;
