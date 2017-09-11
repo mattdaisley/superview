@@ -10,11 +10,15 @@ export const setRecentChannelsItem = (newItem) => {
   let recentChannelsItems = Object.assign([], getRecentChannelsItems()) || [];
   let newRecentItems = [];
   let found = false;
+  let oldest = 0;
 
   newItem.timestamp = Date.now();
 
   if ( recentChannelsItems.length !== 0 ) {
-    newRecentItems = recentChannelsItems.map( item => {
+    
+    newRecentItems = recentChannelsItems.map( (item, index) => {
+      // console.log(item, index);
+      if ( item.timestamp < recentChannelsItems[oldest].timestamp ) oldest = index;
       if ( item.route === newItem.route ) {
         found = true;
         return newItem
@@ -25,6 +29,10 @@ export const setRecentChannelsItem = (newItem) => {
   
   if ( !found ) {
     newRecentItems.push(newItem);
+  }
+
+  if ( newRecentItems.length > 8 ) {
+    newRecentItems.splice(oldest, 1);
   }
   
   window.localStorage.setItem(RECENT_CHANNELS_KEY, JSON.stringify(newRecentItems))

@@ -2,7 +2,8 @@ import * as types from '../Types';
 
 // Initial (starting) state
 export const initialState = {
-  twitchFollowing: []
+  twitchFollowing: [],
+  twitchSearchResults: []
 }
 
 // Our root reducer starts with the initial state
@@ -13,6 +14,10 @@ export const reducer = (state = initialState, action) => {
       return { ...state, twitchFollowing: action.payload }
     case types.RESET_TWITCH_FOLLOWING:
       return { ...state, twitchFollowing: [] }
+    case types.TWITCH_SEARCH:
+      return { ...state, twitchSearchResults: action.payload }
+    case types.RESET_WITCH_SEARCH:
+    return { ...state, twitchSearchResults: [] }
     default:
       return state;
   }

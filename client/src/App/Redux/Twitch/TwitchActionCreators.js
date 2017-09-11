@@ -106,3 +106,22 @@ export const getTwitchFollowing = () => {
      }
    })
 }
+
+export const twitchSearch = ( query ) => {
+   const requestEnpoint = 'search/streams?query='
+
+   return ({
+     type: types.TWITCH_SEARCH,
+     meta: {
+       type: 'twitchApi',
+       clientId: clientId,
+       url: requestUri + requestEnpoint + encodeURIComponent(query)
+     }
+   })
+}
+
+export const resetTwitchSearch = () => {
+  return ({
+    type: types.RESET_WITCH_SEARCH
+  })
+}

@@ -38,7 +38,7 @@ class Player extends React.Component {
   }
 
   componentWillMount() {
-    console.log('componentWillMount', this.props)
+    // console.log('componentWillMount', this.props)
     this.registerPlayerSources(this.props);
     this.props.getYoutubeLoginStatus();
   }
@@ -49,7 +49,7 @@ class Player extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', this.props, nextProps);
+    // console.log('componentWillReceiveProps', this.props, nextProps);
     const { source } = nextProps.match.params;
 
     if ( this.resetIfNewPathname(nextProps) ) return;

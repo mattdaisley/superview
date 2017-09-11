@@ -9,7 +9,7 @@ import TwitchChat         from '../../Components/Twitch/TwitchChat';
 import PlayerUtils from './PlayerUtils';
 
 const PlayerWrapper = (props) => {
-  console.log('PlayerWrapper', props);
+  // console.log('PlayerWrapper', props);
 
   const layout = PlayerUtils.getLayout(props.playerSources);
   const fullscreenClass = (props.isFullscreen) ? 'fullscreen' : '';

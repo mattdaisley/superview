@@ -11,7 +11,7 @@ class ChannelsList extends React.Component {
     super(props);
     
     this.state = {
-      mode: 'edit',
+      mode: 'list',
     }
 
     this.onEditToggle = this.onEditToggle.bind(this);

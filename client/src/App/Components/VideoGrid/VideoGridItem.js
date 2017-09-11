@@ -9,7 +9,7 @@ const VideoGridItem = (props) => {
     <Grid item xs={12} sm={6} md={4} xl={3} className="list-grid-item">
       <div className="list-grid-item-wrapper">
         <div className="list-grid-thumb">
-          <img src={props.videoItem.logo} alt={props.videoItem.title} style={ {width: '100%'} } />
+          <img src={props.videoItem.thumbnail} alt={props.videoItem.title} style={ {width: '100%'} } />
         </div>
 
         <div className="list-grid-details-container">

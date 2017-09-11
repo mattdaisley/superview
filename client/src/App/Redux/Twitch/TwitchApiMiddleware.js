@@ -15,7 +15,7 @@ const twitchApiMiddleware = store => next => action => {
     'Client-ID': clientId
   }
 
-  console.log(hasToken(), getToken());
+  // console.log(hasToken(), getToken());
   if ( hasToken() ) {
     headers['Authorization'] = 'OAuth ' + getToken()
   }
@@ -30,7 +30,7 @@ const twitchApiMiddleware = store => next => action => {
           if ( json._total > 0) {
             
             const formattedChannels = formatChannels(json.users);
-            console.log(url, json, formattedChannels);
+            // console.log(url, json, formattedChannels);
 
             actionItem = { payload: formattedChannels }
             store.dispatch(getTwitchChannelDetails(formattedChannels));
@@ -50,7 +50,7 @@ const twitchApiMiddleware = store => next => action => {
             .then(resp => resp.json())
             .then(json => {
               const formattedChannelDetails = formatChannelDetails(json);
-              console.log(url + channel.channel_id, json, formattedChannelDetails);
+              // console.log(url + channel.channel_id, json, formattedChannelDetails);
 
               resolve(formattedChannelDetails)
             })
@@ -83,6 +83,24 @@ const twitchApiMiddleware = store => next => action => {
 
             // console.log(url, json, formattedStreams);
             actionItem = { payload: formattedStreams }
+          }
+          
+          let newAction = Object.assign({}, action, actionItem);
+          delete newAction.meta;
+          store.dispatch(newAction);
+        })
+        .catch(err => console.log(err))
+      break;
+    case types.TWITCH_SEARCH:
+      fetch(url, {headers: headers})
+        .then(resp => resp.json())
+        .then(json => {
+          let actionItem = { payload: [{status:'error'}] }
+          if ( json._total > 0) {
+            
+            const formattedChannel = formatStreamDetails(json.streams);
+            // console.log(url, json, formattedChannel);
+            actionItem = { payload: formattedChannel }
           }
           
           let newAction = Object.assign({}, action, actionItem);
@@ -135,9 +153,9 @@ const formatStreamDetails = ( stream ) => {
       id: stream.channel.name,
       name: stream.channel.display_name,
       title: stream.channel.status,
-      logo: stream.preview.medium,
+      thumbnail: stream.preview.medium,
       channel_id: stream.channel._id,
-      channel_logo: stream.channel.logo,
+      logo: stream.channel.logo,
       description: stream.channel.description,
       published_at: stream.created_at,
       stats: {
