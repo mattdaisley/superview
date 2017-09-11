@@ -6,7 +6,6 @@ const recentChannelsMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'recentChannels') {
     return next(action);
   }
-  console.log(action.meta);
   switch (action.type) {
     case types.GET_RECENT_CHANNELS_ITEMS:
       let newGetAction = Object.assign({}, action, {
@@ -30,7 +29,6 @@ const recentChannelsMiddleware = store => next => action => {
 }
 
 const formatRecentChannelDetails = ( source, channels, channelDetails ) => {
-  console.log('formatting recent channel details', channels, channelDetails);
   switch (source) {
     case 'yt':
       return formatYoutubeVideoDetails(channels, channelDetails);

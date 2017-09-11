@@ -11,7 +11,7 @@ const youtubeApiMiddleware = store => next => action => {
 
   if ( !hasToken ) return next(action);
 
-  const {url, clientId} = action.meta;
+  const { url } = action.meta;
   const headers = {
     'Authorization': 'Bearer ' + getToken()
   }

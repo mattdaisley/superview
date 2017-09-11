@@ -340,6 +340,8 @@ class Player extends React.Component {
         return this.validateTWChannelNames( uniqueVideoIds, channels );
       case 'yt':
         return this.validateYTVideoIds( uniqueVideoIds, channels );
+      default:
+        break;
     }
 
     return [];
@@ -384,11 +386,6 @@ class Player extends React.Component {
     const showPlayerChannelsList = () => {
       if ( source === 'yt' && !!this.props.youtubeLoggedIn ) return true;
       if ( source === 'tw' && !!this.state.loaded ) return true;
-      return false;
-    }
-
-    const showYoutubeLoginWarning = () => {
-      if ( source === 'yt' && !!this.props.youtubeLoggedIn ) return true;
       return false;
     }
     

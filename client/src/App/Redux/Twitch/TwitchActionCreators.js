@@ -91,3 +91,16 @@ export const getTwitchChannelDetails = (channels) => {
     }
   })
 }
+
+export const getTwitchFollowing = () => {
+   const requestEnpoint = 'streams/followed'
+
+   return ({
+     type: types.GET_TWITCH_FOLLOWING,
+     meta: {
+       type: 'twitchApi',
+       clientId: clientId,
+       url: requestUri + requestEnpoint
+     }
+   })
+}

@@ -2,6 +2,8 @@ import * as types from '../Types';
 
 import { getTwitchChannelDetails } from './TwitchActionCreators'
 
+import { hasToken, getToken } from '../../Util/tokenTwitch';
+
 const twitchApiMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'twitchApi') {
     return next(action);
@@ -11,6 +13,10 @@ const twitchApiMiddleware = store => next => action => {
   const headers = {
     'Accept': 'application/vnd.twitchtv.v5+json',
     'Client-ID': clientId
+  }
+
+  if ( hasToken() ) {
+    headers['Authorization'] = 'OAuth ' + getToken()
   }
 
   switch (action.type) {
@@ -33,8 +39,8 @@ const twitchApiMiddleware = store => next => action => {
           store.dispatch(newAction);
         })
       break
-    case types.GET_TWITCH_CHANNEL_DETAILS:
 
+    case types.GET_TWITCH_CHANNEL_DETAILS:
       let promises = action.meta.channels.map( channel => {
         // console.log(channel);
         return new Promise( (resolve, reject) => {
@@ -63,6 +69,26 @@ const twitchApiMiddleware = store => next => action => {
         })
       
       break
+    case types.GET_TWITCH_FOLLOWING:
+      if ( !hasToken() ) return;
+      fetch(url, {headers: headers})
+        .then(resp => resp.json())
+        .then(json => {
+          let actionItem = { payload: [{status:'error'}] }
+          if ( json._total > 0) {
+            
+            const formattedStreams = formatStreamDetails(json.streams);
+
+            // console.log(url, json, formattedStreams);
+            actionItem = { payload: formattedStreams }
+          }
+          
+          let newAction = Object.assign({}, action, actionItem);
+          delete newAction.meta;
+          store.dispatch(newAction);
+        })
+        .catch(err => console.log(err))
+      break;
     default:
       break
   }
@@ -80,7 +106,7 @@ const formatChannels = ( channels ) => {
       published_at: channel.created_at,
       logo: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_{user}-320x180.jpg'.replace('{user}', channel.name),
       stats: {
-        views: undefined,
+        views: channel.viewers || undefined,
         likes: undefined,
         dislikes: undefined,
         comments: undefined,
@@ -98,6 +124,28 @@ const formatChannelDetails = ( channelDetails ) => {
     logo: channelDetails.logo,
     description: channelDetails.description
   }
+}
+
+const formatStreamDetails = ( stream ) => {
+  
+  return [...stream].map( stream => {
+    return {
+      id: stream.channel.name,
+      name: stream.channel.display_name,
+      title: stream.channel.status,
+      logo: stream.preview.medium,
+      channel_id: stream.channel._id,
+      channel_logo: stream.channel.logo,
+      description: stream.channel.description,
+      published_at: stream.created_at,
+      stats: {
+        views: stream.viewers,
+        likes: undefined,
+        dislikes: undefined,
+        comments: undefined,
+      }
+    }
+  })
 }
 
 export default twitchApiMiddleware
