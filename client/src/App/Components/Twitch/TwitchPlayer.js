@@ -33,8 +33,8 @@ class TwitchPlayer extends React.Component {
         height: '100%',
         channel: this.props.id,
       };
-      this.Player = new window.Twitch.Player("player-"+this.props.id, options);
-      this.Player.setVolume(0.5);
+      // this.Player = new window.Twitch.Player("player-"+this.props.id, options);
+      // this.Player.setVolume(0.5);
     }
   }
 
@@ -65,7 +65,16 @@ class TwitchPlayer extends React.Component {
     let {id} = this.props;
 
     return (
-      <div id={"player-"+id} style={{width: '100%', height: '100%'}}></div>
+      <iframe
+        src={'http://player.twitch.tv/?channel='+id}
+        title={id}
+        height="100%"
+        width="100%"
+        frameBorder="0"
+        scrolling="no"
+        allowFullScreen="true">
+      </iframe>
+      // <div id={"player-"+id} style={{width: '100%', height: '100%'}}></div>
     );
   }
 }
