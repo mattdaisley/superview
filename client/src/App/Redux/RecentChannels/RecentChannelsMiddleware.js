@@ -39,7 +39,7 @@ const formatRecentChannelDetails = ( source, channels, channelDetails ) => {
 }
 
 const formatYoutubeVideoDetails = ( channels, channelDetails ) => {
-
+  console.log(channels);
   return {
     type: 'yt',
     title: (channels.length > 1) ? 'Multi-tube' : channels[0].title,
@@ -47,14 +47,14 @@ const formatYoutubeVideoDetails = ( channels, channelDetails ) => {
     thumb: {
       width: 160,
       height: 90,
-      url: channels[0].logo,
+      url: channels[0].thumbnail,
     },
     channels: channelDetails,
   }
 }
 
 const formatTwitchStreamDetails = ( channels, channelDetails ) => {
-
+  console.log(channels, channelDetails)
   return {
     type: 'tw',
     title: (channels.length > 1) ? 'Multi-stream' : channelDetails[0].title,
@@ -62,7 +62,7 @@ const formatTwitchStreamDetails = ( channels, channelDetails ) => {
     thumb: {
       width: 160,
       height: 90,
-      url: channels[0].logo,
+      url: channels[0].thumbnail,
     },
     channels: channelDetails,
   }

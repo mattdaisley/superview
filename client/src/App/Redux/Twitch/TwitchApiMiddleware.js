@@ -26,7 +26,7 @@ const twitchApiMiddleware = store => next => action => {
         .then(resp => resp.json())
         .then(json => {
           // console.log(url, json);
-          let actionItem = { payload: [{status:'error'}] }
+          let actionItem = { payload: [] }
           if ( json._total > 0) {
             
             const formattedChannels = formatChannels(json.users);
@@ -124,7 +124,7 @@ const formatChannels = ( channels ) => {
       title: channel.display_name,
       description: channel.bio,
       published_at: channel.created_at,
-      logo: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_{user}-320x180.jpg'.replace('{user}', channel.name),
+      thumbnail: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_{user}-320x180.jpg'.replace('{user}', channel.name),
       stats: {
         views: channel.viewers || undefined,
         likes: undefined,

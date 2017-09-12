@@ -30,6 +30,7 @@ class ChannelListEdit extends React.Component {
 
     this.onSearchChange = this.onSearchChange.bind(this);
     this.addChannel = this.addChannel.bind(this);
+    this.applyChannels = this.applyChannels.bind(this);
   }
 
   componentDidReceiveProps() {
@@ -51,6 +52,11 @@ class ChannelListEdit extends React.Component {
     channels.push(channel);
     this.setState({channels, searchValue:''})
     this.props.resetTwitchSearch()
+  }
+
+  applyChannels() {
+    let channels = [...this.props.channels, ...this.state.channels];
+    this.props.onEditToggle(channels);
   }
 
   render() {
@@ -132,7 +138,7 @@ class ChannelListEdit extends React.Component {
         }
         <Divider />
         <List>
-          <Button color="primary" aria-label="edit" className="action" onClick={this.props.onEditToggle}>
+          <Button color="primary" aria-label="edit" className="action" onClick={this.applyChannels}>
             Done
           </Button>
         </List>

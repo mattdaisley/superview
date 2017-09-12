@@ -81,7 +81,7 @@ const formatVideos = ( videos ) => {
       title: video.snippet.title,
       description: video.snippet.description,
       published_at: video.snippet.publishedAt,
-      logo: video.snippet.thumbnails.maxres.url,
+      thumbnail: video.snippet.thumbnails.maxres.url,
       stats: {
         views: video.statistics.viewCount,
         likes: video.statistics.likeCount,
