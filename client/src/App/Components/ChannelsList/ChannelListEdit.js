@@ -87,15 +87,15 @@ class ChannelListEdit extends React.Component {
     if ( this.props.twitchSearchResults.length > 0 && this.props.twitchSearchResults[0] && !this.props.twitchSearchResults[0].status ) {
       // console.log(this.props.twitchSearchResults);
       searchResults = this.props.twitchSearchResults.map( (channel, index) => {
-        const title = channel.title && channel.title.length > 50 ? channel.title.slice(0,50) + '...' : channel.title;
+        const title = channel.title && channel.title.length > 35 ? channel.title.slice(0,35) + '...' : channel.title;
         return (
           <ListItem key={channel.title + index}>
             <Avatar alt={channel.title} className="channel-avatar" src={channel.logo}></Avatar>
             <ListItemText primary={title} secondary={channel.name} />
             <ListItemSecondaryAction>
-              <IconButton aria-label="Delete" onClick={() => this.addChannel(channel)}>
-                <DeleteIcon />
-              </IconButton>
+              <Button raised color="accent" className="add-channel-button" onClick={() => this.addChannel(channel)}>
+                Add Channel
+              </Button>
             </ListItemSecondaryAction>
           </ListItem>
         )

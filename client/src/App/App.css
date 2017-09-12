@@ -238,7 +238,11 @@ div.grid-header h3 a:hover {
   padding: 0 10px;
   margin-right: 10px;
 }
-.player-channel-list-container button {
+.player-channel-list-container .add-channel-button {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.player-channel-list-container .action {
   display: block;
   margin: 0 auto 10px;
 }
