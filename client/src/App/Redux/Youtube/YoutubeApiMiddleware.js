@@ -4,6 +4,8 @@ import { getYoutubeChannelDetails } from './YoutubeActionCreators'
 
 import { hasToken, getToken } from '../../Util/tokenYoutube';
 
+import { doYoutubeSearch } from './YoutubeApi';
+
 const youtubeApiMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'youtubeApi') {
     return next(action);
@@ -66,6 +68,22 @@ const youtubeApiMiddleware = store => next => action => {
         })
       
       break
+    case types.YOUTUBE_SEARCH:
+      doYoutubeSearch(url)
+        .then(results => {
+          console.log(url, results);
+          let actionItem = { payload: [] }
+          if ( results.length > 0) {
+
+            actionItem = { payload: results }
+          }
+          
+          let newAction = Object.assign({}, action, actionItem);
+          delete newAction.meta;
+          store.dispatch(newAction);
+        })
+      break
+        
     default:
       break
   }
@@ -100,6 +118,21 @@ const formatChannelDetails = ( channelDetails ) => {
     logo: channelDetails.snippet.thumbnails.high.url,
     description: channelDetails.snippet.description
   }
+}
+
+const formatSearchResult = ( videos ) => {
+
+  return [...videos].map( video => {
+    return {
+      id: video.id.videoId,
+      channel_id: video.snippet.channelId,
+      title: video.snippet.title,
+      description: video.snippet.description,
+      published_at: video.snippet.publishedAt,
+      thumbnail: video.snippet.thumbnails.high.url,
+    }
+  })
+
 }
 
 export default youtubeApiMiddleware

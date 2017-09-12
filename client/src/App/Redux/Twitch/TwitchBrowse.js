@@ -16,7 +16,7 @@ export const reducer = (state = initialState, action) => {
       return { ...state, twitchFollowing: [] }
     case types.TWITCH_SEARCH:
       return { ...state, twitchSearchResults: action.payload }
-    case types.RESET_WITCH_SEARCH:
+    case types.RESET_TWITCH_SEARCH:
     return { ...state, twitchSearchResults: [] }
     default:
       return state;

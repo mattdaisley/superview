@@ -223,7 +223,7 @@ class Player extends React.Component {
     const { source } = this.props.match.params;
     const { loaded, playerSources, hideChannelsList, isFullscreen } = this.state;
 
-    const playerChannels = ( source === 'tw' ) ? this.props.channels : ( source === 'yt' ? this.props.youtubeChannels : [] );
+    // const playerChannels = ( source === 'tw' ) ? this.props.channels : ( source === 'yt' ? this.props.youtubeChannels : [] );
     const playerChannelDetails = ( source === 'tw' ) ? this.props.channelDetails : ( source === 'yt' ? this.props.youtubeChannelDetails : [] );
     
     if ( !loaded ) {

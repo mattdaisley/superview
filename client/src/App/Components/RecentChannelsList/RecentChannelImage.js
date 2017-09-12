@@ -12,7 +12,6 @@ class RecentChannelImage extends Component {
 
     let thumb = this.props.thumb;
     let channels = this.props.channels;
-    console.log(channels);
     let channelThumbs;
     switch (this.props.channels.length) {
       case 3:

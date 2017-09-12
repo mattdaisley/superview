@@ -109,7 +109,7 @@ export const getTwitchFollowing = () => {
 
 export const twitchSearch = ( query ) => {
    const requestEnpoint = 'search/streams?query='
-   const limit = 3;
+   const limit = 10;
 
    return ({
      type: types.TWITCH_SEARCH,
@@ -123,6 +123,6 @@ export const twitchSearch = ( query ) => {
 
 export const resetTwitchSearch = () => {
   return ({
-    type: types.RESET_WITCH_SEARCH
+    type: types.RESET_TWITCH_SEARCH
   })
 }

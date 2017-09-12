@@ -102,3 +102,26 @@ export const resetYoutubeChannelDetails = () => {
     type: types.RESET_YOUTUBE_CHANNEL_DETAILS
   })
 }
+
+export const youtubeSearch = (query) => {
+  
+  const requestEnpoint = 'search?q='
+  const part = 'snippet'
+  const type = 'video'
+  const limit = 10
+
+  return ({
+    type: types.YOUTUBE_SEARCH,
+    meta: {
+      type: 'youtubeApi',
+      clientId: clientId,
+      url: apiRequestUri + requestEnpoint + encodeURIComponent(query) + '&limit=' + limit + '&part=' + part + '&type=' + type,
+    }
+  })
+}
+
+export const resetYoutubeSearch = () => {
+  return ({
+    type: types.RESET_YOUTUBE_SEARCH
+  })
+}

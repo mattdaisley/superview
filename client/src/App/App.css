@@ -250,6 +250,18 @@ div.grid-header h3 a:hover {
   width: 56px;
   height: 56px;
 }
+.player-channel-list-container.edit .twitch-following-wrapper {
+  max-height: 205px;
+  overflow: scroll;
+}
+.player-channel-list-container.edit .twitch-search-wrapper {
+  max-height: 205px;
+  overflow: scroll;
+}
+.player-channel-list-container.edit .youtube-search-wrapper {
+  max-height: 205px;
+  overflow: scroll;
+}
 
 
 

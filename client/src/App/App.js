@@ -15,7 +15,6 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue';
 import green  from 'material-ui/colors/green';
 import red    from 'material-ui/colors/red';
-import Button from 'material-ui/Button';
 
 import './App.css';
 import 'typeface-roboto';

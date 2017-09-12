@@ -15,6 +15,7 @@ const ChannelsListAvatars = (props) => {
   }
 
   const channelAvatars = props.channels.map( channel => {
+    console.log(channel);
     return (
       <Button fab aria-label={channel.title} key={channel.id} className="action">
         <Avatar alt={channel.title} className="channel-avatar" src={channel.logo} />
