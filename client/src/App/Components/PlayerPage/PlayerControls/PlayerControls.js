@@ -7,6 +7,7 @@ import Toolbar        from 'material-ui/Toolbar';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue';
 import grey from 'material-ui/colors/grey';
+import common from 'material-ui/colors/common';
 
 import MainControls   from './MainControls';
 import RightControls  from './RightControls';
@@ -47,16 +48,20 @@ class PlayerControls extends React.Component {
 
   render() {
     
-    const theme = createMuiTheme({
+    const lightTheme = createMuiTheme({
       palette: {
         primary: { ...grey, 500: grey[50] },
-        accent: grey,
-        secondary: blue,
-        background: {
-          dark: '#000000'
-        }
+        secondary: blue
       },
     });
+    const darkTheme = createMuiTheme({
+      palette: {
+        primary: { ...grey, 500: common.transparent },
+        secondary: { ...grey, 500: grey[50] }
+      },
+    })
+
+    const theme = (this.state.isFullscreen) ? darkTheme : lightTheme;
 
     return (
       <div className={['player-controls', this.props.className].join(' ')}>

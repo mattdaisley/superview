@@ -59,10 +59,10 @@ class ToggleFullscreenButton extends React.Component {
     return (
       <span>
         { !!(this.props.isFullscreen === false) &&
-          <FullscreenOpenButton toggleFullScreen={this.toggleFullScreen}/>
+          <FullscreenOpenButton color={this.props.color} toggleFullScreen={this.toggleFullScreen}/>
         }
         { !!(this.props.isFullscreen === true) &&
-          <FullscreenCloseButton toggleFullScreen={this.toggleFullScreen}/>
+          <FullscreenCloseButton color={this.props.color} toggleFullScreen={this.toggleFullScreen}/>
         }
       </span>
     )
@@ -73,6 +73,7 @@ ToggleFullscreenButton.propTypes = {
   fullscreenContainer: PropTypes.string,
   isFullscreen:     PropTypes.bool,
   toggleFullScreen: PropTypes.func,
+  color: PropTypes.oneOf('accent', 'primary','inherit','default'),
 }
 
 export default ToggleFullscreenButton;

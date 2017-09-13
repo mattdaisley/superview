@@ -9,10 +9,10 @@ const PlayPauseButton = (props) => {
   return (
     <span>
       { !!(props.playing === false) &&
-        <PlayButton color="accent" togglePlayPause={props.togglePlayPause}/>
+        <PlayButton color={props.color} togglePlayPause={props.togglePlayPause}/>
       }
       { !!(props.playing === true) &&
-        <PauseButton color="accent" togglePlayPause={props.togglePlayPause}/>
+        <PauseButton color={props.color} togglePlayPause={props.togglePlayPause}/>
       }
     </span>
   )
@@ -20,7 +20,8 @@ const PlayPauseButton = (props) => {
 
 PlayPauseButton.propTypes = {
   playing:         PropTypes.bool.isRequired,
-  togglePlayPause: PropTypes.func.isRequired
+  togglePlayPause: PropTypes.func.isRequired,
+  color: PropTypes.oneOf('accent', 'primary','inherit','default')
 }
 
 export default PlayPauseButton

@@ -11,7 +11,7 @@ const MainControls = (props) => {
     <div className="controls-container main-controls flex-item-grow">
       <Grid className="controls-grid" container spacing={0} direction="row" align="center" justify="center">
         <Grid item>
-          <TogglePlayPauseButton playing={props.playing} togglePlayPause={props.togglePlayPause}/>
+          <TogglePlayPauseButton color="accent" playing={props.playing} togglePlayPause={props.togglePlayPause}/>
         </Grid>
       </Grid>
     </div>
