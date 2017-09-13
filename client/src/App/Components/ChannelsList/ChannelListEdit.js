@@ -3,15 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 
-import Avatar from 'material-ui/Avatar';
-import IconButton from 'material-ui/IconButton';
 import Button from 'material-ui/Button';
-import Divider from 'material-ui/Divider';
-import List, { ListItem, ListItemText, ListItemSecondaryAction, ListSubheader } from 'material-ui/List';
+import List, { ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 
-import DeleteIcon from 'material-ui-icons/Delete';
 import SearchIcon from 'material-ui-icons/Search';
+
+import CurrentSources         from './CurrentSources';
+import TwitchFollowingResults from './TwitchFollowingResults';
+import TwitchSearchResults    from './TwitchSearchResults';
+import YoutubeSearchResults   from './YoutubeSearchResults';
 
 import { twitchSearch, resetTwitchSearch, getTwitchFollowing } from '../../Redux/Twitch/TwitchActionCreators';
 import { youtubeSearch, resetYoutubeSearch } from '../../Redux/Youtube/YoutubeActionCreators';
@@ -23,50 +24,60 @@ class ChannelListEdit extends React.Component {
     super(props);
     
     this.state = {
-      channels: [],
+      sources: [],
       searchValue: ''
     }
 
-    this.onSearchChange = this.onSearchChange.bind(this);
-    this.addChannel = this.addChannel.bind(this);
-    this.applyChannels = this.applyChannels.bind(this);
+    this.onSearchChange   = this.onSearchChange.bind(this);
+    this.addTwitchChannel = this.addTwitchChannel.bind(this);
+    this.addYoutubeVideo  = this.addYoutubeVideo.bind(this);
+    this.applyChannels    = this.applyChannels.bind(this);
+    this.onRemoveSource   = this.onRemoveSource.bind(this);
   }
 
   componentWillMount() {
+    if ( this.props.sources ) this.setState( { sources: this.props.sources } );
     this.props.getTwitchFollowing()
   }
 
-  componentDidReceiveProps() {
-    console.log('componentDidReceiveProps')
-    // this.setState( {channels: [ ...this.props.channels ]} )
-  }
-
   onSearchChange(event) {
-    const query = event.target.value;
-    this.setState( {searchValue: query} )
     if ( this.state.timeoutId ) clearInterval(this.state.timeoutId);
+
+    const searchValue = event.target.value;
     const timeoutId = setTimeout( () => {
-      this.props.twitchSearch(query)
-      this.props.youtubeSearch(query)
+      this.props.twitchSearch(searchValue)
+      this.props.youtubeSearch(searchValue)
     }, 300);
-    this.setState( {timeoutId} )
+    this.setState( {timeoutId, searchValue} )
   }
 
-  addChannel(channel) {
-    // console.log(channel);
-    let channels = [ ...this.state.channels ];
-    channels.push(channel);
-    this.setState({channels, searchValue:''})
-    this.props.resetTwitchSearch()
+  addTwitchChannel(channel) {
+    let sources = [ ...this.state.sources, channel ];
+    this.setState({sources: sources })
+    // this.props.resetTwitchSearch()
   }
 
   addYoutubeVideo(video) {
-    let channels = [ ...this.state.channels ];
+    let sources = [ ...this.state.sources, video ];
+    this.setState({sources: sources })
+    // this.props.resetYoutubeSearch()
+  }
+  
+  onRemoveSource(sourceToRemove) {
+    let oldSources = [ ...this.state.sources ];
+
+    const filteredSources = oldSources.filter( source => {
+      if ( source.source_type === sourceToRemove.source_type && source.id === sourceToRemove.id ) return false;
+      return true;
+    })
+
+    this.setState( {sources: filteredSources} );
   }
 
   applyChannels() {
-    let channels = [...this.props.channels, ...this.state.channels];
-    this.props.onEditToggle(channels);
+    // let sources = [ ...this.props.sources, ...this.state.sources ];
+    let sources = [ ...this.state.sources ];
+    this.props.onEditToggle(sources);
   }
 
   render() {
@@ -77,113 +88,26 @@ class ChannelListEdit extends React.Component {
       parentClassName = this.props.className
     }
 
-    let channels = [...this.props.channels, ...this.state.channels];
-    // console.log(channels);
-    // this.setState({channels:channels})
-
-    console.log(this.props);
-
-    const channelAvatars = channels.map( (channel, index) => {
-      const title = channel.title.length > 70 ? channel.title.slice(0,70) + '...' : channel.title;
-      return (
-        <ListItem key={channel.title + index}>
-          <Avatar alt={channel.title} className="channel-avatar" src={channel.logo}></Avatar>
-          <ListItemText primary={title} secondary={channel.name} />
-          <ListItemSecondaryAction>
-            <IconButton aria-label="Delete">
-              <DeleteIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-      // <Button fab aria-label={channel.title} key={channel.id} className="action">
-        //   <Avatar />
-        // </Button>
-      )
-    })
-
-    let twitchSearchResults = (<div></div>);
-    if ( this.props.twitchSearchResults.length > 0 && !!this.props.twitchSearchResults[0] && !this.props.twitchSearchResults[0].status ) {
-      // console.log(this.props.twitchSearchResults);
-      twitchSearchResults = this.props.twitchSearchResults.map( (channel, index) => {
-        const title = channel.title && channel.title.length > 50 ? channel.title.slice(0,50) + '...' : channel.title;
-        return (
-          <ListItem key={channel.title + index}>
-            <Avatar alt={channel.title} className="channel-avatar" src={channel.logo}></Avatar>
-            <ListItemText primary={title} secondary={channel.name} />
-            <ListItemSecondaryAction>
-              <Button raised color="accent" className="add-channel-button" onClick={() => this.addChannel(channel)}>
-                Add Channel
-              </Button>
-            </ListItemSecondaryAction>
-          </ListItem>
-        )
-      })
-    }
-
-    let twitchFollowingList = (<div></div>);
-    let twitchFollowing = [ ...this.props.twitchFollowing ];
-    if ( twitchFollowing.length > 0 && !!twitchFollowing[0] && !twitchFollowing[0].status ) {
-      if ( this.state.searchValue ) {
-        const searchValue = this.state.searchValue.toLowerCase();
-        twitchFollowing = twitchFollowing.filter( channel => { 
-          if (channel.name.toLowerCase().indexOf(searchValue) >= 0 ) return true;
-          if (channel.title.toLowerCase().indexOf(searchValue) >= 0 ) return true;
-          if (channel.name.toLowerCase().split('_').join('').indexOf(searchValue) >= 0 ) return true;
-          return false;
-        })
-      }
-      twitchFollowingList = twitchFollowing.map( (channel, index) => {
-        const title = channel.title && channel.title.length > 50 ? channel.title.slice(0,50) + '...' : channel.title;
-        return (
-          <ListItem key={channel.title + index}>
-            <Avatar alt={channel.title} className="channel-avatar" src={channel.logo}></Avatar>
-            <ListItemText primary={title} secondary={channel.name} />
-            <ListItemSecondaryAction>
-              <Button raised color="accent" className="add-channel-button" onClick={() => this.addChannel(channel)}>
-                Add Channel
-              </Button>
-            </ListItemSecondaryAction>
-          </ListItem>
-        )
-      })
-    }
-
-
-    let youtubeSearchList = (<div></div>);
-    let youtubeSearchResults = [ ...this.props.youtubeSearchResults ];
-    if ( youtubeSearchResults.length > 0 && !!youtubeSearchResults[0] && !youtubeSearchResults[0].status ) {
-      // console.log(this.props.twitchSearchResults);
-      youtubeSearchList = youtubeSearchResults.map( (video, index) => {
-        // const title = video.title && video.title.length > 60 ? video.title.slice(0,60) + '...' : video.title;
-        const title = video.title && video.title.length > 60 ? video.title.slice(0,60) + '...' : video.title;
-        const description = video.description && video.description.length > 60 ? video.description.slice(0,60) + '...' : video.description;
-        return (
-          <ListItem key={video.id + index} title={video.title}>
-            <img alt={video.title} className="channel-avatar" src={video.thumbnail} />
-            <ListItemText primary={title} secondary={description} />
-            <ListItemSecondaryAction>
-              <Button raised color="accent" className="add-channel-button" onClick={() => this.addChannel(video)}>
-                Add Video
-              </Button>
-            </ListItemSecondaryAction>
-          </ListItem>
-        )
-      })
-    }
+    // const currentSources = [ ...this.props.sources, ...this.state.sources ]
+    const currentSources = [ ...this.state.sources ]
+    const twitchSearchResults = [ ...this.props.twitchSearchResults ]
+    const twitchFollowingResults = [ ...this.props.twitchFollowing ]
+    const youtubeSearchResults = [ ...this.props.youtubeSearchResults ]
 
 
     let searchPlaceholderText = 'Twitch Channel or YouTube Video ID'
     if ( this.props.source === 'tw' ) searchPlaceholderText = 'Twitch channel';
     if ( this.props.source === 'yt' ) searchPlaceholderText = 'YouTube Video ID';
 
+    let source_type = this.props.source;
+    if ( this.props.source === '' && this.state.sources.length > 0 ) source_type = this.state.sources[0].source_type;
+
     return (
       <div className={'player-channel-list-container edit ' + parentClassName}>
-        { channels.length > 0 &&
-          <List dense subheader={<ListSubheader>Current channels</ListSubheader>}>
-            {channelAvatars}
-            <Divider />
-          </List>
-        }
+        
+
+        <CurrentSources sources={currentSources} onRemoveSource={this.onRemoveSource} />
+
         <List dense>
           <ListItem>
             <div className="search-icon"><SearchIcon /></div>
@@ -195,40 +119,39 @@ class ChannelListEdit extends React.Component {
             />
           </ListItem>
         </List>
-        { (this.props.source === '' || this.props.source === 'tw') &&
-          <List dense className="twitch-following-list" subheader={<ListSubheader>Live channels you follow</ListSubheader>}>
-            <div className="twitch-following-wrapper">
-              { this.props.twitchFollowing.length > 0 && 
-                twitchFollowingList
-              }
-              <Divider />
-            </div>
-          </List>
+
+        { (source_type === '' || source_type === 'tw') &&
+          <TwitchFollowingResults 
+            currentSources={currentSources}
+            followingSources={twitchFollowingResults} 
+            filter={this.state.searchValue} 
+            addSource={this.addTwitchChannel} 
+          />
         }
-        { (this.props.source === '' || this.props.source === 'tw') && this.state.searchValue !== '' &&
-          <List dense className="twitch-search-list" subheader={<ListSubheader>Live channels based on your search</ListSubheader>}>
-            <div className="twitch-search-wrapper">
-              { this.props.twitchSearchResults.length > 0 && this.props.twitchSearchResults[0] && !this.props.twitchSearchResults[0].status &&
-                twitchSearchResults
-              }
-              <Divider />
-            </div>
-          </List>
+
+        { (source_type === '' || source_type === 'tw') && this.state.searchValue !== '' &&
+          <TwitchSearchResults 
+            currentSources={currentSources}
+            searchSources={twitchSearchResults} 
+            addSource={this.addTwitchChannel} 
+          />
         }
-        { (this.props.source === '' || this.props.source === 'yt') && this.state.searchValue !== '' &&
-          <List dense className="youtube-search-list" subheader={<ListSubheader>YouTube videos based on your search</ListSubheader>}>
-            <div className="youtube-search-wrapper">
-                { this.props.youtubeSearchResults.length > 0 && this.props.youtubeSearchResults[0] && !this.props.youtubeSearchResults[0].status &&
-                  youtubeSearchList
-                }
-              <Divider />
-            </div>
-          </List>
+
+        { (source_type === '' || source_type === 'yt') && this.state.searchValue !== '' &&
+          <YoutubeSearchResults sources={youtubeSearchResults} addSource={this.addYoutubeVideo} />
         }
+        
         <List>
-          <Button color="primary" aria-label="edit" className="action" onClick={this.applyChannels}>
-            Done
-          </Button>
+          { !!this.state.sources && this.state.sources.length > 0 &&
+            <Button color="primary" aria-label="edit" className="action" onClick={this.applyChannels}>
+              Done
+            </Button>
+          }
+          { !this.state.sources || (!!this.state.sources && this.state.sources.length === 0 ) &&
+            <Button color="primary" aria-label="edit" className="action" onClick={this.applyChannels}>
+              Cancel
+            </Button>
+          }
         </List>
       </div>
     );
@@ -238,7 +161,7 @@ class ChannelListEdit extends React.Component {
 
 ChannelListEdit.propTypes = {
   source: PropTypes.string,
-  channels: PropTypes.arrayOf( PropTypes.object ).isRequired,
+  sources: PropTypes.arrayOf( PropTypes.object ).isRequired,
   className: PropTypes.any,
   onEditToggle: PropTypes.func,
   twitchSearchResults: PropTypes.array,
@@ -262,6 +185,7 @@ const mapDispatchToProps = dispatch => ({
   resetTwitchSearch: () => dispatch(resetTwitchSearch()),
   getTwitchFollowing: () => dispatch(getTwitchFollowing()),
   youtubeSearch: (query) => dispatch(youtubeSearch(query)),
+  resetYoutubeSearch: (query) => dispatch(resetYoutubeSearch(query)),
 })
 
 export default connect(

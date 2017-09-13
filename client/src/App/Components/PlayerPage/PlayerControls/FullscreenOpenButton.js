@@ -7,7 +7,7 @@ import FullscreenIcon from 'material-ui-icons/Fullscreen';
 const FullscreenOpenButton = (props) => {
 
   return (
-    <IconButton aria-label="Toggle Fullscreen" onClick={props.toggleFullScreen}>
+    <IconButton color="primary" aria-label="Toggle Fullscreen" onClick={props.toggleFullScreen}>
       <FullscreenIcon/>
     </IconButton>
   )

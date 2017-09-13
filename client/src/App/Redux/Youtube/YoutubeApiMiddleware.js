@@ -23,11 +23,11 @@ const youtubeApiMiddleware = store => next => action => {
       fetch(url, {headers: headers})
         .then(resp => resp.json())
         .then(json => {
-          console.log(url, json);
           let actionItem = { payload: [{status:'error'}] }
           if ( !json.error && json.pageInfo.totalResults > 0) {
 
             const formattedVideos = formatVideos(json.items);
+            // console.log(url, formattedVideos);
 
             actionItem = { payload: formattedVideos }
             store.dispatch(getYoutubeChannelDetails(formattedVideos));
@@ -43,11 +43,11 @@ const youtubeApiMiddleware = store => next => action => {
       let promises = action.meta.videos.map( video => {
         // console.log(channel);
         return new Promise( (resolve, reject) => {
-          fetch(url + video.channel_id, {headers: headers})
+          fetch(url + video.channel.channel_id, {headers: headers})
             .then(resp => resp.json())
             .then(json => {
-              const formattedChannelDetails = formatChannelDetails(json.items[0]);
-              console.log(url + video.channel_id, json, formattedChannelDetails);
+              const formattedChannelDetails = formatChannelDetails(json.items[0], video);
+              // console.log(url + video.channel.channel_id, json, formattedChannelDetails);
 
               resolve(formattedChannelDetails)
             })
@@ -71,7 +71,7 @@ const youtubeApiMiddleware = store => next => action => {
     case types.YOUTUBE_SEARCH:
       doYoutubeSearch(url)
         .then(results => {
-          console.log(url, results);
+          // console.log(url, results);
           let actionItem = { payload: [] }
           if ( results.length > 0) {
 
@@ -82,6 +82,7 @@ const youtubeApiMiddleware = store => next => action => {
           delete newAction.meta;
           store.dispatch(newAction);
         })
+        .catch( error => console.log(error) )
       break
         
     default:
@@ -94,8 +95,8 @@ const formatVideos = ( videos ) => {
 
   return [...videos].map( video => {
     return {
+      source_type: 'yt',
       id: video.id,
-      channel_id: video.snippet.channelId,
       title: video.snippet.title,
       description: video.snippet.description,
       published_at: video.snippet.publishedAt,
@@ -104,35 +105,29 @@ const formatVideos = ( videos ) => {
         views: video.statistics.viewCount,
         likes: video.statistics.likeCount,
         dislikes: video.statistics.dislikeCount,
-        comments: video.statistics.commentCount
+        comments: video.statistics.commentCount,
+      },
+      channel: {
+        channel_id: video.snippet.channelId,
       }
     }
   })
 }
 
-const formatChannelDetails = ( channelDetails ) => {
-  return {
-    id: channelDetails.id,
+const formatChannelDetails = ( channelDetails, resource ) => {
+  
+  let formattedResource = Object.assign( {}, resource );
+
+  formattedResource.channel = {
+    source_type: 'yt',
+    channel_id: channelDetails.id,
     title: channelDetails.snippet.title,
     name: channelDetails.snippet.title,
     logo: channelDetails.snippet.thumbnails.high.url,
     description: channelDetails.snippet.description
   }
-}
 
-const formatSearchResult = ( videos ) => {
-
-  return [...videos].map( video => {
-    return {
-      id: video.id.videoId,
-      channel_id: video.snippet.channelId,
-      title: video.snippet.title,
-      description: video.snippet.description,
-      published_at: video.snippet.publishedAt,
-      thumbnail: video.snippet.thumbnails.high.url,
-    }
-  })
-
+  return formattedResource;
 }
 
 export default youtubeApiMiddleware

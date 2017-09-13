@@ -14,11 +14,11 @@ class RecentChannelDetails extends Component {
 
     let channelNames;
     if ( channels.length > 2 ) {
-      channelNames = channels[0].name + ' and ' + (channels.length - 1) + ' others'
+      channelNames = channels[0].channel.name + ' and ' + (channels.length - 1) + ' others'
     } else if ( channels.length === 2 ) {
-      channelNames = channels[0].name + ', ' + channels[1].name
+      channelNames = channels[0].channel.name + ', ' + channels[1].channel.name
     } else {
-      channelNames = channels[0].name
+      channelNames = channels[0].channel.name
     }
 
     return (

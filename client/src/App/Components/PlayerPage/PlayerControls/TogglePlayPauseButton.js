@@ -9,10 +9,10 @@ const PlayPauseButton = (props) => {
   return (
     <span>
       { !!(props.playing === false) &&
-        <PlayButton togglePlayPause={props.togglePlayPause}/>
+        <PlayButton color="accent" togglePlayPause={props.togglePlayPause}/>
       }
       { !!(props.playing === true) &&
-        <PauseButton togglePlayPause={props.togglePlayPause}/>
+        <PauseButton color="accent" togglePlayPause={props.togglePlayPause}/>
       }
     </span>
   )

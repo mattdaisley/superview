@@ -7,7 +7,7 @@ import PauseIcon  from 'material-ui-icons/Pause';
 const PlayButton = (props) => {
 
   return (
-    <IconButton className="player-controls-pause" aria-label="Pause" onClick={props.togglePlayPause}>
+    <IconButton color={props.color} className="player-controls-pause" aria-label="Pause" onClick={props.togglePlayPause}>
       <PauseIcon className="pause"/>
     </IconButton>
   )
@@ -15,7 +15,8 @@ const PlayButton = (props) => {
 }
 
 PlayButton.propTypes = {
-  togglePlayPause: PropTypes.func
+  togglePlayPause: PropTypes.func,
+  color: PropTypes.string
 }
 
 export default PlayButton

@@ -87,7 +87,6 @@ class Player extends React.Component {
    */
   reRouteIfDuplicateSources(source, videoIds, uniqueVideoIds) {
     if ( !PlayerUtils.compareArrays(videoIds, uniqueVideoIds) ) {
-      console.log('reRouteIfDuplicateSources');
       let pathname = '/'+source + '/' + uniqueVideoIds.join('/');
       this.context.router.history.push(pathname);
       return true; 
@@ -140,11 +139,9 @@ class Player extends React.Component {
       const newChannelIds = nextProps.youtubeChannels.map( channel => channel.id );
 
       if ( !PlayerUtils.compareArrays(oldChannelIds, newChannelIds) ) {
-        console.log('props.youtubeChannels updated', oldChannelIds, newChannelIds)
 
         if ( !PlayerUtils.compareArrays(newChannelIds, this.state.playerSources) ) {
           let pathname = '/'+ source + '/' + newChannelIds.join('/');
-          console.log('new pathname', pathname);
           this.context.router.history.push(pathname);
           return;
         }
@@ -169,7 +166,7 @@ class Player extends React.Component {
 
         if ( newChannelDetails.length > 0 ) {
           this.setState( {loaded: true} )
-          this.props.setRecentChannelsItem(source, nextProps.channels, nextProps.channelDetails);
+          this.props.setRecentChannelsItem(source, nextProps.channelDetails);
         }
       }
 
@@ -185,7 +182,7 @@ class Player extends React.Component {
 
         if ( newChannelDetails.length > 0 ) {
           this.setState( {loaded: true} )
-          this.props.setRecentChannelsItem(source, nextProps.youtubeChannels, nextProps.youtubeChannelDetails);
+          this.props.setRecentChannelsItem(source, nextProps.youtubeChannelDetails);
         }
       }
 
@@ -263,7 +260,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setRecentChannelsItem: (source, channels, channelDetails) => dispatch(setRecentChannelsItem(source, channels, channelDetails)),
+  setRecentChannelsItem: (source, channelDetails) => dispatch(setRecentChannelsItem(source, channelDetails)),
 
   getTwitchChannel: (channels) => dispatch(getTwitchChannel(channels)),
   resetTwitchChannel: () => dispatch(resetTwitchChannel()),

@@ -30,7 +30,7 @@ const twitchApiMiddleware = store => next => action => {
           if ( json._total > 0) {
             
             const formattedChannels = formatChannels(json.users);
-            // console.log(url, json, formattedChannels);
+            console.log(url, json, formattedChannels);
 
             actionItem = { payload: formattedChannels }
             store.dispatch(getTwitchChannelDetails(formattedChannels));
@@ -43,14 +43,14 @@ const twitchApiMiddleware = store => next => action => {
       break
 
     case types.GET_TWITCH_CHANNEL_DETAILS:
-      let promises = action.meta.channels.map( channel => {
+      let promises = action.meta.channels.map( resource => {
         // console.log(channel);
         return new Promise( (resolve, reject) => {
-          fetch(url + channel.channel_id, {headers: headers})
+          fetch(url + resource.channel.channel_id, {headers: headers})
             .then(resp => resp.json())
             .then(json => {
-              const formattedChannelDetails = formatChannelDetails(json);
-              // console.log(url + channel.channel_id, json, formattedChannelDetails);
+              const formattedChannelDetails = formatChannelDetails(json, resource);
+              console.log(url + resource.channel.channel_id, json, formattedChannelDetails);
 
               resolve(formattedChannelDetails)
             })
@@ -119,8 +119,8 @@ const formatChannels = ( channels ) => {
 
   return [...channels].map( channel => {
     return {
+      source_type: 'tw',
       id: channel.name,
-      channel_id: channel._id,
       title: channel.display_name,
       description: channel.bio,
       published_at: channel.created_at,
@@ -130,32 +130,45 @@ const formatChannels = ( channels ) => {
         likes: undefined,
         dislikes: undefined,
         comments: undefined,
-      }
+      },
+      channel: {
+        channel_id: channel._id,
+      },
     }
   })
 }
 
 
-const formatChannelDetails = ( channelDetails ) => {
-  return {
-    id: channelDetails._id,
+const formatChannelDetails = ( channelDetails, resource ) => {
+
+  let formattedResource = Object.assign( {}, resource );
+
+  formattedResource.channel = {
+    channel_id: channelDetails._id,
     title: channelDetails.status,
     name: channelDetails.display_name,
     logo: (channelDetails.logo !== null) ? channelDetails.logo : 'https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png',
     description: channelDetails.description
-  }
+  };
+  
+  return formattedResource;
 }
 
 const formatStreamDetails = ( stream ) => {
   
   return [...stream].map( stream => {
     return {
+      source_type: 'tw',
       id: stream.channel.name,
-      name: stream.channel.display_name,
+      channel: {
+        channel_id: stream.channel._id,
+        title: stream.channel.status,
+        name: stream.channel.display_name,
+        logo: stream.channel.logo,
+        description: stream.channel.description,
+      },
       title: stream.channel.status,
       thumbnail: stream.preview.medium,
-      channel_id: stream.channel._id,
-      logo: stream.channel.logo,
       description: stream.channel.description,
       published_at: stream.created_at,
       stats: {

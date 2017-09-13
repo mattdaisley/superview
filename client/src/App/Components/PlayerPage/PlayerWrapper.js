@@ -9,9 +9,9 @@ import TwitchChat         from '../../Components/Twitch/TwitchChat';
 import PlayerUtils from './PlayerUtils';
 
 const PlayerWrapper = (props) => {
-  // console.log('PlayerWrapper', props);
 
   const layout = PlayerUtils.getLayout(props.playerSources);
+
   const fullscreenClass = (props.isFullscreen) ? 'fullscreen' : '';
 
   // build the embed player elements to display
@@ -19,7 +19,7 @@ const PlayerWrapper = (props) => {
     // console.log('embedPlayer', source, videoId);
     return (
       <EmbedPlayer
-        key={videoId}
+        key={videoId+layout}
         className={['layout' + layout,'player' + index, fullscreenClass].join(' ')}
         source={props.source}
         id={videoId} 
@@ -39,14 +39,18 @@ const PlayerWrapper = (props) => {
       </div>
 
       { !!(props.source === 'tw' && props.playerChannelDetails.length > 0) && 
-        <TwitchChat hideChannelsList={props.hideChannelsList} id={props.playerChannelDetails[0].name}/>
+        <TwitchChat hideChannelsList={props.hideChannelsList} id={props.playerChannelDetails[0].channel.name}/>
       }
 
       {/* { props.playerChannelDetails.length > 0 && 
         <PlayerChannelsList channels={props.playerChannelDetails} className={'hidden-'+props.hideChannelsList}/>
       } */}
 
-      <PlayerControls fullscreenContainer={'player-wrapper'} onFullScreenChange={props.onFullScreenChange}/>   
+      <PlayerControls 
+        className={[fullscreenClass].join(' ')}
+        fullscreenContainer={'player-wrapper'} 
+        onFullScreenChange={props.onFullScreenChange}
+      />   
     </div>
   )
 

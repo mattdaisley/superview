@@ -56,14 +56,14 @@ class App extends React.Component {
   }
 
   render() {
-    let playerChannelDetails = [];
+    let playerSources = [];
     let source = '';
     if ( this.props.channelDetails.length > 0 ) { 
-      playerChannelDetails = this.props.channelDetails;
+      playerSources = this.props.channelDetails;
       source = 'tw';
     }
     if ( this.props.youtubeChannelDetails.length > 0 ) { 
-      playerChannelDetails = this.props.youtubeChannelDetails;
+      playerSources = this.props.youtubeChannelDetails;
       source = 'yt';
     }
     
@@ -73,6 +73,7 @@ class App extends React.Component {
           ...green,
           A400: '#00e677',
         },
+        accent: green,
         secondary: blue,
         error: red,
       },
@@ -85,7 +86,7 @@ class App extends React.Component {
             <Header />
             <Main />
             <SideNav />
-            <ChannelsList source={source} channels={playerChannelDetails}/>
+            <ChannelsList source={source} sources={playerSources}/>
           </div>
         </Router>
       </MuiThemeProvider>

@@ -13,6 +13,7 @@ div.Player-wrapper.fullscreen {
   max-height: 100%;
   padding: 1px;
   box-sizing: border-box;
+  margin: 0;
 }
 div.Player-container {
   box-sizing: border-box;
@@ -24,7 +25,7 @@ div.Player-container {
   overflow: hidden;
 }
 div.Player-container.fullscreen {
-  max-height: 100%;
+  max-height: calc(100% - 70px);
 }
 div.Player {
   width: 100%;
@@ -33,6 +34,9 @@ div.Player {
   position: absolute;
   -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
   animation-duration: 4s;
+}
+div.Player-container.fullscreen .Player {
+  max-height: 100%;
 }
 div.Player.fullscreen {
   max-height: 100%;

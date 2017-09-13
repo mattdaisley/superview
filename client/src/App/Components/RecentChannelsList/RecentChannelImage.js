@@ -27,7 +27,7 @@ class RecentChannelImage extends Component {
     let imgSize = (channels.length === 1 && !thumb) ? 'image-lg' : 'image-sm';
     
     let images = channelThumbs.map( (channel, index) =>
-      <div className={imgSize} key={index}><img src={channel.logo} alt={channel.title}/></div>
+      <div className={imgSize} key={index}><img src={channel.channel.logo} alt={channel.title}/></div>
     );
 
     return (

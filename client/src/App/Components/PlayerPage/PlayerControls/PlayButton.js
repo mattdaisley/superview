@@ -5,9 +5,9 @@ import IconButton    from 'material-ui/IconButton';
 import PlayArrowIcon from 'material-ui-icons/PlayArrow';
 
 const PlayButton = (props) => {
-
+  console.log('PlayButton', props.color)
   return (
-    <IconButton className="player-controls-play" aria-label="Play" onClick={props.togglePlayPause}>
+    <IconButton color={props.color} className="player-controls-play" aria-label="Play" onClick={props.togglePlayPause}>
       <PlayArrowIcon className="play-arrow"/>
     </IconButton>
   )
@@ -15,7 +15,8 @@ const PlayButton = (props) => {
 }
 
 PlayButton.propTypes = {
-  togglePlayPause: PropTypes.func
+  togglePlayPause: PropTypes.func,
+  color: PropTypes.string
 }
 
 export default PlayButton;

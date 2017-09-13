@@ -13,7 +13,7 @@ const MainControls = (props) => {
     <div className="controls-container right-controls flex-item">
       <Grid className="controls-grid" container spacing={0} direction="row" align="center" justify="center">
         <Grid item>
-          <IconButton aria-label="Menu">
+          <IconButton color="primary" aria-label="Menu">
             <SettingsIcon/>
           </IconButton>
           {/* fullscreen button */}

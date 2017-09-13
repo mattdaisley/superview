@@ -7,7 +7,7 @@ import FullscreenExitIcon from 'material-ui-icons/FullscreenExit';
 const FullscreenCloseBotton = (props) => {
 
   return (
-    <IconButton aria-label="Toggle Fullscreen" onClick={props.toggleFullScreen}>
+    <IconButton color="primary" aria-label="Toggle Fullscreen" onClick={props.toggleFullScreen}>
       <FullscreenExitIcon/>
     </IconButton>
   )

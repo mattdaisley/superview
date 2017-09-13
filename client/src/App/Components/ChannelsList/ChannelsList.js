@@ -16,7 +16,7 @@ class ChannelsList extends React.Component {
       mode: 'list',
     }
 
-    this.onEditToggle = this.onEditToggle.bind(this);
+    this.onEditToggle   = this.onEditToggle.bind(this);
   }
   
   static contextTypes = {
@@ -24,13 +24,20 @@ class ChannelsList extends React.Component {
   }
 
   onEditToggle(channels) {
+
     if ( channels && channels.length > 0 ) {
-      // console.log('toggle', channels, this.props.channels);
-      const newChannelNames = channels.map( channel => channel.name )
-      const oldChannelNames = this.props.channels.map( channel => channel.name )
-      console.log(newChannelNames, oldChannelNames);
+      const newChannelNames = channels.map( channel => {
+        if ( channel.source_type && channel.source_type === 'tw' ) return channel.channel.name
+        if ( channel.source_type && channel.source_type === 'yt' ) return channel.id
+        return channel.id
+      } )
+      const oldChannelNames = this.props.sources.map( channel => {
+        if ( channel.source_type && channel.source_type === 'tw' ) return channel.channel.name
+        if ( channel.source_type && channel.source_type === 'yt' ) return channel.id
+        return channel.id
+      } )
       if ( !PlayerUtils.compareArrays(newChannelNames, oldChannelNames) ) {
-        let pathname = '/'+this.props.source + '/' + newChannelNames.join('/');
+        let pathname = '/'+ channels[0].source_type + '/' + newChannelNames.join('/');
         this.context.router.history.push(pathname);
       }
     }
@@ -47,8 +54,21 @@ class ChannelsList extends React.Component {
 
     return (
       <div>
-        { this.state.mode === 'list' && <ChannelListAvatars channels={this.props.channels} className={parentClassName} onEditToggle={this.onEditToggle}/> }
-        { this.state.mode === 'edit' && <ChannelListEdit source={this.props.source} channels={this.props.channels} className={parentClassName} onEditToggle={this.onEditToggle}/> }
+        { this.state.mode === 'list' && 
+          <ChannelListAvatars 
+            sources={this.props.sources} 
+            className={parentClassName} 
+            onEditToggle={this.onEditToggle} 
+          /> 
+        }
+        { this.state.mode === 'edit' && 
+          <ChannelListEdit 
+            source={this.props.source} 
+            sources={this.props.sources} 
+            className={parentClassName} 
+            onEditToggle={this.onEditToggle} 
+          /> 
+        }
       </div>
     );
   }
@@ -56,10 +76,10 @@ class ChannelsList extends React.Component {
 
 ChannelsList.propTypes = {
   source: PropTypes.string,
-  channels: PropTypes.arrayOf( 
+  sources: PropTypes.arrayOf( 
     PropTypes.object
   ).isRequired,
-  className: PropTypes.any
+  className: PropTypes.any,
 }
 
 export default ChannelsList;
