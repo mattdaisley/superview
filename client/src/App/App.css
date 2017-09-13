@@ -266,6 +266,10 @@ div.grid-header h3 a:hover {
   max-height: 205px;
   overflow: scroll;
 }
+.player-channel-list-container.edit .channel-list-edit-actions li {
+  display: flex;
+  justify-content: flex-end;
+}
 
 
 

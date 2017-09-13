@@ -31,8 +31,9 @@ class ChannelListEdit extends React.Component {
     this.onSearchChange   = this.onSearchChange.bind(this);
     this.addTwitchChannel = this.addTwitchChannel.bind(this);
     this.addYoutubeVideo  = this.addYoutubeVideo.bind(this);
-    this.applyChannels    = this.applyChannels.bind(this);
     this.onRemoveSource   = this.onRemoveSource.bind(this);
+    this.applyChannels    = this.applyChannels.bind(this);
+    this.cancel           = this.cancel.bind(this);
   }
 
   componentWillMount() {
@@ -73,11 +74,15 @@ class ChannelListEdit extends React.Component {
 
     this.setState( {sources: filteredSources} );
   }
-
+  
   applyChannels() {
     // let sources = [ ...this.props.sources, ...this.state.sources ];
     let sources = [ ...this.state.sources ];
     this.props.onEditToggle(sources);
+  }
+  
+  cancel() {
+    this.props.onEditToggle();
   }
 
   render() {
@@ -141,17 +146,17 @@ class ChannelListEdit extends React.Component {
           <YoutubeSearchResults sources={youtubeSearchResults} addSource={this.addYoutubeVideo} />
         }
         
-        <List>
-          { !!this.state.sources && this.state.sources.length > 0 &&
-            <Button color="primary" aria-label="edit" className="action" onClick={this.applyChannels}>
-              Done
-            </Button>
-          }
-          { !this.state.sources || (!!this.state.sources && this.state.sources.length === 0 ) &&
-            <Button color="primary" aria-label="edit" className="action" onClick={this.applyChannels}>
+        <List className="channel-list-edit-actions">
+          <ListItem>
+            <Button color="primary" aria-label="edit" onClick={this.cancel}>
               Cancel
             </Button>
-          }
+            { !!this.state.sources && this.state.sources.length > 0 &&
+              <Button color="primary" aria-label="edit" onClick={this.applyChannels}>
+                Done
+              </Button>
+            }
+          </ListItem>
         </List>
       </div>
     );
