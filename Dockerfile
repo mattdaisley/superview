@@ -1,20 +1,20 @@
-FROM ubuntu:12.04
+FROM node:boron
 
 # Install dependencies
 RUN apt-get update -y
-RUN apt-get install -y apache2
 
-# Install apache and write hellow world message
-# RUN echo "ecsPractice App 4!" > /var/www/index.html
-COPY core/client/build /var/www/
+# Create app directory
+WORKDIR /usr/src/app
 
-# Configure apache
-RUN a2enmod rewrite
-RUN chown -R www-data:www-data /var/www
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
+# Install app dependencies
+COPY package.json .
+# For npm@5 or later, copy package-lock.json as well
+# COPY package.json package-lock.json ./
+
+RUN npm install
+
+# Bundle app source
+COPY . .
 
 EXPOSE 80
-
-CMD ["/usr/sbin/apache2", "-D",  "FOREGROUND"]
+CMD node index.js
