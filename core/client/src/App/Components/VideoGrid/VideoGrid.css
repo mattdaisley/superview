@@ -6,11 +6,16 @@
 
 .list-grid-thumb {
   width: 100%;
-  height: 100%;
+  position: relative;
+  padding-top: 56.25%;
 }
 
 .list-grid-thumb img {
-  display: block;
+  /* display: block; */
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .list-grid-details-container {

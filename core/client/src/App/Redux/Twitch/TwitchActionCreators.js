@@ -4,6 +4,7 @@ import config from './TwitchConfig';
 
 const clientId = config.clientId;
 const requestUri = config.requestUri;
+const redirectUri = config.redirectUri;
 
 export const getTwitchLoginStatus = () => ({
   type: types.TWITCH_LOGIN_STATUS,
@@ -15,7 +16,6 @@ export const getTwitchLoginStatus = () => ({
 export const twitchLogin = ( referrer ) => {
   
   const requestEnpoint = 'oauth2/authorize'
-  const redirectUri = 'http://localhost:3000';
   const responseType = 'token';
   const scope = 'user_read';
   const state = 'twitchLoggedIn,' + referrer;
