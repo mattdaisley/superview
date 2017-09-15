@@ -51,7 +51,7 @@ class Header extends React.Component {
           </div>
 
           <Typography type="title" className="App-logo-text flex-item-grow">
-            SuperView
+            - SuperView
           </Typography>
 
           { !this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.twitchLogin}>Login to Twitch</Button> }

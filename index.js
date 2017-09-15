@@ -12,6 +12,8 @@ coreApp 	= require('./core');
 // Create our parent express app instance.
 parentApp = express();
 
+console.log('starting app');
+
 // Call coreApp to get an instance of appServer
 coreApp().then( appServer => {
   // Mount our app instance on our desired subdirectory path if it exists.

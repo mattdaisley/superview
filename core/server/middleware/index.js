@@ -21,7 +21,10 @@ setupMiddleware = function setupMiddleware(app) {
     };
 	
 	app.use(bodyParser.json({limit: '50mb'}));
-	app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+    app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+    
+    console.log('middleware');
+    app.use((req, res, next) => { console.log(req.url); next()})
 
     app.use('/', express.static(config.corePath + '/client/build/'));
 

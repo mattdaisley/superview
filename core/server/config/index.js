@@ -31,7 +31,7 @@ switch ( process.env.NODE_ENV ) {
 		break;
 	default:
 
-		config.web.port = 80;
+		config.web.port = 8080;
 		config.web.host = '127.0.0.1';
 
 		// config.db.host = "useast-mysql-test.cjxfiley5kef.us-east-1.rds.amazonaws.com";
@@ -40,7 +40,7 @@ switch ( process.env.NODE_ENV ) {
 		// config.db.database = "mdaisleydata";
 		// config.db.tablePrefix = "";
 
-		config.appUrl = 'https://www.mattdaisley.com/';
+		config.appUrl = 'https://www.superview.tv/';
 
 		break;
 }

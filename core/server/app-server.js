@@ -31,9 +31,12 @@ AppServer.prototype.start = (externalApp) => {
         rootApp = externalApp ? externalApp : self.rootApp;
 
     return new Promise( resolve => {
+        // self.httpServer = rootApp.listen(
+        //     config.web.port,
+        //     config.web.host
+        // );
         self.httpServer = rootApp.listen(
-            config.web.port,
-            config.web.host
+            config.web.port
         );
 
         self.httpServer.on('error', error => {
