@@ -28,6 +28,13 @@ RUN npm install
 # Bundle app source
 COPY . .
 
+WORKDIR /usr/src/app/core/client
+
+RUN npm install
+RUN npm run build
+
+WORKDIR /usr/src/app
+
 EXPOSE 3000
 # CMD ["service", "nginx", "start"]
 CMD ["npm", "start"]
