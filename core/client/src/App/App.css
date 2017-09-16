@@ -24,7 +24,7 @@ div.main-container {
   position: absolute;
   top: 70px;
   left: 0; right: 0; bottom: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 html, body {
@@ -218,20 +218,20 @@ div.grid-header h3 a:hover {
 
 
 .player-channel-list-container {
-  width: 100px;
+  /* width: 100px;
   position: fixed;
   top: 84px;
   right: 0;
   padding: 6px;
-  box-sizing: border-box;
+  box-sizing: border-box; */
 }
-.player-channel-list-container.edit {
-  width: 600px;
+.player-channel-list-container-edit {
+  /* width: 600px;
   top: 86px;
   right: 15px;
   padding: 0;
   border: 1px solid #ccc;
-  background-color: #fff;
+  background-color: #fff; */
 }
 .player-channel-list-container.edit .search-icon {
   text-align: center;

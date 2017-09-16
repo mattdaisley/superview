@@ -1,6 +1,8 @@
 import React     from 'react';
 import PropTypes from 'prop-types';
 
+import { withStyles } from 'material-ui/styles';
+
 import PlayerControls     from './PlayerControls/PlayerControls';
 // import PlayerChannelsList from './PlayerChannelsList';
 import EmbedPlayer        from './EmbedPlayer';
@@ -8,19 +10,29 @@ import TwitchChat         from '../../Components/Twitch/TwitchChat';
 
 import PlayerUtils from './PlayerUtils';
 
+import styles from './Styles/PlayerWrapperStyles';
+
+
 const PlayerWrapper = (props) => {
 
   const layout = PlayerUtils.getLayout(props.playerSources);
 
   const fullscreenClass = (props.isFullscreen) ? 'fullscreen' : '';
 
+  const classes = props.classes;
+
+  const playerWrapperClass   = ( !props.isFullscreen ) ? classes.playerWrapper : classes.playerWrapperFullscreen;
+  const playerContainerClass = ( !props.isFullscreen ) ? classes.playerContainer : classes.playerContainerFullscreen;
+  const playerClass          = ( !props.isFullscreen ) ? classes.player : classes.playerFullscreen;
+
   // build the embed player elements to display
   const embedPlayers = props.playerSources.map( (videoId, index) => {
-    // console.log('embedPlayer', source, videoId);
+    
+    let playerLayoutClass = classes['player' + index + 'layout' + layout];
     return (
       <EmbedPlayer
         key={videoId+layout}
-        className={['layout' + layout,'player' + index, fullscreenClass].join(' ')}
+        className={[playerClass, playerLayoutClass, fullscreenClass].join(' ')}
         source={props.source}
         id={videoId} 
       />
@@ -28,13 +40,13 @@ const PlayerWrapper = (props) => {
   })
   
   return (
-    <div id="player-wrapper" className={['Player-wrapper','flex',fullscreenClass].join(' ')}>
+    <div id="player-wrapper" className={['flex',playerWrapperClass].join(' ')}>
 
     
       {/* <div>{this.props.channels ? (this.props.channels[0] ? this.props.channels[0].name : '') : ''}</div> */}
       {/* <div>{this.props.channelDetails ? (this.props.channelDetails[0] ? this.props.channelDetails[0].game : '') : ''}</div> */}
 
-      <div className={['Player-container','flex-item',fullscreenClass].join(' ')}>
+      <div className={[playerContainerClass, 'flex-item'].join(' ')}>
         {embedPlayers}
       </div>
 
@@ -65,4 +77,8 @@ PlayerWrapper.propTypes = {
   onFullScreenChange: PropTypes.func
 }
 
-export default PlayerWrapper
+
+const PlayerWrapperWithStyles = withStyles(styles)(PlayerWrapper);
+
+// export default connect(mapStateToProps, mapDispatchToProps)(PlayerWrapperWithStyles);
+export default PlayerWrapperWithStyles

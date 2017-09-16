@@ -11,13 +11,26 @@ import Main    from './Components/Main';
 import SideNav from './Components/SideNav';
 import ChannelsList from './Components/ChannelsList/ChannelsList';
 
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue';
 import green  from 'material-ui/colors/green';
 import red    from 'material-ui/colors/red';
+import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles';
 
 import './App.css';
 import 'typeface-roboto';
+
+
+
+const styles = theme => ({
+  sideNav: {
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+    },
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
+  },
+})
 
 class App extends React.Component {
 // const App = props => {
@@ -78,6 +91,7 @@ class App extends React.Component {
         error: red,
       },
     });
+    const classes = this.props.classes;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -85,7 +99,7 @@ class App extends React.Component {
           <div className="router-container">
             <Header />
             <Main />
-            <SideNav />
+            <div className={classes.sideNav}><SideNav/></div>
             <ChannelsList source={source} sources={playerSources}/>
           </div>
         </Router>
@@ -108,7 +122,5 @@ const mapDispatchToProps = dispatch => ({
   youtubeLoginSuccess: (result) => dispatch(youtubeLoginSuccess(result)),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+const AppWithStyles = withStyles(styles)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(AppWithStyles);

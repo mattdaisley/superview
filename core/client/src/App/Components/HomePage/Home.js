@@ -1,31 +1,25 @@
 import React       from 'react';
 import { connect } from 'react-redux';
 
-import { getRecentChannelsItems } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
-
 import Grid         from 'material-ui/Grid';
+import { withStyles } from 'material-ui/styles';
+
+import { getRecentChannelsItems } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
 
 import RecentChannelsList  from '../../Components/RecentChannelsList/RecentChannelsList';
 import TwitchFollowingGrid from '../../Components/TwitchFollowingGrid/TwitchFollowingGrid';
 
-const twLiveChannels = [
-  {
-    type: 'tw',
-    title: 'wolvesDinner | only some !hats left!',
-    route: '/tw/wolvesatmydoor',
-    thumb: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_wolvesatmydoor-640x360.jpg',
-    channels: [
-      {
-        name: 'wolvesatmydoor', 
-        channelThumb: 'https://static-cdn.jtvnw.net/jtv_user_pictures/504ced8a97f2f6a5-profile_image-300x300.png',
-        game: 'Playerunknown\'s Battlegrounds',
-        title: 'wolvesDinner | only some !hats left!',
-        views: 91,
-        created_at: '2017-09-08T19:12:56Z'
-      }
-    ]
-  }
-]
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    [theme.breakpoints.up('md')]: {
+      marginTop: '30px',
+    },
+    [theme.breakpoints.down('md')]: {
+    },
+  },
+})
+
 
 class Home extends React.Component {
   
@@ -39,10 +33,12 @@ class Home extends React.Component {
   }
 
   render() {
+    const classes = this.props.classes;
+
     return (
-      <div className="root">
+      <div className={classes.root}>
         <Grid container spacing={0} justify="center">
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12} sm={9}>
             <Grid container spacing={0} >
               
               <Grid item xs={12}>
@@ -50,7 +46,7 @@ class Home extends React.Component {
               </Grid>
               
               <Grid item xs={12}>
-                <TwitchFollowingGrid liveChannels={twLiveChannels}></TwitchFollowingGrid>
+                <TwitchFollowingGrid></TwitchFollowingGrid>
               </Grid>
               
               {/* <Grid item xs={12}>
@@ -74,7 +70,6 @@ const mapDispatchToProps = dispatch => ({
   getRecentChannelsItems: () => dispatch(getRecentChannelsItems())
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+
+const HomeWithStyles = withStyles(styles)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeWithStyles);

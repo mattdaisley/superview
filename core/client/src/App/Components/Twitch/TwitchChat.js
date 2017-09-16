@@ -1,6 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withStyles } from 'material-ui/styles';
+
+    
+// let colors = ['red', 'green', 'cyan', 'yellow', 'maroon', 'purple', 'olive', 'navy', 'teal', 'aqua', 'fuchsia']
+// let color = colors[Math.floor(Math.random()*colors.length)]
+let color = '#ccc';
+
+const styles = theme => ({
+  root: {
+    border: '1px solid #ccc', 
+    boxSizing: 'border-box',
+    backgroundColor: color,
+    [theme.breakpoints.up('md')]: {
+      minWidth: '400px', 
+      height:'100%', 
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '100%', 
+      height: 'calc(100vw)', 
+      marginBottom: '80px',
+    },
+  },
+})
+
 class TwitchChat extends React.Component {
   
   // constructor(props) {
@@ -17,14 +41,10 @@ class TwitchChat extends React.Component {
       }
     };
 
-    let {id} = this.props;
-    
-    // let colors = ['red', 'green', 'cyan', 'yellow', 'maroon', 'purple', 'olive', 'navy', 'teal', 'aqua', 'fuchsia']
-    // let color = colors[Math.floor(Math.random()*colors.length)]
-    let color = '#ccc';
+    let {id, classes} = this.props;
 
     return (
-      <div style={{width: '400px', height:'100%', backgroundColor: color, border: '1px solid #ccc', boxSizing: 'border-box'}} className={'flex-item hidden-'+this.props.hideChannelsList}>
+      <div className={['flex-item','hidden-'+this.props.hideChannelsList, classes.root].join(' ')}>
         <iframe frameBorder="0"
           scrolling="yes"
           id={id}
@@ -43,4 +63,6 @@ TwitchChat.propTypes = {
   hideChannelsList: PropTypes.bool.isRequired
 }
 
-export default TwitchChat;
+const TwitchChatWithStyles = withStyles(styles)(TwitchChat);
+// export default connect(mapStateToProps, mapDispatchToProps)(HeaderWithStyles);
+export default TwitchChatWithStyles;

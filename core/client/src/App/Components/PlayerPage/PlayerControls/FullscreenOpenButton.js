@@ -16,7 +16,7 @@ const FullscreenOpenButton = (props) => {
 
 FullscreenOpenButton.propTypes = {
   toggleFullScreen: PropTypes.func,
-  color: PropTypes.oneOf('accent', 'primary','inherit','default'),
+  color: PropTypes.oneOf(['accent', 'primary','inherit','default']),
 }
 
 export default FullscreenOpenButton;

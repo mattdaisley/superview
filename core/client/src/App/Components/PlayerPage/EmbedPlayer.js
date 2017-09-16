@@ -38,7 +38,7 @@ class EmbedPlayer extends React.Component {
 
     return (
       // <div className={"Player flex-item " + parentClassName} style={{backgroundColor:color}}>
-      <div className={"Player flex-item " + parentClassName}>
+      <div className={"flex-item " + parentClassName}>
         {/* {id} */}
         { !!(source === 'yt') &&
           <YouTube

@@ -1,11 +1,56 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import compose from 'recompose/compose';
+
+import { withStyles } from 'material-ui/styles';
+import withWidth from 'material-ui/utils/withWidth';
 
 import ChannelListAvatars from './ChannelListAvatars';
 import ChannelListEdit    from './ChannelListEdit';
 
 import PlayerUtils from '../../Components/PlayerPage/PlayerUtils';
 
+/*
+width: 100px;
+  position: fixed;
+  top: 84px;
+  right: 0;
+  padding: 6px;
+  box-sizing: border-box;
+  */
+const styles = theme => ({
+  channelsListRoot: {
+    position: 'fixed',
+    padding: '6px',
+    boxSizing: 'border-box',
+    right: 0,
+    width: '100px',
+    [theme.breakpoints.up('md')]: {
+      top: '84px',
+    },
+    [theme.breakpoints.down('md')]: {
+      bottom: '80px'
+    },
+  },
+  channelsListEdit: {
+    position: 'fixed',
+    padding: '0',
+    border: '1px solid #ccc',
+    backgroundColor: '#fff',
+    boxSizing: 'border-box',
+    [theme.breakpoints.up('md')]: {
+      width: '600px',
+      top: '86px',
+      right: '15px',
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+      maxHeight: 'calc(100% - 86px)',
+      top: '70px',
+      right: '0',
+    },
+  }
+})
 
 class ChannelsList extends React.Component {
   
@@ -52,8 +97,12 @@ class ChannelsList extends React.Component {
       parentClassName = this.props.className
     }
 
+    const classes = this.props.classes;
+
+    const rootClass = ( this.state.mode === 'list' ) ? classes.channelsListRoot : classes.channelsListEdit;
+
     return (
-      <div>
+      <div className={rootClass}>
         { this.state.mode === 'list' && 
           <ChannelListAvatars 
             sources={this.props.sources} 
@@ -82,4 +131,9 @@ ChannelsList.propTypes = {
   className: PropTypes.any,
 }
 
-export default ChannelsList;
+// const ChannelsListStyled = withStyles(styles)(ChannelsList);
+// const ChannelsListWithWidth = withStyles(styles)(ChannelsList);
+
+export default compose(withStyles(styles), withWidth())(ChannelsList);
+
+// export default ChannelsListStyled;

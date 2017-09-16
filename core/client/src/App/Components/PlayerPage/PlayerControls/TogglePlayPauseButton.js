@@ -21,7 +21,7 @@ const PlayPauseButton = (props) => {
 PlayPauseButton.propTypes = {
   playing:         PropTypes.bool.isRequired,
   togglePlayPause: PropTypes.func.isRequired,
-  color: PropTypes.oneOf('accent', 'primary','inherit','default')
+  color: PropTypes.oneOf(['accent', 'primary','inherit','default'])
 }
 
 export default PlayPauseButton

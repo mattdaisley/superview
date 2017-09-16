@@ -16,7 +16,7 @@ const FullscreenCloseBotton = (props) => {
 
 FullscreenCloseBotton.propTypes = {
   toggleFullScreen: PropTypes.func,
-  color: PropTypes.oneOf('accent', 'primary','inherit','default'),
+  color: PropTypes.oneOf(['accent', 'primary','inherit','default']),
 }
 
 export default FullscreenCloseBotton;

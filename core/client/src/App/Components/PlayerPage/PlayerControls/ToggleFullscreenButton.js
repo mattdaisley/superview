@@ -73,7 +73,7 @@ ToggleFullscreenButton.propTypes = {
   fullscreenContainer: PropTypes.string,
   isFullscreen:     PropTypes.bool,
   toggleFullScreen: PropTypes.func,
-  color: PropTypes.oneOf('accent', 'primary','inherit','default'),
+  color: PropTypes.oneOf(['accent', 'primary','inherit','default']),
 }
 
 export default ToggleFullscreenButton;

@@ -52,7 +52,7 @@ class TwitchFollowingGrid extends React.Component {
 }
 
 TwitchFollowingGrid.propTypes = {
-  liveChannels: PropTypes.arrayOf( PropTypes.object ).isRequired
+  className: PropTypes.any,
 }
 
 const mapStateToProps = state => {

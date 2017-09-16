@@ -11,6 +11,18 @@ import Typography from 'material-ui/Typography';
 import Button     from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon   from 'material-ui-icons/Menu';
+import { withStyles } from 'material-ui/styles';
+
+const styles = theme => ({
+  loginActions: {
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+    },
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
+  },
+})
 
 class Header extends React.Component {
   
@@ -24,7 +36,6 @@ class Header extends React.Component {
   componentWillMount() {
     this.props.getTwitchLoginStatus();
     this.props.getYoutubeLoginStatus();
-    // console.log(this.props.loggedIn);
   }
 
   twitchLogin() {
@@ -41,6 +52,8 @@ class Header extends React.Component {
       backgroundColor: 'white'
     }
 
+    const classes = this.props.classes;
+
     return (
       <AppBar position="fixed" className="top-nav-app-bar" style={HeaderStyle}>
         <Toolbar disableGutters className="flex">
@@ -54,9 +67,11 @@ class Header extends React.Component {
             SuperView
           </Typography>
 
-          { !this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.twitchLogin}>Login to Twitch</Button> }
-          { !this.props.youtubeLoggedIn && <Button className="youtube-login-logout" onClick={this.youtubeLogin}>Login to YouTube</Button> }
-          {/* { !!this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> } */}
+          <div className={classes.loginActions}>
+            { !this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.twitchLogin}>Login to Twitch</Button> }
+            { !this.props.youtubeLoggedIn && <Button className="youtube-login-logout" onClick={this.youtubeLogin}>Login to YouTube</Button> }
+            {/* { !!this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> } */}
+          </div>
         </Toolbar>
         { this.props.messages.length > 0 && (
           <div className="messages-container">
@@ -85,7 +100,7 @@ const mapStateToProps = state => {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  twitchLogin: (referrer)           => dispatch(twitchLogin(referrer)),
+  twitchLogin: (referrer)   => dispatch(twitchLogin(referrer)),
   twitchLogout: ()          => dispatch(twitchLogout()),
   getTwitchLoginStatus: ()  => dispatch(getTwitchLoginStatus()),
   youtubeLogin: (referrer)  => dispatch(youtubeLogin(referrer)),
@@ -93,7 +108,6 @@ const mapDispatchToProps = dispatch => ({
   getYoutubeLoginStatus: () => dispatch(getYoutubeLoginStatus()),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Header);
+const HeaderWithStyles = withStyles(styles)(Header);
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderWithStyles);
