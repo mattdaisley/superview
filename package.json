@@ -19,6 +19,8 @@
   "author": "Matt Daisley <mattdaisley@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "postinstall": "cd core/client && npm install",
+    "build-client": "cd core/client && npm run build",
     "start": "node index.js",
     "start-prod": "pm2 start index.js",
     "start-dev": "NODE_ENV=dev pm2 start index.js",

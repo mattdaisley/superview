@@ -4,16 +4,16 @@ phases:
   install:
     commands:
       - echo installing npm dependencies...
-      - cd core/client && npm install
+      - npm install
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --region us-east-1)
+      - aws ecr get-login --region us-east-1
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...  
-      - cd core/client && npm run build        
+      - npm run build-client
       - docker build -t superview .
       - docker tag superview:latest 970556883193.dkr.ecr.us-east-1.amazonaws.com/superview:latest      
   post_build:
