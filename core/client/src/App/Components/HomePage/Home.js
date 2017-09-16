@@ -41,7 +41,7 @@ class Home extends React.Component {
   render() {
     return (
       <div className="root">
-        <Grid container spacing={24} justify="center">
+        <Grid container spacing={0} justify="center">
           <Grid item xs={12} md={9}>
             <Grid container spacing={0} >
               
