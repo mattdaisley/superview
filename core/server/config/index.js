@@ -31,7 +31,7 @@ switch ( process.env.NODE_ENV ) {
 		break;
 	default:
 
-		config.web.port = 8080;
+		config.web.port = 3000;
 		config.web.host = '127.0.0.1';
 
 		// config.db.host = "useast-mysql-test.cjxfiley5kef.us-east-1.rds.amazonaws.com";
