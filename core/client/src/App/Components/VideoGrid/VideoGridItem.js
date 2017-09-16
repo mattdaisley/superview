@@ -16,7 +16,7 @@ const VideoGridItem = (props) => {
           <Link to={props.source + '/' + props.videoItem.id}>
             <div className="list-grid-details">
               <div className="list-grid-details-title">{props.videoItem.title}</div>
-              <div className="list-grid-details-channel">{props.videoItem.name}</div>
+              <div className="list-grid-details-channel">{props.videoItem.channel.name}</div>
               <div className="list-grid-details-info">{props.videoItem.stats.views.toLocaleString('en-IN')} viewers</div>
             </div>
           </Link>
