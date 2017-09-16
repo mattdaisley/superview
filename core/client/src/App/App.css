@@ -256,19 +256,20 @@ div.grid-header h3 a:hover {
 }
 .player-channel-list-container.edit .twitch-following-wrapper {
   max-height: 205px;
-  overflow: scroll;
+  overflow-y: auto;
 }
 .player-channel-list-container.edit .twitch-search-wrapper {
   max-height: 205px;
-  overflow: scroll;
+  overflow-y: auto;
 }
 .player-channel-list-container.edit .youtube-search-wrapper {
   max-height: 205px;
-  overflow: scroll;
+  overflow-y: auto;
 }
 .player-channel-list-container.edit .channel-list-edit-actions li {
   display: flex;
   justify-content: flex-end;
+  border-top: 1px solid #ccc;
 }
 
 
