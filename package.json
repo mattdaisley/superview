@@ -26,6 +26,9 @@
     "start-dev": "NODE_ENV=dev pm2 start index.js",
     "restart": "rm /Users/mattdaisley/.pm2/logs/*.log; pm2 restart index",
     "stop": "pm2 stop index",
-    "pretest": "npm run stop"
+    "pretest": "npm run stop",
+    "docker-build": "docker build -t superview .",
+    "docker-ecr-login": "$(aws ecr get-login --no-include-email --region us-east-1)",
+    "docker-push": "docker push 970556883193.dkr.ecr.us-east-1.amazonaws.com/superview:latest"
   }
 }
