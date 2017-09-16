@@ -31,6 +31,6 @@
     "docker-build": "docker build -t superview .",
     "docker-ecr-login": "$(aws ecr get-login --no-include-email --region us-east-1)",
     "docker-push": "docker push 970556883193.dkr.ecr.us-east-1.amazonaws.com/superview:latest",
-    "docker-run": "docker run -d -p 80:3000 superview"
+    "docker-run": "docker run -d -p 8000:3000 superview"
   }
 }

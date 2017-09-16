@@ -26,7 +26,7 @@ setupMiddleware = function setupMiddleware(app) {
     console.log('middleware');
     app.use((req, res, next) => { console.log(req.url); next()})
 
-    app.use('/', express.static(config.corePath + '/client/build/'));
+    app.use('/*', express.static(config.corePath + '/client/build/'));
 
     app.use(cors());
     
