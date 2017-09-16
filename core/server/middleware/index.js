@@ -1,5 +1,6 @@
 var bodyParser      = require('body-parser'),
     express         = require('express'),
+    path            = require('path'),
     config 			= require('../config'),
     routes          = require('../routes'),
     errors 			= require('../errors'),
@@ -24,9 +25,22 @@ setupMiddleware = function setupMiddleware(app) {
     app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
     
     console.log('middleware');
+    
     app.use((req, res, next) => { console.log(req.url); next()})
 
-    app.use('/*', express.static(config.corePath + '/client/build/'));
+    console.log(config.corePath + '/client/build/');
+    console.log(path.join(config.corePath, 'client', 'build', 'index.html'));
+    // console.log(path.join(__dirname, 'build', 'index.html'));
+
+    // app.use(express.static(config.corePath))
+    // app.use(express.static(config.corePath + '/client/build/');
+
+    // app.use('/', express.static(config.corePath + '/client/build/'));
+    app.use(express.static(path.join(config.corePath, 'client', 'build')));
+
+    app.get('/*', function (req, res) {
+        res.sendFile(path.join(config.corePath, 'client', 'build', 'index.html'));
+    });
 
     app.use(cors());
     
