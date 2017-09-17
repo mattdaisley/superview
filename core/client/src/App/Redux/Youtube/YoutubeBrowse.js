@@ -2,7 +2,8 @@ import * as types from '../Types';
 
 // Initial (starting) state
 export const initialState = {
-  youtubeSearchResults: []
+  youtubeSearchResults: [],
+  youtubePopularResults: [],
 }
 
 // Our root reducer starts with the initial state
@@ -12,7 +13,9 @@ export const reducer = (state = initialState, action) => {
     case types.YOUTUBE_SEARCH:
       return { ...state, youtubeSearchResults: action.payload }
     case types.RESET_YOUTUBE_SEARCH:
-    return { ...state, youtubeSearchResults: [] }
+      return { ...state, youtubeSearchResults: [] }
+    case types.YOUTUBE_POPULAR:
+      return { ...state, youtubePopularResults: action.payload }
     default:
       return state;
   }

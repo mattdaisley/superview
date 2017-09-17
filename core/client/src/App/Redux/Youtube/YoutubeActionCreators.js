@@ -125,3 +125,21 @@ export const resetYoutubeSearch = () => {
     type: types.RESET_YOUTUBE_SEARCH
   })
 }
+
+export const getYoutubePopular = () => {
+  
+  const requestEnpoint = 'videos'
+  const part = 'snippet'
+  const chart = 'mostPopular'
+  const maxResults = 6
+
+  return ({
+    type: types.YOUTUBE_POPULAR,
+    meta: {
+      type: 'youtubeApi',
+      clientId: clientId,
+      url: apiRequestUri + requestEnpoint + '?part=' + part + '&chart=' + chart + '&maxResults=' + maxResults,
+    }
+  })
+
+}

@@ -4,7 +4,7 @@ import { getYoutubeChannelDetails } from './YoutubeActionCreators'
 
 import { hasToken, getToken } from '../../Util/tokenYoutube';
 
-import { doYoutubeSearch } from './YoutubeApi';
+import { doYoutubeRequest } from './YoutubeApi';
 
 const youtubeApiMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'youtubeApi') {
@@ -68,8 +68,10 @@ const youtubeApiMiddleware = store => next => action => {
         })
       
       break
+      
     case types.YOUTUBE_SEARCH:
-      doYoutubeSearch(url)
+    case types.YOUTUBE_POPULAR:
+      doYoutubeRequest(url)
         .then(results => {
           // console.log(url, results);
           let actionItem = { payload: [] }
@@ -84,7 +86,7 @@ const youtubeApiMiddleware = store => next => action => {
         })
         .catch( error => console.log(error) )
       break
-        
+
     default:
       break
   }
@@ -92,7 +94,7 @@ const youtubeApiMiddleware = store => next => action => {
 }
 
 const formatVideos = ( videos ) => {
-
+  console.log('here');
   return [...videos].map( video => {
     return {
       source_type: 'yt',
@@ -100,7 +102,7 @@ const formatVideos = ( videos ) => {
       title: video.snippet.title,
       description: video.snippet.description,
       published_at: video.snippet.publishedAt,
-      thumbnail: video.snippet.thumbnails.maxres.url,
+      thumbnail: ( video.snippet.thumbnails.medium ) ? video.snippet.thumbnails.medium.url : video.snippet.thumbnails.default.url,
       stats: {
         views: video.statistics.viewCount,
         likes: video.statistics.likeCount,

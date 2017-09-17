@@ -8,6 +8,7 @@ import { getRecentChannelsItems } from '../../Redux/RecentChannels/RecentChannel
 
 import RecentChannelsList  from '../../Components/RecentChannelsList/RecentChannelsList';
 import TwitchFollowingGrid from '../../Components/TwitchFollowingGrid/TwitchFollowingGrid';
+import YoutubePopularGrid  from '../../Components/YoutubePopularGrid/YoutubePopularGrid';
 
 const styles = theme => ({
   root: {
@@ -46,12 +47,18 @@ class Home extends React.Component {
               </Grid>
               
               <Grid item xs={12}>
-                <TwitchFollowingGrid></TwitchFollowingGrid>
+                <Grid container spacing={24} >
+                  
+                  <Grid item xs={12}>
+                    <TwitchFollowingGrid></TwitchFollowingGrid>
+                  </Grid>
+                
+                  <Grid item xs={12}>
+                    <YoutubePopularGrid></YoutubePopularGrid>
+                  </Grid>
+
+                </Grid>
               </Grid>
-              
-              {/* <Grid item xs={12}>
-                <TwitchFollowingGrid liveChannels={twLiveChannels}></TwitchFollowingGrid>
-              </Grid> */}
 
             </Grid>
           </Grid>

@@ -5,19 +5,26 @@ import { Link }  from 'react-router-dom';
 import Grid      from 'material-ui/Grid';
 
 const VideoGridItem = (props) => {
+
+  const thumbnail   = props.videoItem.thumbnail;
+  const title       = props.videoItem.title;
+  const id          = props.videoItem.id;
+  const channelName = ( props.videoItem.channel ) ? props.videoItem.channel.name : null;
+  const views       = ( props.videoItem.stats ) ? props.videoItem.stats.views.toLocaleString('en-IN') + ' ' + ( props.source === 'tw' ? 'viewers' : 'views' ) : null;
+  
   return (
     <Grid item xs={12} sm={6} md={4} xl={3} className="list-grid-item">
       <div className="list-grid-item-wrapper">
-        <div className="list-grid-thumb">
-          <img src={props.videoItem.thumbnail} alt={props.videoItem.title} style={ {width: '100%'} } />
+        <div className={['list-grid-thumb', props.source].join(' ')}>
+          <img src={thumbnail} alt={title} style={ {width: '100%'} } />
         </div>
 
         <div className="list-grid-details-container">
-          <Link to={props.source + '/' + props.videoItem.id}>
+          <Link to={props.source + '/' + id}>
             <div className="list-grid-details">
-              <div className="list-grid-details-title">{props.videoItem.title}</div>
-              <div className="list-grid-details-channel">{props.videoItem.channel.name}</div>
-              <div className="list-grid-details-info">{props.videoItem.stats.views.toLocaleString('en-IN')} viewers</div>
+              <div className="list-grid-details-title">{title}</div>
+              <div className="list-grid-details-channel">{channelName}</div>
+              <div className="list-grid-details-info">{views}</div>
             </div>
           </Link>
         </div>
