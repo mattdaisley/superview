@@ -1,3 +1,6 @@
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 const TOKEN_KEY = 'tokenYoutube'
 const EXPIRES_AT_KEY = 'youtubeExpiresAt'
 
@@ -10,11 +13,14 @@ export const hasToken = () => {
 }
 
 export const getToken = () => {
-  const expires_at = getExpiresAt()
-  if (expires_at === null || expires_at > new Date().getTime()) {
-    return window.localStorage.getItem(TOKEN_KEY) || null
-  }
-  return null
+
+  return cookies.get('google_access_token') || null;
+
+  // const expires_at = getExpiresAt()
+  // if (expires_at === null || expires_at > new Date().getTime()) {
+  //   return window.localStorage.getItem(TOKEN_KEY) || null
+  // }
+  // return null
 }
 
 export const setToken = (token, expiresAt) => {
