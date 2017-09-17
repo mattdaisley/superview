@@ -23,7 +23,8 @@ const PlayerWrapper = (props) => {
 
   const playerWrapperClass   = ( !props.isFullscreen ) ? classes.playerWrapper : classes.playerWrapperFullscreen;
   const playerContainerClass = ( !props.isFullscreen ) ? classes.playerContainer : classes.playerContainerFullscreen;
-  const playerClass          = ( !props.isFullscreen ) ? classes.player : classes.playerFullscreen;
+  const playerClass          = ( !props.isFullscreen ) ? classes.player : classes.player + ' ' + classes.playerFullscreen;
+  console.log(playerClass);
 
   // build the embed player elements to display
   const embedPlayers = props.playerSources.map( (videoId, index) => {
@@ -32,9 +33,9 @@ const PlayerWrapper = (props) => {
     return (
       <EmbedPlayer
         key={videoId+layout}
-        className={[playerClass, playerLayoutClass, fullscreenClass].join(' ')}
+        className={[playerClass, playerLayoutClass].join(' ')}
         source={props.source}
-        id={videoId} 
+        id={videoId}
       />
     )
   })

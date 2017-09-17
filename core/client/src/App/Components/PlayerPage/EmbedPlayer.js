@@ -12,6 +12,7 @@ class EmbedPlayer extends React.Component {
   // }
 
   shouldComponentUpdate(nextProps) {
+    if ( nextProps.className !== this.props.className ) return true;
     if ( nextProps.id === this.props.id ) return false;
     return true;
   }
@@ -22,6 +23,7 @@ class EmbedPlayer extends React.Component {
     if(this.props.className !== undefined){
       parentClassName = this.props.className
     }
+    console.log(parentClassName);
     
     const opts = {
       height: '100%',
@@ -65,7 +67,7 @@ class EmbedPlayer extends React.Component {
 
 EmbedPlayer.propTypes = {
   source: PropTypes.oneOf(['tw', 'yt']).isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
 }
 
 export default EmbedPlayer;

@@ -22,6 +22,7 @@ const styles = theme => ({
     padding: '1px',
     boxSizing: 'border-box',
     margin: 0,
+    backgroundColor: '#000',
   },
 
   playerContainer: {
@@ -53,6 +54,15 @@ const styles = theme => ({
       position: 'relative',
       height: 'calc(100vw * (9/16) )',
       maxHeight: '100%',
+    }
+  },
+
+  playerFullscreen: {
+    [theme.breakpoints.up('md')]: {
+      maxHeight: 'calc(100vh - 70px)',
+    },
+    [theme.breakpoints.down('md')]: {
+      
     }
   },
 
