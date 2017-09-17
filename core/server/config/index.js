@@ -17,8 +17,8 @@ switch ( process.env.NODE_ENV ) {
 	// dev overrides for configuration values
 	case 'dev':
 
-		config.web.port = 7768;
 		config.web.host = '127.0.0.1';
+		config.web.port = 7768;
 
 		// config.db.host = "useast-mysql-test.cjxfiley5kef.us-east-1.rds.amazonaws.com";
 		// config.db.user = "mattdaisleyadm";
@@ -31,8 +31,8 @@ switch ( process.env.NODE_ENV ) {
 		break;
 	default:
 
-		config.web.port = 3000;
 		config.web.host = '127.0.0.1';
+		config.web.port = 3000;
 
 		// config.db.host = "useast-mysql-test.cjxfiley5kef.us-east-1.rds.amazonaws.com";
 		// config.db.user = "mattdaisleyadm";

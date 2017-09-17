@@ -11,6 +11,7 @@ export const doYoutubeRequest = (url) => {
       }
   
       fetch(url, {headers: headers})
+      // fetch(url)
         .then(resp => resp.json())
         .then(json => {
           if ( !json.error && json.pageInfo.totalResults > 0) {

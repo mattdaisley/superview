@@ -39,11 +39,13 @@ class Header extends React.Component {
   }
 
   twitchLogin() {
-    this.props.twitchLogin( window.location.href );
+    window.location.replace('https://auth.superview.tv/twitch/oauth2');
+    // this.props.twitchLogin( window.location.href );
   }
   
   youtubeLogin() {
-    this.props.youtubeLogin( window.location.href );
+    window.location.replace('https://auth.superview.tv/google/oauth2');
+    // this.props.youtubeLogin( window.location.href );
   }
 
   render() {

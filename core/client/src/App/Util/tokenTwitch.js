@@ -1,6 +1,6 @@
-// import Cookies from 'universal-cookie';
+import Cookies from 'universal-cookie';
 
-// const cookies = new Cookies();
+const cookies = new Cookies();
 const TOKEN_KEY = 'tokenTwitch'
 const EXPIRES_AT_KEY = 'twitchExpiresAt'
 
@@ -13,11 +13,14 @@ export const hasToken = () => {
 }
 
 export const getToken = () => {
-  const expires_at = getExpiresAt()
-  if (expires_at === null || expires_at > new Date().getTime()) {
-    return window.localStorage.getItem(TOKEN_KEY) || null
-  }
-  return null
+  
+  return cookies.get('twitch_access_token') || null;
+
+  // const expires_at = getExpiresAt()
+  // if (expires_at === null || expires_at > new Date().getTime()) {
+  //   return window.localStorage.getItem(TOKEN_KEY) || null
+  // }
+  // return null
 }
 
 export const setToken = (token, expiresAt) => {
