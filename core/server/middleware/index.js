@@ -56,7 +56,8 @@ setupMiddleware = function setupMiddleware(app) {
             }
             const encryptedToken = utils.encrypt(JSON.stringify(token));
             console.log(encryptedToken);
-            res.redirect('http://localhost:3000/google/oauth2/refresh?token=' + encryptedToken)
+            res.redirect('https://auth.superview.tv/google/oauth2/refresh?token=' + encryptedToken)
+            // res.redirect('http://localhost:3000/google/oauth2/refresh?token=' + encryptedToken)
         } else {
             res.status(401).send({ error: { message: 'no refresh token provided' } });
         }
@@ -79,12 +80,22 @@ setupMiddleware = function setupMiddleware(app) {
         if ( req.query.token ) {
             // console.log('setting twitch token cookies');
             const token = JSON.parse(utils.decrypt(req.query.token));
+            console.log(token);
             // res.cookie('google_access_token', token.access_token, { maxAge: token.expiry_date, httpOnly: false, secure: true });
-            res.cookie('twitch_access_token', token.access_token, { maxAge: 900000, httpOnly: false });
-            if ( token.refresh_token ) {
-                res.cookie('twitch_refresh_token', token.refresh_token, { maxAge: 900000, httpOnly: true });
+            try {
+                res.cookie('twitch_access_token', token.access_token, { maxAge: token.expiry_date, httpOnly: false });
+                if ( token.refresh_token ) {
+                    res.cookie('twitch_refresh_token', token.refresh_token, { maxAge: token.expiry_date, httpOnly: true });
+                }
             }
-            res.redirect('/index.html');
+            catch( err ) {
+                console.log(err);
+            }
+
+            const redirectUrl = '/' + '#twitch_access_token=' + token.access_token + '&twitch_refresh_token=' + token.refresh_token + '&expiry_date=' + token.expiry_date + '&state=twitchLoggedIn';
+            console.log(redirectUrl);
+            res.redirect(redirectUrl);
+            // next();
         }
     })
 

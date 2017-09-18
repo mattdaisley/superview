@@ -35,9 +35,11 @@ const styles = theme => ({
 class App extends React.Component {
 // const App = props => {
 
+  //http://localhost:7768/#twitch_access_token=o365yyboxcwfh1ev8p4f4rcq6brix1&twitch_refresh_token=8hhb2azd9t71j1j8m8oehyxq77c5iqu7lnc067d1gkwuftriz4&expiry_date=14602&state=twitchLoggedIn
   componentDidMount() {
     // this.props.updateTime();
     const hash = window.location.hash;
+    console.log(hash);
 
     if ( hash ) {
       const response = querystring.parse(hash.substr(1))
@@ -46,11 +48,12 @@ class App extends React.Component {
         // reject('Invalid state returned.')
       // }
   
-      if (response.access_token) {
-        const expiresIn = response.expires_in ? parseInt(response.expires_in, 10) : NaN
+      if (response.twitch_access_token) {
+        const expiresIn = response.expiry_date ? parseInt(response.expiry_date, 10) : NaN
         const referrer = state[1]
         const result = {
-          token: response.access_token,
+          token: response.twitch_access_token,
+          refresh: response.twitch_refresh_token,
           expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
           referrer,
         }

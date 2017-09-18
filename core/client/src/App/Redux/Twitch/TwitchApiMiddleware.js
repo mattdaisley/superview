@@ -89,6 +89,7 @@ const twitchApiMiddleware = store => next => action => {
             }
           } else {
             // if ( json.error.code === 401 ) {
+              console.log('removing token');
               removeToken();
             // }
           }

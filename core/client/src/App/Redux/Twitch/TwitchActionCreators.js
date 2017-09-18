@@ -30,7 +30,7 @@ export const twitchLogin = ( referrer ) => {
   })
 }
 
-export const twitchLoginSuccess = ({token, expiresAt, referrer}) => {
+export const twitchLoginSuccess = ({token, refresh, expiresAt, referrer}) => {
   return ({
     
     type: types.TWITCH_LOGIN_SUCCESS,
@@ -38,6 +38,7 @@ export const twitchLoginSuccess = ({token, expiresAt, referrer}) => {
     meta: {
       type: 'twitchOauth',
       token,
+      refresh,
       expiresAt,
       referrer
     }

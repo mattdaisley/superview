@@ -1,6 +1,6 @@
 import * as types from '../Types';
 
-import { setToken, removeToken, hasToken } from '../../Util/tokenTwitch';
+import { setToken, setRefresh, removeToken, hasToken } from '../../Util/tokenTwitch';
 
 const twitchOauthMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'twitchOauth') {
@@ -21,6 +21,7 @@ const twitchOauthMiddleware = store => next => action => {
       break
     case types.TWITCH_LOGIN_SUCCESS:
       setToken(action.meta.token, action.meta.expiresAt)
+      setRefresh(action.meta.refresh)
       let newLoginAction = Object.assign({}, action, {
         payload: hasToken()
       });
@@ -28,6 +29,7 @@ const twitchOauthMiddleware = store => next => action => {
       store.dispatch(newLoginAction);
       console.log(newLoginAction);
       if ( action.meta.referrer ) window.location.href = action.meta.referrer
+      window.location.href = '/';
       break
     case types.TWITCH_LOGIN_FAILURE:
     case types.TWITCH_LOGOUT:
