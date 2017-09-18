@@ -13,7 +13,7 @@ class TwitchFollowingGrid extends React.Component {
   
   constructor(props) {
     super(props);
-    // console.log('RecentChannelsGrid props', props);
+    console.log('TwitchFollowingGrid props', props);
 
     this.state = {
       twitchFollowingLoaded: false
@@ -41,7 +41,9 @@ class TwitchFollowingGrid extends React.Component {
 
     return (
       <div>
-        <div className="grid-header"><h3><Link to='/tw/live'>Live Channels on Twitch</Link> <ChevronRight/></h3></div>
+        { (!!this.props.twitchFollowing && this.props.twitchFollowing.length > 0) && (
+          <div className="grid-header"><h3><Link to='/tw/live'>Live Channels on Twitch</Link> <ChevronRight/></h3></div>
+        )}
         { !!this.state.twitchFollowingLoaded && (
           <VideoGrid source="tw" videoItems={this.props.twitchFollowing}></VideoGrid>
         )}

@@ -1,6 +1,7 @@
 import * as types from '../Types';
 
-import { setToken, removeToken, hasToken } from '../../Util/tokenYoutube';
+// import { setToken, removeToken, hasToken } from '../../Util/tokenYoutube';
+import { removeToken, hasToken } from '../../Util/tokenYoutube';
 
 const youtubeOauthMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'youtubeOauth') {
@@ -20,7 +21,7 @@ const youtubeOauthMiddleware = store => next => action => {
       window.location.replace(url);
       break
     case types.YOUTUBE_LOGIN_SUCCESS:
-      setToken(action.meta.token, action.meta.expiresAt)
+      // setToken(action.meta.token, action.meta.expiresAt)
       let newLoginAction = Object.assign({}, action, {
         payload: hasToken()
       });

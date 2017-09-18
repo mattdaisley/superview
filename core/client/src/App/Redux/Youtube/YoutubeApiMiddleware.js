@@ -37,6 +37,7 @@ const youtubeApiMiddleware = store => next => action => {
           delete newAction.meta;
           store.dispatch(newAction);
         })
+        .catch( err => console.log('error:',err))
       break
     case types.GET_YOUTUBE_CHANNEL_DETAILS:
 
@@ -52,7 +53,7 @@ const youtubeApiMiddleware = store => next => action => {
               resolve(formattedChannelDetails)
             })
             .catch(err => {
-              console.log(err);
+              console.log('error:',err);
               reject(err);
             })
         })
@@ -84,7 +85,7 @@ const youtubeApiMiddleware = store => next => action => {
           delete newAction.meta;
           store.dispatch(newAction);
         })
-        .catch( error => console.log(error) )
+        .catch( error => console.log('error:',error) )
       break
 
     default:

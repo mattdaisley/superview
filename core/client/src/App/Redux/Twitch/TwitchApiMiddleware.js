@@ -2,7 +2,7 @@ import * as types from '../Types';
 
 import { getTwitchChannelDetails } from './TwitchActionCreators'
 
-import { hasToken, getToken } from '../../Util/tokenTwitch';
+import { hasToken, getToken, removeToken } from '../../Util/tokenTwitch';
 
 const twitchApiMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'twitchApi') {
@@ -76,18 +76,28 @@ const twitchApiMiddleware = store => next => action => {
       fetch(url, {headers: headers})
         .then(resp => resp.json())
         .then(json => {
-          let actionItem = { payload: [{status:'error'}] }
-          if ( json._total > 0) {
-            
-            const formattedStreams = formatStreamDetails(json.streams);
-
-            // console.log(url, json, formattedStreams);
-            actionItem = { payload: formattedStreams }
+          console.log(json);
+          let formattedStreams = null;
+          let actionItem = { payload: [] }
+          if ( !json.error ) {
+            if ( json._total > 0) {
+              
+              formattedStreams = formatStreamDetails(json.streams);
+  
+              // console.log(url, json, formattedStreams);
+              actionItem = { payload: formattedStreams }
+            }
+          } else {
+            // if ( json.error.code === 401 ) {
+              removeToken();
+            // }
           }
+          console.log(actionItem)
           
           let newAction = Object.assign({}, action, actionItem);
           delete newAction.meta;
           store.dispatch(newAction);
+
         })
         .catch(err => console.log(err))
       break;

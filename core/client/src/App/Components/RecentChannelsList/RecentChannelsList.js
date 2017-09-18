@@ -35,7 +35,9 @@ class RecentChannelsList extends React.Component {
 
     return (
       <div className="recent-activity-wrapper">
-        <div className="grid-header"><h3><Link to='/recents'>Recent Activity</Link> <ChevronRight/></h3></div>
+        { !!recentActivityList &&
+          <div className="grid-header"><h3><Link to='/recents'>Recent Activity</Link> <ChevronRight/></h3></div>
+        }
         <Grid container spacing={8} >
           { recentActivityList }
         </Grid>
@@ -45,7 +47,7 @@ class RecentChannelsList extends React.Component {
 }
 
 RecentChannelsList.propTypes = {
-  recentActivity: PropTypes.arrayOf( PropTypes.object ).isRequired
+  recentActivity: PropTypes.arrayOf( PropTypes.object )
 }
 
 export default RecentChannelsList;

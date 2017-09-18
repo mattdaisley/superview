@@ -1,5 +1,5 @@
 
-import { hasToken, getToken } from '../../Util/tokenYoutube';
+import { hasToken, getToken, removeToken } from '../../Util/tokenYoutube';
 
 export const doYoutubeRequest = (url) => {
 
@@ -14,6 +14,7 @@ export const doYoutubeRequest = (url) => {
       // fetch(url)
         .then(resp => resp.json())
         .then(json => {
+          // console.log(json);
           if ( !json.error && json.pageInfo.totalResults > 0) {
   
             const formattedVideos = formatSearchResult(json.items);
@@ -21,10 +22,13 @@ export const doYoutubeRequest = (url) => {
             
             resolve(formattedVideos)
           } else {
+            // if ( json.error.code === 401 ) {
+              removeToken();
+            // }
             resolve([])
           }
         })
-        .catch(err => reject(err))
+        .catch(err => { console.log('error:',err); reject(err) }  )
     } else {
       reject( { status: 'not authenticated' } )
     }

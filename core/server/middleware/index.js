@@ -3,6 +3,7 @@ var bodyParser      = require('body-parser'),
     path            = require('path'),
     cors            = require('cors'),
     helmet          = require('helmet'),
+    cookieParser    = require('cookie-parser'),
     config 			= require('../config'),
     routes          = require('../routes'),
     errors 			= require('../errors'),
@@ -26,6 +27,7 @@ setupMiddleware = function setupMiddleware(app) {
     app.use(helmet())
 	app.use(bodyParser.json({limit: '50mb'}));
     app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+    app.use(cookieParser());
     
     console.log('middleware');
     
@@ -40,6 +42,25 @@ setupMiddleware = function setupMiddleware(app) {
 
     // app.use('/', express.static(config.corePath + '/client/build/'));
     app.use(express.static(path.join(config.corePath, 'client', 'build')));
+    
+    app.use('/oauth2/google/refresh', function( req, res, next ) {
+        // console.log('setting cookie');
+        // res.cookie('google_access_token', 'ya29.GlvKBNLq2zWrzDXepbHy7Vn9zq3-CyJZ1sjeoXbazUilhSQDe2_VhGMTZ4BDmPUiRELudQrno3bz8xu5BrT2IdvZBzRCTa8G52CTyye-4wlIicfUBZh9A_Sgul03', { maxAge: 9000000, httpOnly: false })
+        // res.cookie('google_refresh_token', '1%2FCl2CgPBcEhdDuQzZVf2Z3xzw2Z5psvGKiga2SJ94uwr-ohOp9o5-WwenmH3hNL4a', { maxAge: 9000000, httpOnly: true })
+        // res.send('hello');
+        console.log( req.cookies.google_refresh_token, req.cookies.google_access_token );
+        if ( req.cookies && req.cookies.google_refresh_token ) {
+            const token = {
+                google_access_token: req.cookies.google_access_token,
+                google_refresh_token: req.cookies.google_refresh_token
+            }
+            const encryptedToken = utils.encrypt(JSON.stringify(token));
+            console.log(encryptedToken);
+            res.redirect('http://localhost:3000/google/oauth2/refresh?token=' + encryptedToken)
+        } else {
+            res.status(401).send({ error: { message: 'no refresh token provided' } });
+        }
+    })
 
     app.use('/oauth2/google/', function( req, res, next ) {
         if ( req.query.token ) {
