@@ -41,7 +41,14 @@ class TwitchChat extends React.Component {
       }
     };
 
-    let {id, classes} = this.props;
+    let {id, classes} = this.props,
+      playerUrl;
+
+    if (process.env.NODE_ENV === 'development') {
+      chatUrl = 'http://www.twitch.tv/'+id+'/chat';
+    } else if (process.env.NODE_ENV === 'production') {
+      chatUrl = 'http://www.twitch.tv/'+id+'/chat';
+    }
 
     return (
       <div className={['flex-item','hidden-'+this.props.hideChannelsList, classes.root].join(' ')}>
@@ -49,7 +56,7 @@ class TwitchChat extends React.Component {
           scrolling="yes"
           id={id}
           title={id}
-          src={'http://www.twitch.tv/'+id+'/chat'}
+          src={chatUrl}
           height={opts.height}
           width={opts.width}>
         </iframe>

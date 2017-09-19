@@ -62,11 +62,19 @@ class TwitchPlayer extends React.Component {
   isPaused() {}
 
   render() {
-    let {id} = this.props;
+
+    let {id} = this.props,
+      playerUrl;
+
+    if (process.env.NODE_ENV === 'development') {
+      playerUrl = 'http://player.twitch.tv/?channel='+id;
+    } else if (process.env.NODE_ENV === 'production') {
+      playerUrl = 'https://player.twitch.tv/?channel='+id;
+    }
 
     return (
       <iframe
-        src={'http://player.twitch.tv/?channel='+id}
+        src={playerUrl}
         title={id}
         height="100%"
         width="100%"
