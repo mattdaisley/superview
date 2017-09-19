@@ -47,7 +47,7 @@ class TwitchChat extends React.Component {
     if (process.env.NODE_ENV === 'development') {
       chatUrl = 'http://www.twitch.tv/'+id+'/chat';
     } else if (process.env.NODE_ENV === 'production') {
-      chatUrl = 'http://www.twitch.tv/'+id+'/chat';
+      chatUrl = 'https://www.twitch.tv/'+id+'/chat';
     }
 
     return (
