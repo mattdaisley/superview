@@ -42,7 +42,7 @@ class TwitchChat extends React.Component {
     };
 
     let {id, classes} = this.props,
-      playerUrl;
+      chatUrl;
 
     if (process.env.NODE_ENV === 'development') {
       chatUrl = 'http://www.twitch.tv/'+id+'/chat';
