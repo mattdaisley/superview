@@ -16,7 +16,11 @@ class TwitchPlayer extends React.Component {
   componentWillMount() {
     if ( !window.Twitch ) {
       let twitchEmbed = document.createElement('script');
-      twitchEmbed.src='http://player.twitch.tv/js/embed/v1.js';
+      if (process.env.NODE_ENV === 'development') {
+        twitchEmbed.src='http://player.twitch.tv/js/embed/v1.js';
+      } else if (process.env.NODE_ENV === 'production') {
+        twitchEmbed.src='https://player.twitch.tv/js/embed/v1.js';
+      }
       
       document.getElementsByTagName('head')[0].appendChild(twitchEmbed);
     }
