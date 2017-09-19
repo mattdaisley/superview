@@ -56,7 +56,7 @@ setupMiddleware = function setupMiddleware(app) {
             }
             const encryptedToken = utils.encrypt(JSON.stringify(token));
             console.log(encryptedToken);
-            res.redirect('https://auth.superview.tv/google/oauth2/refresh?token=' + encryptedToken)
+            res.redirect(config.appUrl + '/google/oauth2/refresh?token=' + encryptedToken)
             // res.redirect('http://localhost:3000/google/oauth2/refresh?token=' + encryptedToken)
         } else {
             res.status(401).send({ error: { message: 'no refresh token provided' } });
@@ -92,7 +92,7 @@ setupMiddleware = function setupMiddleware(app) {
                 console.log(err);
             }
 
-            const redirectUrl = '/' + '#twitch_access_token=' + token.access_token + '&twitch_refresh_token=' + token.refresh_token + '&expiry_date=' + token.expiry_date + '&state=twitchLoggedIn';
+            const redirectUrl = config.appUrl + '#twitch_access_token=' + token.access_token + '&twitch_refresh_token=' + token.refresh_token + '&expiry_date=' + token.expiry_date + '&state=twitchLoggedIn';
             console.log(redirectUrl);
             res.redirect(redirectUrl);
             // next();

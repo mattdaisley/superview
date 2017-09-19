@@ -1,4 +1,5 @@
 import React     from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import AppBar         from 'material-ui/AppBar';
@@ -12,6 +13,8 @@ import common from 'material-ui/colors/common';
 import MainControls   from './MainControls';
 import RightControls  from './RightControls';
 
+import { play, pause } from '../../../Redux/Player/PlayerActionCreators';
+
 class PlayerControls extends React.Component {
   
   constructor(props) {
@@ -19,7 +22,6 @@ class PlayerControls extends React.Component {
     // console.log('PlayerControls props', props);
 
     this.state = {
-      playing: true,
       isFullscreen: false
     }
 
@@ -28,16 +30,11 @@ class PlayerControls extends React.Component {
   }
 
   togglePlayPause() {
-    console.log('toggle play pause');
-    this.setState((prevState, props) => {
-      return {
-        playing: !prevState.playing
-      };
-    });
+    if ( this.props.playing ) this.props.pause();
+    if ( !this.props.playing ) this.props.play();
   }
 
   toggleFullScreen() {
-    console.log('PlayerControls got toggleFullscreen');
     this.setState((prevState, props) => {
       return {
         isFullscreen: !prevState.isFullscreen
@@ -74,7 +71,7 @@ class PlayerControls extends React.Component {
               </div>
               {/* left controls */}
 
-              <MainControls playing={this.state.playing} togglePlayPause={this.togglePlayPause}/>
+              <MainControls playing={this.props.playing} togglePlayPause={this.togglePlayPause}/>
               <RightControls fullscreenContainer={this.props.fullscreenContainer} isFullscreen={this.state.isFullscreen} toggleFullScreen={this.toggleFullScreen}/>
             </Toolbar>
           </AppBar>
@@ -84,9 +81,23 @@ class PlayerControls extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    playing: state.player.playing,
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  play:  () => dispatch(play()),
+  pause: () => dispatch(pause()),
+})
+
 PlayerControls.propTypes = {
   onFullScreenChange: PropTypes.func,
   fullscreenContainer: PropTypes.string,
 }
 
-export default PlayerControls;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PlayerControls);

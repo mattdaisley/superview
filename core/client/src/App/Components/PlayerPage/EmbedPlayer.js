@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import YouTube from 'react-youtube';
-
 import TwitchPlayer from '../../Components/Twitch/TwitchPlayer'
+import YouTubePlayer from '../../Components/YouTube/YouTubePlayer'
 
 class EmbedPlayer extends React.Component {
   
@@ -23,15 +22,6 @@ class EmbedPlayer extends React.Component {
     if(this.props.className !== undefined){
       parentClassName = this.props.className
     }
-    console.log(parentClassName);
-    
-    const opts = {
-      height: '100%',
-      width: '100%',
-      playerVars: { // https://developers.google.com/youtube/player_parameters 
-        autoplay: 1
-      }
-    };
 
     let {source, id} = this.props;
 
@@ -43,11 +33,7 @@ class EmbedPlayer extends React.Component {
       <div className={"flex-item " + parentClassName}>
         {/* {id} */}
         { !!(source === 'yt') &&
-          <YouTube
-            videoId={id}
-            opts={opts}
-            onReady={this._onReady}
-          />
+          <YouTubePlayer id={id} />
         }
 
         { !!(source === 'tw') &&

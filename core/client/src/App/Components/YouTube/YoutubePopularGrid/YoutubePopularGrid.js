@@ -5,9 +5,9 @@ import { Link }    from 'react-router-dom';
 
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
-import VideoGrid    from '../../Components/VideoGrid/VideoGrid';
+import VideoGrid    from '../../../Components/VideoGrid/VideoGrid';
 
-import { getYoutubePopular } from '../../Redux/Youtube/YoutubeActionCreators';
+import { getYoutubePopular } from '../../../Redux/Youtube/YoutubeActionCreators';
 
 class YoutubePopularGrid extends React.Component {
   

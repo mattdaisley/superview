@@ -229,14 +229,16 @@ class Player extends React.Component {
       )
     } else {
       return (
-        <PlayerWrapper
-          source={source}
-          playerSources={playerSources}
-          playerChannelDetails={playerChannelDetails}
-          hideChannelsList={hideChannelsList}
-          isFullscreen={isFullscreen}
-          onFullScreenChange={this.onFullScreenChange}
-        ></PlayerWrapper>
+        <div className="player-main-container">
+          <PlayerWrapper
+            source={source}
+            playerSources={playerSources}
+            playerChannelDetails={playerChannelDetails}
+            hideChannelsList={hideChannelsList}
+            isFullscreen={isFullscreen}
+            onFullScreenChange={this.onFullScreenChange}
+          ></PlayerWrapper>
+        </div>
       )
     }
 

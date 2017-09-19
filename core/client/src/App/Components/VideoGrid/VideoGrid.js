@@ -9,10 +9,10 @@ import './VideoGrid.css';
 
 class VideoGrid extends React.Component {
   
-  constructor(props) {
-    super(props);
-    console.log('ChannelDetails props', props);
-  }
+  // constructor(props) {
+  //   super(props);
+  //   console.log('ChannelDetails props', props);
+  // }
 
   render() {
     let videoItems = this.props.videoItems.map( (videoItem, index) => <VideoGridItem source={this.props.source} key={index} videoItem={videoItem}></VideoGridItem> )

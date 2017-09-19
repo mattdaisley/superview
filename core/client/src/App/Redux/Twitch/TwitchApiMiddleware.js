@@ -30,7 +30,7 @@ const twitchApiMiddleware = store => next => action => {
           if ( json._total > 0) {
             
             const formattedChannels = formatChannels(json.users);
-            console.log(url, json, formattedChannels);
+            // console.log(url, json, formattedChannels);
 
             actionItem = { payload: formattedChannels }
             store.dispatch(getTwitchChannelDetails(formattedChannels));
@@ -50,7 +50,7 @@ const twitchApiMiddleware = store => next => action => {
             .then(resp => resp.json())
             .then(json => {
               const formattedChannelDetails = formatChannelDetails(json, resource);
-              console.log(url + resource.channel.channel_id, json, formattedChannelDetails);
+              // console.log(url + resource.channel.channel_id, json, formattedChannelDetails);
 
               resolve(formattedChannelDetails)
             })
@@ -76,7 +76,7 @@ const twitchApiMiddleware = store => next => action => {
       fetch(url, {headers: headers})
         .then(resp => resp.json())
         .then(json => {
-          console.log(json);
+          // console.log(json);
           let formattedStreams = null;
           let actionItem = { payload: [] }
           if ( !json.error ) {
@@ -89,11 +89,9 @@ const twitchApiMiddleware = store => next => action => {
             }
           } else {
             // if ( json.error.code === 401 ) {
-              console.log('removing token');
               removeToken();
             // }
           }
-          console.log(actionItem)
           
           let newAction = Object.assign({}, action, actionItem);
           delete newAction.meta;

@@ -40,7 +40,7 @@ switch ( process.env.NODE_ENV ) {
 		// config.db.database = "mdaisleydata";
 		// config.db.tablePrefix = "";
 
-		config.appUrl = 'https://www.superview.tv/';
+		config.appUrl = 'https://www.superview.tv';
 
 		break;
 }

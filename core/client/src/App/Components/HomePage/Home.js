@@ -7,8 +7,8 @@ import { withStyles } from 'material-ui/styles';
 import { getRecentChannelsItems } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
 
 import RecentChannelsList  from '../../Components/RecentChannelsList/RecentChannelsList';
-import TwitchFollowingGrid from '../../Components/TwitchFollowingGrid/TwitchFollowingGrid';
-import YoutubePopularGrid  from '../../Components/YoutubePopularGrid/YoutubePopularGrid';
+import TwitchFollowingGrid from '../../Components/Twitch/TwitchFollowingGrid/TwitchFollowingGrid';
+import YoutubePopularGrid  from '../../Components/YouTube/YoutubePopularGrid/YoutubePopularGrid';
 
 const styles = theme => ({
   root: {

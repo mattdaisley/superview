@@ -11,6 +11,7 @@ import * as youtubeBrowse   from './Youtube/YoutubeBrowse';
 import * as recentChannels from './RecentChannels/RecentChannels';
 
 import * as messages from './Messages/Messages';
+import * as player   from './Player/Player';
 
 export const rootReducer = combineReducers({
   twitchOauth: twitchOauth.reducer,
@@ -21,6 +22,7 @@ export const rootReducer = combineReducers({
   youtubeBrowse: youtubeBrowse.reducer,
   recentChannels: recentChannels.reducer,
   messages: messages.reducer,
+  player: player.reducer,
 })
 
 export const initialState = {
@@ -31,7 +33,8 @@ export const initialState = {
   youtubeDetails: youtubeDetails.initialState,
   youtubeBrowse: youtubeBrowse.initialState,
   recentChannels: recentChannels.initialState,
-  messages: messages.initialState
+  messages: messages.initialState,
+  player: player.initialState,
 }
 
 export default rootReducer

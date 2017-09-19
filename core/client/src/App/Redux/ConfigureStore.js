@@ -14,6 +14,8 @@ import youtubeApiMiddleware   from './Youtube/YoutubeApiMiddleware';
 
 import messagesMiddleware from './Messages/MessagesMiddleware';
 
+import playerMiddleware from './Player/PlayerMiddleware';
+
 export const ConfigureStore = () => {
   const store = createStore(
     rootReducer,
@@ -26,6 +28,7 @@ export const ConfigureStore = () => {
       youtubeOauthMiddleware,
       youtubeApiMiddleware,
       messagesMiddleware,
+      playerMiddleware
     )
   );
 

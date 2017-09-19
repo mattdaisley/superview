@@ -5,15 +5,15 @@ import { Link }    from 'react-router-dom';
 
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
-import VideoGrid    from '../../Components/VideoGrid/VideoGrid';
+import VideoGrid    from '../../../Components/VideoGrid/VideoGrid';
 
-import { getTwitchFollowing } from '../../Redux/Twitch/TwitchActionCreators';
+import { getTwitchFollowing } from '../../../Redux/Twitch/TwitchActionCreators';
 
 class TwitchFollowingGrid extends React.Component {
   
   constructor(props) {
     super(props);
-    console.log('TwitchFollowingGrid props', props);
+    // console.log('TwitchFollowingGrid props', props);
 
     this.state = {
       twitchFollowingLoaded: false

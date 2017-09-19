@@ -21,6 +21,7 @@ width: 100px;
 const styles = theme => ({
   channelsListRoot: {
     position: 'fixed',
+    zIndex: 10000,
     padding: '6px',
     boxSizing: 'border-box',
     right: 0,
@@ -34,6 +35,7 @@ const styles = theme => ({
   },
   channelsListEdit: {
     position: 'fixed',
+    zIndex: 10000,
     padding: '0',
     border: '1px solid #ccc',
     backgroundColor: '#fff',

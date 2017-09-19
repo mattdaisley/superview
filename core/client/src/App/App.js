@@ -1,17 +1,23 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+// import { Switch, Route, Redirect } from 'react-router-dom';
 import querystring from 'query-string';
 import { connect } from 'react-redux';
 
 import { twitchLoginSuccess }  from './Redux/Twitch/TwitchActionCreators';
 import { youtubeLoginSuccess } from './Redux/Youtube/YoutubeActionCreators';
+import { playerOpen }  from './Redux/Player/PlayerActionCreators';
+import { playerClose } from './Redux/Player/PlayerActionCreators';
 
 import Header  from './Components/Header';
 import Main    from './Components/Main';
 import SideNav from './Components/SideNav';
 import ChannelsList from './Components/ChannelsList/ChannelsList';
+import Player  from './Components/PlayerPage/Player';
 
-import blue from 'material-ui/colors/blue';
+import Dialog from 'material-ui/Dialog';
+import Slide  from 'material-ui/transitions/Slide';
+import blue   from 'material-ui/colors/blue';
 import green  from 'material-ui/colors/green';
 import red    from 'material-ui/colors/red';
 import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles';
@@ -23,6 +29,8 @@ import 'typeface-roboto';
 
 const styles = theme => ({
   sideNav: {
+    zIndex: 10000,
+    position: 'fixed',
     [theme.breakpoints.up('md')]: {
       display: 'block',
     },
@@ -33,13 +41,33 @@ const styles = theme => ({
 })
 
 class App extends React.Component {
+  
+  constructor(props) {
+    super(props);
+
+    this.handleClickOpen    = this.handleClickOpen.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
+    
+    this.state = {
+      open: false,
+    }
+  }
+  
+  handleClickOpen = () => {
+    // this.setState({ open: true });
+    this.props.playerOpen()
+  };
+
+  handleRequestClose = () => {
+    this.setState({ open: false });
+  };
+
 // const App = props => {
 
   //http://localhost:7768/#twitch_access_token=o365yyboxcwfh1ev8p4f4rcq6brix1&twitch_refresh_token=8hhb2azd9t71j1j8m8oehyxq77c5iqu7lnc067d1gkwuftriz4&expiry_date=14602&state=twitchLoggedIn
   componentDidMount() {
     // this.props.updateTime();
     const hash = window.location.hash;
-    console.log(hash);
 
     if ( hash ) {
       const response = querystring.parse(hash.substr(1))
@@ -57,7 +85,6 @@ class App extends React.Component {
           expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
           referrer,
         }
-        console.log(result);
         if ( state.length > 0 && state[0] === 'youtubeLoggedIn' ) {
           this.props.youtubeLoginSuccess(result);
         }
@@ -102,6 +129,17 @@ class App extends React.Component {
           <div className="router-container">
             <Header />
             <Main />
+            {/* <Player /> */}
+            <Dialog
+              fullScreen
+              open={this.props.isPlayerOpen}
+              onRequestClose={this.handleRequestClose}
+              transition={<Slide direction="up" />}
+            >
+              <Switch>
+                <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={Player}/>
+              </Switch>
+            </Dialog>
             <div className={classes.sideNav}><SideNav/></div>
             <ChannelsList source={source} sources={playerSources}/>
           </div>
@@ -118,11 +156,14 @@ const mapStateToProps = state => {
     twitchLoggedIn: state.twitchOauth.loggedIn,
     channelDetails: state.twitchDetails.channelDetails,
     youtubeChannelDetails: state.youtubeDetails.channelDetails,
+    isPlayerOpen: state.player.open,
   }
 }
 const mapDispatchToProps = dispatch => ({
-  twitchLoginSuccess: (result) => dispatch(twitchLoginSuccess(result)),
+  twitchLoginSuccess:  (result) => dispatch(twitchLoginSuccess(result)),
   youtubeLoginSuccess: (result) => dispatch(youtubeLoginSuccess(result)),
+  playerOpen:  () => dispatch(playerOpen()),
+  playerClose: () => dispatch(playerClose()),
 })
 
 const AppWithStyles = withStyles(styles)(App);

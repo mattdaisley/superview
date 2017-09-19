@@ -39,19 +39,35 @@ class Header extends React.Component {
   }
 
   twitchLogin() {
-    window.location.replace('https://auth.superview.tv/twitch/oauth2');
-    // this.props.twitchLogin( window.location.href );
+    switch (process.env.NODE_ENV) {
+      case 'development':
+        window.location.replace('http://127.0.0.1:3000/twitch/oauth2');
+        break;
+      case 'production':
+      default:
+        window.location.replace('https://auth.superview.tv/twitch/oauth2');
+        break;
+    }
   }
   
   youtubeLogin() {
-    window.location.replace('https://auth.superview.tv/google/oauth2');
-    // this.props.youtubeLogin( window.location.href );
+    switch (process.env.NODE_ENV) {
+      case 'development':
+        window.location.replace('http://127.0.0.1:3000/google/oauth2');
+        break;
+      case 'production':
+      default:
+        window.location.replace('https://auth.superview.tv/google/oauth2');
+        break;
+    }
   }
 
   render() {
 
     const HeaderStyle = {
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      zIndex: 10000,
+      position: 'fixed',
     }
 
     const classes = this.props.classes;
