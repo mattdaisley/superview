@@ -75,15 +75,21 @@ setupMiddleware = function setupMiddleware(app) {
     app.use('/oauth2/google/', function( req, res, next ) {
         if ( req.query.token ) {
             // console.log('setting google token cookies');
-            const token = JSON.parse(utils.decrypt(req.query.token));
+            let token = JSON.parse(utils.decrypt(req.query.token));
             // res.cookie('google_access_token', token.access_token, { maxAge: token.expiry_date, httpOnly: false, secure: true });
             res.cookie('google_access_token', token.access_token, { maxAge: token.expiry_date, httpOnly: false });
             if ( token.refresh_token ) {
                 res.cookie('google_refresh_token', token.refresh_token, { maxAge: token.expiry_date, httpOnly: true });
             }
             console.log(token);
+
+            let tokens = {
+                'access_token': token.access_token,
+                'expirey_date': token.expirey_date || 9000000,
+                'refresh_token': token.refresh_token
+            }
             function doQuery(options) {
-                return models.auth_google.addOne(token);
+                return models.auth_google.addOne(tokens);
             }
             doQuery()
                 .then( result => {

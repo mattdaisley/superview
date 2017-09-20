@@ -41,7 +41,7 @@ auth_google = {
 
         return new Promise( (resolve, reject) => {
             DB.connect( connection => {
-                console.log('object:', object.access_token, object.expirey_date, object.refresh_token);
+                console.log('object:', object, object.access_token, object.expirey_date, object.refresh_token);
 
                 connection.query( 'INSERT INTO ' + config.db.tablePrefix + 'auth_google (access_token, refresh_token, expirey_date) VALUES (?,?,?)', [object.access_token, object.refresh_token, object.expirey_date], (err, tokens) => {
                     connection.release();
