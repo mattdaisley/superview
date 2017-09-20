@@ -1,5 +1,7 @@
-var user          = require('./user');
+const user          = require('./user');
+const auth_google   = require('./auth_google');
 
 module.exports = {
-    user: user
+    user: user,
+    auth_google: auth_google
 };

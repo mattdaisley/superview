@@ -5,6 +5,7 @@ var bodyParser      = require('body-parser'),
     helmet          = require('helmet'),
     cookieParser    = require('cookie-parser'),
     config 			= require('../config'),
+    models          = require('../models'),
     routes          = require('../routes'),
     errors 			= require('../errors'),
     auth            = require('./auth'),
@@ -42,6 +43,14 @@ setupMiddleware = function setupMiddleware(app) {
 
     // app.use('/', express.static(config.corePath + '/client/build/'));
     app.use(express.static(path.join(config.corePath, 'client', 'build')));
+
+    app.use('/auth/google', function( req, res, next ) {
+        function doQuery(options) {
+            return models.auth_google.findOneByAuthToken('auth');
+        }
+        doQuery()
+            .then( result => res.send(result) )
+    })
     
     app.use('/oauth2/google/refresh', function( req, res, next ) {
         // console.log('setting cookie');
@@ -72,7 +81,14 @@ setupMiddleware = function setupMiddleware(app) {
             if ( token.refresh_token ) {
                 res.cookie('google_refresh_token', token.refresh_token, { maxAge: token.expiry_date, httpOnly: true });
             }
-            res.redirect('/index.html');
+            console.log(token);
+            function doQuery(options) {
+                return models.auth_google.addOne(token);
+            }
+            doQuery()
+                .then( result => {
+                    res.redirect('/index.html');
+                })
         }
     })
     

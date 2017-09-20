@@ -20,11 +20,11 @@ switch ( process.env.NODE_ENV ) {
 		config.web.host = '127.0.0.1';
 		config.web.port = 7768;
 
-		// config.db.host = "useast-mysql-test.cjxfiley5kef.us-east-1.rds.amazonaws.com";
-		// config.db.user = "mattdaisleyadm";
-		// config.db.password = "ADM.Bodyeye803290.DB";
-		// config.db.database = "mdaisleydata";
-		// config.db.tablePrefix = "";
+		config.db.host = "useast-mysql-test.cjxfiley5kef.us-east-1.rds.amazonaws.com";
+		config.db.user = "mattdaisleyadm";
+		config.db.password = "ADM.Bodyeye803290.DB";
+		config.db.database = "mdaisleydata";
+		config.db.tablePrefix = "sv_";
 
 		config.appUrl = 'http://' + config.web.host + ':' + config.web.port;
 
@@ -34,11 +34,11 @@ switch ( process.env.NODE_ENV ) {
 		config.web.host = '127.0.0.1';
 		config.web.port = 3000;
 
-		// config.db.host = "useast-mysql-test.cjxfiley5kef.us-east-1.rds.amazonaws.com";
-		// config.db.user = "mattdaisleyadm";
-		// config.db.password = "ADM.Bodyeye803290.DB";
-		// config.db.database = "mdaisleydata";
-		// config.db.tablePrefix = "";
+		config.db.host = "useast-mysql-test.cjxfiley5kef.us-east-1.rds.amazonaws.com";
+		config.db.user = "mattdaisleyadm";
+		config.db.password = "ADM.Bodyeye803290.DB";
+		config.db.database = "mdaisleydata";
+		config.db.tablePrefix = "sv_";
 
 		config.appUrl = 'https://www.superview.tv';
 
