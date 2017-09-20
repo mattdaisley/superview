@@ -2,7 +2,7 @@ import * as types from '../Types';
 
 import { getYoutubeChannelDetails } from './YoutubeActionCreators'
 
-import { hasToken, getToken } from '../../Util/tokenYoutube';
+import { getToken } from '../../Util/tokenYoutube';
 
 import { doYoutubeRequest } from './YoutubeApi';
 
@@ -11,7 +11,7 @@ const youtubeApiMiddleware = store => next => action => {
     return next(action);
   }
 
-  if ( !hasToken ) return next(action);
+  const isLoggedIn = store.getState().youtubeOauth.loggedIn;
 
   const { url } = action.meta;
   const headers = {
@@ -72,20 +72,25 @@ const youtubeApiMiddleware = store => next => action => {
       
     case types.YOUTUBE_SEARCH:
     case types.YOUTUBE_POPULAR:
-      doYoutubeRequest(url)
-        .then(results => {
-          // console.log(url, results);
-          let actionItem = { payload: [] }
-          if ( results.length > 0) {
-
-            actionItem = { payload: results }
-          }
-          
-          let newAction = Object.assign({}, action, actionItem);
-          delete newAction.meta;
-          store.dispatch(newAction);
-        })
-        .catch( error => console.log('error:',error) )
+      let actionItem = { payload: [] }
+      if ( !!isLoggedIn ) {
+        doYoutubeRequest(store, url)
+          .then(results => {
+            if ( results.length > 0) {
+  
+              actionItem = { payload: results }
+            }
+            
+            let newAction = Object.assign({}, action, actionItem);
+            delete newAction.meta;
+            store.dispatch(newAction);
+          })
+          .catch( error => console.log('error:',error) )
+      } else {
+        let newAction = Object.assign({}, action, actionItem);
+        delete newAction.meta;
+        store.dispatch(newAction);
+      }
       break
 
     default:

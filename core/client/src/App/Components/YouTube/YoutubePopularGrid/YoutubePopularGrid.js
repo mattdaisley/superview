@@ -41,7 +41,9 @@ class YoutubePopularGrid extends React.Component {
 
     return (
       <div>
-        <div className="grid-header"><h3><Link to='/tw/live'>Popular Videos on YouTube</Link> <ChevronRight/></h3></div>
+        { (!!this.props.youtubePopularResults && this.props.youtubePopularResults.length > 0) && (
+          <div className="grid-header"><h3><Link to='/tw/live'>Popular Videos on YouTube</Link> <ChevronRight/></h3></div>
+        )}
         { !!this.state.youtubePopularLoaded && (
           <VideoGrid source="yt" videoItems={this.props.youtubePopularResults}></VideoGrid>
         )}

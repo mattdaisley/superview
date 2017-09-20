@@ -71,29 +71,35 @@ class App extends React.Component {
 
     if ( hash ) {
       const response = querystring.parse(hash.substr(1))
-      const state = ( response.state ) ? response.state.split(',') : [];
-      // if (response.state !== state) {
-        // reject('Invalid state returned.')
-      // }
+      const expiresIn = response.expiry_date ? parseInt(response.expiry_date, 10) : NaN
+      const state = ( response.state ) ? response.state.split(',') : []
+      const referrer = state[1]
+
+      console.log(response);
   
       if (response.twitch_access_token) {
-        const expiresIn = response.expiry_date ? parseInt(response.expiry_date, 10) : NaN
-        const referrer = state[1]
-        const result = {
+        let result = {
           token: response.twitch_access_token,
           refresh: response.twitch_refresh_token,
           expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
           referrer,
         }
-        if ( state.length > 0 && state[0] === 'youtubeLoggedIn' ) {
-          this.props.youtubeLoginSuccess(result);
-        }
         if ( state.length > 0 && state[0] === 'twitchLoggedIn' ) {
           this.props.twitchLoginSuccess(result);
         }
         // resolve(result)
-      } else {
-        // reject(response.error || 'Unknown error.')
+      } 
+      
+      if (response.google_access_token) {
+        let result = {
+          token: response.google_access_token,
+          refresh: response.google_refresh_token,
+          expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
+          referrer,
+        }
+        if ( state.length > 0 && state[0] === 'googleLoggedIn' ) {
+          this.props.youtubeLoginSuccess(result);
+        }
       }
     }
   }

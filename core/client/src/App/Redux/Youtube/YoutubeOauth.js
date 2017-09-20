@@ -2,7 +2,8 @@ import * as types from '../Types';
 
 // Initial (starting) state
 export const initialState = {
-  loggedIn: false
+  loggedIn: true,
+  logginRequested: false,
 }
 
 // Our root reducer starts with the initial state
@@ -13,7 +14,13 @@ export const reducer = (state = initialState, action) => {
       return { ...state, loggedIn: action.payload}
     case types.YOUTUBE_LOGIN_REQUEST:
       return { ...state}
-    case types.YOUTUBE_LOGIN_SUCCESS:
+    case types.YOUTUBE_LOGIN_REFRESH:
+      return { ...state}
+    case types.YOUTUBE_LOGIN_REQUESTED:
+      return { ...state, logginRequested: action.payload }
+    case types.YOUTUBE_AUTH_SUCCESS:
+      return { ...state, loggedIn: action.payload}
+    case types.YOUTUBE_AUTH_FAILURE:
       return { ...state, loggedIn: action.payload}
     case types.YOUTUBE_LOGOUT:
       return { ...state, loggedIn: action.payload}

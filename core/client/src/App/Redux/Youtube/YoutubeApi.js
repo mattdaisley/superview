@@ -1,37 +1,40 @@
 
-import { hasToken, getToken, removeToken } from '../../Util/tokenYoutube';
+import { getToken } from '../../Util/tokenYoutube';
+import { youtubeLoginFailure } from './YoutubeActionCreators'
 
-export const doYoutubeRequest = (url) => {
+export const doYoutubeRequest = (store, url) => {
 
   return new Promise( (resolve,reject) => {
     
-    if ( hasToken() ) {
-      const headers = {
-        'Authorization': 'Bearer ' + getToken()
-      }
-  
-      fetch(url, {headers: headers})
-      // fetch(url)
-        .then(resp => resp.json())
-        .then(json => {
-          // console.log(json);
-          if ( !json.error && json.pageInfo.totalResults > 0) {
-  
-            const formattedVideos = formatSearchResult(json.items);
-            // console.log(url, json, formattedVideos);
-            
-            resolve(formattedVideos)
-          } else {
-            // if ( json.error.code === 401 ) {
-              removeToken();
-            // }
-            resolve([])
-          }
-        })
-        .catch(err => { console.log('error:',err); reject(err) }  )
-    } else {
-      reject( { status: 'not authenticated' } )
+    const headers = {
+      'Authorization': 'Bearer ' + getToken()
     }
+
+    fetch(url, {headers: headers})
+    // fetch(url)
+      .then(resp => resp.json())
+      .then(json => {
+        if ( !json.error && json.pageInfo.totalResults > 0) {
+
+          const formattedVideos = formatSearchResult(json.items);
+          // console.log(url, json, formattedVideos);
+          
+          resolve(formattedVideos)
+        } else {
+          if ( json.error.code === 401 ) {
+            console.log(json.error);
+            store.dispatch(youtubeLoginFailure({refresh:true}));
+            resolve([])
+          } else {
+            reject(json.error)
+          }
+        }
+      })
+      .catch(err => { 
+        console.log('error:',err); 
+        reject(err) }  
+      )
+        
   }) 
 }
 

@@ -16,6 +16,9 @@ export const reducer = (state = initialState, action) => {
       return { ...state, youtubeSearchResults: [] }
     case types.YOUTUBE_POPULAR:
       return { ...state, youtubePopularResults: action.payload }
+
+    
+
     default:
       return state;
   }

@@ -14,16 +14,15 @@ export const hasToken = () => {
 }
 
 export const getToken = () => {
-  // cookies.set(TOKEN_KEY, 'knpv3nfzmp3uwkdc8c4berkcum1x7p', { path: '/' } )
-  // return cookies.get(TOKEN_KEY);
-  
-  // return cookies.get(TOKEN_KEY) || null;
-
   const expires_at = getExpiresAt()
   if (expires_at === null || expires_at > new Date().getTime()) {
     return window.localStorage.getItem(TOKEN_KEY) || null
   }
   return null
+}
+
+export const getRefresh = () => {
+  return window.localStorage.getItem(REFRESH_KEY) || null
 }
 
 export const setToken = (token, expiresAt) => {

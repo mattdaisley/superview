@@ -33,17 +33,52 @@ export const youtubeLogin = ( referrer ) => {
   })
 }
 
-export const youtubeLoginSuccess = ({token, expiresAt, referrer}) => {
-  console.log(token, expiresAt, referrer);
+export const youtubeLoginRefresh = ( {access_token, refresh_token} ) => {
+  return ({
+    type: types.YOUTUBE_LOGIN_REFRESH,
+    meta: {
+      type: 'youtubeOauth',
+      payload: {},
+      access_token,
+      refresh_token
+    }
+  })
+}
+
+export const setYoutubeLogginRequested = ( logginRequested ) => {
+  return ({
+    type: types.YOUTUBE_LOGIN_REQUESTED,
+    meta: {
+      type: 'youtubeOauth',
+      payload: logginRequested
+    }
+  })
+}
+
+export const youtubeLoginSuccess = ({token, refresh, expiresAt, referrer}) => {
+  console.log(token, refresh, expiresAt, referrer);
   return ({
     
-    type: types.YOUTUBE_LOGIN_SUCCESS,
+    type: types.YOUTUBE_AUTH_SUCCESS,
     payload: true,
     meta: {
       type: 'youtubeOauth',
       token,
+      refresh,
       expiresAt,
       referrer
+    }
+  })
+}
+
+export const youtubeLoginFailure = ({refresh}) => {
+  console.log('in YoutubeActionCreators youtubeLoginFailure');
+  return ({
+    type: types.YOUTUBE_AUTH_FAILURE,
+    payload: false,
+    meta: {
+      type: 'youtubeOauth',
+      refresh: refresh || false
     }
   })
 }
