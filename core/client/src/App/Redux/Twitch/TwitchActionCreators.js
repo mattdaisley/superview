@@ -143,6 +143,19 @@ export const getTwitchFollowing = () => {
    })
 }
 
+export const getTwitchFeatured = () => {
+   const requestEnpoint = 'streams/featured?limit=6'
+
+   return ({
+     type: types.GET_TWITCH_FEATURED,
+     meta: {
+       type: 'twitchApi',
+       clientId: clientId,
+       url: requestUri + requestEnpoint
+     }
+   })
+}
+
 export const twitchSearch = ( query ) => {
    const requestEnpoint = 'search/streams?query='
    const limit = 10;

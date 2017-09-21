@@ -102,6 +102,40 @@ const twitchApiMiddleware = store => next => action => {
         })
         .catch(err => console.log(err))
       break;
+
+    case types.GET_TWITCH_FEATURED:
+      // if ( !hasToken() ) return;
+      console.log('in GET_TWITCH_FEATURED');
+      fetch(url, {headers: headers})
+        .then(resp => resp.json())
+        .then(json => {
+          console.log(json);
+          if ( !json.error ) {
+            let formattedStreams = null;
+            let actionItem = { payload: [] }
+            if ( json.featured.length > 0) {
+              let streams = json.featured.map( feature => feature.stream );
+              formattedStreams = formatStreamDetails(streams);
+  
+              console.log(url, json, formattedStreams);
+              actionItem = { payload: formattedStreams }
+            }
+            
+            let newAction = Object.assign({}, action, actionItem);
+            delete newAction.meta;
+            store.dispatch(newAction);
+
+          } else {
+            // console.log('GET_TWITCH_FOLLOWING error', json, json.error, json.status === 401);
+            if ( json.status === 401 ) {
+              store.dispatch(twitchLoginFailure({refresh:true}));
+            }
+          }
+
+        })
+        .catch(err => console.log(err))
+      break;
+
     case types.TWITCH_SEARCH:
       fetch(url, {headers: headers})
         .then(resp => resp.json())
