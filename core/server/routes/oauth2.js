@@ -58,7 +58,7 @@ oauth2Routes = function oauth2Routes(middleware) {
 
             request(options, (err, response, body) => {
                 if(err) console.log(err);
-                console.log(err, 'response', body);
+                // console.log(err, 'response', body);
                 // console.log('setting twitch token cookies');
                 const token = JSON.parse(utils.decrypt(body));
                 
@@ -69,17 +69,17 @@ oauth2Routes = function oauth2Routes(middleware) {
         }
     })
     
-    router.get('/google/refresh/callback', function( req, res, next ) {
-      console.log('in /google/refresh/callback');
-        if ( req.query.token ) {
-            // console.log('setting twitch token cookies');
-            const token = JSON.parse(utils.decrypt(req.query.token));
+    // router.get('/google/refresh/callback', function( req, res, next ) {
+    //   console.log('in /google/refresh/callback');
+    //     if ( req.query.token ) {
+    //         // console.log('setting twitch token cookies');
+    //         const token = JSON.parse(utils.decrypt(req.query.token));
             
-            res.status(200).send(token)
-        } else {
-            res.status(401).send({error: { status: 'no token provided' }})
-        }
-    })
+    //         res.status(200).send(token)
+    //     } else {
+    //         res.status(401).send({error: { status: 'no token provided' }})
+    //     }
+    // })
     
     router.get('/twitch/', function( req, res, next ) {
         if ( req.query.token ) {
@@ -87,7 +87,7 @@ oauth2Routes = function oauth2Routes(middleware) {
             const token = JSON.parse(utils.decrypt(req.query.token));
 
             const redirectUrl = config.appUrl + '#twitch_access_token=' + token.access_token + '&twitch_refresh_token=' + token.refresh_token + '&expiry_date=' + token.expiry_date + '&state=twitchLoggedIn';
-            console.log('redirecting to', redirectUrl);
+            // console.log('redirecting to', redirectUrl);
             res.redirect(redirectUrl);
             // next();
         }
@@ -95,17 +95,31 @@ oauth2Routes = function oauth2Routes(middleware) {
     
     router.get('/twitch/refresh', function( req, res, next ) {
         if ( req.query.refresh_token ) {
+            // console.log( req.query.refresh_token, req.query.access_token );
             const token = {
                 access_token: req.query.access_token || null,
                 refresh_token: req.query.refresh_token
             }
             const encryptedToken = utils.encrypt(JSON.stringify(token));
             const redirectUrl = config.authAppUrl + '/oauth2/twitch/refresh?token=' + encryptedToken;
-            console.log('redirecting to:', redirectUrl);
-            // res.send(token);
-            res.redirect(redirectUrl);
+            // console.log('redirecting to:', redirectUrl);
+            // res.redirect(redirectUrl)
+
+            let options = {
+                url: redirectUrl,
+                method: 'GET'
+            };
+
+            request(options, (err, response, body) => {
+                if(err) console.log(err);
+                // console.log(err, 'response', body);
+                // console.log('setting twitch token cookies');
+                const token = JSON.parse(utils.decrypt(body));
+                
+                res.send(token)
+            });
         } else {
-            res.status(401).send({error: { status: 'no token provided' }})
+            res.status(401).send({ error: { message: 'no refresh token provided' } });
         }
     })
     

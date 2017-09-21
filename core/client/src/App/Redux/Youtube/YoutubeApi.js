@@ -22,12 +22,10 @@ export const doYoutubeRequest = (store, url) => {
           resolve(formattedVideos)
         } else {
           if ( json.error.code === 401 ) {
-            console.log(json.error);
+            // console.log(json.error);
             store.dispatch(youtubeLoginFailure({refresh:true}));
-            resolve([])
-          } else {
-            reject(json.error)
           }
+          reject(json.error)
         }
       })
       .catch(err => { 

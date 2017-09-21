@@ -28,14 +28,14 @@ const youtubeOauthMiddleware = store => next => action => {
 
     case types.YOUTUBE_LOGIN_REFRESH:
       let refreshUrl = 'http://127.0.0.1:7768/oauth2/google/refresh?access_token=' + action.meta.access_token + '&refresh_token=' + action.meta.refresh_token;
-      console.log('in YOUTUBE_LOGIN_REFRESH url:', refreshUrl);
+      // console.log('in YOUTUBE_LOGIN_REFRESH url:', refreshUrl);
 
-      let headers = { 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000' };
-
-      fetch(refreshUrl, headers)
+      // let headers = { 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000' };
+      // fetch(refreshUrl, headers)
+      fetch(refreshUrl)
         .then(resp => resp.json())
         .then(json => {
-          console.log(json);
+          // console.log(json);
           if ( !json.error ) {
             const expiresIn = json.expiry_date ? parseInt(json.expiry_date, 10) : NaN
             const state = ( json.state ) ? json.state.split(',') : []
@@ -50,7 +50,7 @@ const youtubeOauthMiddleware = store => next => action => {
             store.dispatch(youtubeLoginSuccess(result));
           }
         })
-        .catch( err => console.log('error:',err))
+        .catch( err => {} )
       break;
 
     case types.YOUTUBE_AUTH_SUCCESS:
@@ -62,15 +62,15 @@ const youtubeOauthMiddleware = store => next => action => {
       });
       delete newLoginAction.meta;
       store.dispatch(newLoginAction);
-      console.log(newLoginAction);
+      // console.log(newLoginAction);
       if ( action.meta.referrer ) window.location.href = action.meta.referrer
-      window.location.href = '/';
+      // window.location.href = '/';
       break;
 
     case types.YOUTUBE_AUTH_FAILURE:
-      console.log('YOUTUBE_AUTH_FAILURE action.meta:', action.meta);
+      // console.log('YOUTUBE_AUTH_FAILURE action.meta:', action.meta);
       const isLogginRequested = store.getState().youtubeOauth.logginRequested;
-      console.log('YOUTUBE_AUTH_FAILURE !isLogginRequested && !!action.meta.refresh', !isLogginRequested && !!action.meta.refresh);
+      // console.log('YOUTUBE_AUTH_FAILURE !isLogginRequested && !!action.meta.refresh', !isLogginRequested && !!action.meta.refresh);
       if ( !isLogginRequested && !!action.meta.refresh ) {
         const tokens = {
           access_token: getToken(),

@@ -1,8 +1,8 @@
 import * as types from '../Types';
 
-import { getTwitchChannelDetails } from './TwitchActionCreators'
+import { getTwitchChannelDetails, twitchLoginFailure } from './TwitchActionCreators'
 
-import { hasToken, getToken, removeToken } from '../../Util/tokenTwitch';
+import { hasToken, getToken } from '../../Util/tokenTwitch';
 
 const twitchApiMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'twitchApi') {
@@ -77,9 +77,9 @@ const twitchApiMiddleware = store => next => action => {
         .then(resp => resp.json())
         .then(json => {
           // console.log(json);
-          let formattedStreams = null;
-          let actionItem = { payload: [] }
           if ( !json.error ) {
+            let formattedStreams = null;
+            let actionItem = { payload: [] }
             if ( json._total > 0) {
               
               formattedStreams = formatStreamDetails(json.streams);
@@ -87,15 +87,17 @@ const twitchApiMiddleware = store => next => action => {
               // console.log(url, json, formattedStreams);
               actionItem = { payload: formattedStreams }
             }
+            
+            let newAction = Object.assign({}, action, actionItem);
+            delete newAction.meta;
+            store.dispatch(newAction);
+
           } else {
-            // if ( json.error.code === 401 ) {
-              removeToken();
-            // }
+            // console.log('GET_TWITCH_FOLLOWING error', json, json.error, json.status === 401);
+            if ( json.status === 401 ) {
+              store.dispatch(twitchLoginFailure({refresh:true}));
+            }
           }
-          
-          let newAction = Object.assign({}, action, actionItem);
-          delete newAction.meta;
-          store.dispatch(newAction);
 
         })
         .catch(err => console.log(err))

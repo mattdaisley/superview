@@ -6,8 +6,9 @@ const clientId = config.clientId;
 const requestUri = config.requestUri;
 const redirectUri = config.redirectUri;
 
+
 export const getTwitchLoginStatus = () => ({
-  type: types.TWITCH_LOGIN_STATUS,
+  type: types.TWITCH_AUTH_STATUS,
   meta: {
     type: 'twitchOauth'
   }
@@ -21,7 +22,7 @@ export const twitchLogin = ( referrer ) => {
   const state = 'twitchLoggedIn,' + referrer;
 
   return ({
-    type: types.TWITCH_LOGIN_REQUEST,
+    type: types.TWITCH_AUTH_REQUEST,
     meta: {
       type: 'twitchOauth',
       payload: {},
@@ -30,10 +31,32 @@ export const twitchLogin = ( referrer ) => {
   })
 }
 
+export const twitchLoginRefresh = ( {access_token, refresh_token} ) => {
+  return ({
+    type: types.TWITCH_AUTH_REFRESH,
+    meta: {
+      type: 'twitchOauth',
+      payload: {},
+      access_token,
+      refresh_token
+    }
+  })
+}
+
+export const setTwitchLogginRequested = ( logginRequested ) => {
+  return ({
+    type: types.TWITCH_AUTH_REQUESTED,
+    meta: {
+      type: 'twitchOauth',
+      payload: logginRequested
+    }
+  })
+}
+
 export const twitchLoginSuccess = ({token, refresh, expiresAt, referrer}) => {
   return ({
     
-    type: types.TWITCH_LOGIN_SUCCESS,
+    type: types.TWITCH_AUTH_SUCCESS,
     payload: true,
     meta: {
       type: 'twitchOauth',
@@ -41,6 +64,18 @@ export const twitchLoginSuccess = ({token, refresh, expiresAt, referrer}) => {
       refresh,
       expiresAt,
       referrer
+    }
+  })
+}
+
+export const twitchLoginFailure = ({refresh}) => {
+  // console.log('in TwitchActionCreators twitchLoginFailure');
+  return ({
+    type: types.TWITCH_AUTH_FAILURE,
+    payload: false,
+    meta: {
+      type: 'twitchOauth',
+      refresh: refresh || false
     }
   })
 }

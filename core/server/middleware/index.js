@@ -76,6 +76,7 @@ setupMiddleware = function setupMiddleware(app) {
     app.use('/oauth2', routes.oauth2(middleware));
     
     app.get('/*', function (req, res) {
+        console.log('in default route');
         res.sendFile(path.join(config.corePath, 'client', 'build', 'index.html'));
     });
 

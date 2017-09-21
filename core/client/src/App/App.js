@@ -73,7 +73,7 @@ class App extends React.Component {
       const response = querystring.parse(hash.substr(1))
       const expiresIn = response.expiry_date ? parseInt(response.expiry_date, 10) : NaN
       const state = ( response.state ) ? response.state.split(',') : []
-      const referrer = state[1]
+      const referrer = state[1] || '/'
 
       console.log(response);
   

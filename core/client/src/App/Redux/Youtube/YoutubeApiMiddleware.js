@@ -76,8 +76,8 @@ const youtubeApiMiddleware = store => next => action => {
       if ( !!isLoggedIn ) {
         doYoutubeRequest(store, url)
           .then(results => {
+            // console.log(results);
             if ( results.length > 0) {
-  
               actionItem = { payload: results }
             }
             
@@ -85,11 +85,8 @@ const youtubeApiMiddleware = store => next => action => {
             delete newAction.meta;
             store.dispatch(newAction);
           })
-          .catch( error => console.log('error:',error) )
-      } else {
-        let newAction = Object.assign({}, action, actionItem);
-        delete newAction.meta;
-        store.dispatch(newAction);
+          // .catch( error => console.log('error:',error) )
+          .catch( error => {} )
       }
       break
 
