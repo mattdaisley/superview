@@ -28,7 +28,18 @@ const twitchOauthMiddleware = store => next => action => {
       
     case types.TWITCH_AUTH_REFRESH:
       // console.log('TWITCH_AUTH_REFRESH', action.meta);
-      let refreshUrl = 'http://127.0.0.1:7768/oauth2/twitch/refresh?access_token=' + action.meta.access_token + '&refresh_token=' + action.meta.refresh_token;
+      let basePath;
+      switch (process.env.NODE_ENV) {
+        case 'development':
+          basePath = 'http://127.0.0.1:7768';
+          break;
+        case 'production':
+        default:
+          basePath = 'https://superview.tv';
+          break;
+      }
+
+      let refreshUrl = basePath + '/oauth2/twitch/refresh?access_token=' + action.meta.access_token + '&refresh_token=' + action.meta.refresh_token;
       // console.log('in YOUTUBE_LOGIN_REFRESH url:', refreshUrl);
 
       // let headers = { 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000' };

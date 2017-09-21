@@ -41,11 +41,11 @@ class Header extends React.Component {
   twitchLogin() {
     switch (process.env.NODE_ENV) {
       case 'development':
-        window.location.replace('http://127.0.0.1:3000/twitch/oauth2');
+        window.location.replace('http://127.0.0.1:3000/oauth2/twitch');
         break;
       case 'production':
       default:
-        window.location.replace('https://auth.superview.tv/twitch/oauth2');
+        window.location.replace('https://auth.superview.tv/oauth2/twitch');
         break;
     }
   }
@@ -53,11 +53,11 @@ class Header extends React.Component {
   youtubeLogin() {
     switch (process.env.NODE_ENV) {
       case 'development':
-        window.location.replace('http://127.0.0.1:3000/google/oauth2');
+        window.location.replace('http://127.0.0.1:3000/oauth2/google');
         break;
       case 'production':
       default:
-        window.location.replace('https://auth.superview.tv/google/oauth2');
+        window.location.replace('https://auth.superview.tv/oauth2/google');
         break;
     }
   }

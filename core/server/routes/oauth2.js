@@ -1,6 +1,7 @@
 // # API routes
 var express     = require('express'),
     utils       = require('../utils'),
+    models      = require('../models'),
     request     = require('request'),
     oauth2Routes;
 
