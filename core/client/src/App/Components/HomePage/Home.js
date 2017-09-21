@@ -19,6 +19,7 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('md')]: {
     },
+    marginBottom: 100
   },
 })
 
@@ -51,11 +52,11 @@ class Home extends React.Component {
                 <Grid container spacing={24} >
                   
                   <Grid item xs={12}>
-                    <TwitchFeaturedGrid></TwitchFeaturedGrid>
+                    <TwitchFollowingGrid></TwitchFollowingGrid>
                   </Grid>
                   
                   <Grid item xs={12}>
-                    <TwitchFollowingGrid></TwitchFollowingGrid>
+                    <TwitchFeaturedGrid></TwitchFeaturedGrid>
                   </Grid>
                 
                   <Grid item xs={12}>

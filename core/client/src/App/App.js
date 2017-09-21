@@ -47,9 +47,12 @@ class App extends React.Component {
 
     this.handleClickOpen    = this.handleClickOpen.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
-    
+    this.handleSideNavOpen  = this.handleSideNavOpen.bind(this);
+    this.handleSideNavClose = this.handleSideNavClose.bind(this);
+
     this.state = {
       open: false,
+      isSideNavOpen: false,
     }
   }
   
@@ -61,6 +64,14 @@ class App extends React.Component {
   handleRequestClose = () => {
     this.setState({ open: false });
   };
+
+  handleSideNavOpen = () => {
+    this.setState({ isSideNavOpen: true })
+  }
+
+  handleSideNavClose = () => {
+    this.setState({ isSideNavOpen: false })
+  }
 
 // const App = props => {
 
@@ -127,14 +138,16 @@ class App extends React.Component {
         error: red,
       },
     });
-    const classes = this.props.classes;
+    // const classes = this.props.classes;
 
     return (
       <MuiThemeProvider theme={theme}>
         <Router>
           <div className="router-container">
-            <Header />
+            <Header isSideNavOpen={this.state.isSideNavOpen} handleSideNavOpen={this.handleSideNavOpen} handleSideNavClose={this.handleSideNavClose}/>
+
             <Main />
+
             {/* <Player /> */}
             <Dialog
               fullScreen
@@ -146,7 +159,10 @@ class App extends React.Component {
                 <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={Player}/>
               </Switch>
             </Dialog>
-            <div className={classes.sideNav}><SideNav/></div>
+
+            {/* <div className={classes.sideNav}><SideNav isSideNavOpen={this.state.isSideNavOpen}/></div> */}
+            <SideNav isSideNavOpen={this.state.isSideNavOpen} handleSideNavClose={this.handleSideNavClose}/>
+
             <ChannelsList source={source} sources={playerSources}/>
           </div>
         </Router>

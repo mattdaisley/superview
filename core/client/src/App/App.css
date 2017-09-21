@@ -86,11 +86,6 @@ header nav .top-nav-items {
   line-height: 2rem;
 }
 
-.top-nav-app-bar .menu-button-wrapper {
-  margin-left: 25px;
-  margin-right: 25px;
-}
-
 .top-nav-app-bar a {
   min-width: 0;
   color: #444;
@@ -113,6 +108,13 @@ button.twitch-login-logout {
   left: 0;
   padding: 6px;
   box-sizing: border-box;
+}
+
+div.sideNavOverRide {
+  border: none !important;
+}
+div.sideNavOverRide a {
+  text-decoration: none;
 }
 
 

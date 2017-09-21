@@ -11,7 +11,10 @@ import Typography from 'material-ui/Typography';
 import Button     from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon   from 'material-ui-icons/Menu';
+import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import { withStyles } from 'material-ui/styles';
+import classNames from 'classnames';
+
 
 const styles = theme => ({
   loginActions: {
@@ -22,6 +25,15 @@ const styles = theme => ({
       display: 'none',
     },
   },
+  topNavAppBar: {
+    backgroundColor: 'white',
+    zIndex: 11000,
+    position: 'fixed',
+  },
+  menuButtonWrapper: {
+    marginLeft: 25,
+    marginRight: 25,
+  }
 })
 
 class Header extends React.Component {
@@ -64,21 +76,23 @@ class Header extends React.Component {
 
   render() {
 
-    const HeaderStyle = {
-      backgroundColor: 'white',
-      zIndex: 10000,
-      position: 'fixed',
-    }
-
     const classes = this.props.classes;
 
     return (
-      <AppBar position="fixed" className="top-nav-app-bar" style={HeaderStyle}>
+      <AppBar position="fixed" className={classNames(classes.topNavAppBar, this.props.isSideNavOpen && classes.topNavAppBarShift)}>
         <Toolbar disableGutters className="flex">
-          <div className="menu-button-wrapper">
-            <IconButton className="menu-button" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
+          <div className={classes.menuButtonWrapper}>
+            { !this.props.isSideNavOpen && (
+              <IconButton className="menu-button" aria-label="Menu" onClick={this.props.handleSideNavOpen}>
+                <MenuIcon />
+              </IconButton>
+            )}
+
+            { !!this.props.isSideNavOpen && (
+              <IconButton className="menu-button" onClick={this.props.handleSideNavClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            )}
           </div>
 
           <Typography type="title" className="App-logo-text flex-item-grow">
@@ -103,7 +117,9 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  handleSideNavOpen: PropTypes.func,
+  isSideNavOpen: PropTypes.bool,
 }
 
 Header.defaultProps = {

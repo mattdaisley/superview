@@ -1,4 +1,5 @@
 import React from 'react';
+import Grid         from 'material-ui/Grid';
 
 class Recents extends React.Component {
   
@@ -10,7 +11,18 @@ class Recents extends React.Component {
   render() {
     console.log('Recents');
     return (
-      <h3>Recents</h3>
+      <div>
+        <Grid container spacing={0} justify="center">
+          <Grid item xs={12} sm={9}>
+            <Grid container spacing={0} >
+              
+              <Grid item xs={12}>
+                <h3>Recents</h3>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }

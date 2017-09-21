@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Grid      from 'material-ui/Grid';
 
-import VideoGridItem from './VideoGridItem';
+import VideoGridItem from './VideoGridItem/VideoGridItem';
 
 import './VideoGrid.css';
 
