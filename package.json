@@ -35,6 +35,7 @@
     "docker-ecr-login": "$(aws ecr get-login --no-include-email --region us-east-1)",
     "docker-tag": "docker tag superview:latest 970556883193.dkr.ecr.us-east-1.amazonaws.com/superview:latest",
     "docker-push": "docker push 970556883193.dkr.ecr.us-east-1.amazonaws.com/superview:latest",
-    "docker-run": "docker run -d -p 8000:3000 superview"
+    "docker-run": "docker run -d -p 8000:3000 superview",
+    "docker-complete": "npm run docker-build && npm run docker-ecr-login && npm run docker-tag && npm run docker-push"
   }
 }
