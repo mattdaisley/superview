@@ -34,7 +34,7 @@ const youtubeOauthMiddleware = store => next => action => {
           break;
         case 'production':
         default:
-          basePath = 'https://superview.tv';
+          basePath = 'https://www.superview.tv';
           break;
       }
       let refreshUrl = basePath + '/oauth2/google/refresh?access_token=' + action.meta.access_token + '&refresh_token=' + action.meta.refresh_token;

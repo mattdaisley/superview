@@ -44,7 +44,7 @@ const styles = theme => ({
     height: '100%',
   },
   sideNavList: {
-    marginTop: 70,
+    marginTop: 82,
   },
   sideNavIcon: {
     marginLeft: 20,

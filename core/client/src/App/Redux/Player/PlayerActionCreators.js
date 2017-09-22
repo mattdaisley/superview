@@ -16,6 +16,33 @@ export const playerClose = () => ({
   }
 })
 
+export const playerMinimize = () => ({
+  type: types.PLAYER_MINIMIZE,
+  meta: {
+    type: 'player'
+  }
+})
+
+export const playerSources = ( sourceType, sources ) => {
+  console.log(sourceType, sources);
+  return ({
+    type: types.PLAYER_SOURCES,
+    meta: {
+      type: 'player',
+      sources: sources,
+      sourceType: sourceType
+    }
+  })
+}
+
+export const setPlayerLoaded = ( loaded ) => ({
+  type: types.PLAYER_LOADED,
+  meta: {
+    type: 'player',
+    loaded: loaded,
+  }
+})
+
 export const registerPlayer = ( sourceType, sourceId, playerObject ) => ({
   type: types.PLAYER_REGISTER,
   meta: {

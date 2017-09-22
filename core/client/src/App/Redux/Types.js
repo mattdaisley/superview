@@ -43,7 +43,10 @@ export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
 
 export const PLAYER_OPEN       = 'PLAYER_OPEN';
 export const PLAYER_CLOSE      = 'PLAYER_CLOSE';
+export const PLAYER_MINIMIZE   = 'PLAYER_MINIMIZE';
 export const PLAYER_REGISTER   = 'PLAYER_REGISTER';
 export const PLAYER_DEREGISTER = 'PLAYER_DEREGISTER';
 export const PLAYER_PLAY       = 'PLAYER_PLAY';
 export const PLAYER_PAUSE      = 'PLAYER_PAUSE';
+export const PLAYER_SOURCES    = 'PLAYER_SOURCES';
+export const PLAYER_LOADED     = 'PLAYER_LOADED';

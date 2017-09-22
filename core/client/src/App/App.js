@@ -1,13 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 // import { Switch, Route, Redirect } from 'react-router-dom';
 import querystring from 'query-string';
 import { connect } from 'react-redux';
 
 import { twitchLoginSuccess }  from './Redux/Twitch/TwitchActionCreators';
 import { youtubeLoginSuccess } from './Redux/Youtube/YoutubeActionCreators';
-import { playerOpen }  from './Redux/Player/PlayerActionCreators';
-import { playerClose } from './Redux/Player/PlayerActionCreators';
+import { playerOpen, playerClose } from './Redux/Player/PlayerActionCreators';
 
 import Header  from './Components/Header';
 import Main    from './Components/Main';
@@ -20,12 +19,17 @@ import Slide  from 'material-ui/transitions/Slide';
 import blue   from 'material-ui/colors/blue';
 import green  from 'material-ui/colors/green';
 import red    from 'material-ui/colors/red';
+import Icon       from 'material-ui/Icon';
+import IconButton from 'material-ui/IconButton';
+import CloseIcon  from 'material-ui-icons/Close';
+import InputIcon  from 'material-ui-icons/Input';
 import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles';
 
 import './App.css';
 import 'typeface-roboto';
 
-
+const playerSmallWidth = 400;
+const playerTitleHeight = 40;
 
 const styles = theme => ({
   sideNav: {
@@ -38,6 +42,102 @@ const styles = theme => ({
       display: 'none',
     },
   },
+  playerPersitent: {
+    position: 'fixed',
+    zIndex: 9000,
+  },
+  minimized: {
+    top: 86,
+    right: 100,
+    width: playerSmallWidth,
+    height: ( playerSmallWidth * 9/16 + playerTitleHeight ),
+    transition: [
+      theme.transitions.create('top', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.standard,
+      }),
+      theme.transitions.create('right', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.standard,
+      }),
+      theme.transitions.create('width', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.standard,
+      }),
+      theme.transitions.create('height', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.standard,
+      }),
+    ].join(', ')
+  },
+  open: {
+    top: 0,
+    right: 0,
+    width: '100%',
+    height: '100%',
+    transition: [
+      theme.transitions.create('top', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.standard,
+      }),
+      theme.transitions.create('right', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.standard,
+      }),
+      theme.transitions.create('width', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.standard,
+      }),
+      theme.transitions.create('height', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.standard,
+      }),
+    ].join(', ')
+  },
+  title: {
+    position: 'relative',
+    height: playerTitleHeight,
+    border: '1px solid #ccc',
+    backgroundColor: '#efefef'
+  },
+  titleButton: {
+    height: playerTitleHeight,
+    width: playerTitleHeight
+  },
+  player: {
+    position: 'relative',
+    width: '100%',
+    height: '100%'
+  },
+  placeholderContainer: {
+    position: 'absolute',
+    overflowY: 'auto',
+    right: 0,
+  },
+  placeholderCtrOpen: {
+    width: '100%',
+    height: 'calc(100% - 70px)',
+    top: '70px',
+    bottom: 0,
+  },
+  placeholderCtrMinimized: {
+    width: '100%',
+    height: '100%',
+  },
+  placeholder: {
+    backgroundColor: '#444',
+  },
+  placeholderOpen: {
+    width: 'calc(100% - 200px)',
+    margin: '20px auto',
+    height: 'calc(100vh - 220px)',
+  },
+  placeholderMinimized: {
+    width: '100%',
+    margin: '0',
+    height: '100%',
+  }
+
 })
 
 class App extends React.Component {
@@ -138,7 +238,29 @@ class App extends React.Component {
         error: red,
       },
     });
-    // const classes = this.props.classes;
+
+    const classes = this.props.classes;
+    console.log(this.props.openState);
+    let playerPersistentOpenClass, placeholderCtrOpenClass, placeholderOpenClass;
+    switch( this.props.openState ) {
+      case 'open':
+        playerPersistentOpenClass = classes.open;
+        placeholderCtrOpenClass = classes.placeholderCtrOpen;
+        placeholderOpenClass = classes.placeholderOpen;
+        break;
+      case 'minimized':
+      default:
+        playerPersistentOpenClass = classes.minimized;
+        placeholderCtrOpenClass = classes.placeholderCtrMinimized;
+        placeholderOpenClass = classes.placeholderMinimized;
+        break;
+    }
+    // const playerRouteOpenClass = ( !this.props.isPlayerOpen ) ? classes.closed : classes.open;
+    // const placeholderCtrOpenClass = ( !this.props.isPlayerOpen ) ? classes.placeholderCtrClosed : classes.placeholderCtrOpen;
+    // const placeholderOpenClass = ( !this.props.isPlayerOpen ) ? classes.placeholderClosed : classes.placeholderOpen;
+    // const playerRouteOpenClass = classes.closed;
+    // const placeholderCtrOpenClass =  classes.placeholderCtrClosed;
+    // const placeholderOpenClass = classes.placeholderClosed;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -149,16 +271,37 @@ class App extends React.Component {
             <Main />
 
             {/* <Player /> */}
-            <Dialog
+            {/* <Dialog
               fullScreen
               open={this.props.isPlayerOpen}
               onRequestClose={this.handleRequestClose}
               transition={<Slide direction="up" />}
-            >
-              <Switch>
-                <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={Player}/>
-              </Switch>
-            </Dialog>
+            > */}
+            { this.props.openState !== 'closed' && (
+              <div className={[classes.playerPersitent, playerPersistentOpenClass].join(' ')}>
+                { this.props.openState === 'minimized' && (
+                  <div className={classes.title}>
+                    <IconButton className={classes.titleButton} aria-label="Close" onClick={() => this.props.playerClose()}>
+                      <CloseIcon />
+                    </IconButton>
+                    <Link to={'/'+this.props.sourceType + '/' + this.props.playerSources.join('/')}>
+                      <IconButton className={classes.titleButton} aria-label="Open">
+                        <InputIcon /> 
+                      </IconButton>
+                    </Link>
+                  </div> 
+                )}
+                <div className={classes.player}>
+
+                  <div className={[classes.placeholderContainer, placeholderCtrOpenClass].join(' ')}>
+                    <div className={[classes.placeholder, placeholderOpenClass].join(' ')}></div>
+                  </div>
+
+                  <Player />
+                </div>
+              </div>
+            )}
+            {/* </Dialog> */}
 
             {/* <div className={classes.sideNav}><SideNav isSideNavOpen={this.state.isSideNavOpen}/></div> */}
             <SideNav isSideNavOpen={this.state.isSideNavOpen} handleSideNavClose={this.handleSideNavClose}/>
@@ -178,7 +321,9 @@ const mapStateToProps = state => {
     twitchLoggedIn: state.twitchOauth.loggedIn,
     channelDetails: state.twitchDetails.channelDetails,
     youtubeChannelDetails: state.youtubeDetails.channelDetails,
-    isPlayerOpen: state.player.open,
+    openState: state.player.openState,
+    sourceType: state.player.sourceType,
+    playerSources: state.player.sources
   }
 }
 const mapDispatchToProps = dispatch => ({

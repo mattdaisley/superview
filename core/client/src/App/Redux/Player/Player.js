@@ -2,10 +2,12 @@ import * as types from '../Types';
 
 // Initial (starting) state
 export const initialState = {
-  open: false,
+  openState: 'closed',
   sourceType: '',
+  loaded: false,
   playing: true,
-  sources: {},
+  players: [],
+  sources: [],
 }
 
 // Our root reducer starts with the initial state
@@ -14,13 +16,18 @@ export const reducer = (state = initialState, action) => {
   switch(action.type) {
     case types.PLAYER_OPEN:
     case types.PLAYER_CLOSE:
-      return { ...state, open: action.payload.open }
+    case types.PLAYER_MINIMIZE:
+      return { ...state, openState: action.payload.openState }
     case types.PLAYER_REGISTER:
     case types.PLAYER_DEREGISTER:
-      return { ...state, sources: action.payload.sources }
+      return { ...state, players: action.payload.sources }
     case types.PLAYER_PLAY:
     case types.PLAYER_PAUSE:
       return { ...state, playing: action.payload.playing }
+    case types.PLAYER_SOURCES:
+      return { ...state, ...action.payload }
+    case types.PLAYER_LOADED:
+      return { ...state, loaded: action.payload.loaded }
     default:
       return state;
   }

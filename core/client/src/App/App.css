@@ -29,10 +29,11 @@ div.main-container {
 
 div.player-main-container {
   width: 100%;
-  height: calc(100% - 70px);
+  height: 100%;
+  /* height: calc(100% - 70px); */
   position: absolute;
-  top: 70px;
-  left: 0; right: 0; bottom: 0;
+  /* top: 70px; */
+  left: 0; right: 0; bottom: 0; top: 0;
   overflow-y: auto;
 }
 

@@ -35,7 +35,7 @@ const twitchOauthMiddleware = store => next => action => {
           break;
         case 'production':
         default:
-          basePath = 'https://superview.tv';
+          basePath = 'https://www.superview.tv';
           break;
       }
 

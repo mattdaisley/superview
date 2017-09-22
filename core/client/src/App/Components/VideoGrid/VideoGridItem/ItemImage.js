@@ -51,9 +51,8 @@ class ItemImage extends React.PureComponent {
   }
 
   componentWillMount() {
-    const imgReload = setInterval( () => this.getNewImageSrc(), (Math.random() * 4000) * 60) // between 1 and 4 minutes
     const initialTimeout = setTimeout(() => this.getNewImageSrc(), (Math.random() * 1000 * 60) + 2000); // between 2 seconds and 1 minute
-    this.setState({imgReload: imgReload, initialTimeout: initialTimeout})
+    this.setState({initialTimeout: initialTimeout})
   }
 
   getNewImageSrc() {
@@ -69,6 +68,8 @@ class ItemImage extends React.PureComponent {
         break;
         
     }
+    const imgReload = setTimeout( () => this.getNewImageSrc(), ((Math.random() * 4000) * 60) + 2000) // between 1 and 4 minutes
+    this.setState({imgReload: imgReload})
   }
 
   componentWillUnmount() {

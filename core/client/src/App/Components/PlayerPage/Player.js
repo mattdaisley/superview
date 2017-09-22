@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { setRecentChannelsItem } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
-import { getTwitchChannel, resetTwitchChannel, resetTwitchChannelDetails } from '../../Redux/Twitch/TwitchActionCreators';
-import { getYoutubeChannel, resetYoutubeChannel, resetYoutubeChannelDetails, getYoutubeLoginStatus } from '../../Redux/Youtube/YoutubeActionCreators';
-import { setMessage } from '../../Redux/Messages/MessagesActionCreators';
+// import { setRecentChannelsItem } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
+// import { getTwitchChannel, resetTwitchChannel, resetTwitchChannelDetails } from '../../Redux/Twitch/TwitchActionCreators';
+// import { getYoutubeChannel, resetYoutubeChannel, resetYoutubeChannelDetails, getYoutubeLoginStatus } from '../../Redux/Youtube/YoutubeActionCreators';
+// import { setMessage } from '../../Redux/Messages/MessagesActionCreators';
 
 import PlayerWrapper        from './PlayerWrapper';
 import PlayerLoadingWrapper from './PlayerLoadingWrapper';
@@ -25,7 +25,6 @@ class Player extends React.Component {
     this.state = {
       loaded: false,
       playerSources: [],
-      channelsRequested: false,
 
       hideChat: false,
       hideChannelsList: false,
@@ -38,172 +37,14 @@ class Player extends React.Component {
   }
 
   componentWillMount() {
-    // console.log('componentWillMount', this.props)
-    this.registerPlayerSources(this.props);
-    this.props.getYoutubeLoginStatus();
+    // console.log('componentWillMount', this.props);
+    // this.registerPlayerSources(this.props);
+    // this.props.getYoutubeLoginStatus();
   }
   
   componentWillUnmount() {
     // console.log('unmounting');
-    this.resetChannels();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // console.log('componentWillReceiveProps', this.props, nextProps);
-    const { source } = nextProps.match.params;
-
-    if ( this.resetIfNewPathname(nextProps) ) return;
-    if ( this.resetIfInvalidPlayerSource(nextProps) ) return;
-    
-    if ( source === 'yt' && !this.props.youtubeLoggedIn ) {
-      this.setState( {loaded: true });
-      return;
-    }
-
-    this.setLoadedOnChannelDetailsLoad(source, nextProps)
-  }
-  
-  /*
-   * handles re-routing if duplicate sources
-   * handles getting source details from youtube or twitch
-   */ 
-  registerPlayerSources(props) {
-    const { source } = props.match.params;
-
-    let videoIds       = PlayerUtils.getVideoIds(props.match.params);
-    let uniqueVideoIds = PlayerUtils.getUniqueVideoIds(props.match.params);
-
-    if ( this.reRouteIfDuplicateSources(source, videoIds, uniqueVideoIds) ) return;
-
-    this.setState( {channelsRequested: true, playerSources: uniqueVideoIds} );
-    if ( source === 'tw' ) props.getTwitchChannel(uniqueVideoIds);
-    if ( source === 'yt' && props.youtubeLoggedIn ) props.getYoutubeChannel(uniqueVideoIds);
-    // if ( !props.youtubeLoggedIn ) 
-  }
-
-  /*
-   * compares a list of video ids with that last filtered to only unique items
-   * if the video ids contain duplicates, re route to a path with only the unique video ids
-   */
-  reRouteIfDuplicateSources(source, videoIds, uniqueVideoIds) {
-    if ( !PlayerUtils.compareArrays(videoIds, uniqueVideoIds) ) {
-      let pathname = '/'+source + '/' + uniqueVideoIds.join('/');
-      this.context.router.history.push(pathname);
-      return true; 
-    }
-  }
-  
-  /*
-   * checks if the current pathname is the same as the new pathname
-   * if so, reset channels and register the new sources from the new props
-   */
-  resetIfNewPathname(nextProps) {
-    if ( this.props.location.pathname !== nextProps.location.pathname ) {
-      this.resetChannels();
-      this.registerPlayerSources(nextProps);
-      return true;
-    }
-  }
-
-  /*
-   * validates the player sources against the source details from youtube or twitch
-   * if there is an invalid source, re-route to a path with only valid sources
-   */
-  resetIfInvalidPlayerSource(nextProps) {
-    const { source } = nextProps.match.params;
-
-    if ( nextProps.channels.length > 0 ) {
-        
-      // check for channels change
-      const oldChannelIds = this.props.channels.map( channel => channel.id );
-      const newChannelIds = nextProps.channels.map( channel => channel.id );
-
-      if ( !PlayerUtils.compareArrays(oldChannelIds, newChannelIds) ) {
-        // console.log('props.channels updated', oldChannelIds, newChannelIds)
-
-        if ( !PlayerUtils.compareArrays(newChannelIds, this.state.playerSources) ) {
-          let pathname = '/'+ source + '/' + newChannelIds.join('/');
-          console.log('new pathname', pathname);
-          this.context.router.history.push(pathname);
-          return;
-        }
-        // console.log(this.state.playerSources);
-      }
-
-    }
-    
-    if ( nextProps.youtubeChannels.length > 0 ) {
-        
-      // check for channels change
-      const oldChannelIds = this.props.youtubeChannels.map( channel => channel.id );
-      const newChannelIds = nextProps.youtubeChannels.map( channel => channel.id );
-
-      if ( !PlayerUtils.compareArrays(oldChannelIds, newChannelIds) ) {
-
-        if ( !PlayerUtils.compareArrays(newChannelIds, this.state.playerSources) ) {
-          let pathname = '/'+ source + '/' + newChannelIds.join('/');
-          this.context.router.history.push(pathname);
-          return;
-        }
-        // console.log(this.state.playerSources);
-      }
-
-    }
-  }
-
-  /*
-   * updates state.loaded when the channel details have been loaded from youtube or twitch
-   */
-  setLoadedOnChannelDetailsLoad(source, nextProps) {
-    
-    if ( nextProps.channelDetails.length > 0 ) {
-
-      // check for channel details change
-      const oldChannelDetails = this.props.channelDetails.map( channelDetails => channelDetails.id );
-      const newChannelDetails = nextProps.channelDetails.map( channelDetails => channelDetails.id );
-
-      if ( !PlayerUtils.compareArrays(oldChannelDetails, newChannelDetails) ) {
-
-        if ( newChannelDetails.length > 0 ) {
-          this.setState( {loaded: true} )
-          this.props.setRecentChannelsItem(source, nextProps.channelDetails);
-        }
-      }
-
-    }
-    
-    if ( nextProps.youtubeChannelDetails.length > 0 ) {
-
-      // check for channel details change
-      const oldChannelDetails = this.props.youtubeChannelDetails.map( channelDetails => channelDetails.id );
-      const newChannelDetails = nextProps.youtubeChannelDetails.map( channelDetails => channelDetails.id );
-
-      if ( !PlayerUtils.compareArrays(oldChannelDetails, newChannelDetails) ) {
-
-        if ( newChannelDetails.length > 0 ) {
-          this.setState( {loaded: true} )
-          this.props.setRecentChannelsItem(source, nextProps.youtubeChannelDetails);
-        }
-      }
-
-    }
-    
-  }
-
-  /*
-   * updates Redux store to reset channel and channel details for twitch and youtube
-   */
-  resetChannels() {
-    // console.log('reset channels')
-    if ( this.props.match.params.source === 'tw' ) {
-      this.props.resetTwitchChannel();
-      this.props.resetTwitchChannelDetails();
-    }
-    if ( this.props.match.params.source === 'yt' ) {
-      this.props.resetYoutubeChannel();
-      this.props.resetYoutubeChannelDetails();
-    }
-    this.setState( {channelsRequested: false, playerSources: []})
+    // this.resetChannels();
   }
 
   onFullScreenChange() {
@@ -217,13 +58,16 @@ class Player extends React.Component {
   }
 
   render() {
-    const { source } = this.props.match.params;
-    const { loaded, playerSources, hideChannelsList, isFullscreen } = this.state;
+    const sourceType = this.props.sourceType;
+    // const { loaded, playerSources, hideChannelsList, isFullscreen } = this.state;
+    const { hideChannelsList, isFullscreen } = this.state;
+    const playerLoaded = this.props.loaded;
+    const playerSources = this.props.sources;
 
     // const playerChannels = ( source === 'tw' ) ? this.props.channels : ( source === 'yt' ? this.props.youtubeChannels : [] );
-    const playerChannelDetails = ( source === 'tw' ) ? this.props.channelDetails : ( source === 'yt' ? this.props.youtubeChannelDetails : [] );
+    const playerChannelDetails = ( sourceType === 'tw' ) ? this.props.channelDetails : ( sourceType === 'yt' ? this.props.youtubeChannelDetails : [] );
     
-    if ( !loaded ) {
+    if ( !playerLoaded ) {
       return (
         <PlayerLoadingWrapper />
       )
@@ -231,7 +75,7 @@ class Player extends React.Component {
       return (
         <div className="player-main-container">
           <PlayerWrapper
-            source={source}
+            source={sourceType}
             playerSources={playerSources}
             playerChannelDetails={playerChannelDetails}
             hideChannelsList={hideChannelsList}
@@ -252,28 +96,31 @@ class Player extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    recentActivity: state.recentChannels.recentChannels,
+    // recentActivity: state.recentChannels.recentChannels,
     channels: state.twitchDetails.channels,
     channelDetails: state.twitchDetails.channelDetails,
-    youtubeLoggedIn: state.youtubeOauth.loggedIn,
+    // youtubeLoggedIn: state.youtubeOauth.loggedIn,
     youtubeChannels: state.youtubeDetails.channels,
     youtubeChannelDetails: state.youtubeDetails.channelDetails,
+    sourceType: state.player.sourceType,
+    sources: state.player.sources,
+    loaded: state.player.loaded
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  setRecentChannelsItem: (source, channelDetails) => dispatch(setRecentChannelsItem(source, channelDetails)),
+  // setRecentChannelsItem: (source, channelDetails) => dispatch(setRecentChannelsItem(source, channelDetails)),
 
-  getTwitchChannel: (channels) => dispatch(getTwitchChannel(channels)),
-  resetTwitchChannel: () => dispatch(resetTwitchChannel()),
-  resetTwitchChannelDetails: () => dispatch(resetTwitchChannelDetails()),
+  // getTwitchChannel: (channels) => dispatch(getTwitchChannel(channels)),
+  // resetTwitchChannel: () => dispatch(resetTwitchChannel()),
+  // resetTwitchChannelDetails: () => dispatch(resetTwitchChannelDetails()),
 
-  getYoutubeChannel: (channels) => dispatch(getYoutubeChannel(channels)),
-  resetYoutubeChannel: () => dispatch(resetYoutubeChannel()),
-  resetYoutubeChannelDetails: () => dispatch(resetYoutubeChannelDetails()),
-  getYoutubeLoginStatus: () => dispatch(getYoutubeLoginStatus()),
+  // getYoutubeChannel: (channels) => dispatch(getYoutubeChannel(channels)),
+  // resetYoutubeChannel: () => dispatch(resetYoutubeChannel()),
+  // resetYoutubeChannelDetails: () => dispatch(resetYoutubeChannelDetails()),
+  // getYoutubeLoginStatus: () => dispatch(getYoutubeLoginStatus()),
 
-  setMessage: (message) => dispatch(setMessage(message)),
+  // setMessage: (message) => dispatch(setMessage(message)),
 })
 
 Player.propTypes = {

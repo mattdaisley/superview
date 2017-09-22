@@ -5,15 +5,26 @@ const styles = theme => ({
     backgroundColor: '#000',
     display: 'flex',
     [theme.breakpoints.up('md')]: {
-      width: 'calc(100% - 200px)',
-      maxHeight: 'calc(100vh - 220px)',
-      margin: '20px auto',
       flexDirection: 'row',
     },
     [theme.breakpoints.down('md')]: {
-      width: '100%',
       flexDirection: 'column',
     }
+  },
+  playerWrapperOpen: {
+    [theme.breakpoints.up('md')]: {
+      width: 'calc(100% - 200px)',
+      maxHeight: 'calc(100vh - 220px)',
+      margin: '90px auto 20px',
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+    }
+  },
+  playerWrapperMinimized: {
+    width: '100%',
+    height: '100%',
+    margin: 0
   },
   playerWrapperFullscreen: {
     width: '100%',

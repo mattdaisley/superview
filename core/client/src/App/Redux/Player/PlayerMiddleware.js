@@ -8,42 +8,58 @@ const playerMiddleware = store => next => action => {
   switch (action.type) {
     case types.PLAYER_OPEN:
       let openPlayerAction = Object.assign({}, action, {
-        payload: { open: true }
+        payload: { openState: 'open' }
       });
       delete openPlayerAction.meta;
       store.dispatch(openPlayerAction);
       break
     case types.PLAYER_CLOSE:
       let closePlayerAction = Object.assign({}, action, {
-        payload: { open: false }
+        payload: { openState: 'closed' }
       });
       delete closePlayerAction.meta;
       store.dispatch(closePlayerAction);
       break
+    case types.PLAYER_MINIMIZE:
+      console.log('minimizing player');
+      let minimizePlayerAction = Object.assign({}, action, {
+        payload: { openState: 'minimized' }
+      });
+      delete minimizePlayerAction.meta;
+      store.dispatch(minimizePlayerAction);
+      break
+
     case types.PLAYER_REGISTER:
       const { sourceType, sourceId, playerObject } = action.meta;
-      const prevSources = Object.assign( {}, store.getState().player.sources );
-      // const prevSources = { 'tw:123': { id: '123', sourceType: 'tw', playerObject: {} }, 'tw:anthony_kongphan': { id: 'anthony_kongphan', source: 'tw', playerObject: {} } }
-      let newSources = { ...prevSources };
+      const prevPlayers = Object.assign( {}, store.getState().player.players );
+      // const prevPlayers = { 'tw:123': { id: '123', sourceType: 'tw', playerObject: {} }, 'tw:anthony_kongphan': { id: 'anthony_kongphan', source: 'tw', playerObject: {} } }
+      let newPlayers = { ...prevPlayers };
 
-      const matchingSource = getMatchingSource( prevSources, sourceType, sourceId )
+      const matchingSource = getMatchingSource( prevPlayers, sourceType, sourceId )
       if ( matchingSource ){
-        newSources[sourceType + ':' + sourceId] = { ...matchingSource, playerObject } 
+        newPlayers[sourceType + ':' + sourceId] = { ...matchingSource, playerObject } 
       } else {
-        newSources[sourceType + ':' + sourceId] = { id: sourceId, sourceType, playerObject } 
+        newPlayers[sourceType + ':' + sourceId] = { id: sourceId, sourceType, playerObject } 
       }
-      dispatchNewAction( store, action, { sources: newSources });
+      dispatchNewAction( store, action, { players: newPlayers });
       break;
     case types.PLAYER_DEREGISTER:
-      dispatchNewAction(store, action, { sources: deRegisterPlayer(store, action.meta) })
+      dispatchNewAction(store, action, { players: deRegisterPlayer(store, action.meta) })
       break;
     case types.PLAYER_PLAY:
-      playersCall(store.getState().player.sources, action.type);
+      playersCall(store.getState().player.players, action.type);
       dispatchNewAction(store, action, { playing: true })
       break;
     case types.PLAYER_PAUSE:
-      playersCall(store.getState().player.sources, action.type);
+      playersCall(store.getState().player.players, action.type);
       dispatchNewAction(store, action, { playing: false })
+      break;
+    case types.PLAYER_SOURCES:
+      console.log(action.meta);
+      dispatchNewAction(store, action, { sourceType: action.meta.sourceType, sources: action.meta.sources })
+      break;
+    case types.PLAYER_LOADED:
+      dispatchNewAction(store, action, { loaded: action.meta.loaded } )
       break;
     default:
       break

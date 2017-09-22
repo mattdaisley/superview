@@ -1,4 +1,5 @@
 import React     from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
@@ -21,11 +22,15 @@ const PlayerWrapper = (props) => {
 
   const classes = props.classes;
 
-  const playerWrapperClass   = ( !props.isFullscreen ) ? classes.playerWrapper : classes.playerWrapperFullscreen;
+  let playerWrapperClass     = ( !props.isFullscreen ) ? classes.playerWrapper : classes.playerWrapperFullscreen;
+      playerWrapperClass     = ( props.openState === 'minimized') ? [playerWrapperClass, classes.playerWrapperMinimized].join(' ') : [playerWrapperClass, classes.playerWrapperOpen].join(' ')
   const playerContainerClass = ( !props.isFullscreen ) ? classes.playerContainer : classes.playerContainerFullscreen;
   const playerClass          = ( !props.isFullscreen ) ? classes.player : classes.player + ' ' + classes.playerFullscreen;
 
+  const showTwitchChat = (props.sourceType === 'tw' && props.playerChannelDetails.length > 0 && props.openState === true)
+
   // build the embed player elements to display
+  console.log(props.playerSources);
   const embedPlayers = props.playerSources.map( (videoId, index) => {
     
     let playerLayoutClass = classes['player' + index + 'layout' + layout];
@@ -40,7 +45,7 @@ const PlayerWrapper = (props) => {
   })
   
   return (
-    <div id="player-wrapper" className={['flex',playerWrapperClass].join(' ')}>
+    <div id="player-wrapper" className={['flex', playerWrapperClass].join(' ')}>
 
     
       {/* <div>{this.props.channels ? (this.props.channels[0] ? this.props.channels[0].name : '') : ''}</div> */}
@@ -50,7 +55,7 @@ const PlayerWrapper = (props) => {
         {embedPlayers}
       </div>
 
-      { !!(props.source === 'tw' && props.playerChannelDetails.length > 0) && 
+      { !!showTwitchChat && 
         <TwitchChat hideChannelsList={props.hideChannelsList} id={props.playerChannelDetails[0].channel.name}/>
       }
 
@@ -68,6 +73,15 @@ const PlayerWrapper = (props) => {
 
 }
 
+const mapStateToProps = state => {
+  return {
+    sourceType: state.player.sourceType,
+    openState: state.player.openState,
+  }
+}
+
+const mapDispatchToProps = dispatch => ({ })
+
 PlayerWrapper.propTypes = {
   source: PropTypes.string, 
   playerSources: PropTypes.array, 
@@ -80,5 +94,5 @@ PlayerWrapper.propTypes = {
 
 const PlayerWrapperWithStyles = withStyles(styles)(PlayerWrapper);
 
-// export default connect(mapStateToProps, mapDispatchToProps)(PlayerWrapperWithStyles);
-export default PlayerWrapperWithStyles
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerWrapperWithStyles);
+// export default PlayerWrapperWithStyles
