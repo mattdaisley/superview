@@ -20,12 +20,12 @@ export const reducer = (state = initialState, action) => {
       return { ...state, openState: action.payload.openState }
     case types.PLAYER_REGISTER:
     case types.PLAYER_DEREGISTER:
-      return { ...state, players: action.payload.sources }
+      return { ...state, players: action.payload.players }
     case types.PLAYER_PLAY:
     case types.PLAYER_PAUSE:
       return { ...state, playing: action.payload.playing }
     case types.PLAYER_SOURCES:
-      return { ...state, ...action.payload }
+      return { ...state, sourceType: action.payload.sourceType, sources: action.payload.sources }
     case types.PLAYER_LOADED:
       return { ...state, loaded: action.payload.loaded }
     default:

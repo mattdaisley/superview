@@ -30,7 +30,6 @@ const PlayerWrapper = (props) => {
   const showTwitchChat = (props.sourceType === 'tw' && props.playerChannelDetails.length > 0 && props.openState === 'open')
 
   // build the embed player elements to display
-  console.log(props.playerSources);
   const embedPlayers = props.playerSources.map( (videoId, index) => {
     
     let playerLayoutClass = classes['player' + index + 'layout' + layout];

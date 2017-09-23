@@ -21,7 +21,6 @@ const playerMiddleware = store => next => action => {
       store.dispatch(closePlayerAction);
       break
     case types.PLAYER_MINIMIZE:
-      console.log('minimizing player');
       let minimizePlayerAction = Object.assign({}, action, {
         payload: { openState: 'minimized' }
       });
@@ -46,18 +45,20 @@ const playerMiddleware = store => next => action => {
     case types.PLAYER_DEREGISTER:
       dispatchNewAction(store, action, { players: deRegisterPlayer(store, action.meta) })
       break;
+
     case types.PLAYER_PLAY:
-      playersCall(store.getState().player.players, action.type);
+      callPlayerFunction(store.getState().player.players, action.type);
       dispatchNewAction(store, action, { playing: true })
       break;
     case types.PLAYER_PAUSE:
-      playersCall(store.getState().player.players, action.type);
+      callPlayerFunction(store.getState().player.players, action.type);
       dispatchNewAction(store, action, { playing: false })
       break;
+
     case types.PLAYER_SOURCES:
-      console.log(action.meta);
       dispatchNewAction(store, action, { sourceType: action.meta.sourceType, sources: action.meta.sources })
       break;
+
     case types.PLAYER_LOADED:
       dispatchNewAction(store, action, { loaded: action.meta.loaded } )
       break;
@@ -82,19 +83,19 @@ const deRegisterPlayer = ( store, actionMeta ) => {
   return sources;
 }
 
-const playersCall = ( sources, action ) => {
-  if ( sources.constructor === Object && Object.keys(sources).length !== 0 ) {
-    Object.keys(sources).forEach( key => {
-      const sourceType = sources[key].sourceType;
+const callPlayerFunction = ( players, action ) => {
+  if ( players.constructor === Object && Object.keys(players).length !== 0 ) {
+    Object.keys(players).forEach( key => {
+      const sourceType = players[key].sourceType;
       switch( action ) {
         case types.PLAYER_PLAY:
-          if ( sourceType === 'tw' ) { sources[key].playerObject.play(); return; }
-          if ( sourceType === 'yt' ) { sources[key].playerObject.playVideo(); return; }
+          if ( sourceType === 'tw' ) { players[key].playerObject.play(); return; }
+          if ( sourceType === 'yt' ) { players[key].playerObject.playVideo(); return; }
           break;
         case types.PLAYER_PAUSE:
         default:
-          if ( sourceType === 'tw' ) { sources[key].playerObject.pause(); return; }
-          if ( sourceType === 'yt' ) { sources[key].playerObject.pauseVideo(); return; }
+          if ( sourceType === 'tw' ) { players[key].playerObject.pause(); return; }
+          if ( sourceType === 'yt' ) { players[key].playerObject.pauseVideo(); return; }
           break;
       }
     })

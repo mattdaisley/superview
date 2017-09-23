@@ -12,7 +12,7 @@ import PlayerLoadingWrapper from './PlayerLoadingWrapper';
 
 import './Player.css';
 
-import PlayerUtils from './PlayerUtils';
+// import PlayerUtils from './PlayerUtils';
 
 
 class Player extends React.Component {

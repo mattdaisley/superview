@@ -24,7 +24,6 @@ class TwitchPlayer extends React.Component {
       
       document.getElementsByTagName('head')[0].appendChild(twitchEmbed);
     }
-    console.log('calling register player');
     this.props.registerPlayer('tw', this.props.id, {});
   }
   
@@ -34,7 +33,6 @@ class TwitchPlayer extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log('calling deregister player');
     this.props.deRegisterPlayer('tw', this.props.id);
     if ( !window.Twitch ) {
       this.Player.removeEventListener(window.Twitch.Player.READY);
@@ -57,54 +55,13 @@ class TwitchPlayer extends React.Component {
   }
 
   onPlayerReady() {
-    console.log('calling register player');
     this.props.registerPlayer('tw', this.props.id, this.Player);
   }
-
-  pause() {}
-  play() {}
-  seek(timestamp) {}
-  setChannel(channel) {}
-  setCollection(collectionId, videoId) {}
-  setQuality(quality) {}
-  setVideo(videoId) {}
-  
-  getMuted() {}
-  setMuted(muted) {}
-  getVolume() {}
-  setVolume(volumelevel) {}
-  
-  getChannel() {}
-  getCurrentTime() {}
-  getDuration() {}
-  getEnded() {}
-  getPlaybackStats() {}
-  getQualities() {}
-  getQuality() {}
-  getVideo() {}
-  isPaused() {}
 
   render() {
 
     let {id} = this.props;
-    // let playerUrl;
-
-    // if (process.env.NODE_ENV === 'development') {
-    //   playerUrl = 'http://player.twitch.tv/?channel='+id;
-    // } else if (process.env.NODE_ENV === 'production') {
-    //   playerUrl = 'https://player.twitch.tv/?channel='+id;
-    // }
-
     return (
-      // <iframe
-      //   src={playerUrl}
-      //   title={id}
-      //   height="100%"
-      //   width="100%"
-      //   frameBorder="0"
-      //   scrolling="no"
-      //   allowFullScreen="true">
-      // </iframe>
       <div id={"player-"+id} style={{width: '100%', height: '100%'}}></div>
     );
   }

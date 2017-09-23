@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 // import { Switch, Route, Redirect } from 'react-router-dom';
 import querystring from 'query-string';
 import { connect } from 'react-redux';
@@ -14,12 +14,12 @@ import SideNav from './Components/SideNav';
 import ChannelsList from './Components/ChannelsList/ChannelsList';
 import Player  from './Components/PlayerPage/Player';
 
-import Dialog from 'material-ui/Dialog';
-import Slide  from 'material-ui/transitions/Slide';
+// import Dialog from 'material-ui/Dialog';
+// import Slide  from 'material-ui/transitions/Slide';
 import blue   from 'material-ui/colors/blue';
 import green  from 'material-ui/colors/green';
 import red    from 'material-ui/colors/red';
-import Icon       from 'material-ui/Icon';
+// import Icon       from 'material-ui/Icon';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon  from 'material-ui-icons/Close';
 import InputIcon  from 'material-ui-icons/Input';
@@ -186,8 +186,6 @@ class App extends React.Component {
       const state = ( response.state ) ? response.state.split(',') : []
       const referrer = state[1] || '/'
 
-      console.log(response);
-  
       if (response.twitch_access_token) {
         let result = {
           token: response.twitch_access_token,
@@ -240,7 +238,7 @@ class App extends React.Component {
     });
 
     const classes = this.props.classes;
-    console.log(this.props.openState);
+
     let playerPersistentOpenClass, placeholderCtrOpenClass, placeholderOpenClass;
     switch( this.props.openState ) {
       case 'open':

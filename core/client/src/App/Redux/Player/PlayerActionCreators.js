@@ -24,7 +24,6 @@ export const playerMinimize = () => ({
 })
 
 export const playerSources = ( sourceType, sources ) => {
-  console.log(sourceType, sources);
   return ({
     type: types.PLAYER_SOURCES,
     meta: {

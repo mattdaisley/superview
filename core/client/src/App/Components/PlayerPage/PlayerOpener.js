@@ -24,12 +24,10 @@ class PlayerOpener extends React.Component {
   }
   
   componentWillUnmount() {
-    console.log('calling playerMinimize');
     this.props.playerMinimize();
   }
   
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', nextProps.sourceType, this.props.sources, nextProps.sources);
     const sourceType = nextProps.source;
 
     if ( this.resetIfNewPathname(nextProps) ) return;
@@ -54,7 +52,6 @@ class PlayerOpener extends React.Component {
     let uniqueVideoIds = PlayerUtils.getUniqueVideoIds(props.match.params);
 
     if ( this.reRouteIfDuplicateSources(sourceType, videoIds, uniqueVideoIds, this.context.router) ) return;
-    console.log(uniqueVideoIds);
 
     // this.setState( {playerSources: uniqueVideoIds} );
     this.props.playerSources( sourceType, uniqueVideoIds )
@@ -105,7 +102,6 @@ class PlayerOpener extends React.Component {
 
         if ( !PlayerUtils.compareArrays(newChannelIds, this.props.sources) ) {
           let pathname = '/'+ sourceType + '/' + newChannelIds.join('/');
-          console.log('new pathname', pathname);
           this.context.router.history.push(pathname);
           return;
         }
