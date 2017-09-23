@@ -27,7 +27,7 @@ const PlayerWrapper = (props) => {
   const playerContainerClass = ( !props.isFullscreen ) ? classes.playerContainer : classes.playerContainerFullscreen;
   const playerClass          = ( !props.isFullscreen ) ? classes.player : classes.player + ' ' + classes.playerFullscreen;
 
-  const showTwitchChat = (props.sourceType === 'tw' && props.playerChannelDetails.length > 0 && props.openState === true)
+  const showTwitchChat = (props.sourceType === 'tw' && props.playerChannelDetails.length > 0 && props.openState === 'open')
 
   // build the embed player elements to display
   console.log(props.playerSources);

@@ -23,12 +23,12 @@ class TwitchFeaturedGrid extends React.Component {
   componentWillMount() {
     this.props.getTwitchFeatured();
 
-    // var intervalId = setInterval(this.props.getTwitchFeatured, 5000);
-    // this.setState({intervalId: intervalId});
+    var intervalId = setInterval(this.props.getTwitchFeatured, 5000);
+    this.setState({intervalId: intervalId});
   }
 
   componentWillUnmount() {
-    // clearInterval(this.state.intervalId);
+    clearInterval(this.state.intervalId);
   }
 
   componentWillReceiveProps(nextProps) {

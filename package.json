@@ -38,5 +38,8 @@
     "docker-push": "docker push 970556883193.dkr.ecr.us-east-1.amazonaws.com/superview:latest",
     "docker-run": "docker run -d -p 8000:3000 superview",
     "docker-complete": "npm run docker-build && npm run docker-ecr-login && npm run docker-tag && npm run docker-push"
+  },
+  "devDependencies": {
+    "webpack-bundle-analyzer": "^2.9.0"
   }
 }

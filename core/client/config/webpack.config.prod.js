@@ -12,6 +12,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -321,6 +322,30 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      // Path to bundle report file that will be generated in `static` mode. 
+      // Relative to bundles output directory. 
+      reportFilename: 'report.html',
+      // Module sizes to show in report by default. 
+      // Should be one of `stat`, `parsed` or `gzip`. 
+      // See "Definitions" section for more information. 
+      defaultSizes: 'parsed',
+      // Automatically open report in default browser 
+      openAnalyzer: true,
+      // If `true`, Webpack Stats JSON file will be generated in bundles output directory 
+      generateStatsFile: true,
+      // Name of Webpack Stats JSON file that will be generated if `generateStatsFile` is `true`. 
+      // Relative to bundles output directory. 
+      statsFilename: 'stats.json',
+      // Options for `stats.toJson()` method. 
+      // For example you can exclude sources of your modules from stats file with `source: false` option. 
+      // See more options here: https://github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21 
+      statsOptions: null,
+      // Log level. Can be 'info', 'warn', 'error' or 'silent'. 
+      logLevel: 'info'
+    }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
