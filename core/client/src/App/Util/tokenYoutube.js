@@ -4,6 +4,7 @@ const cookies = new Cookies();
 const TOKEN_KEY = 'google_access_token'
 const REFRESH_KEY = 'google_refresh_token'
 const EXPIRES_AT_KEY = 'google_expires_at'
+const GOOGLE_USER_ID_KEY = 'google_user_id'
 
 export const getExpiresAt = () =>
   window.localStorage.getItem(EXPIRES_AT_KEY) || null
@@ -40,4 +41,11 @@ export const removeToken = () => {
   window.localStorage.removeItem(TOKEN_KEY)
   window.localStorage.removeItem(REFRESH_KEY)
   window.localStorage.removeItem(EXPIRES_AT_KEY)
+  window.localStorage.removeItem(GOOGLE_USER_ID_KEY)
+}
+
+
+
+export const setGoogleUserId = (google_user_id) => {
+  window.localStorage.setItem(GOOGLE_USER_ID_KEY, google_user_id)
 }

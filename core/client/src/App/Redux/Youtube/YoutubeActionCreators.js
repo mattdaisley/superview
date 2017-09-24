@@ -55,8 +55,8 @@ export const setYoutubeLogginRequested = ( logginRequested ) => {
   })
 }
 
-export const youtubeLoginSuccess = ({token, refresh, expiresAt, referrer}) => {
-  console.log(token, refresh, expiresAt, referrer);
+export const youtubeLoginSuccess = ({token, refresh, expiresAt, referrer, google_user_id}) => {
+  console.log(token, refresh, expiresAt, referrer, google_user_id);
   return ({
     
     type: types.YOUTUBE_AUTH_SUCCESS,
@@ -66,7 +66,8 @@ export const youtubeLoginSuccess = ({token, refresh, expiresAt, referrer}) => {
       token,
       refresh,
       expiresAt,
-      referrer
+      referrer,
+      google_user_id,
     }
   })
 }

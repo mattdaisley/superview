@@ -72,6 +72,8 @@ setupMiddleware = function setupMiddleware(app) {
 
     // ### Routing
     // Set up API routes
+    
+    app.use(routes.apiBaseUri, routes.api(middleware));
 
     app.use('/oauth2', routes.oauth2(middleware));
     

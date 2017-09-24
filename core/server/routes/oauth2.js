@@ -1,7 +1,6 @@
 // # API routes
 var express     = require('express'),
     utils       = require('../utils'),
-    models      = require('../models'),
     request     = require('request'),
     oauth2Routes;
 
@@ -25,18 +24,13 @@ oauth2Routes = function oauth2Routes(middleware) {
           const token = JSON.parse(utils.decrypt(req.query.token));
 
           let tokens = {
+              'google_user_id': token.google_user_id,
               'access_token': token.access_token,
               'expirey_date': token.expirey_date || 9000000,
               'refresh_token': token.refresh_token
           }
-          function doQuery(options) {
-              return models.auth_google.addOne(tokens);
-          }
-          doQuery()
-              .then( result => {
-                  const redirectUrl = config.appUrl + '#google_access_token=' + tokens.access_token + '&google_refresh_token=' + tokens.refresh_token + '&expiry_date=' + tokens.expiry_date + '&state=googleLoggedIn';
-                  res.redirect(redirectUrl);
-              })
+          const redirectUrl = config.appUrl + '#google_access_token=' + tokens.access_token + '&google_refresh_token=' + tokens.refresh_token + '&expiry_date=' + tokens.expiry_date + '&google_user_id=' + tokens.google_user_id + '&state=googleLoggedIn';
+          res.redirect(redirectUrl);
         }
     })
     

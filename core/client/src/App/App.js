@@ -201,6 +201,7 @@ class App extends React.Component {
       
       if (response.google_access_token) {
         let result = {
+          google_user_id: response.google_user_id,
           token: response.google_access_token,
           refresh: response.google_refresh_token,
           expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,

@@ -7,6 +7,7 @@
 var _              = require('lodash'),
     users          = require('./users'),
     auth           = require('./auth'),
+    youtube        = require('./youtube'),
     discover       = require('./discover'),
 
     http;
@@ -65,6 +66,7 @@ module.exports = {
     http: http,
     users: users,
     auth: auth,
+    youtube: youtube,
     discover: discover
 };
 

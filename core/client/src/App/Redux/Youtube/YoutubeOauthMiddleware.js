@@ -2,7 +2,7 @@ import * as types from '../Types';
 
 import { setYoutubeLogginRequested, youtubeLoginRefresh, youtubeLoginSuccess } from './YoutubeActionCreators'
 // import { setToken, removeToken, hasToken } from '../../Util/tokenYoutube';
-import { setToken, setRefresh, removeToken, hasToken, getToken, getRefresh } from '../../Util/tokenYoutube';
+import { setToken, setRefresh, removeToken, hasToken, getToken, getRefresh, setGoogleUserId } from '../../Util/tokenYoutube';
 
 const youtubeOauthMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'youtubeOauth') {
@@ -65,6 +65,7 @@ const youtubeOauthMiddleware = store => next => action => {
 
     case types.YOUTUBE_AUTH_SUCCESS:
       setToken(action.meta.token, action.meta.expiresAt)
+      setGoogleUserId(action.meta.google_user_id)
       setRefresh(action.meta.refresh)
       store.dispatch(setYoutubeLogginRequested(false));
       let newLoginAction = Object.assign({}, action, {
