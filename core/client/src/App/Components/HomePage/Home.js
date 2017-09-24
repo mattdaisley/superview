@@ -10,6 +10,7 @@ import RecentChannelsList  from '../../Components/RecentChannelsList/RecentChann
 import TwitchFollowingGrid from '../../Components/Twitch/TwitchFollowingGrid/TwitchFollowingGrid';
 import TwitchFeaturedGrid  from '../../Components/Twitch/TwitchFeaturedGrid/TwitchFeaturedGrid';
 import YoutubePopularGrid  from '../../Components/YouTube/YoutubePopularGrid/YoutubePopularGrid';
+import YoutubeRecentGrid   from '../../Components/YouTube/YoutubeRecentGrid/YoutubeRecentGrid';
 
 const styles = theme => ({
   root: {
@@ -53,6 +54,10 @@ class Home extends React.Component {
                   
                   <Grid item xs={12}>
                     <TwitchFollowingGrid></TwitchFollowingGrid>
+                  </Grid>
+                
+                  <Grid item xs={12}>
+                    <YoutubeRecentGrid></YoutubeRecentGrid>
                   </Grid>
                   
                   <Grid item xs={12}>

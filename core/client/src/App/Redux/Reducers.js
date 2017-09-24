@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+import * as superViewApi   from './SuperViewApi/SuperViewApi';
+
 import * as twitchOauth    from './Twitch/TwitchOauth';
 import * as twitchDetails  from './Twitch/TwitchChannels';
 import * as twitchBrowse   from './Twitch/TwitchBrowse';
@@ -14,6 +16,7 @@ import * as messages from './Messages/Messages';
 import * as player   from './Player/Player';
 
 export const rootReducer = combineReducers({
+  superViewApi: superViewApi.reducer,
   twitchOauth: twitchOauth.reducer,
   twitchDetails: twitchDetails.reducer,
   twitchBrowse: twitchBrowse.reducer,
@@ -26,6 +29,7 @@ export const rootReducer = combineReducers({
 })
 
 export const initialState = {
+  superViewApi: superViewApi.initialState,
   twitchOauth: twitchOauth.initialState,
   twitchDetails: twitchDetails.initialState,
   twitchBrowse: twitchBrowse.initialState,

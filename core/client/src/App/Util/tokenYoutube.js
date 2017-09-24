@@ -49,3 +49,7 @@ export const removeToken = () => {
 export const setGoogleUserId = (google_user_id) => {
   window.localStorage.setItem(GOOGLE_USER_ID_KEY, google_user_id)
 }
+
+export const getGoogleUserId = () => {
+  return window.localStorage.getItem(GOOGLE_USER_ID_KEY) || null
+}

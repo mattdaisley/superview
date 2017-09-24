@@ -44,7 +44,7 @@ setupMiddleware = function setupMiddleware(app) {
     
     // console.log('middleware');
     
-    // app.use((req, res, next) => { console.log(req.url); next()})
+    app.use((req, res, next) => { console.log(req.url); next()})
 
     // console.log(config.corePath + '/client/build/');
     // console.log(path.join(config.corePath, 'client', 'build', 'index.html'));
@@ -72,7 +72,7 @@ setupMiddleware = function setupMiddleware(app) {
 
     // ### Routing
     // Set up API routes
-    
+
     app.use(routes.apiBaseUri, routes.api(middleware));
 
     app.use('/oauth2', routes.oauth2(middleware));

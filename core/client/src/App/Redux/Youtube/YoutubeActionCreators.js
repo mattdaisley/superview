@@ -179,3 +179,21 @@ export const getYoutubePopular = () => {
   })
 
 }
+
+export const getYoutubeRecent = ( videoIds ) => {
+  console.log('getYoutubeRecent videoIds:', videoIds);
+  const requestEnpoint = 'videos'
+  const part = 'snippet'
+  const id = videoIds.join(',')
+  const maxResults = 6
+
+  return ({
+    type: types.YOUTUBE_RECENT,
+    meta: {
+      type: 'youtubeApi',
+      clientId: clientId,
+      url: apiRequestUri + requestEnpoint + '?part=' + part + '&id=' + id + '&maxResults=' + maxResults,
+    }
+  })
+
+}

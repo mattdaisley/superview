@@ -72,11 +72,12 @@ const youtubeApiMiddleware = store => next => action => {
       
     case types.YOUTUBE_SEARCH:
     case types.YOUTUBE_POPULAR:
+    case types.YOUTUBE_RECENT:
       let actionItem = { payload: [] }
       if ( !!isLoggedIn ) {
         doYoutubeRequest(store, url)
           .then(results => {
-            // console.log(results);
+            console.log(results);
             if ( results.length > 0) {
               actionItem = { payload: results }
             }

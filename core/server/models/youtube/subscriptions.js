@@ -24,7 +24,7 @@ subscriptions = {
                     .join(config.db.tablePrefix + 'google_users_subscriptions', config.db.tablePrefix + 'google_subscriptions_uploads.google_channel_id', config.db.tablePrefix + 'google_users_subscriptions.google_channel_id')
                     .select(config.db.tablePrefix + 'google_subscriptions_uploads.google_video_id')
                     .where(config.db.tablePrefix + 'google_users_subscriptions.google_user_id', google_user_id)
-                    .orderBy(config.db.tablePrefix + 'google_subscriptions_uploads.published_at')
+                    .orderBy(config.db.tablePrefix + 'google_subscriptions_uploads.published_at', 'desc')
                     .limit(20)
 
                 connection.query( query.toString(), (err, subscriptions) => {

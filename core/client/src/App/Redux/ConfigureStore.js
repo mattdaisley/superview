@@ -4,6 +4,8 @@ import { rootReducer, initialState } from './Reducers'
 
 import loggingMiddleware     from './LoggingMiddleware';
 
+import superViewApiMiddleware   from './SuperViewApi/SuperViewApiMiddleware';
+
 import recentChannelsMiddleware from './RecentChannels/RecentChannelsMiddleware';
 
 import twitchOauthMiddleware from './Twitch/TwitchOauthMiddleware';
@@ -22,6 +24,7 @@ export const ConfigureStore = () => {
     initialState,
     applyMiddleware(
       loggingMiddleware,
+      superViewApiMiddleware,
       recentChannelsMiddleware,
       twitchOauthMiddleware,
       twitchApiMiddleware,
