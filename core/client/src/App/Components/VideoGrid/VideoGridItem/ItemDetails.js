@@ -17,7 +17,7 @@ const styles = theme => ({
     transition: [
       theme.transitions.create('bottom', {
         easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.standard,
+        duration: theme.transitions.duration.shortest,
       }),
     ],
   },
@@ -26,7 +26,7 @@ const styles = theme => ({
     transition: [
       theme.transitions.create('bottom', {
         easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.standard,
+        duration: theme.transitions.duration.shortest,
       }),
     ],
   },

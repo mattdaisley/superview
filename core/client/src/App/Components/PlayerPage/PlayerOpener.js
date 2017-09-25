@@ -20,6 +20,7 @@ class PlayerOpener extends React.Component {
   componentDidMount() {
     this.props.playerOpen();
     // this.props.playerMinimize();
+    this.resetChannels();
     this.registerPlayerSources(this.props);
   }
   
