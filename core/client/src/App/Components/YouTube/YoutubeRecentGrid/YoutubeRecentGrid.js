@@ -48,7 +48,7 @@ class YoutubeRecentGrid extends React.Component {
     return (
       <div>
         { (!!this.props.youtubeRecentResults && this.props.youtubeRecentResults.length > 0) && (
-          <div className="grid-header"><h3><Link to='/tw/live'>Popular Videos on YouTube</Link> <ChevronRight/></h3></div>
+          <div className="grid-header"><h3><Link to='/tw/live'>Recent Uploads from your YouTube Subscriptions</Link> <ChevronRight/></h3></div>
         )}
         { !!this.state.youtubeRecentLoaded && (
           <VideoGrid source="yt" videoItems={this.props.youtubeRecentResults}></VideoGrid>
