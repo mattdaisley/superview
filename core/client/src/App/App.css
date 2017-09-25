@@ -20,9 +20,9 @@ div#root, div#root > div {
 
 div.main-container {
   width: 100%;
-  height: calc(100% - 70px);
+  height: calc(100% - 80px);
   position: absolute;
-  top: 70px;
+  top: 80px;
   left: 0; right: 0; bottom: 0;
   overflow-y: auto;
 }

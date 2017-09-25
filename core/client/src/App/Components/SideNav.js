@@ -1,10 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import Drawer from 'material-ui/Drawer';
 // import Button from 'material-ui/Button';
 import HomeIcon from 'material-ui-icons/Home';
 import RestoreIcon from 'material-ui-icons/Restore';
+import SubscriptionsIcon from 'material-ui-icons/Subscriptions';
+import FavoriteIcon from 'material-ui-icons/Favorite';
+import blue from 'material-ui/colors/blue';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 
@@ -49,6 +53,9 @@ const styles = theme => ({
   sideNavIcon: {
     marginLeft: 20,
     marginRight: 25,
+  },
+  selected: {
+    fill: blue[500],
   }
 })
 
@@ -58,10 +65,37 @@ class SideNav extends React.Component {
   //   super(props);
   //   // console.log('SideNav props', props);
   // }
+  
+  static contextTypes = {
+    router: PropTypes.object
+  }
 
   render() {
     
     const classes = this.props.classes;
+
+    console.log(this.context.router);
+    // const HomeButtonClass = ( this.props.)
+    const navLinks = [
+      { name: 'Home', route: '/', icon: (<HomeIcon />) },
+      { name: 'Recents', route: '/browse/recents', icon: (<RestoreIcon />) },
+      { name: 'YouTube', route: '/browse/yt/subscriptions', icon: (<SubscriptionsIcon />) },
+      { name: 'Twitch', route: '/browse/tw/following', icon: (<FavoriteIcon />) }
+    ]
+
+    const navLinksElements = navLinks.map( link => {
+      const linkClass = ( this.context.router.route.location.pathname === link.route ) ? classes.selected : '';
+      return (
+        <Link to={link.route} onClick={this.props.handleSideNavClose} key={link.name}>
+          <ListItem button>
+            <ListItemIcon className={classes.sideNavIcon + ' ' + linkClass}>
+              { link.icon }
+            </ListItemIcon>
+            <ListItemText primary={link.name} />
+          </ListItem>
+        </Link>
+      )
+    })
 
     return (
       <Drawer
@@ -73,22 +107,9 @@ class SideNav extends React.Component {
         }}>
         <div className={classes.sideNavInner}>
           <List className={classes.sideNavList}>
-            <Link to='/' onClick={this.props.handleSideNavClose}>
-              <ListItem button>
-                <ListItemIcon className={classes.sideNavIcon}>
-                  <HomeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItem>
-            </Link>
-            <Link to='/recents' onClick={this.props.handleSideNavClose}>
-              <ListItem button>
-                <ListItemIcon className={classes.sideNavIcon}>
-                  <RestoreIcon />
-                </ListItemIcon>
-                <ListItemText primary="Recent" />
-              </ListItem>
-            </Link>
+
+            { navLinksElements }
+            
           </List>
         </div>
       </Drawer>

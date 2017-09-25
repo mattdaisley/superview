@@ -12,32 +12,7 @@ import TwitchFeaturedGrid  from '../../Components/Twitch/TwitchFeaturedGrid/Twit
 import YoutubePopularGrid  from '../../Components/YouTube/YoutubePopularGrid/YoutubePopularGrid';
 import YoutubeRecentGrid   from '../../Components/YouTube/YoutubeRecentGrid/YoutubeRecentGrid';
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    [theme.breakpoints.up('md')]: {
-      marginTop: '30px',
-    },
-    [theme.breakpoints.down('md')]: {
-    },
-    marginBottom: 100
-  },
-  homeGridWrapper: {
-    [theme.breakpoints.up('sm')]: {
-      width: 600
-    },
-    [theme.breakpoints.up('md')]: {
-      width: 960 - 200
-    },
-    [theme.breakpoints.up('lg')]: {
-      width: 1280 - 200
-    },
-    [theme.breakpoints.up('xl')]: {
-      width: 1920 - 200
-    },
-  }
-})
-
+const styles = theme => ({ })
 
 class Home extends React.Component {
   
@@ -51,46 +26,40 @@ class Home extends React.Component {
   }
 
   render() {
-    const classes = this.props.classes;
+    // const classes = this.props.classes;
 
     return (
-      <div className={classes.root}>
-        <Grid container spacing={0} justify="center">
-          <div className={classes.homeGridWrapper}>
+      <Grid item xs={12}>
+        <Grid container spacing={0} >
+          
           <Grid item xs={12}>
-            <Grid container spacing={0} >
+            <RecentChannelsList recentActivity={this.props.recentActivity}></RecentChannelsList>
+          </Grid>
+          
+          <Grid item xs={12}>
+            <Grid container spacing={24} >
               
               <Grid item xs={12}>
-                <RecentChannelsList recentActivity={this.props.recentActivity}></RecentChannelsList>
+                <TwitchFollowingGrid></TwitchFollowingGrid>
+              </Grid>
+            
+              <Grid item xs={12}>
+                <YoutubeRecentGrid></YoutubeRecentGrid>
               </Grid>
               
               <Grid item xs={12}>
-                <Grid container spacing={24} >
-                  
-                  <Grid item xs={12}>
-                    <TwitchFollowingGrid></TwitchFollowingGrid>
-                  </Grid>
-                
-                  <Grid item xs={12}>
-                    <YoutubeRecentGrid></YoutubeRecentGrid>
-                  </Grid>
-                  
-                  <Grid item xs={12}>
-                    <TwitchFeaturedGrid></TwitchFeaturedGrid>
-                  </Grid>
-                
-                  <Grid item xs={12}>
-                    <YoutubePopularGrid></YoutubePopularGrid>
-                  </Grid>
-
-                </Grid>
+                <TwitchFeaturedGrid></TwitchFeaturedGrid>
+              </Grid>
+            
+              <Grid item xs={12}>
+                <YoutubePopularGrid></YoutubePopularGrid>
               </Grid>
 
             </Grid>
           </Grid>
-          </div>
+
         </Grid>
-      </div>
+      </Grid>
     );
   }
 }
