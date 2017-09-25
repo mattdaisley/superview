@@ -54,6 +54,7 @@ const youtubeOauthMiddleware = store => next => action => {
             let result = {
               token: json.access_token,
               refresh: json.refresh_token,
+              google_user_id: json.google_user_id,
               expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
               referrer,
             }
