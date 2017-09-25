@@ -12,8 +12,16 @@ const styles = theme => ({
   listGridItem: {
     position: 'relative',
     width: '100%',
-    height: '100%',
+    height: '100%'
   },
+  listGridItemWrapper: {
+    position: 'relative',
+    borderRadius: 3,
+    // borderRadius: '20px',
+    '&:hover': {
+      boxShadow: theme.shadows[8],
+    },
+  }
 })
 
 class VideoGridItem extends React.PureComponent {
@@ -35,8 +43,8 @@ class VideoGridItem extends React.PureComponent {
     }
     
     return (
-      <Grid item xs={12} sm={6} md={4} xl={3} className={classes.listGridItem}>
-        <div className="list-grid-item-wrapper">
+      <Grid item xs={12} sm={6} md={4} lg={4} xl={3} className={classes.listGridItem}>
+        <div className={classes.listGridItemWrapper}>
           <ItemImage src={thumbnail} title={title} />
           <ItemDetails options={itemDetailOptions} />
         </div>

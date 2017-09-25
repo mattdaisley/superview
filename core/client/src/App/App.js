@@ -229,7 +229,7 @@ class App extends React.Component {
     const theme = createMuiTheme({
       palette: {
         primary: {
-          ...green,
+          ...blue,
           A400: '#00e677',
         },
         accent: green,

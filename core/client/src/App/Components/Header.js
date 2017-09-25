@@ -102,7 +102,11 @@ class Header extends React.Component {
           <div className={classes.loginActions}>
             { !this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.twitchLogin}>Login to Twitch</Button> }
             { !this.props.youtubeLoggedIn && <Button className="youtube-login-logout" onClick={this.youtubeLogin}>Login to YouTube</Button> }
-            {/* { !!this.props.loggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> } */}
+          </div>
+
+          <div className={classes.loginActions}>
+            { !!this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> }
+            { !!this.props.youtubeLoggedIn && <Button className="youtube-login-logout" onClick={this.props.youtubeLogout}>Logout of YouTube</Button> }
           </div>
         </Toolbar>
         { this.props.messages.length > 0 && (

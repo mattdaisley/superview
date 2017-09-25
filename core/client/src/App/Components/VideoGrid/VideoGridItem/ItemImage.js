@@ -8,10 +8,9 @@ const styles = theme => ({
     width: '100%',
     position: 'relative',
     paddingTop: '56.25%',
-    overflow: 'hidden',
-    backgroundColor: '#ccc',
-    border: '1px solid #ccc',
+    // overflow: 'hidden',
     boxSizing: 'border-box',
+    borderRadius: '20px'
   },
   img: {
     width: '100%',
@@ -19,9 +18,8 @@ const styles = theme => ({
     left: 0,
     top: 0,
     opacity: 0,
-    borderRadius: 2,
-    /* display: inline-block;
-    vertical-align: middle; */
+    borderRadius: 3
+    // borderRadius: '20px'
   },
   imgLoaded: {
     opacity: 100,

@@ -65,7 +65,7 @@ const youtubeOauthMiddleware = store => next => action => {
 
     case types.YOUTUBE_AUTH_SUCCESS:
       setToken(action.meta.token, action.meta.expiresAt)
-      setGoogleUserId(action.meta.google_user_id)
+      if ( action.meta.google_user_id ) setGoogleUserId(action.meta.google_user_id)
       setRefresh(action.meta.refresh)
       store.dispatch(setYoutubeLogginRequested(false));
       let newLoginAction = Object.assign({}, action, {

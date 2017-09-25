@@ -18,7 +18,7 @@ class VideoGrid extends React.Component {
     let videoItems = this.props.videoItems.map( (videoItem, index) => <VideoGridItem source={this.props.source} key={index} videoItem={videoItem}></VideoGridItem> )
 
     return (
-      <Grid container spacing={24} >
+      <Grid container spacing={16} >
         { !!videoItems.length && videoItems }
       </Grid>
     );

@@ -22,6 +22,20 @@ const styles = theme => ({
     },
     marginBottom: 100
   },
+  homeGridWrapper: {
+    [theme.breakpoints.up('sm')]: {
+      width: 600
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 960 - 200
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: 1280 - 200
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: 1920 - 200
+    },
+  }
 })
 
 
@@ -42,7 +56,8 @@ class Home extends React.Component {
     return (
       <div className={classes.root}>
         <Grid container spacing={0} justify="center">
-          <Grid item xs={12} sm={9}>
+          <div className={classes.homeGridWrapper}>
+          <Grid item xs={12}>
             <Grid container spacing={0} >
               
               <Grid item xs={12}>
@@ -73,6 +88,7 @@ class Home extends React.Component {
 
             </Grid>
           </Grid>
+          </div>
         </Grid>
       </div>
     );
