@@ -37,25 +37,15 @@ class Home extends React.Component {
           </Grid>
           
           <Grid item xs={12}>
-            <Grid container spacing={24} >
-              
-              <Grid item xs={12}>
-                <TwitchFollowingGrid></TwitchFollowingGrid>
-              </Grid>
-            
-              <Grid item xs={12}>
-                <YoutubeRecentGrid></YoutubeRecentGrid>
-              </Grid>
-              
-              <Grid item xs={12}>
-                <TwitchFeaturedGrid></TwitchFeaturedGrid>
-              </Grid>
-            
-              <Grid item xs={12}>
-                <YoutubePopularGrid></YoutubePopularGrid>
-              </Grid>
 
-            </Grid>
+              <TwitchFollowingGrid></TwitchFollowingGrid>
+              
+              <TwitchFeaturedGrid></TwitchFeaturedGrid>
+            
+              <YoutubeRecentGrid></YoutubeRecentGrid>
+            
+              <YoutubePopularGrid></YoutubePopularGrid>
+              
           </Grid>
 
         </Grid>

@@ -53,6 +53,10 @@ class ItemImage extends React.PureComponent {
     this.setState({initialTimeout: initialTimeout})
   }
 
+  componentWillReceiveProps(nextProps) {
+    if ( this.state.imgSrc !== nextProps.src ) this.setState( { imgSrc: nextProps.src } )
+  }
+
   getNewImageSrc() {
     // console.log('in imgReload', this.state.imgSrc);
     this.setState({count: this.state.count+1});
@@ -97,8 +101,9 @@ class ItemImage extends React.PureComponent {
 
     return (
       <div className={classes.listGridThumb}>
-        { !!this.state.imgSrc && <img className={imgClass} src={this.state.imgSrc} alt={title} onLoad={this.handleImageLoaded}/> }
-        { !!this.state.imgSrcNew && <img className={imgNewClass} src={this.state.imgSrcNew} alt={title} onLoad={this.handleImageNewLoaded}/> }
+        { !!this.state.imgSrc && <img className={classes.img + ' ' + classes.imgLoaded} src={this.state.imgSrc} alt={title}/> }
+        {/* { !!this.state.imgSrc && <img className={imgClass} src={this.state.imgSrc} alt={title} onLoad={this.handleImageLoaded}/> } */}
+        {/* { !!this.state.imgSrcNew && <img className={imgNewClass} src={this.state.imgSrcNew} alt={title} onLoad={this.handleImageNewLoaded}/> } */}
       </div>
     );
   }

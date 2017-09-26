@@ -105,19 +105,18 @@ const twitchApiMiddleware = store => next => action => {
 
     case types.GET_TWITCH_FEATURED:
       // if ( !hasToken() ) return;
-      console.log('in GET_TWITCH_FEATURED');
       fetch(url, {headers: headers})
         .then(resp => resp.json())
         .then(json => {
-          console.log(json);
+          // console.log(json);
           if ( !json.error ) {
             let formattedStreams = null;
             let actionItem = { payload: [] }
             if ( json.featured.length > 0) {
               let streams = json.featured.map( feature => feature.stream );
-              formattedStreams = formatStreamDetails(streams);
+              formattedStreams = formatStreamDetails(streams).sort( (a, b) => b.stats.views - a.stats.views );
   
-              console.log(url, json, formattedStreams);
+              // console.log(url, json, formattedStreams);
               actionItem = { payload: formattedStreams }
             }
             

@@ -144,7 +144,7 @@ export const getTwitchFollowing = () => {
 }
 
 export const getTwitchFeatured = () => {
-   const requestEnpoint = 'streams/featured?limit=6'
+   const requestEnpoint = 'streams/featured?limit=25'
 
    return ({
      type: types.GET_TWITCH_FEATURED,

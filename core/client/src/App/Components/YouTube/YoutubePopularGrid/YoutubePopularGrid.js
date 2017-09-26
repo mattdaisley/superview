@@ -3,6 +3,7 @@ import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
 import { Link }    from 'react-router-dom';
 
+import Grid         from 'material-ui/Grid';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
 import VideoGrid    from '../../../Components/VideoGrid/VideoGrid';
@@ -39,16 +40,22 @@ class YoutubePopularGrid extends React.Component {
 
   render() {
 
-    return (
-      <div>
-        { (!!this.props.youtubePopularResults && this.props.youtubePopularResults.length > 0) && (
-          <div className="grid-header"><h3><Link to='/tw/live'>Popular Videos on YouTube</Link> <ChevronRight/></h3></div>
-        )}
-        { !!this.state.youtubePopularLoaded && (
-          <VideoGrid source="yt" videoItems={this.props.youtubePopularResults}></VideoGrid>
-        )}
-      </div>
-    );
+    let element = null
+
+    if (!!this.props.youtubePopularResults && this.props.youtubePopularResults.length > 0) {
+      element = (
+        <Grid container spacing={24} >
+          <Grid item xs={12}>
+            <div className="grid-header"><h3><Link to='/tw/live'>Popular Videos on YouTube</Link> <ChevronRight/></h3></div>
+            { !!this.state.youtubePopularLoaded && (
+              <VideoGrid source="yt" videoItems={this.props.youtubePopularResults}></VideoGrid>
+            )}
+          </Grid>
+        </Grid>
+      )
+    }
+
+    return element
 
   }
 }

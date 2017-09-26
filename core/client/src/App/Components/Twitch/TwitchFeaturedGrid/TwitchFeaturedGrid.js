@@ -3,6 +3,7 @@ import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
 import { Link }    from 'react-router-dom';
 
+import Grid         from 'material-ui/Grid';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
 import VideoGrid    from '../../../Components/VideoGrid/VideoGrid';
@@ -33,22 +34,34 @@ class TwitchFeaturedGrid extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if ( this.props.twitchFeatured !== nextProps.twitchFeatured ) {
-      this.setState({twitchFeaturedLoaded: true})
+      this.setState({twitchFeaturedLoaded: true}) 
     }
+  }
+
+  featuredFilterFunction(item, index) {
+    return index === 0
+    // console.log(item);
+    // return true;
   }
 
   render() {
 
-    return (
-      <div>
-        { (!!this.props.twitchFeatured && this.props.twitchFeatured.length > 0) && (
-          <div className="grid-header"><h3><Link to='/tw/live'>Featured Channels on Twitch</Link> <ChevronRight/></h3></div>
-        )}
-        { !!this.state.twitchFeaturedLoaded && (
-          <VideoGrid source="tw" videoItems={this.props.twitchFeatured}></VideoGrid>
-        )}
-      </div>
-    );
+    let element = null;
+    if ( !!this.props.twitchFeatured && this.props.twitchFeatured.length > 0 ) {
+      element = (
+        <Grid container spacing={24} >
+          <Grid item xs={12}>
+            <div className="grid-header"><h3><Link to='/tw/live'>Featured Channels on Twitch</Link> <ChevronRight/></h3></div>
+
+            { !!this.state.twitchFeaturedLoaded && (
+              <VideoGrid source="tw" videoItems={this.props.twitchFeatured} featuredItemFilter={this.featuredFilterFunction}></VideoGrid>
+            )}
+          </Grid>
+        </Grid>
+      )
+    }
+
+    return element;
 
   }
 }
