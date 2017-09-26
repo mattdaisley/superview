@@ -57,13 +57,13 @@ class VideoGridPage extends React.Component {
 
     if ( !!featuredItem ) {
 
-      let featuredElement = <VideoGridItem source={this.props.source} videoItem={featuredItem}></VideoGridItem> 
+      let featuredElement = <VideoGridItem source={videoItem.source_type} videoItem={featuredItem}></VideoGridItem> 
 
       console.log(videoItems.map(a => a.id));
       if ( videoItems.length + 4 === 8 ) {
         videoElements = videoItems.map( (videoItem, index) => (
           <Grid item xs={6} className={classes.listGridItem} key={index}>
-            <VideoGridItem source={this.props.source} videoItem={videoItem}></VideoGridItem> 
+            <VideoGridItem source={videoItem.source_type} videoItem={videoItem}></VideoGridItem> 
           </Grid>
         ))
         element = (
@@ -78,7 +78,7 @@ class VideoGridPage extends React.Component {
       if ( videoItems.length + 4 === 6 ) {
         videoElements = videoItems.map( (videoItem, index) => (
           <Grid item xs={12} className={classes.listGridItem} key={index}>
-            <VideoGridItem source={this.props.source} videoItem={videoItem}></VideoGridItem> 
+            <VideoGridItem source={videoItem.source_type} videoItem={videoItem}></VideoGridItem> 
           </Grid>
         ))
         element = (
@@ -93,7 +93,7 @@ class VideoGridPage extends React.Component {
     } else {
       videoElements = videoItems.map( (videoItem, index) => (
         <Grid item xs={12} sm={6} lg={4} xl={3} className={classes.listGridItem} key={index}>
-          <VideoGridItem source={this.props.source} videoItem={videoItem}></VideoGridItem> 
+          <VideoGridItem source={videoItem.source_type} videoItem={videoItem}></VideoGridItem> 
         </Grid>
       ))
       element = (
