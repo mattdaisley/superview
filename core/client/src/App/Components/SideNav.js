@@ -74,8 +74,6 @@ class SideNav extends React.Component {
     
     const classes = this.props.classes;
 
-    console.log(this.context.router);
-    // const HomeButtonClass = ( this.props.)
     const navLinks = [
       { name: 'Home', route: '/', icon: (<HomeIcon />) },
       { name: 'Recents', route: '/browse/recents', icon: (<RestoreIcon />) },

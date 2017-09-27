@@ -12,9 +12,9 @@ export const doApiRequest = (store, url) => {
     // fetch(url)
       .then(resp => resp.json() )
       .then(json => {
-        console.log(json)
+        // console.log(json)
         if ( json.subscriptions.length > 0) {
-          console.log(json.subscriptions)
+          // console.log(json.subscriptions)
           resolve(json.subscriptions)
         } else {
           // if ( json.error.code === 401 ) {

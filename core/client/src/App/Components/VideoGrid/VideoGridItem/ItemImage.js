@@ -96,8 +96,8 @@ class ItemImage extends React.PureComponent {
     
     const { title } = this.props;
 
-    const imgClass = (!!this.state.imgLoaded) ? (classes.img + ' ' + classes.imgLoaded) : classes.img;
-    const imgNewClass = (!!this.state.imgNewLoaded) ? (classes.img + ' ' + classes.imgLoaded) : classes.img;
+    // const imgClass = (!!this.state.imgLoaded) ? (classes.img + ' ' + classes.imgLoaded) : classes.img;
+    // const imgNewClass = (!!this.state.imgNewLoaded) ? (classes.img + ' ' + classes.imgLoaded) : classes.img;
 
     return (
       <div className={classes.listGridThumb}>

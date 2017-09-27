@@ -23,7 +23,7 @@ class VideoGridPage extends React.Component {
   // }
 
   componentWillMount() {
-    console.log('in componentWillMount', this.props );
+    // console.log('in componentWillMount', this.props );
     if ( !!this.props.featuredItem ) {
       this.setState( { 
         featuredItem: this.props.featuredItem,
@@ -36,7 +36,7 @@ class VideoGridPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', nextProps);
+    // console.log('componentWillReceiveProps', nextProps);
     if ( !!nextProps.featuredItem ) {
       this.setState( { 
         featuredItem: nextProps.featuredItem,
@@ -57,9 +57,8 @@ class VideoGridPage extends React.Component {
 
     if ( !!featuredItem ) {
 
-      let featuredElement = <VideoGridItem source={videoItem.source_type} videoItem={featuredItem}></VideoGridItem> 
+      let featuredElement = <VideoGridItem source={featuredItem.source_type} videoItem={featuredItem}></VideoGridItem> 
 
-      console.log(videoItems.map(a => a.id));
       if ( videoItems.length + 4 === 8 ) {
         videoElements = videoItems.map( (videoItem, index) => (
           <Grid item xs={6} className={classes.listGridItem} key={index}>

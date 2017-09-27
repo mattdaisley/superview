@@ -24,7 +24,7 @@ class TwitchFollowingGrid extends React.Component {
   componentWillMount() {
     this.props.getTwitchFollowing();
 
-    var intervalId = setInterval(this.props.getTwitchFollowing, 5000);
+    var intervalId = setInterval(this.props.getTwitchFollowing, 15000);
     this.setState({intervalId: intervalId});
   }
 
@@ -39,7 +39,6 @@ class TwitchFollowingGrid extends React.Component {
   }
 
   render() {
-
     let element = null;
     if ( !!this.props.twitchFollowing && this.props.twitchFollowing.length > 0 ) {
       element = (

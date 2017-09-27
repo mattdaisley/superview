@@ -1,13 +1,14 @@
 import React     from 'react';
 import PropTypes from 'prop-types';
 
-import Grid      from 'material-ui/Grid';
 import Button from 'material-ui/Button';
 import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
 import KeyboardArrowLeftIcon  from 'material-ui-icons/KeyboardArrowLeft';
 import { withStyles } from 'material-ui/styles';
 
-import VideoGridPage from './VideoGridPage';
+import PrevPage      from './Pages/PrevPage';
+import NextPage      from './Pages/NextPage';
+import CurrentPage   from './Pages/CurrentPage';
 
 import './VideoGrid.css';
 
@@ -20,55 +21,6 @@ const styles = theme => ({
     overflow: 'hidden',
     width: '100%',
     position: 'relative'
-  },
-  prevPage: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 'calc(-100% - 12px)'
-  },
-  currPage: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0
-  },
-  nextPage: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: 0,
-    right: 'calc(-100% - 12px)'
-  },
-  currPageLeft: {
-    left: 'calc(-100% - 12px)',
-    transition: theme.transitions.create('left', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  nextPageCenter: {
-    right: 0,
-    transition: theme.transitions.create('right', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  prevPageCenter: {
-    left: 0,
-    transition: theme.transitions.create('left', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  currPageRight: {
-    left: 'calc(100% + 12px)',
-    transition: theme.transitions.create('left', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
   },
   pageButtons: {
     position: 'absolute',
@@ -167,123 +119,31 @@ class VideoGrid extends React.Component {
   }
 
   prevPage() {
-    const { page, pages } = this.state;
-    console.log('prevPage', page, pages);
+    const page = this.state.page;
     if ( page > 0 ) { 
       this.setState( {transition: 'prev'} )
-      setTimeout( () => {
-        this.setState( { page: page-1, transition: 'none' } )
-       }, 300 )
-      // this.setState( { page: page - 1 } )
+      setTimeout( () => { this.setState( { page: page - 1, transition: 'none' } ) }, 300 )
     }
   }
   
   nextPage() {
     const { page, pages } = this.state;
-    console.log('nextPage', page, pages);
     if ( page < pages - 1 ) { 
       this.setState( {transition: 'next'} )
-      setTimeout( () => {
-        this.setState( { page: page+1, transition: 'none' } )
-      }, 300 )
-      // this.setState( { page: page + 1 } )
+      setTimeout( () => { this.setState( { page: page+1, transition: 'none' } ) }, 300 )
     }
   }
-
-  getFeaturedPage( videoItems, featuredItem, pageSize ) {
-    console.log('in getFeaturedPage featuredItem:', !!featuredItem, 'pageSize:', pageSize)
-    let pageItems = videoItems.slice(0, pageSize - 4 )
-    console.log('pageItems', pageItems, pageSize - 4 );
-    return (<Grid container spacing={16}><Grid item xs={12}><VideoGridPage videoItems={pageItems} featuredItem={featuredItem}></VideoGridPage></Grid></Grid>)
-  }
-
-  getStandardPage( videoItems, page, pages, pageSize, offset = 0 ) {
-    console.log('in getStandardPage page:', page, 'pages:', pages, 'pageSize:', pageSize, 'offset', offset)
-    let pageStart = ( page * pageSize ) - offset
-    let pageEnd   = ( pageStart + pageSize < videoItems.length - 1 ) ? pageStart + pageSize : videoItems.length
-    let pageItems = videoItems.slice( pageStart, pageEnd )
-    console.log('in getStandardPage pageStart:', pageStart, 'pageEnd:', pageEnd, 'pageItems:', pageItems.map( a => a.id ))
-    return (<Grid container spacing={16}><Grid item xs={12}><VideoGridPage videoItems={pageItems}></VideoGridPage></Grid></Grid>)
-  }
-
-  getPrevPage( videoItems, featuredItem, page, pages, pageSize, offset = 0 ) {
-    // console.log('in getPrevPage featuredItem:', !!featuredItem, 'page:', page, 'pages:', pages, 'pageSize:', pageSize, 'offset', offset)
-    if ( page === 0 ) return null;
-    if ( page === 1 && !!featuredItem ) return this.getFeaturedPage( videoItems, featuredItem, pageSize )
-    return this.getStandardPage( videoItems, page - 1, pages, pageSize, offset )
-  }
-
-  getCurrentPage( videoItems, featuredItem, page, pages, pageSize, offset = 0 ) {
-    console.log('in getCurrentPage featuredItem:', !!featuredItem, 'page:', page, 'pages:', pages, 'pageSize:', pageSize, 'offset', offset)
-    switch ( page ) {
-      case 0:
-        if ( !!featuredItem ) return this.getFeaturedPage( videoItems, featuredItem, pageSize )
-        return this.getStandardPage( videoItems, page, pages, pageSize, offset)
-      default: 
-        if ( !!featuredItem ) return this.getStandardPage( videoItems, page, pages, pageSize, offset )
-        return this.getStandardPage( videoItems, page, pages, pageSize )
-    }
-  }
-
-  getNextPage( videoItems, page, pages, pageSize, offset = 0 ) {
-    // console.log('in getNextPage page:', page, 'pages:', pages, 'pageSize:', pageSize, 'offset', offset)
-    if ( page === pages - 1 ) return null;
-    return this.getStandardPage( videoItems, page + 1, pages, pageSize, offset )
-  }
-
+  
   render() {
-    const classes = this.props.classes
-
     const { page, pages, pageSize, featuredItem, videoItems, transition, wrapperHeight } = this.state
-    let prevPageElement, element, nextPageElement
-
-    console.log('in render videoItems:', videoItems.map( a => a.id ), 'featuredItem:', !!featuredItem )
-    if ( !!featuredItem ) {
-      prevPageElement = this.getPrevPage( videoItems, featuredItem, page, pages, pageSize, 4 )
-      element = this.getCurrentPage( videoItems, featuredItem, page, pages, pageSize, 4 )
-      nextPageElement = this.getNextPage( videoItems, page, pages, pageSize, 4 )
-    } else {
-      prevPageElement = this.getPrevPage( videoItems, featuredItem, page, pages, pageSize )
-      element = this.getCurrentPage( videoItems, featuredItem, page, pages, pageSize )
-      nextPageElement = this.getNextPage( videoItems, page, pages, pageSize )
-    }
+    const classes = this.props.classes
     
-
-    let prevPageClass, currPageClass, nextPageClass;
-
-    switch( this.state.transition ) {
-      case 'next':
-        prevPageClass = classes.prevPage
-        currPageClass = classes.currPageLeft + ' ' + classes.currPage
-        nextPageClass = classes.nextPageCenter + ' ' + classes.nextPage
-        break;
-      case 'prev':
-        prevPageClass = classes.prevPageCenter + ' ' + classes.prevPage
-        currPageClass = classes.currPageRight + ' ' + classes.currPage
-        nextPageClass = classes.nextPage
-        break;
-      case 'none':
-      default:
-        prevPageClass = classes.prevPage
-        currPageClass = classes.currPage
-        nextPageClass = classes.nextPage
-        break;
-    }
-    
-    console.log('end of render logic');
-
     return ( 
       <div className={classes.videoGridWrapper}>
         <div className={classes.videoGridPageWrapper} style={{height:wrapperHeight}}>
-          <div className={prevPageClass}>
-            {prevPageElement}
-          </div>
-          <div className={currPageClass}>
-            {element}
-          </div>
-          <div className={nextPageClass}>
-            {nextPageElement}
-          </div>
+          <PrevPage videoItems={videoItems} featuredItem={featuredItem} page={page} pages={pages} pageSize={pageSize} transition={transition}></PrevPage>
+          <CurrentPage videoItems={videoItems} featuredItem={featuredItem} page={page} pages={pages} pageSize={pageSize} transition={transition}></CurrentPage>
+          <NextPage videoItems={videoItems} featuredItem={featuredItem} page={page} pages={pages} pageSize={pageSize} transition={transition}></NextPage>
         </div>
         { pages !== 1 && (
           <div className={classes.pageButtons}>
@@ -304,7 +164,6 @@ VideoGrid.propTypes = {
   videoItems: PropTypes.arrayOf( PropTypes.object ).isRequired,
   featuredItemFilter: PropTypes.func,
 }
-
 
 const VideoGridWithStyles = withStyles(styles)(VideoGrid);
 

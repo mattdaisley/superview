@@ -16,16 +16,16 @@ const superViewApiMiddleware = store => next => action => {
 
   switch (action.type) {
     case types.SUPERVIEW_YOUTUBE_SUBSCRIPTIONS:
-      console.log('SUPERVIEW_YOUTUBE_SUBSCRIPTIONS', action.meta)
+      // console.log('SUPERVIEW_YOUTUBE_SUBSCRIPTIONS', action.meta)
       let actionItem = { payload: [] }
       if ( !!isLoggedIn ) {
         doApiRequest(store, url)
           .then(results => {
-            console.log('SUPERVIEW_YOUTUBE_SUBSCRIPTIONS results', results);
+            // console.log('SUPERVIEW_YOUTUBE_SUBSCRIPTIONS results', results);
             if ( results.length > 0) {
               actionItem = { payload: results.map( video => video.google_video_id ) }
             }
-            console.log(actionItem);
+            // console.log(actionItem);
             
             let newAction = Object.assign({}, action, actionItem);
             delete newAction.meta;

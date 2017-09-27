@@ -20,7 +20,6 @@ const styles = theme => ({
 class VideoGridItem extends React.PureComponent {
 
   render() {
-    
     const classes = this.props.classes
   
     const { id, title, thumbnail } = this.props.videoItem;
