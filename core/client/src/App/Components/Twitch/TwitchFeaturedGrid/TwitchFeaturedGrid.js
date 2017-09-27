@@ -62,7 +62,7 @@ class TwitchFeaturedGrid extends React.Component {
         <Grid container spacing={24} >
           <Grid item xs={12}>
             <div className="grid-header"><h3><Link to='/tw/live'>Featured Channels on Twitch</Link> <ChevronRight/></h3></div>
-
+            <div className="twitch-divider"></div>
             {gridElement}
           </Grid>
         </Grid>

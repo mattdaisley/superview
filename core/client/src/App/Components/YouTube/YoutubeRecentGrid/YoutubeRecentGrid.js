@@ -62,7 +62,7 @@ class YoutubeRecentGrid extends React.Component {
         <Grid container spacing={24} >
           <Grid item xs={12}>
             <div className="grid-header"><h3><Link to='/tw/live'>Recent Uploads From Your YouTube Subscriptions</Link> <ChevronRight/></h3></div>
-
+            <div className="youtube-divider"></div>
             {gridElement}
           </Grid>
         </Grid>
