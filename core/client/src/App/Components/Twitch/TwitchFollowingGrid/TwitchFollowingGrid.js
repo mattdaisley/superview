@@ -6,7 +6,9 @@ import { Link }    from 'react-router-dom';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
 import Grid         from 'material-ui/Grid';
-import VideoGrid    from '../../../Components/VideoGrid/VideoGrid';
+
+import VideoGrid     from '../../../Components/VideoGrid/VideoGrid';
+import VideoGridPage from '../../../Components/VideoGrid/VideoGridPage';
 
 import { getTwitchFollowing } from '../../../Redux/Twitch/TwitchActionCreators';
 
@@ -40,15 +42,22 @@ class TwitchFollowingGrid extends React.Component {
 
   render() {
     let element = null;
+    let gridElement = null;
+
+    if ( !!this.state.twitchFollowingLoaded ) {
+      if ( !!this.props.paginate ) {
+        gridElement = <VideoGrid videoItems={this.props.twitchFollowing}></VideoGrid>
+      } else {
+        gridElement = <VideoGridPage videoItems={this.props.twitchFollowing}></VideoGridPage>
+      }
+    }
+
     if ( !!this.props.twitchFollowing && this.props.twitchFollowing.length > 0 ) {
       element = (
         <Grid container spacing={24} >
           <Grid item xs={12}>
-            <div className="grid-header"><h3><Link to='/tw/live'>Live Channels on Twitch</Link> <ChevronRight/></h3></div>
-            
-            { !!this.state.twitchFollowingLoaded && (
-              <VideoGrid source="tw" videoItems={this.props.twitchFollowing}></VideoGrid>
-            ) }
+            <div className="grid-header"><h3><Link to='/tw/live'>Live Channels You Follow on Twitch</Link> <ChevronRight/></h3></div>
+            {gridElement}
           </Grid>
         </Grid>
       )
@@ -61,6 +70,11 @@ class TwitchFollowingGrid extends React.Component {
 
 TwitchFollowingGrid.propTypes = {
   className: PropTypes.any,
+  paginate: PropTypes.bool
+}
+
+TwitchFollowingGrid.defaultProps = {
+  paginate: false
 }
 
 const mapStateToProps = state => {

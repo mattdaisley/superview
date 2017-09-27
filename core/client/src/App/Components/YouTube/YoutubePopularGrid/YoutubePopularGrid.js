@@ -6,7 +6,8 @@ import { Link }    from 'react-router-dom';
 import Grid         from 'material-ui/Grid';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
-import VideoGrid    from '../../../Components/VideoGrid/VideoGrid';
+import VideoGrid     from '../../../Components/VideoGrid/VideoGrid';
+import VideoGridPage from '../../../Components/VideoGrid/VideoGridPage';
 
 import { getYoutubePopular } from '../../../Redux/Youtube/YoutubeActionCreators';
 
@@ -41,15 +42,22 @@ class YoutubePopularGrid extends React.Component {
   render() {
 
     let element = null
+    let gridElement = null;
+
+    if ( !!this.state.youtubePopularLoaded ) {
+      if ( !!this.props.paginate ) {
+        gridElement = <VideoGrid videoItems={this.props.youtubePopularResults}></VideoGrid>
+      } else {
+        gridElement = <VideoGridPage videoItems={this.props.youtubePopularResults}></VideoGridPage>
+      }
+    }
 
     if (!!this.props.youtubePopularResults && this.props.youtubePopularResults.length > 0) {
       element = (
         <Grid container spacing={24} >
           <Grid item xs={12}>
             <div className="grid-header"><h3><Link to='/tw/live'>Popular Videos on YouTube</Link> <ChevronRight/></h3></div>
-            { !!this.state.youtubePopularLoaded && (
-              <VideoGrid source="yt" videoItems={this.props.youtubePopularResults}></VideoGrid>
-            )}
+            {gridElement}
           </Grid>
         </Grid>
       )
@@ -62,6 +70,11 @@ class YoutubePopularGrid extends React.Component {
 
 YoutubePopularGrid.propTypes = {
   className: PropTypes.any,
+  paginate: PropTypes.bool
+}
+
+YoutubePopularGrid.defaultProps = {
+  paginate: false
 }
 
 const mapStateToProps = state => {

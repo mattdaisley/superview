@@ -10,15 +10,8 @@ const styles = theme => ({ })
 
 
 class TwFollowing extends React.Component {
-  
-  // constructor(props) {
-  //   super(props);
-  //   // console.log('Home props', props);
-  // }
 
   render() {
-    // const classes = this.props.classes;
-
     return (
       <Grid item xs={12}>
         <Grid container spacing={24} >

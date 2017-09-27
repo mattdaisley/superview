@@ -38,13 +38,13 @@ class Home extends React.Component {
           
           <Grid item xs={12}>
 
-              <TwitchFollowingGrid></TwitchFollowingGrid>
+              <TwitchFollowingGrid paginate={true}></TwitchFollowingGrid>
               
-              <TwitchFeaturedGrid></TwitchFeaturedGrid>
+              <TwitchFeaturedGrid paginate={true}></TwitchFeaturedGrid>
             
-              <YoutubeRecentGrid></YoutubeRecentGrid>
+              <YoutubeRecentGrid paginate={true}></YoutubeRecentGrid>
             
-              <YoutubePopularGrid></YoutubePopularGrid>
+              <YoutubePopularGrid paginate={true}></YoutubePopularGrid>
               
           </Grid>
 

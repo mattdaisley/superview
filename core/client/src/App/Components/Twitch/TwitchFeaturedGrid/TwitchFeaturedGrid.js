@@ -6,7 +6,8 @@ import { Link }    from 'react-router-dom';
 import Grid         from 'material-ui/Grid';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
-import VideoGrid    from '../../../Components/VideoGrid/VideoGrid';
+import VideoGrid     from '../../../Components/VideoGrid/VideoGrid';
+import VideoGridPage from '../../../Components/VideoGrid/VideoGridPage';
 
 import { getTwitchFeatured } from '../../../Redux/Twitch/TwitchActionCreators';
 
@@ -45,17 +46,24 @@ class TwitchFeaturedGrid extends React.Component {
   }
 
   render() {
-
     let element = null;
+    let gridElement = null;
+
+    if ( !!this.state.twitchFeaturedLoaded ) {
+      if ( !!this.props.paginate ) {
+        gridElement = <VideoGrid videoItems={this.props.twitchFeatured} featuredItemFilter={this.featuredFilterFunction}></VideoGrid>
+      } else {
+        gridElement = <VideoGridPage videoItems={this.props.twitchFeatured}></VideoGridPage>
+      }
+    }
+
     if ( !!this.props.twitchFeatured && this.props.twitchFeatured.length > 0 ) {
       element = (
         <Grid container spacing={24} >
           <Grid item xs={12}>
             <div className="grid-header"><h3><Link to='/tw/live'>Featured Channels on Twitch</Link> <ChevronRight/></h3></div>
 
-            { !!this.state.twitchFeaturedLoaded && (
-              <VideoGrid source="tw" videoItems={this.props.twitchFeatured} featuredItemFilter={this.featuredFilterFunction}></VideoGrid>
-            )}
+            {gridElement}
           </Grid>
         </Grid>
       )
@@ -68,6 +76,11 @@ class TwitchFeaturedGrid extends React.Component {
 
 TwitchFeaturedGrid.propTypes = {
   className: PropTypes.any,
+  paginate: PropTypes.bool
+}
+
+TwitchFeaturedGrid.defaultProps = {
+  paginate: false
 }
 
 const mapStateToProps = state => {

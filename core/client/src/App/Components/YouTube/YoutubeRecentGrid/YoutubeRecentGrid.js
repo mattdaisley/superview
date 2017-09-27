@@ -6,7 +6,8 @@ import { Link }    from 'react-router-dom';
 import Grid         from 'material-ui/Grid';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 
-import VideoGrid    from '../../../Components/VideoGrid/VideoGrid';
+import VideoGrid     from '../../../Components/VideoGrid/VideoGrid';
+import VideoGridPage from '../../../Components/VideoGrid/VideoGridPage';
 
 import { getYoutubeRecentVideoIds } from '../../../Redux/SuperViewApi/SuperViewApiActionCreators';
 import { getYoutubeRecent }         from '../../../Redux/Youtube/YoutubeActionCreators';
@@ -45,18 +46,24 @@ class YoutubeRecentGrid extends React.Component {
   }
 
   render() {
-
     let element = null
+    let gridElement = null
+
+    if ( !!this.state.youtubeRecentLoaded ) {
+      if ( !!this.props.paginate ) {
+        gridElement = <VideoGrid videoItems={this.props.youtubeRecentResults}></VideoGrid>
+      } else {
+        gridElement = <VideoGridPage videoItems={this.props.youtubeRecentResults}></VideoGridPage>
+      }
+    }
 
     if (!!this.props.youtubeRecentResults && this.props.youtubeRecentResults.length > 0) {
       element = (
         <Grid container spacing={24} >
           <Grid item xs={12}>
-            <div className="grid-header"><h3><Link to='/tw/live'>Recent Uploads from your YouTube Subscriptions</Link> <ChevronRight/></h3></div>
+            <div className="grid-header"><h3><Link to='/tw/live'>Recent Uploads From Your YouTube Subscriptions</Link> <ChevronRight/></h3></div>
 
-            { !!this.state.youtubeRecentLoaded && (
-              <VideoGrid source="yt" videoItems={this.props.youtubeRecentResults}></VideoGrid>
-            )}
+            {gridElement}
           </Grid>
         </Grid>
       )
@@ -69,6 +76,11 @@ class YoutubeRecentGrid extends React.Component {
 
 YoutubeRecentGrid.propTypes = {
   className: PropTypes.any,
+  paginate: PropTypes.bool
+}
+
+YoutubeRecentGrid.defaultProps = {
+  paginate: false
 }
 
 const mapStateToProps = state => {
