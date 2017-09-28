@@ -215,14 +215,11 @@ class App extends React.Component {
   }
 
   render() {
-    let playerSources = [];
     let source = '';
     if ( this.props.channelDetails.length > 0 ) { 
-      playerSources = this.props.channelDetails;
       source = 'tw';
     }
     if ( this.props.youtubeChannelDetails.length > 0 ) { 
-      playerSources = this.props.youtubeChannelDetails;
       source = 'yt';
     }
     
@@ -305,7 +302,7 @@ class App extends React.Component {
             {/* <div className={classes.sideNav}><SideNav isSideNavOpen={this.state.isSideNavOpen}/></div> */}
             <SideNav isSideNavOpen={this.state.isSideNavOpen} handleSideNavClose={this.handleSideNavClose}/>
 
-            <ChannelsList source={source} sources={playerSources}/>
+            <ChannelsList source={source}/>
           </div>
         </Router>
       </MuiThemeProvider>

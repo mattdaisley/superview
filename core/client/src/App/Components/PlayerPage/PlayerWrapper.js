@@ -1,13 +1,13 @@
-import React     from 'react';
+import React       from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes   from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
 
-import PlayerControls     from './PlayerControls/PlayerControls';
+import PlayerControls from './PlayerControls/PlayerControls';
 // import PlayerChannelsList from './PlayerChannelsList';
-import EmbedPlayer        from './EmbedPlayer';
-import TwitchChat         from '../../Components/Twitch/TwitchChat';
+import EmbedPlayer    from './EmbedPlayer';
+import TwitchChat     from '../../Components/Twitch/TwitchChat/TwitchChat';
 
 import PlayerUtils from './PlayerUtils';
 
@@ -65,33 +65,21 @@ class PlayerWrapper extends React.Component {
         />
       )
     })
-  
-    // const embedChats = this.props.playerChannelDetails.map( (channelDetails, index) => {
-    //   let hiddenStyles = { display: 'none' }
-    //   if ( channelDetails.channel.name === this.state.chatChannel ) hiddenStyles = { display: 'block', height: 'calc(100% - 40px)' }
-    //   return (
-    //     <div style={hiddenStyles}>
-    //       <div style={{height: 40}} onClick={() => this.setChatChannel(channelDetails)}>{channelDetails.channel.name}</div>
-    //       <TwitchChat hideChannelsList={this.props.hideChannelsList} id={channelDetails.channel.name}/>
-    //     </div>
-    //   )
-    // })
-    // const embedChats = <TwitchChat hideChannelsList={this.props.hideChannelsList} id={this.props.playerChannelDetails[0].channel.name}/>
     
     return (
       <div id="player-wrapper" className={['flex', playerWrapperClass].join(' ')}>
-  
-      
-        {/* <div>{this.this.props.channels ? (this.this.props.channels[0] ? this.this.props.channels[0].name : '') : ''}</div> */}
-        {/* <div>{this.this.props.channelDetails ? (this.this.props.channelDetails[0] ? this.this.props.channelDetails[0].game : '') : ''}</div> */}
   
         <div className={[playerContainerClass, 'flex-item'].join(' ')}>
           {embedPlayers}
         </div>
   
         { !!showTwitchChat && 
-          (<TwitchChat hideChannelsList={this.props.hideChannelsList} id={this.props.playerChannelDetails[0].channel.name}/>)
+          (<TwitchChat hideChannelsList={this.props.hideChannelsList} chatChannels={this.props.playerChannelDetails.map( channelDetails => channelDetails.channel.name )} selectedChannel={this.props.chatChannel}/>)
         }
+  
+        {/* { !!showTwitchChat && 
+          (<TwitchChat hideChannelsList={this.props.hideChannelsList} chatSources={this.props.playerChannelDetails.map( channelDetails => channelDetails.channel.name )}/>)
+        } */}
   
         {/* { this.props.playerChannelDetails.length > 0 && 
           <PlayerChannelsList channels={this.props.playerChannelDetails} className={'hidden-'+this.props.hideChannelsList}/>
@@ -112,6 +100,7 @@ const mapStateToProps = state => {
   return {
     sourceType: state.player.sourceType,
     openState: state.player.openState,
+    chatChannel: state.channelsList.chatChannel
   }
 }
 

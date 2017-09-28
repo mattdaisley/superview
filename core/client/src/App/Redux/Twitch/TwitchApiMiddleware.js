@@ -2,6 +2,8 @@ import * as types from '../Types';
 
 import { getTwitchChannelDetails, twitchLoginFailure } from './TwitchActionCreators'
 
+import { setChannels } from '../ChannelsList/ChannelsListActionCreators'
+
 import { hasToken, getToken } from '../../Util/tokenTwitch';
 
 const twitchApiMiddleware = store => next => action => {
@@ -43,7 +45,9 @@ const twitchApiMiddleware = store => next => action => {
       break
 
     case types.GET_TWITCH_CHANNEL_DETAILS:
-      let promises = action.meta.channels.map( resource => {
+      const channels = action.meta.channels;
+
+      let promises = channels.map( resource => {
         // console.log(channel);
         return new Promise( (resolve, reject) => {
           fetch(url + resource.channel.channel_id, {headers: headers})
@@ -68,6 +72,7 @@ const twitchApiMiddleware = store => next => action => {
           });
           delete newAction.meta;
           store.dispatch(newAction);
+          store.dispatch(setChannels(users))
         })
       
       break

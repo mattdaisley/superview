@@ -6,6 +6,8 @@ import loggingMiddleware     from './LoggingMiddleware';
 
 import superViewApiMiddleware   from './SuperViewApi/SuperViewApiMiddleware';
 
+import channelsListMiddleware from './ChannelsList/ChannelsListMiddleware';
+
 import recentChannelsMiddleware from './RecentChannels/RecentChannelsMiddleware';
 
 import twitchOauthMiddleware from './Twitch/TwitchOauthMiddleware';
@@ -25,6 +27,7 @@ export const ConfigureStore = () => {
     applyMiddleware(
       loggingMiddleware,
       superViewApiMiddleware,
+      channelsListMiddleware,
       recentChannelsMiddleware,
       twitchOauthMiddleware,
       twitchApiMiddleware,

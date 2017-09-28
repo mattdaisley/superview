@@ -24,6 +24,7 @@ class EmbedPlayer extends React.Component {
     }
 
     let {source, id} = this.props;
+    // let {id} = this.props;
 
     // let colors = ['red', 'green', 'cyan', 'yellow', 'maroon', 'purple', 'olive', 'navy', 'teal', 'aqua', 'fuchsia']
     // let color = colors[Math.floor(Math.random()*colors.length)]

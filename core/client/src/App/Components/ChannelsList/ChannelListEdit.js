@@ -24,7 +24,7 @@ class ChannelListEdit extends React.Component {
     super(props);
     
     this.state = {
-      sources: [],
+      channels: [],
       searchValue: ''
     }
 
@@ -37,7 +37,7 @@ class ChannelListEdit extends React.Component {
   }
 
   componentWillMount() {
-    if ( this.props.sources ) this.setState( { sources: this.props.sources } );
+    if ( this.props.channels ) this.setState( { channels: this.props.channels } );
     this.props.getTwitchFollowing()
   }
 
@@ -53,32 +53,32 @@ class ChannelListEdit extends React.Component {
   }
 
   addTwitchChannel(channel) {
-    let sources = [ ...this.state.sources, channel ];
-    this.setState({sources: sources })
+    let channels = [ ...this.state.channels, channel ];
+    this.setState({channels: channels })
     // this.props.resetTwitchSearch()
   }
 
   addYoutubeVideo(video) {
-    let sources = [ ...this.state.sources, video ];
-    this.setState({sources: sources })
+    let channels = [ ...this.state.channels, video ];
+    this.setState({channels: channels })
     // this.props.resetYoutubeSearch()
   }
   
   onRemoveSource(sourceToRemove) {
-    let oldSources = [ ...this.state.sources ];
+    let oldChannels = [ ...this.state.channels ];
 
-    const filteredSources = oldSources.filter( source => {
+    const filteredChannels = oldChannels.filter( source => {
       if ( source.source_type === sourceToRemove.source_type && source.id === sourceToRemove.id ) return false;
       return true;
     })
 
-    this.setState( {sources: filteredSources} );
+    this.setState( {channels: filteredChannels} );
   }
   
   applyChannels() {
-    // let sources = [ ...this.props.sources, ...this.state.sources ];
-    let sources = [ ...this.state.sources ];
-    this.props.onEditToggle(sources);
+    // let channels = [ ...this.props.channels, ...this.state.channels ];
+    let channels = [ ...this.state.channels ];
+    this.props.onEditToggle(channels);
   }
   
   cancel() {
@@ -93,8 +93,8 @@ class ChannelListEdit extends React.Component {
       parentClassName = this.props.className
     }
 
-    // const currentSources = [ ...this.props.sources, ...this.state.sources ]
-    const currentSources = [ ...this.state.sources ]
+    // const currentChannels = [ ...this.props.channels, ...this.state.channels ]
+    const currentChannels = [ ...this.state.channels ]
     const twitchSearchResults = [ ...this.props.twitchSearchResults ]
     const twitchFollowingResults = [ ...this.props.twitchFollowing ]
     const youtubeSearchResults = [ ...this.props.youtubeSearchResults ]
@@ -105,13 +105,13 @@ class ChannelListEdit extends React.Component {
     if ( this.props.source === 'yt' ) searchPlaceholderText = 'YouTube Video ID';
 
     let source_type = this.props.source;
-    if ( this.props.source === '' && this.state.sources.length > 0 ) source_type = this.state.sources[0].source_type;
+    if ( this.props.source === '' && this.state.channels.length > 0 ) source_type = this.state.channels[0].source_type;
 
     return (
       <div className={'player-channel-list-container edit ' + parentClassName}>
         
 
-        <CurrentSources sources={currentSources} onRemoveSource={this.onRemoveSource} />
+        <CurrentSources sources={currentChannels} onRemoveSource={this.onRemoveSource} />
 
         <List dense>
           <ListItem>
@@ -127,7 +127,7 @@ class ChannelListEdit extends React.Component {
 
         { (source_type === '' || source_type === 'tw') &&
           <TwitchFollowingResults 
-            currentSources={currentSources}
+            currentSources={currentChannels}
             followingSources={twitchFollowingResults} 
             filter={this.state.searchValue} 
             addSource={this.addTwitchChannel} 
@@ -136,7 +136,7 @@ class ChannelListEdit extends React.Component {
 
         { (source_type === '' || source_type === 'tw') && this.state.searchValue !== '' &&
           <TwitchSearchResults 
-            currentSources={currentSources}
+            currentSources={currentChannels}
             searchSources={twitchSearchResults} 
             addSource={this.addTwitchChannel} 
           />
@@ -151,7 +151,7 @@ class ChannelListEdit extends React.Component {
             <Button color="primary" aria-label="edit" onClick={this.cancel}>
               Cancel
             </Button>
-            { !!this.state.sources && this.state.sources.length > 0 &&
+            { !!this.state.channels && this.state.channels.length > 0 &&
               <Button color="primary" aria-label="edit" onClick={this.applyChannels}>
                 Done
               </Button>
@@ -166,7 +166,7 @@ class ChannelListEdit extends React.Component {
 
 ChannelListEdit.propTypes = {
   source: PropTypes.string,
-  sources: PropTypes.arrayOf( PropTypes.object ).isRequired,
+  channels: PropTypes.arrayOf( PropTypes.object ).isRequired,
   className: PropTypes.any,
   onEditToggle: PropTypes.func,
   twitchSearchResults: PropTypes.array,

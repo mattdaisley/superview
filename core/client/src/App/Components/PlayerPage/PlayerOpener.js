@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { setRecentChannelsItem } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
+import { setChannelIds }  from '../../Redux/ChannelsList/ChannelsListActionCreators';
 import { getTwitchChannel, resetTwitchChannel, resetTwitchChannelDetails } from '../../Redux/Twitch/TwitchActionCreators';
 import { getYoutubeChannel, resetYoutubeChannel, resetYoutubeChannelDetails, getYoutubeLoginStatus } from '../../Redux/Youtube/YoutubeActionCreators';
 import { setMessage } from '../../Redux/Messages/MessagesActionCreators';
@@ -56,6 +57,7 @@ class PlayerOpener extends React.Component {
 
     // this.setState( {playerSources: uniqueVideoIds} );
     this.props.playerSources( sourceType, uniqueVideoIds )
+    this.props.setChannelIds( uniqueVideoIds );
     if ( sourceType === 'tw' ) props.getTwitchChannel(uniqueVideoIds);
     if ( sourceType === 'yt' && props.youtubeLoggedIn ) props.getYoutubeChannel(uniqueVideoIds);
     // if ( !props.youtubeLoggedIn ) 
@@ -92,14 +94,14 @@ class PlayerOpener extends React.Component {
   resetIfInvalidPlayerSource(nextProps) {
     const sourceType = nextProps.sourceType;
 
-    if ( nextProps.channels.length > 0 ) {
+    if ( nextProps.twitchChannels.length > 0 ) {
       
       // check for channels change
-      const oldChannelIds = this.props.channels.map( channel => channel.id );
-      const newChannelIds = nextProps.channels.map( channel => channel.id );
+      const oldChannelIds = this.props.twitchChannels.map( channel => channel.id );
+      const newChannelIds = nextProps.twitchChannels.map( channel => channel.id );
 
       if ( !PlayerUtils.compareArrays(oldChannelIds, newChannelIds) ) {
-        // console.log('props.channels updated', oldChannelIds, newChannelIds)
+        // console.log('props.twitchChannels updated', oldChannelIds, newChannelIds)
 
         if ( !PlayerUtils.compareArrays(newChannelIds, this.props.sources) ) {
           let pathname = '/'+ sourceType + '/' + newChannelIds.join('/');
@@ -135,17 +137,17 @@ class PlayerOpener extends React.Component {
     */
   setLoadedOnChannelDetailsLoad(sourceType, nextProps) {
     
-    if ( nextProps.channelDetails.length > 0 ) {
+    if ( nextProps.twitchChannelDetails.length > 0 ) {
 
       // check for channel details change
-      const oldChannelDetails = this.props.channelDetails.map( channelDetails => channelDetails.id );
-      const newChannelDetails = nextProps.channelDetails.map( channelDetails => channelDetails.id );
+      const oldChannelDetails = this.props.twitchChannelDetails.map( channelDetails => channelDetails.id );
+      const newChannelDetails = nextProps.twitchChannelDetails.map( channelDetails => channelDetails.id );
 
       if ( !PlayerUtils.compareArrays(oldChannelDetails, newChannelDetails) ) {
 
         if ( newChannelDetails.length > 0 ) {
           this.props.setPlayerLoaded(true)
-          this.props.setRecentChannelsItem(sourceType, nextProps.channelDetails);
+          this.props.setRecentChannelsItem(sourceType, nextProps.twitchChannelDetails);
         }
       }
 
@@ -196,8 +198,10 @@ const mapStateToProps = state => {
   return {
     recentActivity: state.recentChannels.recentChannels,
 
-    channels: state.twitchDetails.channels,
-    channelDetails: state.twitchDetails.channelDetails,
+    channelDetails: state.channelsList.channelDetails,
+
+    twitchChannels: state.twitchDetails.channels,
+    twitchChannelDetails: state.twitchDetails.channelDetails,
 
     youtubeLoggedIn: state.youtubeOauth.loggedIn,
     youtubeChannels: state.youtubeDetails.channels,
@@ -211,6 +215,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   setRecentChannelsItem: (source, channelDetails) => dispatch(setRecentChannelsItem(source, channelDetails)),
+
+  setChannelIds: (channelIds) => dispatch(setChannelIds(channelIds)),
 
   getTwitchChannel: (channels) => dispatch(getTwitchChannel(channels)),
   resetTwitchChannel: () => dispatch(resetTwitchChannel()),

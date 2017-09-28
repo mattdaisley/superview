@@ -265,10 +265,10 @@ div.youtube-divider {
   margin-left: 10px;
   margin-right: 10px;
 }
-.player-channel-list-container .action {
+/* .player-channel-list-container .action {
   display: block;
   margin: 0 auto 10px;
-}
+} */
 .player-channel-list-container .channel-thumbnail {
   width: 100px;
   height: 56px;

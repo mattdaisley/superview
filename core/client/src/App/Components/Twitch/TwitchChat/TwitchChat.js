@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import TwitchChatItem from './TwitchChatItem';
+
 import { withStyles } from 'material-ui/styles';
 
     
@@ -13,6 +15,8 @@ const styles = theme => ({
     border: '1px solid #ccc', 
     boxSizing: 'border-box',
     backgroundColor: color,
+    display: 'flex',
+    flexDirection: 'column',
     [theme.breakpoints.up('md')]: {
       minWidth: '400px', 
       height:'100%', 
@@ -23,6 +27,9 @@ const styles = theme => ({
       marginBottom: '80px',
     },
   },
+  hidden: {
+    display: 'none'
+  }
 })
 
 class TwitchChat extends React.Component {
@@ -33,43 +40,27 @@ class TwitchChat extends React.Component {
   // }
 
   render() {
-    const opts = {
-      height: '100%',
-      width: '100%',
-      playerVars: { // https://developers.google.com/youtube/player_parameters 
-        autoplay: 1
-      }
-    };
-
-    let {id, classes} = this.props,
-      chatUrl;
-
-    if (process.env.NODE_ENV === 'development') {
-      chatUrl = 'http://www.twitch.tv/'+id+'/chat';
-    } else if (process.env.NODE_ENV === 'production') {
-      chatUrl = 'https://www.twitch.tv/'+id+'/chat';
-    }
-
+    const { chatChannels, selectedChannel, hideChannelsList, classes} = this.props
+      
     return (
-      <div className={['flex-item','hidden-'+this.props.hideChannelsList, classes.root].join(' ')}>
-        <iframe frameBorder="0"
-          scrolling="yes"
-          id={id}
-          title={id}
-          src={chatUrl}
-          height={opts.height}
-          width={opts.width}>
-        </iframe>
+      <div className={['flex-item','hidden-' + hideChannelsList, classes.root].join(' ')}>
+        { !!selectedChannel && (
+          chatChannels.map( channel => {
+            return (
+              <TwitchChatItem key={channel} id={channel} className={ (selectedChannel.id.toLowerCase() !== channel.toLowerCase() ) ? classes.hidden : '' }/> 
+            )
+          })
+        )}
       </div>
     );
   }
 }
 
 TwitchChat.propTypes = {
-  id: PropTypes.string.isRequired,
+  chatChannels: PropTypes.arrayOf(PropTypes.string),
+  selectedChannel: PropTypes.object,
   hideChannelsList: PropTypes.bool.isRequired
 }
 
 const TwitchChatWithStyles = withStyles(styles)(TwitchChat);
-// export default connect(mapStateToProps, mapDispatchToProps)(HeaderWithStyles);
 export default TwitchChatWithStyles;

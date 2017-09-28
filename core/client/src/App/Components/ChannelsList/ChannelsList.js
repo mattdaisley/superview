@@ -1,12 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import compose from 'recompose/compose';
+import React       from 'react';
+import { connect } from 'react-redux';
+import PropTypes   from 'prop-types';
+import compose     from 'recompose/compose';
 
 import { withStyles } from 'material-ui/styles';
 import withWidth from 'material-ui/utils/withWidth';
 
 import ChannelListAvatars from './ChannelListAvatars';
 import ChannelListEdit    from './ChannelListEdit';
+
+import { setChatChannel } from '../../Redux/ChannelsList/ChannelsListActionCreators';
 
 import PlayerUtils from '../../Components/PlayerPage/PlayerUtils';
 
@@ -78,7 +81,7 @@ class ChannelsList extends React.Component {
         if ( channel.source_type && channel.source_type === 'yt' ) return channel.id
         return channel.id
       } )
-      const oldChannelNames = this.props.sources.map( channel => {
+      const oldChannelNames = this.props.channels.map( channel => {
         if ( channel.source_type && channel.source_type === 'tw' ) return channel.channel.name
         if ( channel.source_type && channel.source_type === 'yt' ) return channel.id
         return channel.id
@@ -99,7 +102,7 @@ class ChannelsList extends React.Component {
       parentClassName = this.props.className
     }
 
-    const classes = this.props.classes;
+    const { channels, chatChannel, source, classes, setChatChannel } = this.props
 
     const rootClass = ( this.state.mode === 'list' ) ? classes.channelsListRoot : classes.channelsListEdit;
 
@@ -107,15 +110,17 @@ class ChannelsList extends React.Component {
       <div className={rootClass}>
         { this.state.mode === 'list' && 
           <ChannelListAvatars 
-            sources={this.props.sources} 
+            channels={channels} 
+            chatChannel={chatChannel}
             className={parentClassName} 
             onEditToggle={this.onEditToggle} 
+            setChatChannel={setChatChannel}
           /> 
         }
         { this.state.mode === 'edit' && 
           <ChannelListEdit 
-            source={this.props.source} 
-            sources={this.props.sources} 
+            source={source} 
+            channels={channels} 
             className={parentClassName} 
             onEditToggle={this.onEditToggle} 
           /> 
@@ -127,15 +132,22 @@ class ChannelsList extends React.Component {
 
 ChannelsList.propTypes = {
   source: PropTypes.string,
-  sources: PropTypes.arrayOf( 
-    PropTypes.object
-  ).isRequired,
+  channels: PropTypes.arrayOf( PropTypes.object ).isRequired,
   className: PropTypes.any,
 }
+
+
+const mapStateToProps = state => ({
+  channels: state.channelsList.channels,
+  chatChannel: state.channelsList.chatChannel,
+})
+const mapDispatchToProps = dispatch => ({
+  setChatChannel: (chatChannel) => dispatch(setChatChannel(chatChannel)),
+})
 
 // const ChannelsListStyled = withStyles(styles)(ChannelsList);
 // const ChannelsListWithWidth = withStyles(styles)(ChannelsList);
 
-export default compose(withStyles(styles), withWidth())(ChannelsList);
+const ChannelsListStyles = compose(withStyles(styles), withWidth())(ChannelsList);
 
-// export default ChannelsListStyled;
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelsListStyles);

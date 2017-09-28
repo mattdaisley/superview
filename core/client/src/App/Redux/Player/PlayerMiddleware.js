@@ -1,5 +1,7 @@
 import * as types from '../Types';
 
+import { resetChannels } from '../ChannelsList/ChannelsListActionCreators';
+
 const playerMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'player') {
     return next(action);
@@ -19,6 +21,7 @@ const playerMiddleware = store => next => action => {
       });
       delete closePlayerAction.meta;
       store.dispatch(closePlayerAction);
+      store.dispatch(resetChannels())
       break
     case types.PLAYER_MINIMIZE:
       let minimizePlayerAction = Object.assign({}, action, {

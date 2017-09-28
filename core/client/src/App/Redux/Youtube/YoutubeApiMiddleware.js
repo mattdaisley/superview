@@ -2,6 +2,8 @@ import * as types from '../Types';
 
 import { getYoutubeChannelDetails } from './YoutubeActionCreators'
 
+import { setChannels } from '../ChannelsList/ChannelsListActionCreators'
+
 import { getToken } from '../../Util/tokenYoutube';
 
 import { doYoutubeRequest } from './YoutubeApi';
@@ -66,6 +68,7 @@ const youtubeApiMiddleware = store => next => action => {
           });
           delete newAction.meta;
           store.dispatch(newAction);
+          store.dispatch(setChannels(channels))
         })
       
       break

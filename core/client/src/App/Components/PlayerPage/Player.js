@@ -1,18 +1,11 @@
-import React from 'react';
+import React       from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-
-// import { setRecentChannelsItem } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
-// import { getTwitchChannel, resetTwitchChannel, resetTwitchChannelDetails } from '../../Redux/Twitch/TwitchActionCreators';
-// import { getYoutubeChannel, resetYoutubeChannel, resetYoutubeChannelDetails, getYoutubeLoginStatus } from '../../Redux/Youtube/YoutubeActionCreators';
-// import { setMessage } from '../../Redux/Messages/MessagesActionCreators';
+import PropTypes   from 'prop-types';
 
 import PlayerWrapper        from './PlayerWrapper';
 import PlayerLoadingWrapper from './PlayerLoadingWrapper';
 
-import './Player.css';
-
-// import PlayerUtils from './PlayerUtils';
+import './Styles/Player.css';
 
 
 class Player extends React.Component {
@@ -58,8 +51,7 @@ class Player extends React.Component {
   }
 
   render() {
-    const sourceType = this.props.sourceType;
-    // const { loaded, playerSources, hideChannelsList, isFullscreen } = this.state;
+    const { sourceType } = this.props;
     const { hideChannelsList, isFullscreen } = this.state;
     const playerLoaded = this.props.loaded;
     const playerSources = this.props.sources;
