@@ -41,9 +41,11 @@ class TwitchChat extends React.Component {
 
   render() {
     const { chatChannels, selectedChannel, hideChannelsList, classes} = this.props
+
+    let hiddenClass = ( !!hideChannelsList ) ? classes.hidden : '';
       
     return (
-      <div className={['flex-item','hidden-' + hideChannelsList, classes.root].join(' ')}>
+      <div className={['flex-item', hiddenClass, classes.root].join(' ')}>
         { !!selectedChannel && (
           chatChannels.map( channel => {
             return (
