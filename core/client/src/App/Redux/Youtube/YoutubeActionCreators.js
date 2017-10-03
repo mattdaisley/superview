@@ -56,7 +56,7 @@ export const setYoutubeLogginRequested = ( logginRequested ) => {
 }
 
 export const youtubeLoginSuccess = ({token, refresh, expiresAt, referrer, google_user_id}) => {
-  console.log(token, refresh, expiresAt, referrer, google_user_id);
+  // console.log(token, refresh, expiresAt, referrer, google_user_id);
   return ({
     
     type: types.YOUTUBE_AUTH_SUCCESS,
@@ -88,6 +88,20 @@ export const youtubeLogout = () => ({
   type: types.YOUTUBE_LOGOUT,
   payload: false,
   meta: { type: 'youtubeOauth' }
+})
+
+export const youtubeAddRetry = (retryOptions) => ({
+  type: types.YOUTUBE_ADD_RETRY,
+  payload: {
+    retryOptions
+  }
+})
+
+export const youtubeDoRetry = () => ({
+  type: types.YOUTUBE_DO_RETRY,
+  meta: {
+    type: 'youtubeOauth'
+  }
 })
 
 
@@ -181,7 +195,7 @@ export const getYoutubePopular = () => {
 }
 
 export const getYoutubeRecent = ( videoIds ) => {
-  console.log('getYoutubeRecent videoIds:', videoIds);
+  // console.log('getYoutubeRecent videoIds:', videoIds);
   const requestEnpoint = 'videos'
   const part = 'snippet'
   const id = videoIds.join(',')

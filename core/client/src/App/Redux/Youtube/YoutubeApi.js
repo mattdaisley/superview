@@ -24,13 +24,15 @@ export const doYoutubeRequest = (store, url) => {
           if ( json.error.code === 401 ) {
             // console.log(json.error);
             store.dispatch(youtubeLoginFailure({refresh:true}));
+            reject( {retry: true, error: json.error} )
+          } else {
+            reject( {retry: false, error: json.error} )
           }
-          reject(json.error)
         }
       })
-      .catch(err => { 
-        console.log('error:',err); 
-        reject(err) }  
+      .catch(error => { 
+        console.log('error:',error); 
+        reject( {retry: false, error: error} ) }  
       )
         
   }) 

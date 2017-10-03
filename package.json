@@ -28,6 +28,7 @@
     "postinstall": "cd core/client && npm install",
     "start-client": "cd core/client && npm run start",
     "build-client": "cd core/client && npm run build",
+    "build-local": "cd core/client && npm run build-local",
     "start": "node index.js",
     "start-prod": "pm2 start index.js",
     "start-dev": "NODE_ENV=dev pm2 start index.js",

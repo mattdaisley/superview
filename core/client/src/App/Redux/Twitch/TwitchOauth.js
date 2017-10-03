@@ -4,6 +4,7 @@ import * as types from '../Types';
 export const initialState = {
   loggedIn: false,
   logginRequested: false,
+  retryStack: [],
 }
 
 // Our root reducer starts with the initial state
@@ -24,6 +25,10 @@ export const reducer = (state = initialState, action) => {
       return { ...state, loggedIn: action.payload}
     case types.TWITCH_LOGOUT:
       return { ...state, loggedIn: action.payload}
+    case types.TWITCH_ADD_RETRY:
+      return { ...state, retryStack: [ ...state.retryStack, action.payload ] }
+    case types.TWITCH_DO_RETRY:
+      return { ...state, retryStack: action.payload }
     default:
       return state;
   }

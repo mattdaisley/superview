@@ -1,6 +1,6 @@
 import * as types from '../Types';
 
-import { getYoutubeChannelDetails } from './YoutubeActionCreators'
+import { getYoutubeChannelDetails, youtubeAddRetry } from './YoutubeActionCreators'
 
 import { setChannels } from '../ChannelsList/ChannelsListActionCreators'
 
@@ -27,10 +27,10 @@ const youtubeApiMiddleware = store => next => action => {
         .then(json => {
           let actionItem = { payload: [{status:'error'}] }
           if ( !json.error && json.pageInfo.totalResults > 0) {
-
+    
             const formattedVideos = formatVideos(json.items);
             // console.log(url, formattedVideos);
-
+    
             actionItem = { payload: formattedVideos }
             store.dispatch(getYoutubeChannelDetails(formattedVideos));
           }
@@ -42,7 +42,7 @@ const youtubeApiMiddleware = store => next => action => {
         .catch( err => console.log('error:',err))
       break
     case types.GET_YOUTUBE_CHANNEL_DETAILS:
-
+    
       let promises = action.meta.videos.map( video => {
         // console.log(channel);
         return new Promise( (resolve, reject) => {
@@ -51,16 +51,15 @@ const youtubeApiMiddleware = store => next => action => {
             .then(json => {
               const formattedChannelDetails = formatChannelDetails(json.items[0], video);
               // console.log(url + video.channel.channel_id, json, formattedChannelDetails);
-
+    
               resolve(formattedChannelDetails)
             })
             .catch(err => {
-              console.log('error:',err);
               reject(err);
             })
         })
       })
-
+    
       Promise.all( promises )
         .then( channels => {
           let newAction = Object.assign({}, action, {
@@ -70,9 +69,7 @@ const youtubeApiMiddleware = store => next => action => {
           store.dispatch(newAction);
           store.dispatch(setChannels(channels))
         })
-      
       break
-      
     case types.YOUTUBE_SEARCH:
     case types.YOUTUBE_POPULAR:
     case types.YOUTUBE_RECENT:
@@ -80,7 +77,7 @@ const youtubeApiMiddleware = store => next => action => {
       if ( !!isLoggedIn ) {
         doYoutubeRequest(store, url)
           .then(results => {
-            console.log(results);
+            // console.log(results);
             if ( results.length > 0) {
               actionItem = { payload: results }
             }
@@ -90,7 +87,18 @@ const youtubeApiMiddleware = store => next => action => {
             store.dispatch(newAction);
           })
           // .catch( error => console.log('error:',error) )
-          .catch( error => {} )
+          .catch( err => {
+            // console.log(err);
+            if ( !!err.retry ) {
+              const retryOptions = {
+                functionToRetry: () => store.dispatch(action),
+                expires: Date.now() + 10000
+              }
+              // console.log(retryOptions);
+              store.dispatch( youtubeAddRetry(retryOptions) )
+  
+            }
+          })
       }
       break
 
@@ -101,7 +109,6 @@ const youtubeApiMiddleware = store => next => action => {
 }
 
 const formatVideos = ( videos ) => {
-  console.log('here');
   return [...videos].map( video => {
     return {
       source_type: 'yt',

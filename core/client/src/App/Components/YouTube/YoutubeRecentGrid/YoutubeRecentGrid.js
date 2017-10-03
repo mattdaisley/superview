@@ -35,7 +35,6 @@ class YoutubeRecentGrid extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if ( this.props.youtubeRecentVideoIds !== nextProps.youtubeRecentVideoIds ) {
       this.props.getYoutubeRecent( nextProps.youtubeRecentVideoIds );
     }

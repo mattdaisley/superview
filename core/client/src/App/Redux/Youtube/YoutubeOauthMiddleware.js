@@ -1,6 +1,6 @@
 import * as types from '../Types';
 
-import { setYoutubeLogginRequested, youtubeLoginRefresh, youtubeLoginSuccess } from './YoutubeActionCreators'
+import { setYoutubeLogginRequested, youtubeLoginRefresh, youtubeLoginSuccess, youtubeDoRetry } from './YoutubeActionCreators'
 // import { setToken, removeToken, hasToken } from '../../Util/tokenYoutube';
 import { setToken, setRefresh, removeToken, hasToken, getToken, getRefresh, setGoogleUserId } from '../../Util/tokenYoutube';
 
@@ -75,7 +75,8 @@ const youtubeOauthMiddleware = store => next => action => {
       delete newLoginAction.meta;
       store.dispatch(newLoginAction);
       // console.log(newLoginAction);
-      if ( action.meta.referrer ) window.location.href = action.meta.referrer
+      if ( action.meta.referrer ) { window.location.href = action.meta.referrer }
+      else { store.dispatch(youtubeDoRetry()) }
       // window.location.href = '/';
       break;
 
@@ -107,6 +108,33 @@ const youtubeOauthMiddleware = store => next => action => {
       store.dispatch(newLogoutAction);
       break
       
+    case types.YOUTUBE_ADD_RETRY:
+      // console.log('YOUTUBE_ADD_RETRY');
+      let newRetryAction = Object.assign({}, action, {
+        payload: action.meta.retryOptions
+      })
+      delete newRetryAction.meta;
+      store.dispatch(newRetryAction);
+      break;
+
+    case types.YOUTUBE_DO_RETRY:
+      let retryStack = store.getState().youtubeOauth.retryStack;
+      // console.log('YOUTUBE_DO_RETRY retryStack:', retryStack);
+      if ( retryStack.length > 0 ) {
+        retryStack.forEach( stackItem => {
+          // console.log('RetryOptions expires > Date.now():', stackItem.retryOptions.expires, Date.now(), stackItem.retryOptions.expires > Date.now())
+          if ( stackItem.retryOptions.expires > Date.now() ) {
+            stackItem.retryOptions.functionToRetry();
+          }
+        })
+      }
+      let newDoRetryAction = Object.assign({}, action, {
+        payload: []
+      })
+      delete newDoRetryAction.meta;
+      store.dispatch(newDoRetryAction);
+      break;
+
     default:
       break
   }
