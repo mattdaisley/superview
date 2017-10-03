@@ -22,16 +22,19 @@ class VideoGridItem extends React.PureComponent {
   render() {
     const classes = this.props.classes
   
+    const source = this.props.source
     const { id, title, thumbnail } = this.props.videoItem;
     const channelName = ( this.props.videoItem.channel ) ? this.props.videoItem.channel.name : null;
     const views       = ( this.props.videoItem.stats ) ? this.props.videoItem.stats.views.toLocaleString('en-IN') + ' ' + ( this.source === 'tw' ? 'viewers' : 'views' ) : null;
-    const route       = '/' + this.props.source + '/' + id
   
+
+
     const itemDetailOptions = {
+      id,
+      source, 
       title,
       channelName,
-      views,
-      route
+      views
     }
     
     return (

@@ -1,8 +1,11 @@
 import * as types from '../Types';
 
-import { setChatChannel } from './ChannelsListActionCreators'
+import { setChannelIds, setChatChannel } from './ChannelsListActionCreators'
 
-const messagesMiddleware = store => next => action => {
+import { getTwitchChannel } from '../Twitch/TwitchActionCreators'
+import { getYoutubeChannel } from '../Youtube/YoutubeActionCreators'
+
+const channelsListMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'channelsList') {
     return next(action);
   }
@@ -10,12 +13,15 @@ const messagesMiddleware = store => next => action => {
 
   switch (action.type) {
     case types.SET_CHANNEL_IDS:
-      let channels = action.meta.channelIds.map( id => ({ state: 'loading', id: id, channel: { title: '', src: '' } }) )
+      const channelIds = action.meta.channelIds;
+      const channels = channelIds.map( id => ({ state: 'loading', id: id, channel: { title: '', src: '' } }) )
       newAction = Object.assign({}, action, {
         payload: channels
       });
       delete newAction.meta;
       store.dispatch(newAction);
+      if ( action.meta.sourceType === 'tw' ) store.dispatch(getTwitchChannel(channelIds));
+      if ( action.meta.sourceType === 'yt' ) store.dispatch(getYoutubeChannel(channelIds));
       break
 
     case types.SET_CHANNELS:
@@ -26,10 +32,18 @@ const messagesMiddleware = store => next => action => {
       store.dispatch(newAction);
       store.dispatch(setChatChannel(action.meta.channels[0]))
       break
+    case types.ADD_CHANNEL:
+      const channelId = action.meta.channelId
+      const oldChannelIds = store.getState().channelsList.channels.map( channel => channel.id ) || [];
+      if ( oldChannelIds.indexOf(channelId) < 0 ) {
+        const newChannelIds = [ ...oldChannelIds, channelId ]
+        store.dispatch(setChannelIds(action.meta.sourceType, newChannelIds))
+      }
+      break;
     default:
       break
   }
 
 }
 
-export default messagesMiddleware
+export default channelsListMiddleware

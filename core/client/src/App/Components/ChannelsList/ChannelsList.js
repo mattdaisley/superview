@@ -9,7 +9,8 @@ import withWidth from 'material-ui/utils/withWidth';
 import ChannelListAvatars from './ChannelListAvatars';
 import ChannelListEdit    from './ChannelListEdit';
 
-import { setChatChannel } from '../../Redux/ChannelsList/ChannelsListActionCreators';
+import { setChannelIds, setChatChannel } from '../../Redux/ChannelsList/ChannelsListActionCreators';
+import { playerClose, playerSources } from '../../Redux/Player/PlayerActionCreators';
 
 import PlayerUtils from '../../Components/PlayerPage/PlayerUtils';
 
@@ -90,6 +91,13 @@ class ChannelsList extends React.Component {
         let pathname = '/'+ channels[0].source_type + '/' + newChannelNames.join('/');
         this.context.router.history.push(pathname);
       }
+    } else if ( channels && channels.length === 0 ) {
+      this.props.setChannelIds( '', [] );
+    }
+    
+    if ( this.props.openState === 'open' && (!channels || ( channels && channels.length === 0)) ) { 
+      // this.props.playerClose()
+      this.props.playerSources( '', [] )
     }
 
     if ( this.state.mode === 'list' ) this.setState( {mode: 'edit'} )
@@ -140,9 +148,13 @@ ChannelsList.propTypes = {
 const mapStateToProps = state => ({
   channels: state.channelsList.channels,
   chatChannel: state.channelsList.chatChannel,
+  openState: state.player.openState,
 })
 const mapDispatchToProps = dispatch => ({
   setChatChannel: (chatChannel) => dispatch(setChatChannel(chatChannel)),
+  setChannelIds: (sourceType, channelids) => dispatch(setChannelIds(sourceType, channelids)),
+  playerClose: () => dispatch(playerClose()),
+  playerSources: (sourceType, sources) => dispatch(playerSources(sourceType, sources)),
 })
 
 // const ChannelsListStyled = withStyles(styles)(ChannelsList);

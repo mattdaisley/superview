@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
-import ModeEditIcon from 'material-ui-icons/ModeEdit';
+import PlayerArrowIcon from 'material-ui-icons/PlayArrow';
 import AddIcon from 'material-ui-icons/Add';
 import ChatIcon from 'material-ui-icons/Chat';
 import { CircularProgress } from 'material-ui/Progress';
@@ -46,13 +47,29 @@ const ChannelListAvatars = (props) => {
     }
   })
 
+  let playButton = null
+  if ( props.openState === 'closed' && props.channels.length > 0 ) {
+    const channelIds = props.channels.map( (source, index) => source.id )
+    const route = '/' + props.channels[0].source_type + '/' + channelIds.join('/');
+    playButton = (
+      <Link to={route}>
+        <Button fab color="accent" aria-label="edit" className={props.classes.action} >
+          <PlayerArrowIcon />
+        </Button>
+      </Link>
+    )
+  }
+
   return (
     <div className={'player-channel-list-container ' + parentClassName}>
-      {sourcesList}
-      <Button fab color="accent" aria-label="edit" className={props.classes.action} onClick={props.onEditToggle}>
-        { props.channels.length > 0 && <ModeEditIcon /> }
-        { props.channels.length === 0 && <AddIcon /> }
-      </Button>
+      { sourcesList }
+      { playButton }
+      { props.channels.length > 0 && <Button color="primary" onClick={props.onEditToggle}>Edit</Button> }
+      { props.channels.length === 0 && (
+        <Button fab color="accent" aria-label="edit" className={props.classes.action} onClick={props.onEditToggle}>
+          <AddIcon />
+        </Button>
+      )}
     </div>
   );
 }
@@ -65,7 +82,16 @@ ChannelListAvatars.propTypes = {
   setChatChannel: PropTypes.func,
 }
 
+const mapStateToProps = state => {
+  return {
+    openState: state.player.openState
+  }
+}
+const mapDispatchToProps = dispatch => ({
+  // playerOpen:  () => dispatch(playerOpen()),
+  // playerClose: () => dispatch(playerClose()),
+})
+
 
 const ChannelListAvatarsWithStyles = withStyles(styles)(ChannelListAvatars);
-
-export default ChannelListAvatarsWithStyles;
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelListAvatarsWithStyles);

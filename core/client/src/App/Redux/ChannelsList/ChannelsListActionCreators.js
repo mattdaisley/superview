@@ -1,9 +1,10 @@
 import * as types from '../Types';
 
-export const setChannelIds = ( channelIds ) => ({
+export const setChannelIds = ( sourceType, channelIds ) => ({
   type: types.SET_CHANNEL_IDS,
   meta: {
     type: 'channelsList',
+    sourceType: sourceType,
     channelIds: channelIds
   }
 })
@@ -13,6 +14,15 @@ export const setChannels = ( channels ) => ({
   meta: {
     type: 'channelsList',
     channels: channels
+  }
+})
+
+export const addChannelId = ( sourceType, channelId ) => ({
+  type: types.ADD_CHANNEL,
+  meta: {
+    type: 'channelsList',
+    sourceType: sourceType,
+    channelId: channelId
   }
 })
 

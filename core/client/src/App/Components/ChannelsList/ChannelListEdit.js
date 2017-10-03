@@ -82,7 +82,7 @@ class ChannelListEdit extends React.Component {
   }
   
   cancel() {
-    this.props.onEditToggle();
+    this.props.onEditToggle(this.props.channels);
   }
 
   render() {
@@ -153,7 +153,12 @@ class ChannelListEdit extends React.Component {
             </Button>
             { !!this.state.channels && this.state.channels.length > 0 &&
               <Button color="primary" aria-label="edit" onClick={this.applyChannels}>
-                Done
+                Play
+              </Button>
+            }
+            { (this.state.channels.length === 0) &&
+              <Button color="primary" aria-label="edit" onClick={this.applyChannels}>
+                Close
               </Button>
             }
           </ListItem>
@@ -182,6 +187,7 @@ const mapStateToProps = state => {
     twitchSearchResults: state.twitchBrowse.twitchSearchResults,
     twitchFollowing: state.twitchBrowse.twitchFollowing,
     youtubeSearchResults: state.youtubeBrowse.youtubeSearchResults,
+    openState: state.player.openState,
   }
 }
 

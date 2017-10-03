@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 import { setRecentChannelsItem } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
 import { setChannelIds }  from '../../Redux/ChannelsList/ChannelsListActionCreators';
-import { getTwitchChannel, resetTwitchChannel, resetTwitchChannelDetails } from '../../Redux/Twitch/TwitchActionCreators';
-import { getYoutubeChannel, resetYoutubeChannel, resetYoutubeChannelDetails, getYoutubeLoginStatus } from '../../Redux/Youtube/YoutubeActionCreators';
+import { resetTwitchChannel, resetTwitchChannelDetails } from '../../Redux/Twitch/TwitchActionCreators';
+import { resetYoutubeChannel, resetYoutubeChannelDetails, getYoutubeLoginStatus } from '../../Redux/Youtube/YoutubeActionCreators';
 import { setMessage } from '../../Redux/Messages/MessagesActionCreators';
 
 import { playerOpen, playerClose, playerMinimize, playerSources, setPlayerLoaded }  from '../../Redux/Player/PlayerActionCreators';
@@ -26,10 +26,15 @@ class PlayerOpener extends React.Component {
   }
   
   componentWillUnmount() {
-    this.props.playerMinimize();
+    if ( this.props.sources.length > 0 ) this.props.playerMinimize();
   }
   
   componentWillReceiveProps(nextProps) {
+    if ( nextProps.sources.length === 0 ) {
+      this.props.playerClose();
+      this.context.router.history.push('/');
+      return;
+    }
     const sourceType = nextProps.source;
 
     if ( this.resetIfNewPathname(nextProps) ) return;
@@ -57,9 +62,7 @@ class PlayerOpener extends React.Component {
 
     // this.setState( {playerSources: uniqueVideoIds} );
     this.props.playerSources( sourceType, uniqueVideoIds )
-    this.props.setChannelIds( uniqueVideoIds );
-    if ( sourceType === 'tw' ) props.getTwitchChannel(uniqueVideoIds);
-    if ( sourceType === 'yt' && props.youtubeLoggedIn ) props.getYoutubeChannel(uniqueVideoIds);
+    this.props.setChannelIds( sourceType, uniqueVideoIds );
     // if ( !props.youtubeLoggedIn ) 
   }
 
@@ -216,13 +219,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   setRecentChannelsItem: (source, channelDetails) => dispatch(setRecentChannelsItem(source, channelDetails)),
 
-  setChannelIds: (channelIds) => dispatch(setChannelIds(channelIds)),
+  setChannelIds: (sourceType, channelIds) => dispatch(setChannelIds(sourceType, channelIds)),
 
-  getTwitchChannel: (channels) => dispatch(getTwitchChannel(channels)),
   resetTwitchChannel: () => dispatch(resetTwitchChannel()),
   resetTwitchChannelDetails: () => dispatch(resetTwitchChannelDetails()),
 
-  getYoutubeChannel: (channels) => dispatch(getYoutubeChannel(channels)),
   resetYoutubeChannel: () => dispatch(resetYoutubeChannel()),
   resetYoutubeChannelDetails: () => dispatch(resetYoutubeChannelDetails()),
   getYoutubeLoginStatus: () => dispatch(getYoutubeLoginStatus()),

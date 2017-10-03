@@ -1,13 +1,17 @@
 import React     from 'react';
 import PropTypes from 'prop-types';
 import { Link }  from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import Button        from 'material-ui/Button';
 import IconButton    from 'material-ui/IconButton';
 import PlayArrowIcon from 'material-ui-icons/PlayArrow';
-import AddIcon       from 'material-ui-icons/Add';
 
 import { withStyles } from 'material-ui/styles';
+
+import AddItemButton from './AddItemButton';
+
+import { addChannelId } from '../../../Redux/ChannelsList/ChannelsListActionCreators';
+
 
 const styles = theme => ({
   playButton: {
@@ -41,33 +45,7 @@ const styles = theme => ({
   },
   playHoverDim: {
     opacity: .2
-  },
-  addButton: {
-    position: 'absolute',
-    right: 25,
-    color: 'white'
-  },
-  addButtonOut: {
-    bottom: -100,
-    transition: [
-      theme.transitions.create('bottom', {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.shortest,
-      }),
-    ],
-  },
-  addButtonHover: {
-    bottom: 25,
-    transition: [
-      theme.transitions.create('bottom', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.shortest,
-      }),
-    ],
-  },
-  addHover: {
-    color: '#448aff'
-  },
+  }
 })
 
 const overrideStyles = {
@@ -81,12 +59,7 @@ const overrideStyles = {
   playArrowIcon: {
     width: 50,
     height: 50,
-  },
-  addButton: {
-    background: 'rgba(0,0,0,.6)',
-    borderRadius: 50,
-    border: '1px solid white',
-  },
+  }
 }
 
 // const ItemImage = (props) => {
@@ -96,25 +69,40 @@ class ItemDetails extends React.PureComponent {
     super(props);
 
     this.state = { 
-      hover: false
+      hover: false,
+      addHover: false
     }
+
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.handleAddClicked = this.handleAddClicked.bind(this);
+  }
+
+  handleMouseEnter() {
+    this.setState({playHover: true, hover: true})
+  }
+
+  handleMouseLeave() {
+    this.setState({hover: false})
+  }
+
+  handleAddClicked() {
+    this.props.addChannelId( this.props.options.source, this.props.options.id )
   }
 
   render() {
     const {
-      route,
+      id,
+      source,
       title,
       channelName,
       views
     } = this.props.options;
+
+    const route       = '/' + source + '/' + id
   
   
     const classes = this.props.classes
-    // const source      = props.videoItem.source
-    // const title       = props.videoItem.title;
-    // const id          = props.videoItem.id;
-    // const channelName = ( props.videoItem.channel ) ? props.videoItem.channel.name : null;
-    // const views       = ( props.videoItem.stats ) ? props.videoItem.stats.views.toLocaleString('en-IN') + ' ' + ( props.source === 'tw' ? 'viewers' : 'views' ) : null;
 
     let playButtonClass = classes.playButton;
     if ( !!this.state.hover ) { playButtonClass += ' ' + classes.playButtonHover } else { playButtonClass += ' ' + classes.playButtonOut };
@@ -123,14 +111,12 @@ class ItemDetails extends React.PureComponent {
     } else {
       if ( !!this.state.playHover ) { playButtonClass += ' ' + classes.playHover };
     }
-
-
-    let addButtonClass = classes.addButton;
-    if ( !!this.state.hover ) { addButtonClass += ' ' + classes.addButtonHover } else { addButtonClass += ' ' + classes.addButtonOut };
-    if ( !!this.state.addHover ) { addButtonClass += ' ' + classes.addHover };
     
     return (
-      <div className="list-grid-details-container" onMouseEnter={ () => this.setState({hover:true, playHover:true})} onMouseLeave={ () => this.setState({hover:false, playHover:true})}>
+      <div className="list-grid-details-container" 
+        onMouseEnter={ this.handleMouseEnter } 
+        onMouseMove={ this.handleMouseEnter } 
+        onMouseLeave={ this.handleMouseLeave }>
         <Link to={route}>
           <div className="list-grid-details">
             <div className="list-grid-details-title">{title}</div>
@@ -144,10 +130,15 @@ class ItemDetails extends React.PureComponent {
 
         </Link>
 
-        <Button style={overrideStyles.addButton} fab color="accent" aria-label="edit" className={addButtonClass}
+        <AddItemButton parentHover={this.state.hover} 
+          onMouseEnter={ () => this.setState({addHover: true, playHover: false}) } 
+          onMouseLeave={ () => this.setState({addHover: false, playHover:true}) } 
+          onClick={ this.handleAddClicked } />
+
+        {/* <Button style={overrideStyles.addButton} fab color="accent" aria-label="edit" className={addButtonClass}
           onMouseEnter={ () => this.setState({addHover:true, playHover:false})} onMouseLeave={ () => this.setState({addHover:false, playHover:true})}>
           <AddIcon/>
-        </Button>
+        </Button> */}
       </div>
     );
   }
@@ -157,6 +148,19 @@ ItemDetails.propTypes = {
   options: PropTypes.object.isRequired,
 }
 
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => ({
+  addChannelId: (sourceType, channelIds) => dispatch(addChannelId(sourceType, channelIds)),
+})
+
+
 const ItemDetailsWithStyles = withStyles(styles)(ItemDetails);
 
-export default ItemDetailsWithStyles;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ItemDetailsWithStyles);
