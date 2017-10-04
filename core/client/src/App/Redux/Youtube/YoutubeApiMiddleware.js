@@ -109,6 +109,8 @@ const youtubeApiMiddleware = store => next => action => {
             store.dispatch(newAction);
           })
           .catch( err => handleApiError(err, store, action) )
+      } else {
+        handleApiError({retry:true}, store, action)
       }
       break
 
