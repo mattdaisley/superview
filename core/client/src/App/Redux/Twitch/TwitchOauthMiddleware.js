@@ -11,7 +11,7 @@ const twitchOauthMiddleware = store => next => action => {
 
   switch (action.type) {
     case types.TWITCH_AUTH_STATUS:
-      const prevStatus = store.getState().youtubeOauth.loggedIn;
+      const prevStatus = store.getState().twitchOauth.loggedIn;
       let newAction = Object.assign({}, action, {
         payload: (hasToken() && prevStatus)
       });

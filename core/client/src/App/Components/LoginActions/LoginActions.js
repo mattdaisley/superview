@@ -92,7 +92,6 @@ class LoginActions extends React.Component {
 
     return (
       <div className={ (!!this.props.isInHeader) ? classes.loginActionsHeader : classes.loginActions }>
-        <span>{ (!!this.props.isInHeader).toString() } { (!!this.props.twitchLoggedIn).toString() } { (!!this.props.youtubeLoggedIn).toString() }</span>
         { !this.props.twitchLoggedIn && <Button className={twitchButtonClasses.join(' ')} onClick={this.twitchLogin}>Login to Twitch</Button> }
         { (!!this.props.twitchLoggedIn && !this.props.isInHeader) && <Button className={twitchButtonClasses.join(' ')} onClick={this.props.twitchLogout}>Logout of Twitch</Button> }
         
