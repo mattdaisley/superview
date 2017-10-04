@@ -14,6 +14,14 @@ export const getTwitchLoginStatus = () => ({
   }
 })
 
+export const setTwitchLoggedIn = ( status ) => {
+  console.log('setTwitchLoggedIn', status);
+  return ({
+    type: types.TWITCH_SET_ISLOGGEDIN,
+    payload: status
+  })
+}
+
 export const twitchLogin = ( referrer ) => {
   
   const requestEnpoint = 'oauth2/authorize'
@@ -85,6 +93,25 @@ export const twitchLogout = () => ({
   payload: false,
   meta: { type: 'twitchOauth' }
 })
+
+export const getTwitchProfile = () => {
+  const requestEnpoint = 'user'
+
+  return ({
+    type: types.GET_TWITCH_PROFILE,
+    meta: {
+      type: 'twitchApi',
+      clientId: clientId,
+      url: requestUri + requestEnpoint
+    }
+  })
+}
+
+export const resetTwitchProfile = () => {
+  return ({
+    type: types.RESET_TWITCH_PROFILE,
+  })
+}
 
 export const getTwitchChannel = (users) => {
   

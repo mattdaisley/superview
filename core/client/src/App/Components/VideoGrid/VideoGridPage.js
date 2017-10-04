@@ -55,7 +55,7 @@ class VideoGridPage extends React.Component {
     const { featuredItem } = this.state
     const { videoItems }   = this.props
 
-    console.log(videoItems, featuredItem);
+    // console.log(videoItems, featuredItem);
     if ( !!featuredItem ) {
 
       let featuredElement = <VideoGridItem source={featuredItem.source_type} videoItem={featuredItem}></VideoGridItem> 

@@ -2,6 +2,7 @@ import * as types from '../Types';
 
 // Initial (starting) state
 export const initialState = {
+  twitchProfile: undefined,
   twitchFollowing: [],
   twitchFeatured: [],
   twitchSearchResults: []
@@ -11,6 +12,10 @@ export const initialState = {
 // and must return a representation of the next state
 export const reducer = (state = initialState, action) => {
   switch(action.type) {
+    case types.GET_TWITCH_PROFILE:
+      return { ...state, twitchProfile: action.payload }
+    case types.RESET_TWITCH_PROFILE:
+      return { ...state, twitchProfile: undefined }
     case types.GET_TWITCH_FOLLOWING:
       return { ...state, twitchFollowing: action.payload }
     case types.RESET_TWITCH_FOLLOWING:

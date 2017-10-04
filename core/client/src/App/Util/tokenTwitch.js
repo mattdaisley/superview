@@ -1,6 +1,3 @@
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
 const TOKEN_KEY = 'twitch_access_token'
 const REFRESH_KEY = 'twitch_refresh_token'
 const EXPIRES_AT_KEY = 'twitch_expires_at'
@@ -36,7 +33,6 @@ export const setRefresh = (refresh) => {
 
 export const removeToken = () => {
   console.log('in remove token');
-  cookies.remove(TOKEN_KEY);
   window.localStorage.removeItem(TOKEN_KEY)
   window.localStorage.removeItem(REFRESH_KEY)
   window.localStorage.removeItem(EXPIRES_AT_KEY)

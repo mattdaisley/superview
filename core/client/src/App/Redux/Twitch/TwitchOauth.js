@@ -13,6 +13,8 @@ export const reducer = (state = initialState, action) => {
   switch(action.type) {
     case types.TWITCH_AUTH_STATUS:
       return { ...state, loggedIn: action.payload}
+    case types.TWITCH_SET_ISLOGGEDIN:
+      return { ...state, loggedIn: action.payload}
     case types.TWITCH_AUTH_REQUEST:
       return { ...state}
     case types.TWITCH_AUTH_REFRESH:

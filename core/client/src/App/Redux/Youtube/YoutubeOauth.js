@@ -2,7 +2,7 @@ import * as types from '../Types';
 
 // Initial (starting) state
 export const initialState = {
-  loggedIn: true,
+  loggedIn: false,
   logginRequested: false,
   retryStack: [],
 }

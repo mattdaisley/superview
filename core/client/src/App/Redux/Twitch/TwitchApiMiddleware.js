@@ -1,6 +1,6 @@
 import * as types from '../Types';
 
-import { getTwitchChannelDetails, twitchLoginFailure } from './TwitchActionCreators'
+import { getTwitchChannelDetails, twitchLoginFailure, setTwitchLoggedIn } from './TwitchActionCreators'
 
 import { setChannels } from '../ChannelsList/ChannelsListActionCreators'
 
@@ -23,6 +23,38 @@ const twitchApiMiddleware = store => next => action => {
   }
 
   switch (action.type) {
+    case types.GET_TWITCH_PROFILE:
+      // if ( !hasToken() ) return;
+      fetch(url, {headers: headers})
+        .then(resp => resp.json())
+        .then(json => {
+          // console.log(json);
+          let actionItem = { payload: {} }
+          if ( !json.error ) {
+            if ( json._id ) {
+              
+              const twitchProfile = json
+              
+              // console.log(url, json, formattedStreams);
+              actionItem = { payload: twitchProfile }
+            }
+            store.dispatch(setTwitchLoggedIn(true));
+
+          } else {
+            // console.log('GET_TWITCH_FOLLOWING error', json, json.error, json.status === 401);
+            if ( json.status === 401 ) {
+              store.dispatch(twitchLoginFailure({refresh:true}));
+            }
+          }
+          
+          let newAction = Object.assign({}, action, actionItem);
+          delete newAction.meta;
+          store.dispatch(newAction);
+
+        })
+        .catch(err => console.log(err))
+      break;
+
     case types.GET_TWITCH_CHANNEL:
       fetch(url, {headers: headers})
         .then(resp => resp.json())

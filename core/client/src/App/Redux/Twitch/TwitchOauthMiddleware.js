@@ -1,6 +1,6 @@
 import * as types from '../Types';
 
-import { setTwitchLogginRequested, twitchLoginRefresh, twitchLoginSuccess } from './TwitchActionCreators'
+import { setTwitchLogginRequested, twitchLoginRefresh, twitchLoginSuccess, resetTwitchProfile } from './TwitchActionCreators'
 
 import { setToken, setRefresh, removeToken, hasToken, getToken, getRefresh } from '../../Util/tokenTwitch';
 
@@ -91,6 +91,7 @@ const twitchOauthMiddleware = store => next => action => {
         }
         store.dispatch(setTwitchLogginRequested(true));
         store.dispatch(twitchLoginRefresh(tokens))
+        store.dispatch(resetTwitchProfile());
       }
       let newFailureAction = Object.assign({}, action, {
         payload: false
@@ -106,6 +107,7 @@ const twitchOauthMiddleware = store => next => action => {
       });
       delete newLogoutAction.meta;
       store.dispatch(newLogoutAction);
+      store.dispatch(resetTwitchProfile());
       break
     default:
       break
