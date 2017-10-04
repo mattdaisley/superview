@@ -1,6 +1,6 @@
 import * as types from '../Types';
 
-import { getYoutubeChannelDetails, youtubeAddRetry } from './YoutubeActionCreators'
+import { getYoutubeChannelDetails, youtubeAddRetry, setYoutubeLoggedIn } from './YoutubeActionCreators'
 
 import { setChannels } from '../ChannelsList/ChannelsListActionCreators'
 
@@ -21,6 +21,26 @@ const youtubeApiMiddleware = store => next => action => {
   }
 
   switch (action.type) {
+    case types.GET_GOOGLE_PROFILE:
+      doYoutubeRequest(store, url)
+        .then(json => {
+          let actionItem = { payload: {} }
+          console.log(json)
+          if ( !json.error ) {
+            if ( json.id ) {
+              
+              const googleProfile = json
+              actionItem = { payload: googleProfile }
+            }
+            store.dispatch(setYoutubeLoggedIn(true));
+          }
+          
+          let newAction = Object.assign({}, action, actionItem);
+          delete newAction.meta;
+          store.dispatch(newAction);
+        })
+        .catch( err => handleApiError(err, store, action) )
+      break;
     case types.GET_YOUTUBE_CHANNEL:
       fetch(url, {headers: headers})
         .then(resp => resp.json())
@@ -76,35 +96,56 @@ const youtubeApiMiddleware = store => next => action => {
       let actionItem = { payload: [] }
       if ( !!isLoggedIn ) {
         doYoutubeRequest(store, url)
-          .then(results => {
-            // console.log(results);
-            if ( results.length > 0) {
-              actionItem = { payload: results }
+          .then(json => {
+            if ( json.pageInfo.totalResults > 0 ) {
+              const results = formatSearchResult(json.items);
+              
+              if ( results.length > 0) {
+                actionItem = { payload: results }
+              }
             }
             
             let newAction = Object.assign({}, action, actionItem);
             delete newAction.meta;
             store.dispatch(newAction);
           })
-          // .catch( error => console.log('error:',error) )
-          .catch( err => {
-            // console.log(err);
-            if ( !!err.retry ) {
-              const retryOptions = {
-                functionToRetry: () => store.dispatch(action),
-                expires: Date.now() + 10000
-              }
-              // console.log(retryOptions);
-              store.dispatch( youtubeAddRetry(retryOptions) )
-  
-            }
-          })
+          .catch( err => handleApiError(err, store, action) )
       }
       break
 
     default:
       break
   }
+
+}
+
+const handleApiError = ( err, store, action ) => {
+  if ( !!err.retry ) {
+    const retryOptions = {
+      functionToRetry: () => store.dispatch(action),
+      expires: Date.now() + 10000
+    }
+    store.dispatch( youtubeAddRetry(retryOptions) )
+  }
+}
+
+
+const formatSearchResult = ( videos ) => {
+
+  return [...videos].map( video => {
+    return {
+      source_type: 'yt',
+      id: video.id.videoId || video.id,
+      channel_id: video.snippet.channelId,
+      title: video.snippet.title,
+      description: video.snippet.description,
+      published_at: video.snippet.publishedAt,
+      thumbnail: ( video.snippet.thumbnails.medium ) ? video.snippet.thumbnails.medium.url : video.snippet.thumbnails.default.url,
+      channel: {
+        name: ( video.snippet.channelTitle ) ? video.snippet.channelTitle : null
+      }
+    }
+  })
 
 }
 

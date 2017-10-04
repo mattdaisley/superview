@@ -14,12 +14,8 @@ export const doYoutubeRequest = (store, url) => {
     // fetch(url)
       .then(resp => resp.json())
       .then(json => {
-        if ( !json.error && json.pageInfo.totalResults > 0) {
-
-          const formattedVideos = formatSearchResult(json.items);
-          // console.log(url, json, formattedVideos);
-          
-          resolve(formattedVideos)
+        if ( !json.error ) {
+          resolve(json);
         } else {
           if ( json.error.code === 401 ) {
             // console.log(json.error);
@@ -36,24 +32,4 @@ export const doYoutubeRequest = (store, url) => {
       )
         
   }) 
-}
-
-
-const formatSearchResult = ( videos ) => {
-
-  return [...videos].map( video => {
-    return {
-      source_type: 'yt',
-      id: video.id.videoId || video.id,
-      channel_id: video.snippet.channelId,
-      title: video.snippet.title,
-      description: video.snippet.description,
-      published_at: video.snippet.publishedAt,
-      thumbnail: ( video.snippet.thumbnails.medium ) ? video.snippet.thumbnails.medium.url : video.snippet.thumbnails.default.url,
-      channel: {
-        name: ( video.snippet.channelTitle ) ? video.snippet.channelTitle : null
-      }
-    }
-  })
-
 }

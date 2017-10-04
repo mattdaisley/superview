@@ -1,6 +1,6 @@
 import * as types from '../Types';
 
-import { setYoutubeLogginRequested, youtubeLoginRefresh, youtubeLoginSuccess, youtubeDoRetry } from './YoutubeActionCreators'
+import { setYoutubeLogginRequested, youtubeLoginRefresh, youtubeLoginSuccess, youtubeDoRetry, resetGoogleProfile } from './YoutubeActionCreators'
 // import { setToken, removeToken, hasToken } from '../../Util/tokenYoutube';
 import { setToken, setRefresh, removeToken, hasToken, getToken, getRefresh, setGoogleUserId } from '../../Util/tokenYoutube';
 
@@ -106,6 +106,7 @@ const youtubeOauthMiddleware = store => next => action => {
       });
       delete newLogoutAction.meta;
       store.dispatch(newLogoutAction);
+      store.dispatch(resetGoogleProfile());
       break
       
     case types.YOUTUBE_ADD_RETRY:

@@ -4,7 +4,8 @@ import config from './YoutubeConfig';
 
 const clientId = config.clientId;
 const oauthRequestUri = config.oauthRequestUri;
-const apiRequestUri = config.apiRequestUri;
+const youtubeRequestUri = config.youtubeRequestUri;
+const plusRequestUri = config.plusRequestUri;
 const oauthRedirectUri = config.oauthRedirectUri;
 
 export const getYoutubeLoginStatus = () => ({
@@ -13,6 +14,14 @@ export const getYoutubeLoginStatus = () => ({
     type: 'youtubeOauth'
   }
 })
+
+export const setYoutubeLoggedIn = ( status ) => {
+  console.log('setYoutubeLoggedIn', status);
+  return ({
+    type: types.YOUTUBE_SET_ISLOGGEDIN,
+    payload: status
+  })
+}
 
 export const youtubeLogin = ( referrer ) => {
   
@@ -104,6 +113,25 @@ export const youtubeDoRetry = () => ({
   }
 })
 
+export const getGoogleProfile = () => {
+  const requestEnpoint = 'people/me'
+
+  return ({
+    type: types.GET_GOOGLE_PROFILE,
+    meta: {
+      type: 'youtubeApi',
+      clientId: clientId,
+      url: plusRequestUri + requestEnpoint
+    }
+  })
+}
+
+export const resetGoogleProfile = () => {
+  return ({
+    type: types.RESET_GOOGLE_PROFILE,
+  })
+}
+
 
 
 
@@ -120,7 +148,7 @@ export const getYoutubeChannel = (videos) => {
       type: 'youtubeApi',
       payload: {},
       clientId: clientId,
-      url: apiRequestUri + requestEnpoint + '?id=' + videos + '&part=' + part
+      url: youtubeRequestUri + requestEnpoint + '?id=' + videos + '&part=' + part
     }
   })
 }
@@ -141,7 +169,7 @@ export const getYoutubeChannelDetails = (videos) => {
     meta: {
       type: 'youtubeApi',
       clientId: clientId,
-      url: apiRequestUri + requestEnpoint + '?part=' + part + '&id=',
+      url: youtubeRequestUri + requestEnpoint + '?part=' + part + '&id=',
       videos: videos,
     }
   })
@@ -165,7 +193,7 @@ export const youtubeSearch = (query) => {
     meta: {
       type: 'youtubeApi',
       clientId: clientId,
-      url: apiRequestUri + requestEnpoint + encodeURIComponent(query) + '&limit=' + limit + '&part=' + part + '&type=' + type,
+      url: youtubeRequestUri + requestEnpoint + encodeURIComponent(query) + '&limit=' + limit + '&part=' + part + '&type=' + type,
     }
   })
 }
@@ -188,7 +216,7 @@ export const getYoutubePopular = () => {
     meta: {
       type: 'youtubeApi',
       clientId: clientId,
-      url: apiRequestUri + requestEnpoint + '?part=' + part + '&chart=' + chart + '&maxResults=' + maxResults,
+      url: youtubeRequestUri + requestEnpoint + '?part=' + part + '&chart=' + chart + '&maxResults=' + maxResults,
     }
   })
 
@@ -206,7 +234,7 @@ export const getYoutubeRecent = ( videoIds ) => {
     meta: {
       type: 'youtubeApi',
       clientId: clientId,
-      url: apiRequestUri + requestEnpoint + '?part=' + part + '&id=' + id + '&maxResults=' + maxResults,
+      url: youtubeRequestUri + requestEnpoint + '?part=' + part + '&id=' + id + '&maxResults=' + maxResults,
     }
   })
 

@@ -3,6 +3,8 @@ export const config = {
   oauthRequestUri: 'https://accounts.google.com/',
   // oauthRedirectUri: 'http://127.0.0.1:7768',
   oauthRedirectUri: 'https://www.superview.tv',
+  youtubeRequestUri: 'https://www.googleapis.com/youtube/v3/',
+  plusRequestUri: 'https://www.googleapis.com/plus/v1/',
   apiRequestUri: 'https://www.googleapis.com/youtube/v3/',
 }
 

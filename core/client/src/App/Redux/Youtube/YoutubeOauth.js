@@ -13,6 +13,8 @@ export const reducer = (state = initialState, action) => {
   switch(action.type) {
     case types.YOUTUBE_LOGIN_STATUS:
       return { ...state, loggedIn: action.payload}
+    case types.YOUTUBE_SET_ISLOGGEDIN:
+      return { ...state, loggedIn: action.payload}
     case types.YOUTUBE_LOGIN_REQUEST:
       return { ...state}
     case types.YOUTUBE_LOGIN_REFRESH:
