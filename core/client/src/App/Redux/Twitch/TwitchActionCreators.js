@@ -15,7 +15,6 @@ export const getTwitchLoginStatus = () => ({
 })
 
 export const setTwitchLoggedIn = ( status ) => {
-  console.log('setTwitchLoggedIn', status);
   return ({
     type: types.TWITCH_SET_ISLOGGEDIN,
     payload: status

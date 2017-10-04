@@ -59,6 +59,7 @@ class TwitchFeaturedGrid extends React.Component {
       } else if ( width > 1280 ) {
         if ( !!this.props.paginate ) {
           gridElement = <VideoGrid videoItems={this.props.twitchFeatured} featuredItemFilter={this.featuredFilterFunction}></VideoGrid>
+          // gridElement = <VideoGrid videoItems={this.props.twitchFeatured}></VideoGrid>
         } else {
           gridElement = <VideoGridPage videoItems={this.props.twitchFeatured}></VideoGridPage>
         }

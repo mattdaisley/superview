@@ -55,13 +55,14 @@ class VideoGridPage extends React.Component {
         featuredItem: undefined,
       } )
     }
-    if ( !!this.props.limit ) {
+
+    if ( !!nextProps.limit ) {
       this.setState({
-        videoItems: this.props.videoItems.slice(0, this.props.limit)
+        videoItems: nextProps.videoItems.slice(0, nextProps.limit)
       })
     } else {
       this.setState({
-        videoItems: this.props.videoItems
+        videoItems: nextProps.videoItems
       })
     }
   }
@@ -72,7 +73,6 @@ class VideoGridPage extends React.Component {
     let element, videoElements;
     const { featuredItem, videoItems }   = this.state
 
-    // console.log(videoItems, featuredItem);
     if ( !!featuredItem ) {
 
       let featuredElement = <VideoGridItem source={featuredItem.source_type} videoItem={featuredItem}></VideoGridItem> 

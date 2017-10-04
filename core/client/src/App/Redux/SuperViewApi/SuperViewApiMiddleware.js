@@ -1,5 +1,7 @@
 import * as types from '../Types';
 
+import { superViewAddRetry } from './SuperViewApiActionCreators';
+
 import { doApiRequest } from './SuperViewApiRequest';
 
 const superViewApiMiddleware = store => next => action => {
@@ -7,7 +9,7 @@ const superViewApiMiddleware = store => next => action => {
     return next(action);
   }
 
-  const isLoggedIn = store.getState().youtubeOauth.loggedIn;
+  const isYoutubeLoggedIn = store.getState().youtubeOauth.loggedIn;
 
   const { url } = action.meta;
   // const headers = {
@@ -18,7 +20,7 @@ const superViewApiMiddleware = store => next => action => {
     case types.SUPERVIEW_YOUTUBE_SUBSCRIPTIONS:
       // console.log('SUPERVIEW_YOUTUBE_SUBSCRIPTIONS', action.meta)
       let actionItem = { payload: [] }
-      if ( !!isLoggedIn ) {
+      if ( !!isYoutubeLoggedIn ) {
         doApiRequest(store, url)
           .then(results => {
             // console.log('SUPERVIEW_YOUTUBE_SUBSCRIPTIONS results', results);
@@ -33,8 +35,39 @@ const superViewApiMiddleware = store => next => action => {
           })
           // .catch( error => console.log('error:',error) )
           .catch( error => {} )
+      } else {
+        const retryOptions = {
+          functionToRetry: () => store.dispatch(action),
+          expires: Date.now() + 10000
+        }
+        store.dispatch( superViewAddRetry(retryOptions) )
       }
       break
+      
+    case types.SUPERVIEW_ADD_RETRY:
+      let newRetryAction = Object.assign({}, action, {
+        payload: action.meta.retryOptions
+      })
+      delete newRetryAction.meta;
+      store.dispatch(newRetryAction);
+      break;
+
+    case types.SUPERVIEW_DO_RETRY:
+      let retryStack = store.getState().superViewApi.retryStack;
+      if ( retryStack.length > 0 ) {
+        retryStack.forEach( stackItem => {
+          // console.log('RetryOptions expires > Date.now():', stackItem.retryOptions.expires, Date.now(), stackItem.retryOptions.expires > Date.now())
+          if ( stackItem.retryOptions.expires > Date.now() ) {
+            stackItem.retryOptions.functionToRetry();
+          }
+        })
+      }
+      let newDoRetryAction = Object.assign({}, action, {
+        payload: []
+      })
+      delete newDoRetryAction.meta;
+      store.dispatch(newDoRetryAction);
+      break;
 
     default:
       break

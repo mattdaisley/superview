@@ -74,7 +74,6 @@ NextPage.propTypes = {
 
 NextPage.defaultProps = {
   videoItems: [],
-  featuredItem: {},
   page: 1,
   pages: 1,
   pageSize: 6,

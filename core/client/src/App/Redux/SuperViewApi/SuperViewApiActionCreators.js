@@ -22,3 +22,17 @@ export const getYoutubeRecentVideoIds = () => {
   })
 
 }
+
+export const superViewAddRetry = (retryOptions) => ({
+  type: types.SUPERVIEW_ADD_RETRY,
+  payload: {
+    retryOptions
+  }
+})
+
+export const superViewDoRetry = () => ({
+  type: types.SUPERVIEW_DO_RETRY,
+  meta: {
+    type: 'superViewApi'
+  }
+})

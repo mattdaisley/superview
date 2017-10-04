@@ -5,12 +5,13 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Grid         from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 
-import Home    from '../Components/HomePage/Home';
-import Recents from '../Components/RecentsPage/Recents';
+import Home     from '../Components/HomePage/Home';
+import Recents  from '../Components/RecentsPage/Recents';
 import YtSubscriptions from '../Components/YouTube/Browse/Subscriptions/Subscriptions';
-import TwFollowing   from '../Components/Twitch/Browse/Following/Following';
-// import Player  from '../Components/PlayerPage/Player';
-import PlayerOpener  from '../Components/PlayerPage/PlayerOpener';
+import YtPopular       from '../Components/YouTube/Browse/Popular/Popular';
+import TwFollowing     from '../Components/Twitch/Browse/Following/Following';
+import TwFeatured      from '../Components/Twitch/Browse/Featured/Featured';
+import PlayerOpener    from '../Components/PlayerPage/PlayerOpener';
 
 
 const styles = theme => ({
@@ -20,7 +21,7 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('md')]: {
     },
-    marginBottom: 100
+    marginBottom: 20
   },
   homeGridWrapper: {
     [theme.breakpoints.up('sm')]: {
@@ -51,7 +52,9 @@ class Main extends React.Component {
               <Switch>
                 <Route exact path='/browse/recents' component={Recents}/>
                 <Route exact path='/browse/yt/subscriptions' component={YtSubscriptions}/>
+                <Route exact path='/browse/yt/popular' component={YtPopular}/>
                 <Route exact path='/browse/tw/following' component={TwFollowing}/>
+                <Route exact path='/browse/tw/featured' component={TwFeatured}/>
 
                 {/* <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={Player}/> */}
                 <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={PlayerOpener}/>

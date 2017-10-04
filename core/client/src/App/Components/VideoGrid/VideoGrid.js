@@ -71,11 +71,11 @@ class VideoGrid extends React.Component {
     if ( width <= 1280 ) { 
       pageSize = 4; 
       featuredPageOffset = 2; 
-      wrapperHeight = ( videoItems.length > pageSize/2 ) ? 410 : 197
+      wrapperHeight = ( videoItems.length > pageSize/2 ) ? 435 : 197
     } else if ( width <  1920 ) { 
       pageSize = 6; 
       featuredPageOffset = 4; 
-      wrapperHeight = ( videoItems.length > pageSize/2 ) ? 410 : 197
+      wrapperHeight = ( videoItems.length > pageSize/2 ) ? 435 : 197
     } else if ( width >= 1920 ) { 
       pageSize = 8; 
       featuredPageOffset = 6; 
@@ -129,7 +129,7 @@ class VideoGrid extends React.Component {
     const { page, pages } = this.state;
     if ( page < pages - 1 ) { 
       this.setState( {transition: 'next'} )
-      setTimeout( () => { this.setState( { page: page+1, transition: 'none' } ) }, 300 )
+      setTimeout( () => { this.setState( { page: page + 1, transition: 'none' } ) }, 300 )
     }
   }
   

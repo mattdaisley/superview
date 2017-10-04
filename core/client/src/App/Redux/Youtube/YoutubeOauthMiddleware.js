@@ -1,6 +1,7 @@
 import * as types from '../Types';
 
-import { setYoutubeLogginRequested, youtubeLoginRefresh, youtubeLoginSuccess, youtubeDoRetry, resetGoogleProfile } from './YoutubeActionCreators'
+import { setYoutubeLoggedIn, setYoutubeLogginRequested, youtubeLoginRefresh, youtubeLoginSuccess, youtubeDoRetry, resetGoogleProfile } from './YoutubeActionCreators'
+import { superViewDoRetry } from '../SuperViewApi/SuperViewApiActionCreators'
 // import { setToken, removeToken, hasToken } from '../../Util/tokenYoutube';
 import { setToken, setRefresh, removeToken, hasToken, getToken, getRefresh, setGoogleUserId } from '../../Util/tokenYoutube';
 
@@ -17,6 +18,18 @@ const youtubeOauthMiddleware = store => next => action => {
       });
       delete newAction.meta;
       store.dispatch(newAction);
+      break
+
+    case types.YOUTUBE_SET_ISLOGGEDIN:
+      let newSetIsLoggedinAction = Object.assign({}, action, {
+        payload: action.meta.status
+      });
+      delete newSetIsLoggedinAction.meta;
+      store.dispatch(newSetIsLoggedinAction);
+      if ( !!newSetIsLoggedinAction.payload ) {
+        store.dispatch(youtubeDoRetry()) 
+        store.dispatch(superViewDoRetry()) 
+      }
       break
 
     case types.YOUTUBE_LOGIN_REQUEST:
@@ -75,9 +88,11 @@ const youtubeOauthMiddleware = store => next => action => {
       delete newLoginAction.meta;
       store.dispatch(newLoginAction);
       // console.log(newLoginAction);
-      if ( action.meta.referrer ) { window.location.href = action.meta.referrer }
-      else { store.dispatch(youtubeDoRetry()) }
-      // window.location.href = '/';
+      if ( action.meta.referrer ) { 
+        window.location.href = action.meta.referrer 
+      } else { 
+        store.dispatch(setYoutubeLoggedIn(true))
+      }
       break;
 
     case types.YOUTUBE_AUTH_FAILURE:

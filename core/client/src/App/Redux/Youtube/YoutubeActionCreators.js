@@ -15,11 +15,13 @@ export const getYoutubeLoginStatus = () => ({
   }
 })
 
-export const setYoutubeLoggedIn = ( status ) => {
-  console.log('setYoutubeLoggedIn', status);
+export const setYoutubeLoggedIn = ( status ) =>  {
   return ({
     type: types.YOUTUBE_SET_ISLOGGEDIN,
-    payload: status
+    meta: {
+      type: 'youtubeOauth',
+      status: status
+    }
   })
 }
 
