@@ -126,7 +126,6 @@ class LoginActions extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if ( !!nextProps.twitchProfile ) {
       this.setState({twitchLoadingProfile:false, twitchProfile: nextProps.twitchProfile})
     } 

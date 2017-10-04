@@ -12,7 +12,16 @@ import TwitchFeaturedGrid  from '../../Components/Twitch/TwitchFeaturedGrid/Twit
 import YoutubePopularGrid  from '../../Components/YouTube/YoutubePopularGrid/YoutubePopularGrid';
 import YoutubeRecentGrid   from '../../Components/YouTube/YoutubeRecentGrid/YoutubeRecentGrid';
 
-const styles = theme => ({ })
+const styles = theme => ({
+  recentActivity: {
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+    },
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
+  },
+})
 
 class Home extends React.Component {
   
@@ -26,13 +35,13 @@ class Home extends React.Component {
   }
 
   render() {
-    // const classes = this.props.classes;
+    const classes = this.props.classes;
 
     return (
       <Grid item xs={12}>
         <Grid container spacing={0} >
           
-          <Grid item xs={12}>
+          <Grid item xs={12} className={classes.recentActivity}>
             <RecentChannelsList recentActivity={this.props.recentActivity}></RecentChannelsList>
           </Grid>
           

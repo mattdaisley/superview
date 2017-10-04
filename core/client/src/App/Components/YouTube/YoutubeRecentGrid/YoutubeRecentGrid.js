@@ -1,13 +1,12 @@
 import React       from 'react';
 import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
-import { Link }    from 'react-router-dom';
 
 import Grid         from 'material-ui/Grid';
-import ChevronRight from 'material-ui-icons/ChevronRight';
 
 import VideoGrid     from '../../../Components/VideoGrid/VideoGrid';
 import VideoGridPage from '../../../Components/VideoGrid/VideoGridPage';
+import VideoGridHeader from '../../../Components/VideoGrid/VideoGridHeader';
 
 import { getYoutubeRecentVideoIds } from '../../../Redux/SuperViewApi/SuperViewApiActionCreators';
 import { getYoutubeRecent }         from '../../../Redux/Youtube/YoutubeActionCreators';
@@ -47,12 +46,34 @@ class YoutubeRecentGrid extends React.Component {
   render() {
     let element = null
     let gridElement = null
+    
+    const width = window.innerWidth
+
+    if ( !!this.state.youtubePopularLoaded ) {
+      if ( width <= 960 ) { 
+        gridElement = <VideoGridPage videoItems={this.props.youtubePopularResults} limit={6}></VideoGridPage>
+      } else if ( width <= 1280 ) {
+        gridElement = <VideoGrid videoItems={this.props.youtubePopularResults}></VideoGrid>
+      } else if ( width > 1280 ) {
+        if ( !!this.props.paginate ) {
+          gridElement = <VideoGrid videoItems={this.props.youtubePopularResults}></VideoGrid>
+        } else {
+          gridElement = <VideoGridPage videoItems={this.props.youtubePopularResults}></VideoGridPage>
+        }
+      }
+    }
 
     if ( !!this.state.youtubeRecentLoaded ) {
-      if ( !!this.props.paginate ) {
+      if ( width <= 960 ) { 
+        gridElement = <VideoGridPage videoItems={this.props.youtubeRecentResults} limit={6}></VideoGridPage>
+      } else if ( width <= 1280 ) {
         gridElement = <VideoGrid videoItems={this.props.youtubeRecentResults}></VideoGrid>
-      } else {
-        gridElement = <VideoGridPage videoItems={this.props.youtubeRecentResults}></VideoGridPage>
+      } else if ( width > 1280 ) {
+        if ( !!this.props.paginate ) {
+          gridElement = <VideoGrid videoItems={this.props.youtubeRecentResults}></VideoGrid>
+        } else {
+          gridElement = <VideoGridPage videoItems={this.props.youtubeRecentResults}></VideoGridPage>
+        }
       }
     }
 
@@ -60,8 +81,7 @@ class YoutubeRecentGrid extends React.Component {
       element = (
         <Grid container spacing={24} >
           <Grid item xs={12}>
-            <div className="grid-header"><h3><Link to='/browse/yt/subscriptions'>Recent Uploads From Your YouTube Subscriptions</Link> <ChevronRight/></h3></div>
-            <div className="youtube-divider"></div>
+            <VideoGridHeader route="/browse/yt/subscriptions" title="Recent From Your YouTube subscriptions" sourceType="yt" />
             {gridElement}
           </Grid>
         </Grid>

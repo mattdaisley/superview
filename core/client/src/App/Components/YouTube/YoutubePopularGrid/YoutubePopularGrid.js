@@ -1,13 +1,12 @@
 import React       from 'react';
 import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
-import { Link }    from 'react-router-dom';
 
 import Grid         from 'material-ui/Grid';
-import ChevronRight from 'material-ui-icons/ChevronRight';
 
 import VideoGrid     from '../../../Components/VideoGrid/VideoGrid';
 import VideoGridPage from '../../../Components/VideoGrid/VideoGridPage';
+import VideoGridHeader from '../../../Components/VideoGrid/VideoGridHeader';
 
 import { getYoutubePopular } from '../../../Redux/Youtube/YoutubeActionCreators';
 
@@ -43,12 +42,20 @@ class YoutubePopularGrid extends React.Component {
 
     let element = null
     let gridElement = null;
+    
+    const width = window.innerWidth
 
     if ( !!this.state.youtubePopularLoaded ) {
-      if ( !!this.props.paginate ) {
+      if ( width <= 960 ) { 
+        gridElement = <VideoGridPage videoItems={this.props.youtubePopularResults} limit={6}></VideoGridPage>
+      } else if ( width <= 1280 ) {
         gridElement = <VideoGrid videoItems={this.props.youtubePopularResults}></VideoGrid>
-      } else {
-        gridElement = <VideoGridPage videoItems={this.props.youtubePopularResults}></VideoGridPage>
+      } else if ( width > 1280 ) {
+        if ( !!this.props.paginate ) {
+          gridElement = <VideoGrid videoItems={this.props.youtubePopularResults}></VideoGrid>
+        } else {
+          gridElement = <VideoGridPage videoItems={this.props.youtubePopularResults}></VideoGridPage>
+        }
       }
     }
 
@@ -56,8 +63,7 @@ class YoutubePopularGrid extends React.Component {
       element = (
         <Grid container spacing={24} >
           <Grid item xs={12}>
-            <div className="grid-header"><h3><Link to='/tw/live'>Popular Videos on YouTube</Link> <ChevronRight/></h3></div>
-            <div className="youtube-divider"></div>
+            <VideoGridHeader route="/browse/yt/popular" title="Popular Videos on YouTube" sourceType="yt" />
             {gridElement}
           </Grid>
         </Grid>

@@ -1,11 +1,10 @@
 import React     from 'react';
 import PropTypes from 'prop-types';
-import { Link }  from 'react-router-dom';
 
 import Grid from 'material-ui/Grid';
-import ChevronRight from 'material-ui-icons/ChevronRight';
 
 import RecentChannelItem from '../../Components/RecentChannelsList/RecentChannelItem';
+import VideoGridHeader   from '../../Components/VideoGrid/VideoGridHeader';
 
 class RecentChannelsList extends React.Component {
   
@@ -36,7 +35,7 @@ class RecentChannelsList extends React.Component {
     return (
       <div className="recent-activity-wrapper">
         { !!recentActivityList &&
-          <div className="grid-header"><h3><Link to='/recents'>Recent Activity</Link> <ChevronRight/></h3></div>
+          <VideoGridHeader route="/recents" title="RecentActivity" />
         }
         <Grid container spacing={8} >
           { recentActivityList }

@@ -209,7 +209,7 @@ export const getYoutubePopular = () => {
   const requestEnpoint = 'videos'
   const part = 'snippet'
   const chart = 'mostPopular'
-  const maxResults = 6
+  const maxResults = 20
 
   return ({
     type: types.YOUTUBE_POPULAR,
@@ -227,7 +227,7 @@ export const getYoutubeRecent = ( videoIds ) => {
   const requestEnpoint = 'videos'
   const part = 'snippet'
   const id = videoIds.join(',')
-  const maxResults = 6
+  const maxResults = 20
 
   return ({
     type: types.YOUTUBE_RECENT,

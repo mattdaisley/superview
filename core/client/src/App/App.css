@@ -128,36 +128,6 @@ div.info-message {
 }
 
 
-
-div.grid-header {
-  /* margin-bottom: 50px; */
-}
-div.grid-header h3 {
-  display: flex;
-  align-items: center;
-}
-div.grid-header h3 a{
-  font-size: 24px;
-  font-weight: 400;
-  text-decoration: none;
-  color: #444;
-}
-div.grid-header h3 a:hover {
-  text-decoration: underline;
-}
-div.twitch-divider {
-  height: 2px;
-  width: 150px;
-  background: purple;
-  margin-bottom: 30px;
-}
-div.youtube-divider {
-  height: 2px;
-  width: 150px;
-  background: red;
-  margin-bottom: 30px;
-}
-
 .recent-channel-item-container {
   width: 92px;
   height: 100%;

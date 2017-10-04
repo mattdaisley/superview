@@ -1,13 +1,12 @@
 import React       from 'react';
 import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
-import { Link }    from 'react-router-dom';
 
 import Grid         from 'material-ui/Grid';
-import ChevronRight from 'material-ui-icons/ChevronRight';
 
-import VideoGrid     from '../../../Components/VideoGrid/VideoGrid';
-import VideoGridPage from '../../../Components/VideoGrid/VideoGridPage';
+import VideoGrid       from '../../../Components/VideoGrid/VideoGrid';
+import VideoGridPage   from '../../../Components/VideoGrid/VideoGridPage';
+import VideoGridHeader from '../../../Components/VideoGrid/VideoGridHeader';
 
 import { getTwitchFeatured } from '../../../Redux/Twitch/TwitchActionCreators';
 
@@ -49,11 +48,20 @@ class TwitchFeaturedGrid extends React.Component {
     let element = null;
     let gridElement = null;
 
+    const width = window.innerWidth
+
     if ( !!this.state.twitchFeaturedLoaded ) {
-      if ( !!this.props.paginate ) {
-        gridElement = <VideoGrid videoItems={this.props.twitchFeatured} featuredItemFilter={this.featuredFilterFunction}></VideoGrid>
-      } else {
-        gridElement = <VideoGridPage videoItems={this.props.twitchFeatured}></VideoGridPage>
+
+      if ( width <= 960 ) { 
+        gridElement = <VideoGridPage videoItems={this.props.twitchFeatured} limit={6}></VideoGridPage>
+      } else if ( width <= 1280 ) {
+        gridElement = <VideoGrid videoItems={this.props.twitchFeatured}></VideoGrid>
+      } else if ( width > 1280 ) {
+        if ( !!this.props.paginate ) {
+          gridElement = <VideoGrid videoItems={this.props.twitchFeatured} featuredItemFilter={this.featuredFilterFunction}></VideoGrid>
+        } else {
+          gridElement = <VideoGridPage videoItems={this.props.twitchFeatured}></VideoGridPage>
+        }
       }
     }
 
@@ -61,8 +69,7 @@ class TwitchFeaturedGrid extends React.Component {
       element = (
         <Grid container spacing={24} >
           <Grid item xs={12}>
-            <div className="grid-header"><h3><Link to='/tw/live'>Featured Channels on Twitch</Link> <ChevronRight/></h3></div>
-            <div className="twitch-divider"></div>
+            <VideoGridHeader route="/browse/tw/featured" title="Featured Channels on Twitch" sourceType="tw" />
             {gridElement}
           </Grid>
         </Grid>

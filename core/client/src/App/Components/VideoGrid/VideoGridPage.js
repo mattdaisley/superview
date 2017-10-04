@@ -25,13 +25,22 @@ class VideoGridPage extends React.Component {
   componentWillMount() {
     // console.log('in componentWillMount', this.props );
     if ( !!this.props.featuredItem ) {
-      this.setState( { 
+      this.setState({ 
         featuredItem: this.props.featuredItem,
-      } )
+      })
     } else {
-      this.setState( { 
+      this.setState({ 
         featuredItem: undefined,
-      } )
+      })
+    }
+    if ( !!this.props.limit ) {
+      this.setState({
+        videoItems: this.props.videoItems.slice(0, this.props.limit)
+      })
+    } else {
+      this.setState({
+        videoItems: this.props.videoItems
+      })
     }
   }
 
@@ -46,14 +55,22 @@ class VideoGridPage extends React.Component {
         featuredItem: undefined,
       } )
     }
+    if ( !!this.props.limit ) {
+      this.setState({
+        videoItems: this.props.videoItems.slice(0, this.props.limit)
+      })
+    } else {
+      this.setState({
+        videoItems: this.props.videoItems
+      })
+    }
   }
 
   render() {
     const classes = this.props.classes
 
     let element, videoElements;
-    const { featuredItem } = this.state
-    const { videoItems }   = this.props
+    const { featuredItem, videoItems }   = this.state
 
     // console.log(videoItems, featuredItem);
     if ( !!featuredItem ) {
@@ -67,7 +84,7 @@ class VideoGridPage extends React.Component {
           </Grid>
         ))
         element = (
-          <Grid container spacing={24} >
+          <Grid container spacing={16} >
             <Grid item xs={12} md={6}> {featuredElement} </Grid>
             <Grid item xs={12} md={6}>
               <Grid container spacing={16} > {videoElements} </Grid>
@@ -113,6 +130,7 @@ class VideoGridPage extends React.Component {
 VideoGridPage.propTypes = {
   videoItems: PropTypes.arrayOf( PropTypes.object ).isRequired,
   featuredItem: PropTypes.object,
+  limit: PropTypes.number
 }
 
 

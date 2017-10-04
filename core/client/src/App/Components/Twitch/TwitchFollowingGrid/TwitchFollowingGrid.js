@@ -1,14 +1,12 @@
 import React       from 'react';
 import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
-import { Link }    from 'react-router-dom';
-
-import ChevronRight from 'material-ui-icons/ChevronRight';
 
 import Grid         from 'material-ui/Grid';
 
-import VideoGrid     from '../../../Components/VideoGrid/VideoGrid';
-import VideoGridPage from '../../../Components/VideoGrid/VideoGridPage';
+import VideoGrid       from '../../../Components/VideoGrid/VideoGrid';
+import VideoGridPage   from '../../../Components/VideoGrid/VideoGridPage';
+import VideoGridHeader from '../../../Components/VideoGrid/VideoGridHeader';
 
 import { getTwitchFollowing } from '../../../Redux/Twitch/TwitchActionCreators';
 
@@ -43,12 +41,20 @@ class TwitchFollowingGrid extends React.Component {
   render() {
     let element = null;
     let gridElement = null;
+    
+    const width = window.innerWidth
 
     if ( !!this.state.twitchFollowingLoaded ) {
-      if ( !!this.props.paginate ) {
+      if ( width <= 960 ) { 
+        gridElement = <VideoGridPage videoItems={this.props.twitchFollowing} limit={6}></VideoGridPage>
+      } else if ( width <= 1280 ) {
         gridElement = <VideoGrid videoItems={this.props.twitchFollowing}></VideoGrid>
-      } else {
-        gridElement = <VideoGridPage videoItems={this.props.twitchFollowing}></VideoGridPage>
+      } else if ( width > 1280 ) {
+        if ( !!this.props.paginate ) {
+          gridElement = <VideoGrid videoItems={this.props.twitchFollowing}></VideoGrid>
+        } else {
+          gridElement = <VideoGridPage videoItems={this.props.twitchFollowing}></VideoGridPage>
+        }
       }
     }
 
@@ -56,8 +62,7 @@ class TwitchFollowingGrid extends React.Component {
       element = (
         <Grid container spacing={24} >
           <Grid item xs={12}>
-            <div className="grid-header"><h3><Link to='/tw/live'>Live Channels You Follow on Twitch</Link> <ChevronRight/></h3></div>
-            <div className="twitch-divider"></div>
+            <VideoGridHeader route="/browse/tw/following" title="Live Channels You Follow on Twitch" sourceType="tw" />
             {gridElement}
           </Grid>
         </Grid>

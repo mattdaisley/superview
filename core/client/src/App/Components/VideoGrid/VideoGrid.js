@@ -67,20 +67,19 @@ class VideoGrid extends React.Component {
     const { videoItems, featuredItemFilter } = this.props
     let pageSize, featuredPageOffset, wrapperHeight
 
-    if ( width >= 1920 ) { 
-      pageSize = 8; 
-      featuredPageOffset = 6; 
-      wrapperHeight = ( videoItems.length > pageSize/2 ) ? 450 : 217
-    }
-    if ( width <  1920 ) { 
-      pageSize = 6; 
-      featuredPageOffset = 4; 
-      wrapperHeight = ( videoItems.length > pageSize/2 ) ? 410 : 197
-    }
+
     if ( width <= 1280 ) { 
       pageSize = 4; 
       featuredPageOffset = 2; 
       wrapperHeight = ( videoItems.length > pageSize/2 ) ? 410 : 197
+    } else if ( width <  1920 ) { 
+      pageSize = 6; 
+      featuredPageOffset = 4; 
+      wrapperHeight = ( videoItems.length > pageSize/2 ) ? 410 : 197
+    } else if ( width >= 1920 ) { 
+      pageSize = 8; 
+      featuredPageOffset = 6; 
+      wrapperHeight = ( videoItems.length > pageSize/2 ) ? 460 : 225
     }
     
     this.setState({ width, height, page: 0, pageSize, featuredPageOffset, wrapperHeight });
