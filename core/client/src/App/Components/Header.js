@@ -8,12 +8,13 @@ import { getYoutubeLoginStatus, youtubeLogin, youtubeLogout } from '../Redux/You
 import AppBar     from 'material-ui/AppBar';
 import Toolbar    from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import Button     from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon   from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
+
+import LoginActions from './LoginActions/LoginActions';
 
 
 const styles = theme => ({
@@ -99,15 +100,8 @@ class Header extends React.Component {
             SuperView
           </Typography>
 
-          <div className={classes.loginActions}>
-            { !this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.twitchLogin}>Login to Twitch</Button> }
-            { !!this.props.twitchLoggedIn && <Button className="twitch-login-logout" onClick={this.props.twitchLogout}>Logout of Twitch</Button> }
-          </div>
+          <LoginActions isInHeader={true}/>
 
-          <div className={classes.loginActions}>
-            { !!this.props.youtubeLoggedIn && <Button className="youtube-login-logout" onClick={this.props.youtubeLogout}>Logout of YouTube</Button> }
-            { !this.props.youtubeLoggedIn && <Button className="youtube-login-logout" onClick={this.youtubeLogin}>Login to YouTube</Button> }
-          </div>
         </Toolbar>
         { this.props.messages.length > 0 && (
           <div className="messages-container">

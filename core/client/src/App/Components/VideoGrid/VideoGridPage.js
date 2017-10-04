@@ -55,6 +55,7 @@ class VideoGridPage extends React.Component {
     const { featuredItem } = this.state
     const { videoItems }   = this.props
 
+    console.log(videoItems, featuredItem);
     if ( !!featuredItem ) {
 
       let featuredElement = <VideoGridItem source={featuredItem.source_type} videoItem={featuredItem}></VideoGridItem> 
@@ -89,18 +90,20 @@ class VideoGridPage extends React.Component {
           </Grid>
         )
       }
-    } else {
+      if ( videoItems.length === 0 ) element = null;
+    } else if ( videoItems.length > 0 ) {
       videoElements = videoItems.map( (videoItem, index) => (
         <Grid item xs={12} sm={6} lg={4} xl={3} className={classes.listGridItem} key={index}>
           <VideoGridItem source={videoItem.source_type} videoItem={videoItem}></VideoGridItem> 
         </Grid>
       ))
       element = (
-        
         <Grid container spacing={16} >
           {videoElements}
         </Grid>
       )
+    } else {
+      element = null
     }
 
     return element;

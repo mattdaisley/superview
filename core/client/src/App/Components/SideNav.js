@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 import Drawer from 'material-ui/Drawer';
-// import Button from 'material-ui/Button';
+import Divider from 'material-ui/Divider';
 import HomeIcon from 'material-ui-icons/Home';
 import RestoreIcon from 'material-ui-icons/Restore';
 import SubscriptionsIcon from 'material-ui-icons/Subscriptions';
@@ -12,7 +13,7 @@ import blue from 'material-ui/colors/blue';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 
-import classNames from 'classnames';
+import LoginActions from './LoginActions/LoginActions';
 
 const drawerWidth = 280;
 
@@ -33,7 +34,12 @@ const styles = theme => ({
     height: '100%',
   },
   sideNavDrawerClose: {
-    width: 98,
+    [theme.breakpoints.up('md')]: {
+      width: 98,
+    },
+    [theme.breakpoints.down('md')]: {
+      width: 0,
+    },
     overflowX: 'hidden',
     backgroundColor: 'transparent',
     transition: theme.transitions.create('width', {
@@ -46,6 +52,8 @@ const styles = theme => ({
     // Make the items inside not wrap when transitioning:
     width: drawerWidth,
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
   },
   sideNavList: {
     marginTop: 82,
@@ -56,6 +64,26 @@ const styles = theme => ({
   },
   selected: {
     fill: blue[500],
+  },
+  loginActionsWrapper: {
+    display: 'block',
+  },
+  loginActionsWrapperHidden: {
+    display: 'none',
+  },
+  footerWrapper: {
+    flex: 'none',
+    alignSelf: 'flex-end',
+    width: '100%',
+  },
+  footerWrapperHidden: {
+    display: 'none',
+  },
+  footer: {
+    boxSizing: 'border-box',
+    padding: 25,
+    fontSize: 14,
+    color: '#444444'
   }
 })
 
@@ -94,6 +122,27 @@ class SideNav extends React.Component {
         </Link>
       )
     })
+    
+    const loginActionsWrapperClasses = [ classes.loginActionsWrapper ];
+    if ( !this.props.isSideNavOpen ) {
+      loginActionsWrapperClasses.push(classes.loginActionsWrapperHidden)
+    }
+    
+    const footerWrapperClasses = [ classes.footerWrapper ];
+    if ( !this.props.isSideNavOpen ) {
+      footerWrapperClasses.push(classes.footerWrapperHidden)
+    }
+
+    // if ( !this.props.isSideNavOpen ) {
+    //   drawerClasses
+    // }
+
+    const sideNavOverRides = [ 'sideNavOverRide' ]
+    if ( !!this.props.isSideNavOpen ) {
+      sideNavOverRides.push(classes.sideNavDrawerOpen)
+    } else { 
+      sideNavOverRides.push(classes.sideNavDrawerClose)
+    }
 
     return (
       <Drawer
@@ -101,14 +150,21 @@ class SideNav extends React.Component {
         open={this.props.isSideNavOpen}
         classes={{
           docked: classNames(classes.sideNavDrawer),
-          paper: classNames('sideNavOverRide', !!this.props.isSideNavOpen && classes.sideNavDrawerOpen, !this.props.isSideNavOpen && classes.sideNavDrawerClose)
+          paper: classNames(...sideNavOverRides)
         }}>
         <div className={classes.sideNavInner}>
           <List className={classes.sideNavList}>
-
             { navLinksElements }
-            
           </List>
+
+          <div className={loginActionsWrapperClasses.join(' ')} >
+            <LoginActions />
+          </div>
+
+          <div className={footerWrapperClasses.join(' ')} >
+            <Divider />
+            <div className={classes.footer}>&copy; 2017 SuperView</div>
+          </div>
         </div>
       </Drawer>
     );
