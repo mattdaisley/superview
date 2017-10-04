@@ -19,23 +19,25 @@ oauth2Routes = function oauth2Routes(middleware) {
     
 
     router.get('/google/', function( req, res, next ) {
-      if ( req.query.token ) {
-          // console.log('setting google token cookies');
-          const token = JSON.parse(utils.decrypt(req.query.token));
+        if ( !!req.query.token ) {
+            // console.log('setting google token cookies');
+            const token = JSON.parse(utils.decrypt(req.query.token));
 
-          let tokens = {
-              'google_user_id': token.google_user_id,
-              'access_token': token.access_token,
-              'expirey_date': token.expirey_date || 9000000,
-              'refresh_token': token.refresh_token
-          }
-          const redirectUrl = config.appUrl + '#google_access_token=' + tokens.access_token + '&google_refresh_token=' + tokens.refresh_token + '&expiry_date=' + tokens.expiry_date + '&google_user_id=' + tokens.google_user_id + '&state=googleLoggedIn';
-          res.redirect(redirectUrl);
+            let tokens = {
+                'google_user_id': token.google_user_id,
+                'access_token': token.access_token,
+                'expirey_date': token.expirey_date || 9000000,
+                'refresh_token': token.refresh_token
+            }
+            const redirectUrl = config.appUrl + '#google_access_token=' + tokens.access_token + '&google_refresh_token=' + tokens.refresh_token + '&expiry_date=' + tokens.expiry_date + '&google_user_id=' + tokens.google_user_id + '&state=googleLoggedIn';
+            res.redirect(redirectUrl);
+        } else {
+            res.status(401).send({ error: { message: 'no token provided' } });
         }
     })
     
     router.get('/google/refresh', function( req, res, next ) {
-        if ( req.query.refresh_token ) {
+        if ( !!req.query.refresh_token ) {
             // console.log( req.query.refresh_token, req.query.access_token );
             const token = {
                 access_token: req.query.access_token || null,
@@ -77,7 +79,7 @@ oauth2Routes = function oauth2Routes(middleware) {
     // })
     
     router.get('/twitch/', function( req, res, next ) {
-        if ( req.query.token ) {
+        if ( !!req.query.token ) {
             // console.log('setting twitch token cookies');
             const token = JSON.parse(utils.decrypt(req.query.token));
 
@@ -85,11 +87,13 @@ oauth2Routes = function oauth2Routes(middleware) {
             // console.log('redirecting to', redirectUrl);
             res.redirect(redirectUrl);
             // next();
+        } else {
+            res.status(401).send({ error: { message: 'no token provided' } });
         }
     })
     
     router.get('/twitch/refresh', function( req, res, next ) {
-        if ( req.query.refresh_token ) {
+        if ( !!req.query.refresh_token ) {
             // console.log( req.query.refresh_token, req.query.access_token );
             const token = {
                 access_token: req.query.access_token || null,
