@@ -25,6 +25,7 @@ const youtubeApiMiddleware = store => next => action => {
       doYoutubeRequest(store, url)
         .then(json => {
           let actionItem = { payload: {} }
+          console.log(json);
           if ( !json.error ) {
             if ( json.id ) {
               
@@ -33,12 +34,17 @@ const youtubeApiMiddleware = store => next => action => {
             }
             store.dispatch(setYoutubeLoggedIn(true));
           }
-          
           let newAction = Object.assign({}, action, actionItem);
           delete newAction.meta;
           store.dispatch(newAction);
         })
-        .catch( err => handleApiError(err, store, action) )
+        .catch( err => {
+          handleApiError(err, store, action) 
+          let actionItem = { payload: {} }
+          let newAction = Object.assign({}, action, actionItem);
+          delete newAction.meta;
+          store.dispatch(newAction);
+        })
       break;
     case types.GET_YOUTUBE_CHANNEL:
       fetch(url, {headers: headers})
