@@ -47,6 +47,7 @@ const youtubeOauthMiddleware = store => next => action => {
           break;
         case 'production':
         default:
+          // basePath = 'http://127.0.0.1:7768';
           basePath = 'https://www.superview.tv';
           break;
       }

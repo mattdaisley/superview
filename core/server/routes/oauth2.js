@@ -19,7 +19,7 @@ oauth2Routes = function oauth2Routes(middleware) {
     
 
     router.get('/google/', function( req, res, next ) {
-        if ( !!req.query.token ) {
+        if ( !!req.query.token && req.query.token !== 'null' ) {
             // console.log('setting google token cookies');
             const token = JSON.parse(utils.decrypt(req.query.token));
 
@@ -37,7 +37,8 @@ oauth2Routes = function oauth2Routes(middleware) {
     })
     
     router.get('/google/refresh', function( req, res, next ) {
-        if ( !!req.query.refresh_token ) {
+        console.log(!!req.query.refresh_token && req.query.refresh_token !== 'null', req.query.refresh_token)
+        if ( !!req.query.refresh_token && req.query.refresh_token !== 'null' ) {
             // console.log( req.query.refresh_token, req.query.access_token );
             const token = {
                 access_token: req.query.access_token || null,
@@ -79,7 +80,7 @@ oauth2Routes = function oauth2Routes(middleware) {
     // })
     
     router.get('/twitch/', function( req, res, next ) {
-        if ( !!req.query.token ) {
+        if ( !!req.query.token && req.query.token !== 'null' ) {
             // console.log('setting twitch token cookies');
             const token = JSON.parse(utils.decrypt(req.query.token));
 
@@ -93,7 +94,7 @@ oauth2Routes = function oauth2Routes(middleware) {
     })
     
     router.get('/twitch/refresh', function( req, res, next ) {
-        if ( !!req.query.refresh_token ) {
+        if ( !!req.query.refresh_token && req.query.refresh_token !== 'null' ) {
             // console.log( req.query.refresh_token, req.query.access_token );
             const token = {
                 access_token: req.query.access_token || null,
