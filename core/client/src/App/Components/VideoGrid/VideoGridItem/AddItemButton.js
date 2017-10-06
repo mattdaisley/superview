@@ -1,5 +1,6 @@
 import React     from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Button        from 'material-ui/Button';
 import AddIcon       from 'material-ui-icons/Add';
@@ -79,20 +80,27 @@ class AddItemButton extends React.PureComponent {
 
   render() {
     const {
-      parentHover
+      parentHover,
+      windowWidth
     } = this.props;
-  
   
     const classes = this.props.classes
 
+    let addButtonClass = [classes.addButton];
 
-    let addButtonClass = classes.addButton;
-    if ( !!parentHover ) { addButtonClass += ' ' + classes.parentHover } else { addButtonClass += ' ' + classes.addButtonOut };
-    if ( !!this.state.hover ) { addButtonClass += ' ' + classes.addHover };
+    if ( !!this.state.hover ) { addButtonClass.push(classes.addHover) };
+    if ( windowWidth <= 1280 ) { 
+      addButtonClass.push(classes.parentHover)
+      addButtonClass.push(classes.addHover)
+    } else {
+      if ( !!parentHover ) { addButtonClass.push(classes.parentHover) } else { addButtonClass.push(classes.addButtonOut) };
+    }
+
+
     
     // console.log(classes, addButtonClass)
     return (
-      <Button style={overrideStyles.addButton} fab color="accent" aria-label="edit" className={addButtonClass}
+      <Button style={overrideStyles.addButton} fab color="accent" aria-label="edit" className={addButtonClass.join(' ')}
         onMouseEnter={ this.handleMouseEnter } onMouseLeave={ this.handleMouseLeave } onClick={ this.handleClick } >
         <AddIcon/>
       </Button>
@@ -107,6 +115,16 @@ AddItemButton.propTypes = {
   onClick: PropTypes.func,
 }
 
+const mapStateToProps = state => {
+  return {
+    windowWidth: state.window.width,
+    windowHeight: state.window.height,
+  }
+}
+const mapDispatchToProps = dispatch => ({
+
+})
+
 const AddItemButtonWithStyles = withStyles(styles)(AddItemButton);
 
-export default AddItemButtonWithStyles;
+export default connect(mapStateToProps, mapDispatchToProps)(AddItemButtonWithStyles);

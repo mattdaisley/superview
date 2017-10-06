@@ -42,7 +42,7 @@ class TwitchFollowingGrid extends React.Component {
     let element = null;
     let gridElement = null;
     
-    const width = window.innerWidth
+    const width = this.props.windowWidth
 
     if ( !!this.state.twitchFollowingLoaded ) {
       if ( width <= 960 ) { 
@@ -86,6 +86,7 @@ TwitchFollowingGrid.defaultProps = {
 const mapStateToProps = state => {
   return {
     twitchFollowing: state.twitchBrowse.twitchFollowing,
+    windowWidth: state.window.width,
   }
 }
 

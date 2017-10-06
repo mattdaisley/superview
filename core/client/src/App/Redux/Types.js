@@ -63,6 +63,9 @@ export const SET_RECENT_CHANNELS_ITEM  = 'SET_RECENT_CHANNELS_ITEM'
 export const SET_MESSAGE    = 'SET_MESSAGE';
 export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
 
+export const SET_WINDOW_WIDTH  = 'SET_WINDOW_WIDTH';
+export const SET_WINDOW_HEIGHT = 'SET_WINDOW_HEIGHT';
+
 export const PLAYER_OPEN       = 'PLAYER_OPEN';
 export const PLAYER_CLOSE      = 'PLAYER_CLOSE';
 export const PLAYER_MINIMIZE   = 'PLAYER_MINIMIZE';

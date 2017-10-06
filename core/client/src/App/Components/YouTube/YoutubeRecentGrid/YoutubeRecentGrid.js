@@ -47,7 +47,7 @@ class YoutubeRecentGrid extends React.Component {
     let element = null
     let gridElement = null
     
-    const width = window.innerWidth
+    const width = this.props.windowWidth
 
     if ( !!this.state.youtubePopularLoaded ) {
       if ( width <= 960 ) { 
@@ -106,6 +106,7 @@ const mapStateToProps = state => {
   return {
     youtubeRecentVideoIds: state.superViewApi.youtubeRecentVideoIds,
     youtubeRecentResults: state.youtubeBrowse.youtubeRecentResults,
+    windowWidth: state.window.width,
   }
 }
 

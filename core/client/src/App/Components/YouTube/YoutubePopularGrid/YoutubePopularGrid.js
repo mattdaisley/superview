@@ -43,7 +43,7 @@ class YoutubePopularGrid extends React.Component {
     let element = null
     let gridElement = null;
     
-    const width = window.innerWidth
+    const width = this.props.windowWidth
 
     if ( !!this.state.youtubePopularLoaded ) {
       if ( width <= 960 ) { 
@@ -87,6 +87,7 @@ YoutubePopularGrid.defaultProps = {
 const mapStateToProps = state => {
   return {
     youtubePopularResults: state.youtubeBrowse.youtubePopularResults,
+    windowWidth: state.window.width,
   }
 }
 

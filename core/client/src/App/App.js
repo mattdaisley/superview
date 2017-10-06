@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { twitchLoginSuccess }  from './Redux/Twitch/TwitchActionCreators';
 import { youtubeLoginSuccess } from './Redux/Youtube/YoutubeActionCreators';
 import { playerOpen, playerClose } from './Redux/Player/PlayerActionCreators';
+import { setWindowWidth, setWindowHeight } from './Redux/Window/WindowActionCreators';
 
 import Header  from './Components/Header';
 import Main    from './Components/Main';
@@ -154,23 +155,8 @@ class App extends React.Component {
       open: false,
       isSideNavOpen: false,
     }
-  }
-  
-  handleClickOpen = () => {
-    // this.setState({ open: true });
-    this.props.playerOpen()
-  };
 
-  handleRequestClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleSideNavOpen = () => {
-    this.setState({ isSideNavOpen: true })
-  }
-
-  handleSideNavClose = () => {
-    this.setState({ isSideNavOpen: false })
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
 // const App = props => {
@@ -212,6 +198,38 @@ class App extends React.Component {
         }
       }
     }
+  
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+  
+  updateWindowDimensions() {
+    const width = window.innerWidth
+    const height = window.innerHeight
+    
+    this.props.setWindowWidth(width);
+    this.props.setWindowHeight(height);
+  }
+  
+  handleClickOpen = () => {
+    // this.setState({ open: true });
+    this.props.playerOpen()
+  };
+
+  handleRequestClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleSideNavOpen = () => {
+    this.setState({ isSideNavOpen: true })
+  }
+
+  handleSideNavClose = () => {
+    this.setState({ isSideNavOpen: false })
   }
 
   render() {
@@ -319,7 +337,7 @@ const mapStateToProps = state => {
     youtubeChannelDetails: state.youtubeDetails.channelDetails,
     openState: state.player.openState,
     sourceType: state.player.sourceType,
-    playerSources: state.player.sources
+    playerSources: state.player.sources,
   }
 }
 const mapDispatchToProps = dispatch => ({
@@ -327,6 +345,8 @@ const mapDispatchToProps = dispatch => ({
   youtubeLoginSuccess: (result) => dispatch(youtubeLoginSuccess(result)),
   playerOpen:  () => dispatch(playerOpen()),
   playerClose: () => dispatch(playerClose()),
+  setWindowWidth: (width) => dispatch(setWindowWidth(width)),
+  setWindowHeight: (height) => dispatch(setWindowHeight(height)),
 })
 
 const AppWithStyles = withStyles(styles)(App);

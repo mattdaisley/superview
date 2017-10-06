@@ -15,6 +15,9 @@ import * as youtubeBrowse   from './Youtube/YoutubeBrowse';
 import * as recentChannels from './RecentChannels/RecentChannels';
 
 import * as messages from './Messages/Messages';
+
+import * as window from './Window/Window'; 
+
 import * as player   from './Player/Player';
 
 export const rootReducer = combineReducers({
@@ -28,6 +31,7 @@ export const rootReducer = combineReducers({
   youtubeBrowse: youtubeBrowse.reducer,
   recentChannels: recentChannels.reducer,
   messages: messages.reducer,
+  window: window.reducer,
   player: player.reducer,
 })
 
@@ -42,6 +46,7 @@ export const initialState = {
   youtubeBrowse: youtubeBrowse.initialState,
   recentChannels: recentChannels.initialState,
   messages: messages.initialState,
+  window: window.initialState,
   player: player.initialState,
 }
 

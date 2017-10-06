@@ -48,7 +48,7 @@ class TwitchFeaturedGrid extends React.Component {
     let element = null;
     let gridElement = null;
 
-    const width = window.innerWidth
+    const width = this.props.windowWidth
 
     if ( !!this.state.twitchFeaturedLoaded ) {
 
@@ -94,6 +94,7 @@ TwitchFeaturedGrid.defaultProps = {
 const mapStateToProps = state => {
   return {
     twitchFeatured: state.twitchBrowse.twitchFeatured,
+    windowWidth: state.window.width
   }
 }
 

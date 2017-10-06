@@ -1,5 +1,6 @@
 import React     from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Button from 'material-ui/Button';
 import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
@@ -40,8 +41,6 @@ class VideoGrid extends React.Component {
     this.state = {
       page: 0,
       transition: 'none',
-      width: '0', 
-      height: '0',
       pageSize: 0,
       featuredPageOffset: 0,
       wrapperHeight: 0
@@ -53,36 +52,37 @@ class VideoGrid extends React.Component {
   }
 
   componentWillMount() {
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
+    this.updateWindowDimensions(this.props)
   }
   
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
-  updateWindowDimensions() {
-    const width = window.innerWidth
-    const height = window.innerHeight
-    const { videoItems, featuredItemFilter } = this.props
+  componenetWillReceiveProps(nextProps) {
+    this.updateWindowDimensions(nextProps)
+  }
+
+  updateWindowDimensions(props) {
+    const { windowWidth, windowHeight } = props;
+    const { videoItems, featuredItemFilter } = props
     let pageSize, featuredPageOffset, wrapperHeight
 
 
-    if ( width <= 1280 ) { 
+    if ( windowWidth <= 1280 ) { 
       pageSize = 4; 
       featuredPageOffset = 2; 
       wrapperHeight = ( videoItems.length > pageSize/2 ) ? 435 : 197
-    } else if ( width <  1920 ) { 
+    } else if ( windowWidth <  1920 ) { 
       pageSize = 6; 
       featuredPageOffset = 4; 
       wrapperHeight = ( videoItems.length > pageSize/2 ) ? 435 : 197
-    } else if ( width >= 1920 ) { 
+    } else if ( windowWidth >= 1920 ) { 
       pageSize = 8; 
       featuredPageOffset = 6; 
       wrapperHeight = ( videoItems.length > pageSize/2 ) ? 460 : 225
     }
     
-    this.setState({ width, height, page: 0, pageSize, featuredPageOffset, wrapperHeight });
+    this.setState({ windowWidth, windowHeight, page: 0, pageSize, featuredPageOffset, wrapperHeight });
 
     if ( typeof this.props.featuredItemFilter === "function" ) {
       let featuredItem = videoItems.filter( featuredItemFilter )[0];
@@ -164,7 +164,18 @@ VideoGrid.propTypes = {
   featuredItemFilter: PropTypes.func,
 }
 
+const mapStateToProps = state => {
+  return {
+    windowWidth: state.window.width,
+    windowHeight: state.window.height,
+  }
+}
+const mapDispatchToProps = dispatch => ({
+
+})
+
+
 const VideoGridWithStyles = withStyles(styles)(VideoGrid);
 
-export default VideoGridWithStyles;
+export default connect(mapStateToProps, mapDispatchToProps)(VideoGridWithStyles);
 

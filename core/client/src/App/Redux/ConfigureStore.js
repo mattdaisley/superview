@@ -18,6 +18,8 @@ import youtubeApiMiddleware   from './Youtube/YoutubeApiMiddleware';
 
 import messagesMiddleware from './Messages/MessagesMiddleware';
 
+import windowMiddleware from './Window/WindowMiddleware';
+
 import playerMiddleware from './Player/PlayerMiddleware';
 
 export const ConfigureStore = () => {
@@ -34,6 +36,7 @@ export const ConfigureStore = () => {
       youtubeOauthMiddleware,
       youtubeApiMiddleware,
       messagesMiddleware,
+      windowMiddleware,
       playerMiddleware
     )
   );
