@@ -1,6 +1,7 @@
 import React from 'react';
 // import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import ReactIScroll from 'react-iscroll';
 
 import Grid         from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
@@ -51,24 +52,26 @@ class Main extends React.Component {
   
     return (
       <div className="main-container">
-        <div className={classes.root}>
-          <Grid container spacing={0} justify="center">
-            <div className={classes.homeGridWrapper}>
-              <Switch>
-                <Route exact path='/browse/recents' component={Recents}/>
-                <Route exact path='/browse/yt/subscriptions' component={YtSubscriptions}/>
-                <Route exact path='/browse/yt/popular' component={YtPopular}/>
-                <Route exact path='/browse/tw/following' component={TwFollowing}/>
-                <Route exact path='/browse/tw/featured' component={TwFeatured}/>
+        <ReactIScroll ref="iScroll">
+          <div className={classes.root}>
+            <Grid container spacing={0} justify="center">
+              <div className={classes.homeGridWrapper}>
+                <Switch>
+                  <Route exact path='/browse/recents' component={Recents}/>
+                  <Route exact path='/browse/yt/subscriptions' component={YtSubscriptions}/>
+                  <Route exact path='/browse/yt/popular' component={YtPopular}/>
+                  <Route exact path='/browse/tw/following' component={TwFollowing}/>
+                  <Route exact path='/browse/tw/featured' component={TwFeatured}/>
 
-                {/* <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={Player}/> */}
-                <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={PlayerOpener}/>
-                <Route exact path='/' component={Home}/>
-                <Redirect from='/' to='/'/>
-              </Switch>
-            </div>
-          </Grid>
-        </div>
+                  {/* <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={Player}/> */}
+                  <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={PlayerOpener}/>
+                  <Route exact path='/' component={Home}/>
+                  <Redirect from='/' to='/'/>
+                </Switch>
+              </div>
+            </Grid>
+          </div>
+        </ReactIScroll>
       </div>
     );
   }
