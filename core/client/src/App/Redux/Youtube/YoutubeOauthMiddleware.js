@@ -123,6 +123,7 @@ const youtubeOauthMiddleware = store => next => action => {
       delete newLogoutAction.meta;
       store.dispatch(newLogoutAction);
       store.dispatch(resetGoogleProfile());
+      window.location.href = '/';
       break
       
     case types.YOUTUBE_ADD_RETRY:

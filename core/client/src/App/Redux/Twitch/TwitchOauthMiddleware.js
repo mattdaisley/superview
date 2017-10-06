@@ -108,6 +108,7 @@ const twitchOauthMiddleware = store => next => action => {
       delete newLogoutAction.meta;
       store.dispatch(newLogoutAction);
       store.dispatch(resetTwitchProfile());
+      window.location.href = '/';
       break
     default:
       break

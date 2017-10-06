@@ -129,7 +129,6 @@ class LoginActions extends React.Component {
     if ( !!nextProps.twitchProfile ) {
       this.setState({twitchLoadingProfile:false, twitchProfile: nextProps.twitchProfile})
     } 
-    console.log(nextProps.twitchProfile)
     if ( !!nextProps.googleProfile ) {
       this.setState({googleLoadingProfile:false, googleProfile: nextProps.googleProfile})
     } 
@@ -180,7 +179,7 @@ class LoginActions extends React.Component {
       twitchProfileClass.push( classes.twitchProfileOut )
     }
     
-    console.log('!this.props.isInHeader', !this.props.isInHeader, '!!this.props.isInHeader', !!this.props.isInHeader, '!!this.props.youtubeLoggedIn', !!this.props.youtubeLoggedIn, 'this.state.googleLoadingProfile', this.state.googleLoadingProfile);
+    // console.log('!this.props.isInHeader', !this.props.isInHeader, '!!this.props.isInHeader', !!this.props.isInHeader, '!!this.props.youtubeLoggedIn', !!this.props.youtubeLoggedIn, 'this.state.googleLoadingProfile', this.state.googleLoadingProfile);
     
     const youtubeButtonClasses = [ classes.loginActionsButton, classes.youtubeLoginLogout ]
     if ( !this.props.isInHeader ) {

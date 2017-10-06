@@ -24,8 +24,13 @@ const styles = theme => ({
     marginBottom: 20
   },
   homeGridWrapper: {
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      padding: 10,
+      boxSizing: 'border-box',
+    },
     [theme.breakpoints.up('sm')]: {
-      width: 600
+      width: 600,
     },
     [theme.breakpoints.up('md')]: {
       width: 960 - 200
@@ -36,7 +41,7 @@ const styles = theme => ({
     [theme.breakpoints.up('xl')]: {
       width: 1920 - 300
     },
-  }
+  },
 })
 
 class Main extends React.Component {

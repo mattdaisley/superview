@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -105,22 +106,25 @@ class SideNav extends React.Component {
     const navLinks = [
       { name: 'Home', route: '/', icon: (<HomeIcon />) },
       { name: 'Recents', route: '/browse/recents', icon: (<RestoreIcon />) },
-      { name: 'YouTube', route: '/browse/yt/subscriptions', icon: (<SubscriptionsIcon />) },
-      { name: 'Twitch', route: '/browse/tw/following', icon: (<FavoriteIcon />) }
+      { name: 'YouTube', route: '/browse/yt/subscriptions', icon: (<SubscriptionsIcon />), guard: this.props.youtubeLoggedIn },
+      { name: 'Twitch', route: '/browse/tw/following', icon: (<FavoriteIcon />), guard: this.props.twitchLoggedIn }
     ]
 
     const navLinksElements = navLinks.map( link => {
       const linkClass = ( this.context.router.route.location.pathname === link.route ) ? classes.selected : '';
-      return (
-        <Link to={link.route} onClick={this.props.handleSideNavClose} key={link.name}>
-          <ListItem button>
-            <ListItemIcon className={classes.sideNavIcon + ' ' + linkClass}>
-              { link.icon }
-            </ListItemIcon>
-            <ListItemText primary={link.name} />
-          </ListItem>
-        </Link>
-      )
+      if ( ( link.guard === undefined ) || ( link.guard && link.guard === true ) ) {
+        return (
+          <Link to={link.route} onClick={this.props.handleSideNavClose} key={link.name}>
+            <ListItem button>
+              <ListItemIcon className={classes.sideNavIcon + ' ' + linkClass}>
+                { link.icon }
+              </ListItemIcon>
+              <ListItemText primary={link.name} />
+            </ListItem>
+          </Link>
+        )
+      }
+      return null;
     })
     
     const loginActionsWrapperClasses = [ classes.loginActionsWrapper ];
@@ -171,6 +175,13 @@ class SideNav extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    twitchLoggedIn:  state.twitchOauth.loggedIn,
+    youtubeLoggedIn: state.youtubeOauth.loggedIn,
+  }
+}
+
 const SideNavWithStyles = withStyles(styles)(SideNav);
 
-export default SideNavWithStyles;
+export default connect(mapStateToProps)(SideNavWithStyles);
