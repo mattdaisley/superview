@@ -25,16 +25,18 @@ width: 100px;
 const styles = theme => ({
   channelsListRoot: {
     position: 'fixed',
-    zIndex: 10000,
-    padding: '6px',
     boxSizing: 'border-box',
-    right: 0,
-    width: '100px',
     [theme.breakpoints.up('md')]: {
+      right: 0,
+      width: '100px',
       top: '84px',
+      padding: '6px',
+      zIndex: 10000,
     },
     [theme.breakpoints.down('md')]: {
-      bottom: '80px'
+      top: 0,
+      right: 15,
+      zIndex: 11000
     },
   },
   channelsListEdit: {
@@ -112,10 +114,15 @@ class ChannelsList extends React.Component {
 
     const { channels, chatChannel, source, classes, setChatChannel } = this.props
 
-    const rootClass = ( this.state.mode === 'list' ) ? classes.channelsListRoot : classes.channelsListEdit;
+    const rootClass = []
+    if ( this.state.mode === 'list' ) {
+      rootClass.push(classes.channelsListRoot)
+    } else {
+      rootClass.push(classes.channelsListEdit)
+    } 
 
     return (
-      <div className={rootClass}>
+      <div className={rootClass.join(' ')}>
         { this.state.mode === 'list' && 
           <ChannelListAvatars 
             channels={channels} 

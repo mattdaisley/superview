@@ -12,36 +12,70 @@ import { CircularProgress } from 'material-ui/Progress';
 import { withStyles } from 'material-ui/styles';
 
 const styles = theme => ({
-  action: {
+  channelListAvatarsWrapper: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'column'
+    },
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'row-reverse'
+    },
+  },
+  channelAvatarItem: {
     display: 'block',
-    margin: '0 auto 10px',
+    [theme.breakpoints.up('md')]: {
+      margin: '0 auto 10px',
+    },
+    [theme.breakpoints.down('md')]: {
+      width: 40,
+      height: 40,
+      margin: '8px',
+    },
+  },
+  avatar: {
+    [theme.breakpoints.up('md')]: {
+      width: 56,
+      height: 56,
+    },
+    [theme.breakpoints.down('md')]: {
+      width: 40,
+      height: 40,
+    },
   },
   progress: {
-    paddingTop: 8,
-    paddingBottom: 8,
+    [theme.breakpoints.up('md')]: {
+      paddingTop: 8,
+      paddingBottom: 8,
+    },
   },
   chat: {
     color: '#448aff',
     position: 'absolute',
     top: -6,
     right: -12,
+  },
+  editButton: {
+    minWidth: 50
   }
 })
 
 const ChannelListAvatars = (props) => {
-  let parentClassName = '';
-  if( props.className !== undefined ){
-    parentClassName = props.className
-  }
+
+  const classes = props.classes;
+
+  let channelListAvatarsWrapper = [ 'player-channel-list-container', classes.channelListAvatarsWrapper ];
+  if ( props.className !== undefined ) channelListAvatarsWrapper.push(props.className)
+
 
   const sourcesList = props.channels.map( (source, index) => {  
+    // if ( index === 0 ) return <CircularProgress style={{width: 40, height: 40}} key={source.id} className={[classes.channelAvatarItem, classes.progress].join(' ')} />
     if ( !!source.state && source.state === 'loading' ) {
-      return <CircularProgress key={source.id} className={[props.classes.action, props.classes.progress].join(' ')} />
+      return <CircularProgress style={{width: 40, height: 40}} key={source.id} className={[classes.channelAvatarItem, classes.progress].join(' ')} />
     } else {
       return (
-        <Button fab aria-label={source.channel.title} key={source.id} className={props.classes.action} onClick={() => props.setChatChannel(source)}>
-          <Avatar alt={source.channel.title} className="channel-avatar" src={source.channel.logo} />
-          { (!!props.chatChannel && props.chatChannel.id === source.id && props.chatChannel.source_type === 'tw' ) && <ChatIcon className={props.classes.chat}/> }
+        <Button fab aria-label={source.channel.title} key={source.id} className={classes.channelAvatarItem} onClick={() => props.setChatChannel(source)}>
+          <Avatar alt={source.channel.title} className={classes.avatar} src={source.channel.logo} />
+          { (!!props.chatChannel && props.chatChannel.id === source.id && props.chatChannel.source_type === 'tw' ) && <ChatIcon className={classes.chat}/> }
         </Button>
       )
     }
@@ -53,7 +87,7 @@ const ChannelListAvatars = (props) => {
     const route = '/' + props.channels[0].source_type + '/' + channelIds.join('/');
     playButton = (
       <Link to={route}>
-        <Button fab color="accent" aria-label="edit" className={props.classes.action} >
+        <Button fab color="accent" aria-label="edit" className={classes.channelAvatarItem} >
           <PlayerArrowIcon />
         </Button>
       </Link>
@@ -61,12 +95,12 @@ const ChannelListAvatars = (props) => {
   }
 
   return (
-    <div className={'player-channel-list-container ' + parentClassName}>
+    <div className={channelListAvatarsWrapper.join(' ')}>
       { sourcesList }
       { playButton }
-      { props.channels.length > 0 && <Button color="primary" onClick={props.onEditToggle}>Edit</Button> }
+      { props.channels.length > 0 && <Button className={classes.editButton} color="primary" onClick={props.onEditToggle}>Edit</Button> }
       { props.channels.length === 0 && (
-        <Button fab color="accent" aria-label="edit" className={props.classes.action} onClick={props.onEditToggle}>
+        <Button fab color="accent" aria-label="edit" className={classes.channelAvatarItem} onClick={props.onEditToggle}>
           <AddIcon />
         </Button>
       )}

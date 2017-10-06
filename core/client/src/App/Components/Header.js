@@ -97,9 +97,11 @@ class Header extends React.Component {
             )}
           </div>
 
-          <Typography type="title" className="App-logo-text flex-item-grow">
-            SuperView
-          </Typography>
+          { ( this.props.windowWidth > 1280 ) && (
+            <Typography type="title" className="App-logo-text flex-item-grow">
+              SuperView
+            </Typography>
+          )}
 
           <LoginActions isInHeader={true}/>
 
@@ -130,6 +132,7 @@ const mapStateToProps = state => {
     twitchLoggedIn:  state.twitchOauth.loggedIn,
     youtubeLoggedIn: state.youtubeOauth.loggedIn,
     messages: state.messages.messages,
+    windowWidth: state.window.width,
   }
 }
 const mapDispatchToProps = dispatch => ({

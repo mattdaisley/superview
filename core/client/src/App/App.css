@@ -238,10 +238,6 @@ div.info-message {
   width: 100px;
   height: 56px;
 }
-.player-channel-list-container .channel-avatar {
-  width: 56px;
-  height: 56px;
-}
 .player-channel-list-container.edit .twitch-following-wrapper {
   max-height: 205px;
   overflow-y: auto;

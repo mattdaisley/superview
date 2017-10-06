@@ -45,9 +45,6 @@ const styles = theme => ({
     position: 'fixed',
     zIndex: 9000,
   },
-  playerPersistentMobile: {
-    zIndex: 11000,
-  },
   minimized: {
     top: 86,
     right: 100,
@@ -95,6 +92,11 @@ const styles = theme => ({
         duration: theme.transitions.duration.standard,
       }),
     ].join(', ')
+  },
+  playerPersistentMobile: {
+    zIndex: 9000,
+    top: 56,
+    bottom: 0
   },
   player: {
     position: 'relative',
