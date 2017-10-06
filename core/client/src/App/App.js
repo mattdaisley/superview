@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 // import { Switch, Route, Redirect } from 'react-router-dom';
 import querystring from 'query-string';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ import Main    from './Components/Main';
 import SideNav from './Components/SideNav';
 import ChannelsList from './Components/ChannelsList/ChannelsList';
 import Player  from './Components/PlayerPage/Player';
+import PlayerMinimizedHeader from './Components/PlayerPage/PlayerMinimizedHeader';
 
 // import Dialog from 'material-ui/Dialog';
 // import Slide  from 'material-ui/transitions/Slide';
@@ -21,9 +22,6 @@ import blue   from 'material-ui/colors/blue';
 import green  from 'material-ui/colors/green';
 import red    from 'material-ui/colors/red';
 // import Icon       from 'material-ui/Icon';
-import IconButton from 'material-ui/IconButton';
-import CloseIcon  from 'material-ui-icons/Close';
-import InputIcon  from 'material-ui-icons/Input';
 import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles';
 
 import './App.css';
@@ -43,9 +41,12 @@ const styles = theme => ({
       display: 'none',
     },
   },
-  playerPersitent: {
+  playerPersistent: {
     position: 'fixed',
     zIndex: 9000,
+  },
+  playerPersistentMobile: {
+    zIndex: 11000,
   },
   minimized: {
     top: 86,
@@ -94,16 +95,6 @@ const styles = theme => ({
         duration: theme.transitions.duration.standard,
       }),
     ].join(', ')
-  },
-  title: {
-    position: 'relative',
-    height: playerTitleHeight,
-    border: '1px solid #ccc',
-    backgroundColor: '#efefef'
-  },
-  titleButton: {
-    height: playerTitleHeight,
-    width: playerTitleHeight
   },
   player: {
     position: 'relative',
@@ -255,16 +246,19 @@ class App extends React.Component {
 
     const classes = this.props.classes;
 
-    let playerPersistentOpenClass, placeholderCtrOpenClass, placeholderOpenClass;
+    let playerClass = [ classes.playerPersistent ]
+    if ( this.props.windowWidth <= 1280 ) playerClass.push(classes.playerPersistentMobile)
+
+    let placeholderCtrOpenClass, placeholderOpenClass;
     switch( this.props.openState ) {
       case 'open':
-        playerPersistentOpenClass = classes.open;
+        playerClass.push(classes.open);
         placeholderCtrOpenClass = classes.placeholderCtrOpen;
         placeholderOpenClass = classes.placeholderOpen;
         break;
       case 'minimized':
       default:
-        playerPersistentOpenClass = classes.minimized;
+        playerClass.push(classes.minimized);
         placeholderCtrOpenClass = classes.placeholderCtrMinimized;
         placeholderOpenClass = classes.placeholderMinimized;
         break;
@@ -292,18 +286,12 @@ class App extends React.Component {
               transition={<Slide direction="up" />}
             > */}
             { this.props.openState !== 'closed' && (
-              <div className={[classes.playerPersitent, playerPersistentOpenClass].join(' ')}>
+              <div className={playerClass.join(' ')}>
                 { this.props.openState === 'minimized' && (
-                  <div className={classes.title}>
-                    <IconButton className={classes.titleButton} aria-label="Close" onClick={() => this.props.playerClose()}>
-                      <CloseIcon />
-                    </IconButton>
-                    <Link to={'/'+this.props.sourceType + '/' + this.props.playerSources.join('/')}>
-                      <IconButton className={classes.titleButton} aria-label="Open">
-                        <InputIcon /> 
-                      </IconButton>
-                    </Link>
-                  </div> 
+                  <PlayerMinimizedHeader 
+                    sourceType={this.props.sourceType} 
+                    playerSources={this.props.playerSources} 
+                    playerClose={() => this.props.playerClose()} />
                 )}
                 <div className={classes.player}>
 
@@ -338,6 +326,7 @@ const mapStateToProps = state => {
     openState: state.player.openState,
     sourceType: state.player.sourceType,
     playerSources: state.player.sources,
+    windowWidth: state.window.width,
   }
 }
 const mapDispatchToProps = dispatch => ({
