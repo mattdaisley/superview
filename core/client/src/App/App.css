@@ -25,7 +25,8 @@ div.main-container {
   top: 56px;
   padding-top: 20px;
   left: 0; right: 0; bottom: 0;
-  overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
 

@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
 import PlayerArrowIcon from 'material-ui-icons/PlayArrow';
-import AddIcon from 'material-ui-icons/Add';
 import ChatIcon from 'material-ui-icons/Chat';
 import { CircularProgress } from 'material-ui/Progress';
 import { withStyles } from 'material-ui/styles';
