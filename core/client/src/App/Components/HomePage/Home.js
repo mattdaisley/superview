@@ -35,7 +35,10 @@ class Home extends React.Component {
   }
 
   render() {
-    const classes = this.props.classes;
+    const { windowWidth, classes } = this.props;
+    let mobileLimit;
+    
+    if ( windowWidth <= 960 ) mobileLimit = 6
 
     return (
       <Grid item xs={12}>
@@ -47,13 +50,13 @@ class Home extends React.Component {
           
           <Grid item xs={12}>
 
-              <TwitchFollowingGrid paginate={true}></TwitchFollowingGrid>
+              <TwitchFollowingGrid paginate={true} limit={mobileLimit}></TwitchFollowingGrid>
             
-              <YoutubeRecentGrid paginate={true}></YoutubeRecentGrid>
+              <YoutubeRecentGrid paginate={true} limit={mobileLimit}></YoutubeRecentGrid>
               
-              <TwitchFeaturedGrid paginate={true}></TwitchFeaturedGrid>
+              <TwitchFeaturedGrid paginate={true} limit={mobileLimit}></TwitchFeaturedGrid>
             
-              <YoutubePopularGrid paginate={true}></YoutubePopularGrid>
+              <YoutubePopularGrid paginate={true} limit={mobileLimit}></YoutubePopularGrid>
               
           </Grid>
 
@@ -65,7 +68,8 @@ class Home extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    recentActivity: state.recentChannels.recentChannels
+    recentActivity: state.recentChannels.recentChannels,
+    windowWidth: state.window.width
   }
 }
 const mapDispatchToProps = dispatch => ({

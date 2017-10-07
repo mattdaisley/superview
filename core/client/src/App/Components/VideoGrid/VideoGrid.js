@@ -2,14 +2,13 @@ import React     from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Button from 'material-ui/Button';
-import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
-import KeyboardArrowLeftIcon  from 'material-ui-icons/KeyboardArrowLeft';
 import { withStyles } from 'material-ui/styles';
 
-import PrevPage      from './Pages/PrevPage';
-import NextPage      from './Pages/NextPage';
-import CurrentPage   from './Pages/CurrentPage';
+import VideoGridButtons from './VideoGridButtons';
+import VideoGridPage    from './VideoGridPage';
+import PrevPage         from './Pages/PrevPage';
+import NextPage         from './Pages/NextPage';
+import CurrentPage      from './Pages/CurrentPage';
 
 import './VideoGrid.css';
 
@@ -135,33 +134,32 @@ class VideoGrid extends React.Component {
   
   render() {
     const { page, pages, pageSize, featuredItem, videoItems, transition, wrapperHeight } = this.state
-    const classes = this.props.classes
-    
-    return ( 
-      <div className={classes.videoGridWrapper}>
-        <div className={classes.videoGridPageWrapper} style={{height:wrapperHeight}}>
-          <PrevPage videoItems={videoItems} featuredItem={featuredItem} page={page} pages={pages} pageSize={pageSize} transition={transition}></PrevPage>
-          <CurrentPage videoItems={videoItems} featuredItem={featuredItem} page={page} pages={pages} pageSize={pageSize} transition={transition}></CurrentPage>
-          <NextPage videoItems={videoItems} featuredItem={featuredItem} page={page} pages={pages} pageSize={pageSize} transition={transition}></NextPage>
-        </div>
-        { pages !== 1 && (
-          <div className={classes.pageButtons}>
-            <Button fab aria-label="add" className={classes.button} disabled={ page === 0 && transition !== 'next' } onClick={() => this.prevPage()}>
-              <KeyboardArrowLeftIcon />
-            </Button>
-            <Button fab aria-label="add" className={classes.button} disabled={ page === pages-1 && transition !== 'prev' } onClick={() => this.nextPage()}>
-              <KeyboardArrowRightIcon />
-            </Button>
+    const { paginate, limit, classes } = this.props
+
+    console.log(paginate, !!paginate);
+
+    if ( !!paginate ) {
+      return (
+        <div className={classes.videoGridWrapper}>
+          <div className={classes.videoGridPageWrapper} style={{height:wrapperHeight}}>
+            <PrevPage videoItems={videoItems} featuredItem={featuredItem} page={page} pages={pages} pageSize={pageSize} transition={transition}></PrevPage>
+            <CurrentPage videoItems={videoItems} featuredItem={featuredItem} page={page} pages={pages} pageSize={pageSize} transition={transition}></CurrentPage>
+            <NextPage videoItems={videoItems} featuredItem={featuredItem} page={page} pages={pages} pageSize={pageSize} transition={transition}></NextPage>
           </div>
-        )}
-      </div> 
-    );
+          <VideoGridButtons page={page} pages={pages} transition={transition} goPrevPage={() => this.prevPage()} goNextPage={() => this.nextPage()} />
+        </div> 
+      )
+    } else {
+      return <VideoGridPage videoItems={videoItems} limit={limit} />
+    }
   }
 } 
 
 VideoGrid.propTypes = {
   videoItems: PropTypes.arrayOf( PropTypes.object ).isRequired,
   featuredItemFilter: PropTypes.func,
+  paginate: PropTypes.bool,
+  limit: PropTypes.number,
 }
 
 const mapStateToProps = state => {

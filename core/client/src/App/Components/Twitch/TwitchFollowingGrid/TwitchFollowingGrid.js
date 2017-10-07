@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Grid         from 'material-ui/Grid';
 
 import VideoGrid       from '../../../Components/VideoGrid/VideoGrid';
-import VideoGridPage   from '../../../Components/VideoGrid/VideoGridPage';
 import VideoGridHeader from '../../../Components/VideoGrid/VideoGridHeader';
 
 import { getTwitchFollowing } from '../../../Redux/Twitch/TwitchActionCreators';
@@ -39,27 +38,28 @@ class TwitchFollowingGrid extends React.Component {
   }
 
   render() {
-    let element = null;
+
+    const { twitchFollowingLoaded } = this.state;
+    const { twitchFollowing, limit, paginate, windowWidth } = this.props
+    
     let gridElement = null;
     
-    const width = this.props.windowWidth
-
-    if ( !!this.state.twitchFollowingLoaded ) {
-      if ( width <= 960 ) { 
-        gridElement = <VideoGridPage videoItems={this.props.twitchFollowing} limit={6}></VideoGridPage>
-      } else if ( width <= 1280 ) {
-        gridElement = <VideoGrid videoItems={this.props.twitchFollowing}></VideoGrid>
-      } else if ( width > 1280 ) {
-        if ( !!this.props.paginate ) {
-          gridElement = <VideoGrid videoItems={this.props.twitchFollowing}></VideoGrid>
+    if ( !!twitchFollowingLoaded ) {
+      if ( windowWidth <= 960 ) { 
+        gridElement = <VideoGrid videoItems={twitchFollowing} limit={limit} />
+      } else if ( windowWidth <= 1280 ) {
+        gridElement = <VideoGrid videoItems={twitchFollowing} />
+      } else if ( windowWidth > 1280 ) {
+        if ( !!paginate ) {
+          gridElement = <VideoGrid paginate videoItems={twitchFollowing} />
         } else {
-          gridElement = <VideoGridPage videoItems={this.props.twitchFollowing}></VideoGridPage>
+          gridElement = <VideoGrid videoItems={twitchFollowing} />
         }
       }
     }
 
-    if ( !!this.props.twitchFollowing && this.props.twitchFollowing.length > 0 ) {
-      element = (
+    if ( !!twitchFollowing && twitchFollowing.length > 0 ) {
+      return (
         <Grid container spacing={24} >
           <Grid item xs={12}>
             <VideoGridHeader route="/browse/tw/following" title="Live Channels You Follow on Twitch" sourceType="tw" />
@@ -69,14 +69,15 @@ class TwitchFollowingGrid extends React.Component {
       )
     }
 
-    return element;
+    return null;
 
   }
 }
 
 TwitchFollowingGrid.propTypes = {
   className: PropTypes.any,
-  paginate: PropTypes.bool
+  paginate: PropTypes.bool,
+  limit: PropTypes.number,
 }
 
 TwitchFollowingGrid.defaultProps = {

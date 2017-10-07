@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Grid         from 'material-ui/Grid';
 
 import VideoGrid       from '../../../Components/VideoGrid/VideoGrid';
-import VideoGridPage   from '../../../Components/VideoGrid/VideoGridPage';
 import VideoGridHeader from '../../../Components/VideoGrid/VideoGridHeader';
 
 import { getTwitchFeatured } from '../../../Redux/Twitch/TwitchActionCreators';
@@ -45,46 +44,53 @@ class TwitchFeaturedGrid extends React.Component {
   }
 
   render() {
-    let element = null;
-    let gridElement = null;
 
-    const width = this.props.windowWidth
+    const { twitchFeaturedLoaded } = this.state;
+    const { twitchFeatured, limit, paginate, windowWidth } = this.props
 
-    if ( !!this.state.twitchFeaturedLoaded ) {
 
-      if ( width <= 960 ) { 
-        gridElement = <VideoGridPage videoItems={this.props.twitchFeatured} limit={6}></VideoGridPage>
-      } else if ( width <= 1280 ) {
-        gridElement = <VideoGrid videoItems={this.props.twitchFeatured}></VideoGrid>
-      } else if ( width > 1280 ) {
-        if ( !!this.props.paginate ) {
-          gridElement = <VideoGrid videoItems={this.props.twitchFeatured} featuredItemFilter={this.featuredFilterFunction}></VideoGrid>
-          // gridElement = <VideoGrid videoItems={this.props.twitchFeatured}></VideoGrid>
+    let gridElement = null
+
+    if ( !!twitchFeaturedLoaded ) {
+      if ( windowWidth <= 960 ) { 
+        gridElement = <VideoGrid videoItems={twitchFeatured} limit={limit} />
+      } else if ( windowWidth <= 1280 ) {
+        gridElement = <VideoGrid videoItems={twitchFeatured} />
+      } else if ( windowWidth > 1280 ) {
+        if ( paginate ) {
+          gridElement = <VideoGrid paginate videoItems={twitchFeatured} featuredItemFilter={this.featuredFilterFunction} />
         } else {
-          gridElement = <VideoGridPage videoItems={this.props.twitchFeatured}></VideoGridPage>
+          gridElement = <VideoGrid videoItems={twitchFeatured} />
         }
       }
     }
 
-    if ( !!this.props.twitchFeatured && this.props.twitchFeatured.length > 0 ) {
-      element = (
+    if ( !!twitchFeatured && twitchFeatured.length > 0 ) {
+      return (
         <Grid container spacing={24} >
           <Grid item xs={12}>
-            <VideoGridHeader route="/browse/tw/featured" title="Featured Channels on Twitch" sourceType="tw" />
+
+            <VideoGridHeader 
+              route="/browse/tw/featured" 
+              title="Featured Channels on Twitch" 
+              sourceType="tw" />
+
             {gridElement}
+
           </Grid>
         </Grid>
       )
     }
 
-    return element;
+    return null;
 
   }
 }
 
 TwitchFeaturedGrid.propTypes = {
   className: PropTypes.any,
-  paginate: PropTypes.bool
+  paginate: PropTypes.bool,
+  limit: PropTypes.number,
 }
 
 TwitchFeaturedGrid.defaultProps = {

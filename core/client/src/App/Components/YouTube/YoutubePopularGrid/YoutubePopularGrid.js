@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Grid         from 'material-ui/Grid';
 
 import VideoGrid     from '../../../Components/VideoGrid/VideoGrid';
-import VideoGridPage from '../../../Components/VideoGrid/VideoGridPage';
 import VideoGridHeader from '../../../Components/VideoGrid/VideoGridHeader';
 
 import { getYoutubePopular } from '../../../Redux/Youtube/YoutubeActionCreators';
@@ -39,28 +38,28 @@ class YoutubePopularGrid extends React.Component {
   }
 
   render() {
-
-    let element = null
-    let gridElement = null;
     
-    const width = this.props.windowWidth
+    const { youtubePopularLoaded } = this.state;
+    const { youtubePopularResults, limit, paginate, windowWidth } = this.props
+    
+    let gridElement = null;
 
-    if ( !!this.state.youtubePopularLoaded ) {
-      if ( width <= 960 ) { 
-        gridElement = <VideoGridPage videoItems={this.props.youtubePopularResults} limit={6}></VideoGridPage>
-      } else if ( width <= 1280 ) {
-        gridElement = <VideoGrid videoItems={this.props.youtubePopularResults}></VideoGrid>
-      } else if ( width > 1280 ) {
-        if ( !!this.props.paginate ) {
-          gridElement = <VideoGrid videoItems={this.props.youtubePopularResults}></VideoGrid>
+    if ( !!youtubePopularLoaded ) {
+      if ( windowWidth <= 960 ) { 
+        gridElement = <VideoGrid videoItems={youtubePopularResults} limit={limit} />
+      } else if ( windowWidth <= 1280 ) {
+        gridElement = <VideoGrid videoItems={youtubePopularResults} />
+      } else if ( windowWidth > 1280 ) {
+        if ( !!paginate ) {
+          gridElement = <VideoGrid paginate videoItems={youtubePopularResults} />
         } else {
-          gridElement = <VideoGridPage videoItems={this.props.youtubePopularResults}></VideoGridPage>
+          gridElement = <VideoGrid videoItems={youtubePopularResults} />
         }
       }
     }
 
     if (!!this.props.youtubePopularResults && this.props.youtubePopularResults.length > 0) {
-      element = (
+      return (
         <Grid container spacing={24} >
           <Grid item xs={12}>
             <VideoGridHeader route="/browse/yt/popular" title="Popular Videos on YouTube" sourceType="yt" />
@@ -70,14 +69,15 @@ class YoutubePopularGrid extends React.Component {
       )
     }
 
-    return element
+    return null
 
   }
 }
 
 YoutubePopularGrid.propTypes = {
   className: PropTypes.any,
-  paginate: PropTypes.bool
+  paginate: PropTypes.bool,
+  limit: PropTypes.number,
 }
 
 YoutubePopularGrid.defaultProps = {
