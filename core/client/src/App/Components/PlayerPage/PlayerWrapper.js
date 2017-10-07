@@ -48,8 +48,18 @@ class PlayerWrapper extends React.Component {
   
     let playerWrapperClass     = ( !this.props.isFullscreen ) ? classes.playerWrapper : classes.playerWrapperFullscreen;
         playerWrapperClass     = ( this.props.openState === 'minimized') ? [playerWrapperClass, classes.playerWrapperMinimized].join(' ') : [playerWrapperClass, classes.playerWrapperOpen].join(' ')
-    const playerContainerClass = ( !this.props.isFullscreen ) ? classes.playerContainer : classes.playerContainerFullscreen;
-    const playerClass          = ( !this.props.isFullscreen ) ? classes.player : classes.player + ' ' + classes.playerFullscreen;
+    const playerContainerClass = []
+    if ( !this.props.isFullscreen ) {
+      playerContainerClass.push(classes.playerContainer)
+    } else {
+      playerContainerClass.push(classes.playerContainerFullscreen)
+    }
+    if ( this.props.openState === 'minimized' ) playerContainerClass.push(classes.playerContainerMinimized)
+    
+    const playerClass = [ classes.player ];
+    if ( !this.props.isFullscreen ) playerClass.push(classes.playerFullscreen);
+    if ( this.props.openState === 'minimized' ) playerClass.push(classes.playerMinimized)
+    // const playerClass          = ( !this.props.isFullscreen ) ? classes.player : classes.player + ' ' + classes.playerFullscreen;
   
     const showTwitchChat = (this.props.sourceType === 'tw' && this.props.playerChannelDetails.length > 0 && this.props.openState === 'open')
   
@@ -59,7 +69,7 @@ class PlayerWrapper extends React.Component {
       return (
         <EmbedPlayer
           key={videoId+layout}
-          className={[playerClass, playerLayoutClass].join(' ')}
+          className={[...playerClass, playerLayoutClass].join(' ')}
           source={this.props.source}
           id={videoId}
         />
@@ -69,7 +79,7 @@ class PlayerWrapper extends React.Component {
     return (
       <div id="player-wrapper" className={['flex', playerWrapperClass].join(' ')}>
   
-        <div className={[playerContainerClass, 'flex-item'].join(' ')}>
+        <div className={[...playerContainerClass, 'flex-item'].join(' ')}>
           {embedPlayers}
         </div>
   

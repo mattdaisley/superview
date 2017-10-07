@@ -46,10 +46,18 @@ const styles = theme => ({
     zIndex: 9000,
   },
   minimized: {
-    top: 86,
-    right: 100,
-    width: playerSmallWidth,
-    height: ( playerSmallWidth * 9/16 + playerTitleHeight ),
+    [theme.breakpoints.up('md')]: {
+      top: 86,
+      right: 100,
+      width: playerSmallWidth,
+      height: ( playerSmallWidth * 9/16 + playerTitleHeight ),
+    },
+    [theme.breakpoints.down('md')]: {
+      bottom: 86,
+      right: 10,
+      width: 250,
+      height: ( 250 * 9/16 + playerTitleHeight ),
+    },
     transition: [
       theme.transitions.create('top', {
         easing: theme.transitions.easing.easeOut,
@@ -95,8 +103,12 @@ const styles = theme => ({
   },
   playerPersistentMobile: {
     zIndex: 9000,
+  },
+  playerPersistentMobileMinimized: {
+    bottom: 120
+  },
+  playerPersistentMobileOpen: {
     top: 56,
-    bottom: 0
   },
   player: {
     position: 'relative',
@@ -257,12 +269,14 @@ class App extends React.Component {
         playerClass.push(classes.open);
         placeholderCtrOpenClass = classes.placeholderCtrOpen;
         placeholderOpenClass = classes.placeholderOpen;
+        if ( this.props.windowWidth <= 1280 ) playerClass.push(classes.playerPersistentMobileOpen)
         break;
       case 'minimized':
       default:
         playerClass.push(classes.minimized);
         placeholderCtrOpenClass = classes.placeholderCtrMinimized;
         placeholderOpenClass = classes.placeholderMinimized;
+        if ( this.props.windowWidth <= 1280 ) playerClass.push(classes.playerPersistentMobileMinimized)
         break;
     }
     // const playerRouteOpenClass = ( !this.props.isPlayerOpen ) ? classes.closed : classes.open;

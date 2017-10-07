@@ -99,11 +99,6 @@ const ChannelListAvatars = (props) => {
       { sourcesList }
       { playButton }
       { props.channels.length > 0 && <Button className={classes.editButton} color="primary" onClick={props.onEditToggle}>Edit</Button> }
-      { props.channels.length === 0 && (
-        <Button fab color="accent" aria-label="edit" className={classes.channelAvatarItem} onClick={props.onEditToggle}>
-          <AddIcon />
-        </Button>
-      )}
     </div>
   );
 }

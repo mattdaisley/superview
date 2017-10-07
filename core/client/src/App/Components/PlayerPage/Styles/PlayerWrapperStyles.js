@@ -50,6 +50,9 @@ const styles = theme => ({
       maxHeight: '100%',
     }
   },
+  playerContainerMinimized: {
+    height: '100%'
+  },
   playerContainerFullscreen: {
     maxHeight: 'calc(100% - 70px)',
   },
@@ -65,6 +68,11 @@ const styles = theme => ({
       position: 'relative',
       height: 'calc(100vw * (9/16) )',
       maxHeight: '100%',
+    }
+  },
+  playerMinimized: {
+    [theme.breakpoints.down('md')]: {
+      height: '100%',
     }
   },
 
