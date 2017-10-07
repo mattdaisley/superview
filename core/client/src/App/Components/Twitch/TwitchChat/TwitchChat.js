@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import TwitchChatItem from './TwitchChatItem';
+import { connect } from 'react-redux';
 
 import { withStyles } from 'material-ui/styles';
+
+import TwitchChatItem from './TwitchChatItem';
 
     
 // let colors = ['red', 'green', 'cyan', 'yellow', 'maroon', 'purple', 'olive', 'navy', 'teal', 'aqua', 'fuchsia']
@@ -23,8 +24,8 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('md')]: {
       width: '100%', 
-      height: 'calc(100vw)', 
-      marginBottom: '80px',
+      height: '100vh', 
+      marginBottom: 124,
     },
   },
   hidden: {
@@ -40,12 +41,18 @@ class TwitchChat extends React.Component {
   // }
 
   render() {
-    const { chatChannels, selectedChannel, hideChannelsList, classes} = this.props
+    const { chatChannels, selectedChannel, hideChannelsList, classes, windowWidth, windowHeight} = this.props
 
     let hiddenClass = ( !!hideChannelsList ) ? classes.hidden : '';
+
+    // 414x736 device dimensions
+    // 414x380
+    const chatHeight = windowHeight - 56 - 70 - ( windowWidth * 9/16 )
+    const chatStyle = { minHeight: chatHeight }
+    // 736 - 56 - 70 - ( 414 * 9/16 )
       
     return (
-      <div className={['flex-item', hiddenClass, classes.root].join(' ')}>
+      <div className={['flex-item', hiddenClass, classes.root].join(' ')} style={chatStyle}>
         { !!selectedChannel && (
           chatChannels.map( channel => {
             return (
@@ -64,5 +71,13 @@ TwitchChat.propTypes = {
   hideChannelsList: PropTypes.bool.isRequired
 }
 
+const mapStateToProps = state => ({
+  windowWidth: state.window.width,
+  windowHeight: state.window.height,
+})
+
+const mapDispatchToProps = dispatch => ({ })
+
 const TwitchChatWithStyles = withStyles(styles)(TwitchChat);
-export default TwitchChatWithStyles;
+
+export default connect(mapStateToProps, mapDispatchToProps)(TwitchChatWithStyles);

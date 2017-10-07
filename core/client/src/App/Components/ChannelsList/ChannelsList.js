@@ -1,6 +1,6 @@
 import React       from 'react';
-import { connect } from 'react-redux';
 import PropTypes   from 'prop-types';
+import { connect } from 'react-redux';
 import compose     from 'recompose/compose';
 
 import { withStyles } from 'material-ui/styles';
@@ -14,14 +14,6 @@ import { playerClose, playerSources } from '../../Redux/Player/PlayerActionCreat
 
 import PlayerUtils from '../../Components/PlayerPage/PlayerUtils';
 
-/*
-width: 100px;
-  position: fixed;
-  top: 84px;
-  right: 0;
-  padding: 6px;
-  box-sizing: border-box;
-  */
 const styles = theme => ({
   channelsListRoot: {
     position: 'fixed',
@@ -35,13 +27,12 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('md')]: {
       top: 0,
-      right: 15,
+      right: 10,
       zIndex: 11000
     },
   },
   channelsListEdit: {
     position: 'fixed',
-    zIndex: 10000,
     padding: '0',
     border: '1px solid #ccc',
     backgroundColor: '#fff',
@@ -50,12 +41,14 @@ const styles = theme => ({
       width: '600px',
       top: '86px',
       right: '15px',
+      zIndex: 10000,
     },
     [theme.breakpoints.down('md')]: {
       width: '100%',
-      maxHeight: 'calc(100% - 86px)',
-      top: '70px',
-      right: '0',
+      height: '100%',
+      top: 0,
+      right: 0,
+      zIndex: 11000,
     },
   }
 })

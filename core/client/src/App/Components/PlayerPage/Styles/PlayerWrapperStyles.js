@@ -39,7 +39,7 @@ const styles = theme => ({
   playerContainer: {
     boxSizing: 'border-box',
     width: '100%',
-    height: '100%',
+    // height: '100%',
     backgroundColor: '#000',
     position: 'relative',
     [theme.breakpoints.up('md')]: {

@@ -29,7 +29,7 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       width: 40,
       height: 40,
-      margin: '8px',
+      margin: '8px 4px',
     },
   },
   avatar: {
