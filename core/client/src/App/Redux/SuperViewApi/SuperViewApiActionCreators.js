@@ -10,7 +10,7 @@ const apiRequestUri = config.apiRequestUri;
 export const getYoutubeRecentVideoIds = () => {
   
   const requestEnpoint = 'youtube/subscriptions'
-  const maxResults = 20
+  const maxResults = 50
   const google_user_id = getGoogleUserId()
 
   return ({

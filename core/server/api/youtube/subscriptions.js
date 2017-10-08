@@ -24,12 +24,13 @@ subscriptions = {
 
   list: function list(options) {
       function doQuery(options) {
-          return models.youtube.subscriptions.list(options.query.google_user_id);
+          return models.youtube.subscriptions.list(options.query);
       }
 
       return new Promise( (resolve, reject) => {
 
-          if ( !options.query.google_user_id ) { reject(new errors.BadRequestError('No google_user_id provided')); return }
+            if ( !options.query.google_user_id ) { reject(new errors.BadRequestError('No google_user_id provided')); return }
+            if ( !options.query.maxResults ) { options.query.maxResults = 20 }
 
           doQuery(options)
               .then( result => {

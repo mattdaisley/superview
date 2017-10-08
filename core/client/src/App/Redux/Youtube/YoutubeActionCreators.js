@@ -229,7 +229,7 @@ export const getYoutubeRecent = ( videoIds ) => {
   const requestEnpoint = 'videos'
   const part = 'snippet'
   const id = videoIds.join(',')
-  const maxResults = 20
+  const maxResults = 50
 
   return ({
     type: types.YOUTUBE_RECENT,

@@ -16,16 +16,16 @@ var
  */
 subscriptions = {
 
-    list: function list(google_user_id) {
+    list: function list(options) {
         return new Promise( (resolve, reject) => {
             DB.connect( connection => {
 
                 var query = knex(config.db.tablePrefix + 'google_subscriptions_uploads')
                     .join(config.db.tablePrefix + 'google_users_subscriptions', config.db.tablePrefix + 'google_subscriptions_uploads.google_channel_id', config.db.tablePrefix + 'google_users_subscriptions.google_channel_id')
                     .select(config.db.tablePrefix + 'google_subscriptions_uploads.google_video_id')
-                    .where(config.db.tablePrefix + 'google_users_subscriptions.google_user_id', google_user_id)
+                    .where(config.db.tablePrefix + 'google_users_subscriptions.google_user_id', options.google_user_id)
                     .orderBy(config.db.tablePrefix + 'google_subscriptions_uploads.published_at', 'desc')
-                    .limit(20)
+                    .limit(options.maxResults)
 
                 connection.query( query.toString(), (err, subscriptions) => {
                     connection.release();
