@@ -275,10 +275,10 @@ div.player-controls .player-controls-nav {
   height: 100%;
 }
 .controls-container.right-controls {
-  /* margin-right: 15px; */
+  min-width: 100px;
 }
 .controls-container.left-controls {
-  /* margin-right: 15px; */
+  min-width: 100px;
 }
 .controls-grid {
   height: 100%;

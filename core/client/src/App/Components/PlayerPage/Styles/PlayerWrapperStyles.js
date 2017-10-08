@@ -54,7 +54,9 @@ const styles = theme => ({
     height: '100%'
   },
   playerContainerFullscreen: {
-    maxHeight: 'calc(100% - 70px)',
+    position: 'relative',
+    width: '100%',
+    height: 'calc(100% - 70px)',
   },
 
   player: {

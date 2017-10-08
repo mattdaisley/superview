@@ -25,6 +25,7 @@ class YouTubePlayer extends React.Component {
   onPlayerReady(event) {
     this.Player = event.target;
     this.props.registerPlayer('yt', this.props.id, this.Player);
+    if ( this.props.index !== 0 ) this.Player.mute()
   }
 
   render() {
@@ -33,7 +34,9 @@ class YouTubePlayer extends React.Component {
       height: '100%',
       width: '100%',
       playerVars: { // https://developers.google.com/youtube/player_parameters 
-        autoplay: 1
+        autoplay: 1,
+        modestbranding: 1,
+        playsinline: 1,
       }
     };
 
@@ -59,7 +62,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 YouTubePlayer.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  index: PropTypes.number
 }
 export default connect(
   mapStateToProps,

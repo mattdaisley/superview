@@ -23,7 +23,7 @@ class EmbedPlayer extends React.Component {
       parentClassName = this.props.className
     }
 
-    let {source, id} = this.props;
+    let {source, id, index} = this.props;
     // let {id} = this.props;
 
     // let colors = ['red', 'green', 'cyan', 'yellow', 'maroon', 'purple', 'olive', 'navy', 'teal', 'aqua', 'fuchsia']
@@ -34,7 +34,7 @@ class EmbedPlayer extends React.Component {
       <div className={"flex-item " + parentClassName}>
         {/* {id} */}
         { !!(source === 'yt') &&
-          <YouTubePlayer id={id} />
+          <YouTubePlayer id={id} index={index}/>
         }
 
         { !!(source === 'tw') &&
@@ -55,6 +55,7 @@ class EmbedPlayer extends React.Component {
 EmbedPlayer.propTypes = {
   source: PropTypes.oneOf(['tw', 'yt']).isRequired,
   id: PropTypes.string.isRequired,
+  index: PropTypes.number,
 }
 
 export default EmbedPlayer;

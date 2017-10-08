@@ -72,6 +72,7 @@ class PlayerWrapper extends React.Component {
           className={[...playerClass, playerLayoutClass].join(' ')}
           source={this.props.source}
           id={videoId}
+          index={index}
         />
       )
     })
@@ -79,22 +80,14 @@ class PlayerWrapper extends React.Component {
     return (
       <div id="player-wrapper" className={['flex', playerWrapperClass].join(' ')}>
   
-        <div className={[...playerContainerClass, 'flex-item'].join(' ')}>
+        <div className={[...playerContainerClass].join(' ')}>
           {embedPlayers}
         </div>
   
         { !!showTwitchChat && 
           (<TwitchChat hideChannelsList={this.props.hideChannelsList} chatChannels={this.props.playerChannelDetails.map( channelDetails => channelDetails.channel.name )} selectedChannel={this.props.chatChannel}/>)
         }
-  
-        {/* { !!showTwitchChat && 
-          (<TwitchChat hideChannelsList={this.props.hideChannelsList} chatSources={this.props.playerChannelDetails.map( channelDetails => channelDetails.channel.name )}/>)
-        } */}
-  
-        {/* { this.props.playerChannelDetails.length > 0 && 
-          <PlayerChannelsList channels={this.props.playerChannelDetails} className={'hidden-'+this.props.hideChannelsList}/>
-        } */}
-  
+        
         <PlayerControls 
           className={[fullscreenClass].join(' ')}
           fullscreenContainer={'player-wrapper'} 

@@ -25,7 +25,7 @@ const youtubeApiMiddleware = store => next => action => {
       doYoutubeRequest(store, url)
         .then(json => {
           let actionItem = { payload: {} }
-          console.log(json);
+          // console.log(json);
           if ( !json.error ) {
             if ( json.id ) {
               
