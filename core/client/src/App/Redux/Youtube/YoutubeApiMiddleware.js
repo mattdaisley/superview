@@ -103,7 +103,7 @@ const youtubeApiMiddleware = store => next => action => {
         doYoutubeRequest(store, url)
           .then(json => {
             if ( json.pageInfo.totalResults > 0 ) {
-              const results = formatSearchResult(json.items.slice(0, 7));
+              const results = formatSearchResult(json.items);
               
               if ( results.length > 0) {
                 actionItem = { payload: results }
