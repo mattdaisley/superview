@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 
 import IconButton from 'material-ui/IconButton';
-import Divider from 'material-ui/Divider';
+// import Divider from 'material-ui/Divider';
 import List, { ListItem, ListItemText, ListItemSecondaryAction, ListSubheader } from 'material-ui/List';
 
 import DeleteIcon from 'material-ui-icons/Delete';
@@ -35,12 +35,17 @@ const CurrentSources = (props) => {
 
   return (
     <div className={parentClassName}>
-      { props.sources.length > 0 &&
         <List dense subheader={<ListSubheader>Current channels</ListSubheader>}>
-          {currentSources}
-          <Divider />
+          { props.sources.length > 0 && (
+            currentSources
+          )}
+          { props.sources.length === 0 && (
+            <ListItem>
+              <ListItemText secondary="No Source Selected" />
+            </ListItem>
+          )}
+          {/* <Divider /> */}
         </List>
-      }
     </div>
   );
 }

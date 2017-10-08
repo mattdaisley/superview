@@ -39,14 +39,14 @@ const styles = theme => ({
     boxSizing: 'border-box',
     [theme.breakpoints.up('md')]: {
       width: '600px',
-      top: '86px',
-      right: '15px',
+      top: 86,
+      right: 100,
       zIndex: 10000,
     },
     [theme.breakpoints.down('md')]: {
       width: '100%',
-      height: '100%',
-      top: 0,
+      // height: '100%',
+      top: 64,
       right: 0,
       zIndex: 11000,
     },
@@ -82,7 +82,7 @@ class ChannelsList extends React.Component {
         if ( channel.source_type && channel.source_type === 'yt' ) return channel.id
         return channel.id
       } )
-      if ( !PlayerUtils.compareArrays(newChannelNames, oldChannelNames) ) {
+      if ( !PlayerUtils.compareArrays(newChannelNames, oldChannelNames) || this.props.openState !== 'open' ) {
         let pathname = '/'+ channels[0].source_type + '/' + newChannelNames.join('/');
         this.context.router.history.push(pathname);
       }
@@ -115,23 +115,25 @@ class ChannelsList extends React.Component {
     } 
 
     return (
-      <div className={rootClass.join(' ')}>
-        { this.state.mode === 'list' && 
-          <ChannelListAvatars 
-            channels={channels} 
-            chatChannel={chatChannel}
-            className={parentClassName} 
-            onEditToggle={this.onEditToggle} 
-            setChatChannel={setChatChannel}
-          /> 
-        }
+      <div>
+        <div className={[classes.channelsListRoot].join(' ')}>
+            <ChannelListAvatars 
+              channels={channels} 
+              chatChannel={chatChannel}
+              className={parentClassName} 
+              onEditToggle={this.onEditToggle} 
+              setChatChannel={setChatChannel}
+            /> 
+        </div>
         { this.state.mode === 'edit' && 
-          <ChannelListEdit 
-            source={source} 
-            channels={channels} 
-            className={parentClassName} 
-            onEditToggle={this.onEditToggle} 
-          /> 
+          <div className={[classes.channelsListEdit].join(' ')}>
+              <ChannelListEdit 
+                source={source} 
+                channels={channels} 
+                className={parentClassName} 
+                onEditToggle={this.onEditToggle} 
+              /> 
+          </div>
         }
       </div>
     );
