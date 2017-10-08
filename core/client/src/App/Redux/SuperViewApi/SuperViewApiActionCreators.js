@@ -36,3 +36,25 @@ export const superViewDoRetry = () => ({
     type: 'superViewApi'
   }
 })
+
+// export const superViewLogHistory = ( item ) => {
+  
+//   const requestEnpoint = 'history'
+//   const requestMethod = 'PUT'
+//   const google_user_id = getGoogleUserId()
+  
+//   return ({
+//     type: types.SUPERVIEW_LOG_HISTORY,
+//     meta: {
+//       type: 'superViewApi',
+//       item
+//     }
+//   })
+// }
+
+// export const superViewGetHistory = () => ({
+//   type: types.SUPERVIEW_GET_HISTORY,
+//   meta: {
+//     type: 'superViewApi',
+//   }
+// })

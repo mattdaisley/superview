@@ -6,7 +6,7 @@ import { withStyles } from 'material-ui/styles';
 
 import { getRecentChannelsItems } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
 
-import RecentChannelsList  from '../../Components/RecentChannelsList/RecentChannelsList';
+// import RecentChannelsList  from '../../Components/RecentChannelsList/RecentChannelsList';
 import TwitchFollowingGrid from '../../Components/Twitch/TwitchFollowingGrid/TwitchFollowingGrid';
 import TwitchFeaturedGrid  from '../../Components/Twitch/TwitchFeaturedGrid/TwitchFeaturedGrid';
 import YoutubePopularGrid  from '../../Components/YouTube/YoutubePopularGrid/YoutubePopularGrid';
@@ -35,7 +35,8 @@ class Home extends React.Component {
   }
 
   render() {
-    const { windowWidth, classes } = this.props;
+    const { windowWidth } = this.props;
+    // const { windowWidth, classes } = this.props;
     let mobileLimit;
     
     if ( windowWidth <= 960 ) mobileLimit = 6
@@ -44,9 +45,9 @@ class Home extends React.Component {
       <Grid item xs={12}>
         <Grid container spacing={0} >
           
-          <Grid item xs={12} className={classes.recentActivity}>
+          {/* <Grid item xs={12} className={classes.recentActivity}>
             <RecentChannelsList recentActivity={this.props.recentActivity}></RecentChannelsList>
-          </Grid>
+          </Grid> */}
           
           <Grid item xs={12}>
 

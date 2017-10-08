@@ -4,6 +4,7 @@ import * as types from '../Types';
 export const initialState = {
   youtubeRecentVideoIds: [],
   retryStack: [],
+  watchHistory: [],
 }
 
 // Our root reducer starts with the initial state
@@ -16,7 +17,10 @@ export const reducer = (state = initialState, action) => {
       return { ...state, retryStack: [ ...state.retryStack, action.payload ] }
     case types.SUPERVIEW_DO_RETRY:
       return { ...state, retryStack: action.payload }
-
+    case types.SUPERVIEW_LOG_HISTORY:
+      return { ...state, watchHistory: [ ...state.watchHistory, action.payload ] }
+    case types.SUPERVIEW_GET_HISTORY:
+      return { ...state, watchHistory: action.payload }
     default:
       return state;
   }

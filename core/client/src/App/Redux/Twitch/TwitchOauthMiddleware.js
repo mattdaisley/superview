@@ -2,7 +2,7 @@ import * as types from '../Types';
 
 import { setTwitchLogginRequested, twitchLoginRefresh, twitchLoginSuccess, resetTwitchProfile } from './TwitchActionCreators'
 
-import { setToken, setRefresh, removeToken, hasToken, getToken, getRefresh } from '../../Util/tokenTwitch';
+import { setToken, setRefresh, removeToken, hasToken, getToken, getRefresh, setTwitchUserId } from '../../Util/tokenTwitch';
 
 const twitchOauthMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'twitchOauth') {
@@ -40,7 +40,6 @@ const twitchOauthMiddleware = store => next => action => {
       }
 
       let refreshUrl = basePath + '/oauth2/twitch/refresh?access_token=' + action.meta.access_token + '&refresh_token=' + action.meta.refresh_token;
-      // console.log('in YOUTUBE_LOGIN_REFRESH url:', refreshUrl);
 
       // let headers = { 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000' };
       // fetch(refreshUrl, headers)
@@ -69,6 +68,7 @@ const twitchOauthMiddleware = store => next => action => {
     case types.TWITCH_AUTH_SUCCESS:
       setToken(action.meta.token, action.meta.expiresAt)
       setRefresh(action.meta.refresh)
+      if ( action.meta.twitch_user_id ) setTwitchUserId(action.meta.twitch_user_id)
       store.dispatch(setTwitchLogginRequested(false));
       let newLoginAction = Object.assign({}, action, {
         payload: hasToken()

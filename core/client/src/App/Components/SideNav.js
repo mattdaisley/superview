@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
 import HomeIcon from 'material-ui-icons/Home';
-import RestoreIcon from 'material-ui-icons/Restore';
+// import RestoreIcon from 'material-ui-icons/Restore';
 import SubscriptionsIcon from 'material-ui-icons/Subscriptions';
 import FavoriteIcon from 'material-ui-icons/Favorite';
 import blue from 'material-ui/colors/blue';
@@ -99,17 +99,13 @@ class SideNav extends React.Component {
     router: PropTypes.object
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-  }
-
   render() {
     
     const classes = this.props.classes;
 
     const navLinks = [
       { name: 'Home', route: '/', icon: (<HomeIcon />) },
-      { name: 'Recents', route: '/browse/recents', icon: (<RestoreIcon />) },
+      // { name: 'Recents', route: '/browse/recents', icon: (<RestoreIcon />) },
       { name: 'YouTube', route: '/browse/yt/subscriptions', icon: (<SubscriptionsIcon />), guard: this.props.youtubeLoggedIn },
       { name: 'Twitch', route: '/browse/tw/following', icon: (<FavoriteIcon />), guard: this.props.twitchLoggedIn }
     ]
