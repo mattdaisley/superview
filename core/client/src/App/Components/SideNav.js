@@ -99,6 +99,10 @@ class SideNav extends React.Component {
     router: PropTypes.object
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+  }
+
   render() {
     
     const classes = this.props.classes;
@@ -110,8 +114,8 @@ class SideNav extends React.Component {
       { name: 'Twitch', route: '/browse/tw/following', icon: (<FavoriteIcon />), guard: this.props.twitchLoggedIn }
     ]
 
-    const navLinksElements = navLinks.map( link => {
-      const linkClass = ( this.context.router.route.location.pathname === link.route ) ? classes.selected : '';
+    const navLinksElements = navLinks.map( (link, index) => {
+      const linkClass = ( this.context.router.history.location.pathname === link.route ) ? classes.selected : '';
       if ( ( link.guard === undefined ) || ( link.guard && link.guard === true ) ) {
         return (
           <Link to={link.route} onClick={this.props.handleSideNavClose} key={link.name}>
