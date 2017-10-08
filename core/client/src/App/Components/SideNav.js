@@ -115,7 +115,7 @@ class SideNav extends React.Component {
       if ( ( link.guard === undefined ) || ( link.guard && link.guard === true ) ) {
         return (
           <Link to={link.route} onClick={this.props.handleSideNavClose} key={link.name}>
-            <ListItem button>
+            <ListItem>
               <ListItemIcon className={classes.sideNavIcon + ' ' + linkClass}>
                 { link.icon }
               </ListItemIcon>
