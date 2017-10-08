@@ -29,8 +29,10 @@ class StandardPage extends React.Component {
     const { videoItems, page, pageSize, offset } = this.props
     
     const pageStart = ( page * pageSize ) - offset
-    const pageEnd   = ( pageStart + pageSize < videoItems.length - 1 ) ? pageStart + pageSize : videoItems.length
+    const pageEnd   = ( pageStart + pageSize <= videoItems.length - 1 ) ? pageStart + pageSize : videoItems.length
     const pageItems = videoItems.slice( pageStart, pageEnd )
+
+    // console.log(pageStart, pageSize, pageEnd, pageItems);
 
     return (<Grid container spacing={16}><Grid item xs={12}><VideoGridPage videoItems={pageItems}></VideoGridPage></Grid></Grid>)
   }

@@ -136,8 +136,6 @@ class VideoGrid extends React.Component {
     const { page, pages, pageSize, featuredItem, videoItems, transition, wrapperHeight } = this.state
     const { paginate, limit, classes } = this.props
 
-    console.log(paginate, !!paginate);
-
     if ( !!paginate ) {
       return (
         <div className={classes.videoGridWrapper}>
