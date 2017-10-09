@@ -56,7 +56,7 @@ const styles = theme => ({
   },
 })
 
-class LoginActionsButton extends React.Component {
+class LoginActionsButton extends React.PureComponent {
   
   constructor(props) {
     super(props);
@@ -86,7 +86,7 @@ class LoginActionsButton extends React.Component {
     const { sourceType, profile } = props;
 
     if ( !profile ) return;
-    
+
     if ( Object.keys(profile).length > 0 ) {
       this.setState({loadingProfile:false, isProfileSet: true, profile: this.formatProfile(sourceType, profile)})
     } else {
