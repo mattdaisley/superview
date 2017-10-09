@@ -30,7 +30,7 @@ const styles = theme => ({
     backgroundColor: 'white',
     zIndex: 11000,
     position: 'fixed',
-    overflow: 'hidden',
+    // overflow: 'hidden',
   },
   menuButtonWrapper: {
     marginLeft: 25,

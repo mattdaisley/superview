@@ -21,7 +21,7 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('md')]: {
     },
-    marginBottom: 20
+    marginBottom: 90
   },
   homeGridWrapper: {
     [theme.breakpoints.down('sm')]: {

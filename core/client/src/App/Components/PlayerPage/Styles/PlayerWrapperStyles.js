@@ -64,7 +64,7 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       position: 'absolute',
       height: '100%',
-      maxHeight: 'calc(100vh - 220px)',
+      // maxHeight: 'calc(100vh - 220px)',
     },
     [theme.breakpoints.down('md')]: {
       position: 'relative',

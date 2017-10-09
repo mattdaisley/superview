@@ -2,101 +2,29 @@ import React       from 'react';
 import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
 
+import { withStyles } from 'material-ui/styles';
+
+import LoginActionsButton from './LoginActionsButton/LoginActionsButton.js';
+
 import { getTwitchProfile, getTwitchLoginStatus, twitchLogout }    from '../../Redux/Twitch/TwitchActionCreators';
 import { getGoogleProfile, getYoutubeLoginStatus, youtubeLogout }  from '../../Redux/Youtube/YoutubeActionCreators';
 
-import Button     from 'material-ui/Button';
-import { withStyles } from 'material-ui/styles';
-
 const styles = theme => ({
   loginActionsHeader: {
+    height: 64,
+    flex: 1,
+    justifyContent: 'flex-end',
     [theme.breakpoints.up('md')]: {
-      display: 'block',
+      display: 'flex',
     },
     [theme.breakpoints.down('md')]: {
       display: 'none',
     },
   },
-  inSideNav: {
-    width: '100%',
-    marginTop: 15
-  },
-  isInHeader: {
-    position: 'absolute',
-    top: 15,
-  },
   loginActions: {
     width: '100%',
     padding: 25,
     boxSizing: 'border-box'
-  },
-  loginActionsButton: {
-    minWidth: 175,
-    transition: theme.transitions.create('top', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.standard,
-    }),
-  },
-  loginActionsButtonOut: {
-    top: -100,
-    transition: theme.transitions.create('top', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.standard,
-    }),
-  },
-  twitchLoginLogout: {
-    color: '#fff',
-    backgroundColor: '#653F99',
-  },
-  twitchLoginLogoutInHeader: {
-    right: 225,
-  },
-  twitchProfile: {
-    position: 'absolute',
-    right: 200,
-    top: 9,
-    display: 'inline-block',
-    padding: '15px 25px',
-    color: '#444',
-    fontSize: 14,
-    transition: theme.transitions.create('top', {
-      easing: theme.transitions.easing.easeIn,
-      duration: theme.transitions.duration.standard,
-    }),
-  },
-  twitchProfileOut: {
-    top: 100,
-    transition: theme.transitions.create('top', {
-      easing: theme.transitions.easing.easeIn,
-      duration: theme.transitions.duration.standard,
-    }),
-  },
-  youtubeLoginLogout: {
-    color: '#fff',
-    backgroundColor: '#FB0013',
-  },
-  youtubeLoginLogoutInHeader: {
-    right: 25,
-  },
-  googleProfile: {
-    position: 'absolute',
-    right: 25,
-    top: 9,
-    display: 'inline-block',
-    padding: '15px 25px',
-    color: '#444',
-    fontSize: 14,
-    transition: theme.transitions.create('top', {
-      easing: theme.transitions.easing.easeIn,
-      duration: theme.transitions.duration.standard,
-    }),
-  },
-  googleProfileOut: {
-    top: 100,
-    transition: theme.transitions.create('top', {
-      easing: theme.transitions.easing.easeIn,
-      duration: theme.transitions.duration.standard,
-    }),
   },
 })
 
@@ -164,47 +92,25 @@ class LoginActions extends React.Component {
 
     const classes = this.props.classes;
 
-    const twitchButtonClasses = [ classes.loginActionsButton, classes.twitchLoginLogout ]
-    if ( !this.props.isInHeader ) {
-      twitchButtonClasses.push( classes.inSideNav )
-    } else if ( !!this.props.isInHeader ) {
-      twitchButtonClasses.push( classes.twitchLoginLogoutInHeader, classes.isInHeader )
-      if ( !!this.props.twitchLoggedIn || this.state.twitchLoadingProfile ) {
-        twitchButtonClasses.push( classes.loginActionsButtonOut )
-      }
-    }
-    
-    const twitchProfileClass = [ classes.twitchProfile ]
-    if ( !this.props.twitchProfile ) {
-      twitchProfileClass.push( classes.twitchProfileOut )
-    }
-    
-    // console.log('!this.props.isInHeader', !this.props.isInHeader, '!!this.props.isInHeader', !!this.props.isInHeader, '!!this.props.youtubeLoggedIn', !!this.props.youtubeLoggedIn, 'this.state.googleLoadingProfile', this.state.googleLoadingProfile);
-    
-    const youtubeButtonClasses = [ classes.loginActionsButton, classes.youtubeLoginLogout ]
-    if ( !this.props.isInHeader ) {
-      youtubeButtonClasses.push( classes.inSideNav )
-    } else if ( !!this.props.isInHeader ) {
-      youtubeButtonClasses.push( classes.youtubeLoginLogoutInHeader, classes.isInHeader )
-      if ( !!this.props.youtubeLoggedIn || this.state.googleLoadingProfile ) {
-        youtubeButtonClasses.push( classes.loginActionsButtonOut )
-      }
-    }
-    
-    const googleProfileClass = [ classes.googleProfile ]
-    if ( !this.props.googleProfile ) {
-      googleProfileClass.push( classes.googleProfileOut )
-    }
-
     return (
       <div className={ (!!this.props.isInHeader) ? classes.loginActionsHeader : classes.loginActions }>
-        { (!this.props.twitchLoggedIn || !!this.props.isInHeader) && <Button className={twitchButtonClasses.join(' ')} onClick={this.twitchLogin}>Login to Twitch</Button> }
-        { (!!this.props.twitchLoggedIn && !this.props.isInHeader) && <Button className={twitchButtonClasses.join(' ')} onClick={this.props.twitchLogout}>Logout of Twitch</Button> }
-        { (!!this.props.isInHeader) && <div className={twitchProfileClass.join(' ')}>{ ((this.state.twitchProfile) ? this.state.twitchProfile.display_name:null) }</div> } 
+        <LoginActionsButton 
+          sourceType="tw"
+          sourceLoggedIn={this.props.twitchLoggedIn}
+          onLoginClick={this.twitchLogin}
+          onLogoutClick={() => this.props.twitchLogout()}
+          profile={this.state.twitchProfile}
+          isInHeader={this.props.isInHeader}
+          />
         
-        { (!this.props.youtubeLoggedIn || !!this.props.isInHeader) && <Button className={youtubeButtonClasses.join(' ')} onClick={this.youtubeLogin}>Login to YouTube</Button> }
-        { (!!this.props.youtubeLoggedIn && !this.props.isInHeader) && <Button className={youtubeButtonClasses.join(' ')} onClick={this.props.youtubeLogout}>Logout of YouTube</Button> }
-        { (!!this.props.isInHeader) && <div className={googleProfileClass.join(' ')}>{ ((this.state.googleProfile) ? this.state.googleProfile.displayName:null) }</div> } 
+        <LoginActionsButton 
+          sourceType="yt"
+          sourceLoggedIn={this.props.youtubeLoggedIn}
+          onLoginClick={this.youtubeLogin}
+          onLogoutClick={() => this.props.youtubeLogout()}
+          profile={this.state.googleProfile}
+          isInHeader={this.props.isInHeader}
+          />
       </div>
     );
   }
