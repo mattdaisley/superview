@@ -47,8 +47,8 @@ const styles = theme => ({
   },
   minimized: {
     [theme.breakpoints.up('md')]: {
-      top: 86,
-      right: 100,
+      bottom: 100,
+      right: 20,
       width: playerSmallWidth,
       height: ( playerSmallWidth * 9/16 + playerTitleHeight ),
     },
@@ -122,7 +122,7 @@ const styles = theme => ({
   },
   placeholderCtrOpen: {
     width: '100%',
-    height: 'calc(100% - 70px)',
+    height: 'calc(100% - 50px)',
     top: '70px',
     bottom: 0,
   },
