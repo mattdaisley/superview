@@ -5,7 +5,7 @@ import Grid           from 'material-ui/Grid';
 // import IconButton     from 'material-ui/IconButton';
 // import SettingsIcon   from 'material-ui-icons/Settings';
 
-import ToggleFullscreenButton from './ToggleFullscreenButton';
+import ToggleFullscreenButton from '../Buttons/ToggleFullscreenButton/ToggleFullscreenButton';
 
 const MainControls = (props) => {
 

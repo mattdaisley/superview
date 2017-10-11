@@ -56,7 +56,7 @@ const styles = theme => ({
   playerContainerFullscreen: {
     position: 'relative',
     width: '100%',
-    height: 'calc(100% - 70px)',
+    height: 'calc(100% - 50px)',
   },
 
   player: {
@@ -80,7 +80,7 @@ const styles = theme => ({
 
   playerFullscreen: {
     [theme.breakpoints.up('md')]: {
-      maxHeight: 'calc(100vh - 70px)',
+      maxHeight: 'calc(100vh - 50px)',
     },
     [theme.breakpoints.down('md')]: {
       

@@ -18,9 +18,6 @@ const youtubeApiMiddleware = store => next => action => {
   const isLoggedIn = store.getState().youtubeOauth.loggedIn
 
   const { url } = action.meta
-  const headers = {
-    'Authorization': 'Bearer ' + getToken()
-  }
 
   switch (action.type) {
     case types.GET_GOOGLE_PROFILE:
