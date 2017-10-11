@@ -36,6 +36,26 @@ auth_google = {
         
     },
 
+    findOneByUserId: function findOneByUserId(google_user_id) {
+        return new Promise( (resolve, reject) => {
+            DB.connect( connection => {
+                var query = knex(config.db.tablePrefix + 'auth_google')
+                    .select()
+                    .where('google_user_id', google_user_id)
+                    .orderBy('id', 'desc')
+                    .limit(1);
+
+                connection.query( query.toString(), (err, tokens) => {
+                    connection.release();
+                    if ( err ) { reject(err); return; }
+
+                    resolve(tokens[0]);
+                });
+
+            });
+        });
+    },
+
     addOne: function addOne(object) {
         var self = this;
 

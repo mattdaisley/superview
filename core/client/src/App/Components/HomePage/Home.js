@@ -51,11 +51,11 @@ class Home extends React.Component {
           
           <Grid item xs={12}>
 
-              <TwitchFollowingGrid paginate={true} limit={mobileLimit}></TwitchFollowingGrid>
+              {/* <TwitchFollowingGrid paginate={true} limit={mobileLimit}></TwitchFollowingGrid> */}
             
-              <YoutubeRecentGrid paginate={true} limit={mobileLimit}></YoutubeRecentGrid>
+              {/* <YoutubeRecentGrid paginate={true} limit={mobileLimit}></YoutubeRecentGrid> */}
               
-              <TwitchFeaturedGrid paginate={true} limit={mobileLimit}></TwitchFeaturedGrid>
+              {/* <TwitchFeaturedGrid paginate={true} limit={mobileLimit}></TwitchFeaturedGrid> */}
             
               <YoutubePopularGrid paginate={true} limit={mobileLimit}></YoutubePopularGrid>
               

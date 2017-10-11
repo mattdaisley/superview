@@ -7,7 +7,9 @@ import Grid         from 'material-ui/Grid';
 import VideoGrid     from '../../../Components/VideoGrid/VideoGrid';
 import VideoGridHeader from '../../../Components/VideoGrid/VideoGridHeader';
 
-import { getYoutubePopular } from '../../../Redux/Youtube/YoutubeActionCreators';
+// import { getYoutubePopular } from '../../../Redux/Youtube/YoutubeActionCreators';
+
+import { getYoutubePopularVideos } from '../../../Redux/SuperViewApi/SuperViewApiActionCreators';
 
 class YoutubePopularGrid extends React.Component {
   
@@ -21,9 +23,9 @@ class YoutubePopularGrid extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getYoutubePopular();
+    this.props.getYoutubePopularVideos();
     
-    var intervalId = setInterval(this.props.getYoutubePopular, 10000);
+    var intervalId = setInterval(this.props.getYoutubePopularVideos, 10000);
     this.setState({intervalId: intervalId});
   }
 
@@ -86,13 +88,13 @@ YoutubePopularGrid.defaultProps = {
 
 const mapStateToProps = state => {
   return {
-    youtubePopularResults: state.youtubeBrowse.youtubePopularResults,
+    youtubePopularResults: state.superViewApi.youtubePopularVideos,
     windowWidth: state.window.width,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  getYoutubePopular: () => dispatch(getYoutubePopular()),
+  getYoutubePopularVideos: () => dispatch(getYoutubePopularVideos()),
 })
 
 export default connect(

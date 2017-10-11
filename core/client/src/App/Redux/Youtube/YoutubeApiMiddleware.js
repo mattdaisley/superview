@@ -1,21 +1,23 @@
-import * as types from '../Types';
+import * as types from '../Types'
 
 import { getYoutubeChannelDetails, youtubeAddRetry, setYoutubeLoggedIn } from './YoutubeActionCreators'
 
 import { setChannels } from '../ChannelsList/ChannelsListActionCreators'
 
-import { getToken } from '../../Util/tokenYoutube';
+import { getToken } from '../../Util/tokenYoutube'
 
-import { doYoutubeRequest } from './YoutubeApi';
+import { doYoutubeRequest } from './YoutubeApi'
+
+import { doYoutubePassThrough } from '../SuperViewApi/SuperViewApiRequest'
 
 const youtubeApiMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'youtubeApi') {
     return next(action);
   }
 
-  const isLoggedIn = store.getState().youtubeOauth.loggedIn;
+  const isLoggedIn = store.getState().youtubeOauth.loggedIn
 
-  const { url } = action.meta;
+  const { url } = action.meta
   const headers = {
     'Authorization': 'Bearer ' + getToken()
   }
@@ -47,14 +49,17 @@ const youtubeApiMiddleware = store => next => action => {
         })
       break;
     case types.GET_YOUTUBE_CHANNEL:
-      fetch(url, {headers: headers})
+      const fetchChannel = ( url ) => {
+        if ( !!getToken() ) return fetch(url, {headers: headers})
+        return doYoutubePassThrough(url)
+      }
+      fetchChannel( url )
         .then(resp => resp.json())
         .then(json => {
           let actionItem = { payload: [{status:'error'}] }
           if ( !json.error && json.pageInfo.totalResults > 0) {
     
             const formattedVideos = formatVideos(json.items);
-            // console.log(url, formattedVideos);
     
             actionItem = { payload: formattedVideos }
             store.dispatch(getYoutubeChannelDetails(formattedVideos));
@@ -67,11 +72,14 @@ const youtubeApiMiddleware = store => next => action => {
         .catch( err => console.log('error:',err))
       break
     case types.GET_YOUTUBE_CHANNEL_DETAILS:
+      const fetchChannelDetails = ( url ) => {
+        if ( !!getToken() ) return fetch(url, {headers: headers})
+        return doYoutubePassThrough(url)
+      }
     
       let promises = action.meta.videos.map( video => {
-        // console.log(channel);
         return new Promise( (resolve, reject) => {
-          fetch(url + video.channel.channel_id, {headers: headers})
+          fetchChannelDetails(url + video.channel.channel_id)
             .then(resp => resp.json())
             .then(json => {
               const formattedChannelDetails = formatChannelDetails(json.items[0], video);
@@ -115,8 +123,14 @@ const youtubeApiMiddleware = store => next => action => {
             store.dispatch(newAction);
           })
           .catch( err => handleApiError(err, store, action) )
-      } else {
+      } else if ( getToken() !== null ) {
         handleApiError({retry:true}, store, action)
+      } else {
+        console.log(url);
+        doYoutubeRequest(store, url)
+          .then(json => {
+            
+          })
       }
       break
 

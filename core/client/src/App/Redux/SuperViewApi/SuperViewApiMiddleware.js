@@ -19,17 +19,17 @@ const superViewApiMiddleware = store => next => action => {
   switch (action.type) {
     case types.SUPERVIEW_YOUTUBE_SUBSCRIPTIONS:
       // console.log('SUPERVIEW_YOUTUBE_SUBSCRIPTIONS', action.meta)
-      let actionItem = { payload: [] }
+      let subscriptionsAction = { payload: [] }
       if ( !!isYoutubeLoggedIn ) {
         doApiRequest(store, url)
           .then(results => {
             // console.log('SUPERVIEW_YOUTUBE_SUBSCRIPTIONS results', results);
-            if ( results.length > 0) {
-              actionItem = { payload: results.map( video => video.google_video_id ) }
+            if ( results.subscriptions.length > 0) {
+              subscriptionsAction = { payload: results.subscriptions.map( video => video.google_video_id ) }
             }
             // console.log(actionItem);
             
-            let newAction = Object.assign({}, action, actionItem);
+            let newAction = Object.assign({}, action, subscriptionsAction);
             delete newAction.meta;
             store.dispatch(newAction);
           })
@@ -43,7 +43,20 @@ const superViewApiMiddleware = store => next => action => {
         store.dispatch( superViewAddRetry(retryOptions) )
       }
       break
-      
+    case types.SUPERVIEW_YOUTUBE_POPULAR:
+      let popularAction = { payload: [] }
+      doApiRequest(store, url)
+        .then(results => {
+          if ( results.popular.length > 0 ) {
+            popularAction = { payload: results.popular }
+          }
+          
+          let newAction = Object.assign({}, action, popularAction);
+          delete newAction.meta;
+          store.dispatch(newAction);
+        })
+        .catch( error => {console.log('error')} )
+      break
     case types.SUPERVIEW_ADD_RETRY:
       let newRetryAction = Object.assign({}, action, {
         payload: action.meta.retryOptions

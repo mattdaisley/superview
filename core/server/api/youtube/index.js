@@ -1,7 +1,11 @@
-var subscriptions = require('./subscriptions');
+const subscriptions = require('./subscriptions'),
+      popular       = require('./popular'),
+      passthrough   = require('./passthrough')
 
 let youtube = {
-  subscriptions: subscriptions,
+  subscriptions,
+  popular,
+  passthrough,
 }
 
 module.exports = youtube

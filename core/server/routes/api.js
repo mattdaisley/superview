@@ -40,6 +40,8 @@ apiRoutes = function apiRoutes(middleware) {
     router.get('/discover', authenticateAdmin, api.http(api.discover.browse));
 
     router.get('/youtube/subscriptions', api.http(api.youtube.subscriptions.list));
+    router.get('/youtube/popular', api.http(api.youtube.popular.list));
+    router.get('/youtube/passthrough', api.http(api.youtube.passthrough))
 
     // ## Users
     // router.get('/users', authenticatePublic, api.http(api.users.browse));

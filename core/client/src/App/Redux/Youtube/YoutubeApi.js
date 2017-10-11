@@ -1,16 +1,22 @@
 
-import { getToken } from '../../Util/tokenYoutube';
+import { config } from './YoutubeConfig'
+import { getToken } from '../../Util/tokenYoutube'
 import { youtubeLoginFailure } from './YoutubeActionCreators'
 
 export const doYoutubeRequest = (store, url) => {
 
   return new Promise( (resolve,reject) => {
     
-    const headers = {
-      'Authorization': 'Bearer ' + getToken()
+    let options = {};
+    if ( getToken() !== null ) {
+      options.headers = {
+        'Authorization': 'Bearer ' + getToken()
+      }
+    } else {
+      url += '&key=' + config.clientId
     }
 
-    fetch(url, {headers: headers})
+    fetch(url, options)
     // fetch(url)
       .then(resp => resp.json())
       .then(json => {
