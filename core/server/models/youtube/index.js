@@ -1,9 +1,7 @@
-const subscriptions = require('./subscriptions'),
-      popular       = require('./popular')
+const subscriptions = require('./subscriptions')
 
 let youtube = {
   subscriptions,
-  popular,
 }
 
 module.exports = youtube

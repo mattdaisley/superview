@@ -23,21 +23,6 @@ export const getYoutubeRecentVideoIds = () => {
 
 }
 
-export const getYoutubePopularVideos = () => {
-
-  const requestEnpoint = 'youtube/popular'
-  const maxResults = 50
-
-  return ({
-    type: types.SUPERVIEW_YOUTUBE_POPULAR,
-    meta: {
-      type: 'superViewApi',
-      url: apiRequestUri + requestEnpoint + '?maxResults=' + maxResults,
-    }
-  })
-
-}
-
 export const superViewAddRetry = (retryOptions) => ({
   type: types.SUPERVIEW_ADD_RETRY,
   payload: {

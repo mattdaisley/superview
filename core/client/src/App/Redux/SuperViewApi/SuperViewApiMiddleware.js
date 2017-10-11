@@ -43,20 +43,6 @@ const superViewApiMiddleware = store => next => action => {
         store.dispatch( superViewAddRetry(retryOptions) )
       }
       break
-    case types.SUPERVIEW_YOUTUBE_POPULAR:
-      let popularAction = { payload: [] }
-      doApiRequest(store, url)
-        .then(results => {
-          if ( results.popular.length > 0 ) {
-            popularAction = { payload: results.popular }
-          }
-          
-          let newAction = Object.assign({}, action, popularAction);
-          delete newAction.meta;
-          store.dispatch(newAction);
-        })
-        .catch( error => {console.log('error')} )
-      break
     case types.SUPERVIEW_ADD_RETRY:
       let newRetryAction = Object.assign({}, action, {
         payload: action.meta.retryOptions

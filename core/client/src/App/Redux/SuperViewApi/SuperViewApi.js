@@ -3,7 +3,6 @@ import * as types from '../Types';
 // Initial (starting) state
 export const initialState = {
   youtubeRecentVideoIds: [],
-  youtubePopularVideos: [],
   retryStack: [],
   watchHistory: [],
 }
@@ -14,8 +13,6 @@ export const reducer = (state = initialState, action) => {
   switch(action.type) {
     case types.SUPERVIEW_YOUTUBE_SUBSCRIPTIONS:
       return { ...state, youtubeRecentVideoIds: action.payload }
-    case types.SUPERVIEW_YOUTUBE_POPULAR:
-      return { ...state, youtubePopularVideos: action.payload }
     case types.SUPERVIEW_ADD_RETRY:
       return { ...state, retryStack: [ ...state.retryStack, action.payload ] }
     case types.SUPERVIEW_DO_RETRY:
