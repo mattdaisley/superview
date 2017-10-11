@@ -27,15 +27,16 @@ const styles = theme => ({
 class PlayerMinimizedHeader extends React.Component {
 
   render() {
-  
-    const classes = this.props.classes;
+    const { sourceType, playerClose, channels, classes } = this.props;
+
+    const route = '/' + sourceType + '/' + channels.map( channel => channel.id ).join('/')
     
     return (
       <div className={classes.title}>
-        <IconButton className={classes.titleButton} aria-label="Close" onClick={this.props.playerClose}>
+        <IconButton className={classes.titleButton} aria-label="Close" onClick={playerClose}>
           <CloseIcon />
         </IconButton>
-        <Link to={'/'+this.props.sourceType + '/' + this.props.playerSources.join('/')}>
+        <Link to={route}>
           <IconButton className={classes.titleButton} aria-label="Open">
             <InputIcon /> 
           </IconButton>
@@ -48,11 +49,12 @@ class PlayerMinimizedHeader extends React.Component {
 
 PlayerMinimizedHeader.propTypes = {
   playerClose: PropTypes.func,
-  playerSources: PropTypes.array,
   sourceType: PropTypes.string,
 }
 
-const mapStateToProps = state => { return { } }
+const mapStateToProps = state => { return { 
+  channels: state.channelsList.channels
+}}
 const mapDispatchToProps = dispatch => ({ })
 
 const PlayerMinimizedHeaderWithStyles = withStyles(styles)(PlayerMinimizedHeader);

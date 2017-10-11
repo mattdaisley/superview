@@ -306,7 +306,6 @@ class App extends React.Component {
                 { this.props.openState === 'minimized' && (
                   <PlayerMinimizedHeader 
                     sourceType={this.props.sourceType} 
-                    playerSources={this.props.playerSources} 
                     playerClose={() => this.props.playerClose()} />
                 )}
                 <div className={classes.player}>
@@ -341,7 +340,6 @@ const mapStateToProps = state => {
     youtubeChannelDetails: state.youtubeDetails.channelDetails,
     openState: state.player.openState,
     sourceType: state.player.sourceType,
-    playerSources: state.player.sources,
     windowWidth: state.window.width,
   }
 }

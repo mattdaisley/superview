@@ -81,7 +81,7 @@ const ChannelListAvatars = (props) => {
   })
 
   let playButton = null
-  if ( props.openState === 'closed' && props.channels.length > 0 ) {
+  if ( (props.openState === 'closed' || props.openState === 'minimized') && props.channels.length > 0 ) {
     const channelIds = props.channels.map( (source, index) => source.id )
     const route = '/' + props.channels[0].source_type + '/' + channelIds.join('/');
     playButton = (
