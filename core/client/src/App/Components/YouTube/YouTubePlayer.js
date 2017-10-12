@@ -34,7 +34,7 @@ class YouTubePlayer extends React.Component {
       height: '100%',
       width: '100%',
       playerVars: { // https://developers.google.com/youtube/player_parameters 
-        autoplay: 1,
+        autoplay: 0,
         modestbranding: 1,
         playsinline: 1,
       }

@@ -44,6 +44,11 @@ const playerMiddleware = store => next => action => {
         newPlayers[sourceType + ':' + sourceId] = { id: sourceId, sourceType, playerObject } 
       }
       dispatchNewAction( store, action, { players: newPlayers });
+      if ( store.getState().channelsList.channels.length === Object.keys(newPlayers).length ) {
+        Object.keys(newPlayers).forEach( key => {
+          if ( newPlayers[key].sourceType === 'yt' ) newPlayers[key].playerObject.playVideo()
+        })
+      }
       break;
     case types.PLAYER_DEREGISTER:
       dispatchNewAction(store, action, { players: deRegisterPlayer(store, action.meta) })

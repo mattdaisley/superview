@@ -72,7 +72,7 @@ const youtubeApiMiddleware = store => next => action => {
           delete newAction.meta;
           store.dispatch(newAction);
         })
-        .catch( err => console.log('error:',err))
+        .catch( err => handleApiError(err, store, action) )
       break
     case types.GET_YOUTUBE_CHANNEL_DETAILS:
       const fetchChannelDetails = ( url ) => {
@@ -96,9 +96,7 @@ const youtubeApiMiddleware = store => next => action => {
     
               resolve(formattedChannelDetails)
             })
-            .catch(err => {
-              reject(err);
-            })
+            .catch( err => handleApiError(err, store, action) )
         })
       })
     
