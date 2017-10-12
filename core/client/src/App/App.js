@@ -142,6 +142,9 @@ const styles = theme => ({
     width: '100%',
     margin: '0',
     height: '100%',
+  },
+  hidden: {
+    display: 'none'
   }
 
 })
@@ -239,10 +242,14 @@ class App extends React.Component {
 
   render() {
     let source = '';
+    let placeholderHidden = false;
+
     if ( this.props.channelDetails.length > 0 ) { 
+      placeholderHidden = true;
       source = 'tw';
     }
     if ( this.props.youtubeChannelDetails.length > 0 ) { 
+      placeholderHidden = true;
       source = 'yt';
     }
     
@@ -263,12 +270,13 @@ class App extends React.Component {
     let playerClass = [ classes.playerPersistent ]
     if ( this.props.windowWidth <= 1280 ) playerClass.push(classes.playerPersistentMobile)
 
-    let placeholderCtrOpenClass, placeholderOpenClass;
+    let placeholderCtrOpenClass, placeholderOpenClass, placeholderCtrHiddenClass;
     switch( this.props.openState ) {
       case 'open':
         playerClass.push(classes.open);
         placeholderCtrOpenClass = classes.placeholderCtrOpen;
         placeholderOpenClass = classes.placeholderOpen;
+        if ( placeholderHidden ) placeholderCtrHiddenClass = classes.hidden
         if ( this.props.windowWidth <= 1280 ) playerClass.push(classes.playerPersistentMobileOpen)
         break;
       case 'minimized':
@@ -310,7 +318,7 @@ class App extends React.Component {
                 )}
                 <div className={classes.player}>
 
-                  <div className={[classes.placeholderContainer, placeholderCtrOpenClass].join(' ')}>
+                  <div className={[classes.placeholderContainer, placeholderCtrOpenClass, placeholderCtrHiddenClass].join(' ')}>
                     <div className={[classes.placeholder, placeholderOpenClass].join(' ')}></div>
                   </div>
 

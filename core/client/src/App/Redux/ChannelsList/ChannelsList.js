@@ -1,4 +1,4 @@
-import * as types from '../Types';
+import * as types from '../Types'
 
 // Initial (starting) state
 export const initialState = {
@@ -19,7 +19,7 @@ export const reducer = (state = initialState, action) => {
     case types.SET_CHAT_CHANNEL:
       return { ...state, chatChannel: action.chatChannel }
     default:
-      return state;
+      return state
   }
 }
 

@@ -10,6 +10,7 @@ import { setMessage } from '../../Redux/Messages/MessagesActionCreators';
 
 import { playerOpen, playerClose, playerMinimize, playerSources, setPlayerLoaded }  from '../../Redux/Player/PlayerActionCreators';
 
+import { compareArrays } from '../../Util/utils' 
 import PlayerUtils from './PlayerUtils';
 
 class PlayerOpener extends React.Component {
@@ -71,7 +72,7 @@ class PlayerOpener extends React.Component {
     * if the video ids contain duplicates, re route to a path with only the unique video ids
     */
   reRouteIfDuplicateSources(source, videoIds, uniqueVideoIds, history) {
-    if ( !PlayerUtils.compareArrays(videoIds, uniqueVideoIds) ) {
+    if ( !compareArrays(videoIds, uniqueVideoIds) ) {
       let pathname = '/'+source + '/' + uniqueVideoIds.join('/');
       history.push(pathname);
       return true; 
@@ -103,10 +104,10 @@ class PlayerOpener extends React.Component {
       const oldChannelIds = this.props.twitchChannels.map( channel => channel.id );
       const newChannelIds = nextProps.twitchChannels.map( channel => channel.id );
 
-      if ( !PlayerUtils.compareArrays(oldChannelIds, newChannelIds) ) {
+      if ( !compareArrays(oldChannelIds, newChannelIds) ) {
         // console.log('props.twitchChannels updated', oldChannelIds, newChannelIds)
 
-        if ( !PlayerUtils.compareArrays(newChannelIds, this.props.sources) ) {
+        if ( !compareArrays(newChannelIds, this.props.sources) ) {
           let pathname = '/'+ sourceType + '/' + newChannelIds.join('/');
           this.context.router.history.push(pathname);
           return;
@@ -122,9 +123,9 @@ class PlayerOpener extends React.Component {
       const oldChannelIds = this.props.youtubeChannels.map( channel => channel.id );
       const newChannelIds = nextProps.youtubeChannels.map( channel => channel.id );
 
-      if ( !PlayerUtils.compareArrays(oldChannelIds, newChannelIds) ) {
+      if ( !compareArrays(oldChannelIds, newChannelIds) ) {
 
-        if ( !PlayerUtils.compareArrays(newChannelIds, this.props.sources) ) {
+        if ( !compareArrays(newChannelIds, this.props.sources) ) {
           let pathname = '/'+ sourceType + '/' + newChannelIds.join('/');
           this.context.router.history.push(pathname);
           return;
@@ -146,7 +147,7 @@ class PlayerOpener extends React.Component {
       const oldChannelDetails = this.props.twitchChannelDetails.map( channelDetails => channelDetails.id );
       const newChannelDetails = nextProps.twitchChannelDetails.map( channelDetails => channelDetails.id );
 
-      if ( !PlayerUtils.compareArrays(oldChannelDetails, newChannelDetails) ) {
+      if ( !compareArrays(oldChannelDetails, newChannelDetails) ) {
 
         if ( newChannelDetails.length > 0 ) {
           this.props.setPlayerLoaded(true)
@@ -162,7 +163,7 @@ class PlayerOpener extends React.Component {
       const oldChannelDetails = this.props.youtubeChannelDetails.map( channelDetails => channelDetails.id );
       const newChannelDetails = nextProps.youtubeChannelDetails.map( channelDetails => channelDetails.id );
 
-      if ( !PlayerUtils.compareArrays(oldChannelDetails, newChannelDetails) ) {
+      if ( !compareArrays(oldChannelDetails, newChannelDetails) ) {
 
         if ( newChannelDetails.length > 0 ) {
           this.props.setPlayerLoaded(true)

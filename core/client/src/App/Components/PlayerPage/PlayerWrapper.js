@@ -39,12 +39,12 @@ class PlayerWrapper extends React.Component {
   }
 
   render() {
+    
+    const { playerChannelDetails, classes } = this.props;
   
     const layout = PlayerUtils.getLayout(this.props.playerSources);
   
     const fullscreenClass = (this.props.isFullscreen) ? 'fullscreen' : '';
-  
-    const classes = this.props.classes;
   
     let playerWrapperClass     = ( !this.props.isFullscreen ) ? classes.playerWrapper : classes.playerWrapperFullscreen;
         playerWrapperClass     = ( this.props.openState === 'minimized') ? [playerWrapperClass, classes.playerWrapperMinimized].join(' ') : [playerWrapperClass, classes.playerWrapperOpen].join(' ')
@@ -61,7 +61,7 @@ class PlayerWrapper extends React.Component {
     if ( this.props.openState === 'minimized' ) playerClass.push(classes.playerMinimized)
     // const playerClass          = ( !this.props.isFullscreen ) ? classes.player : classes.player + ' ' + classes.playerFullscreen;
   
-    const showTwitchChat = (this.props.sourceType === 'tw' && this.props.playerChannelDetails.length > 0 && this.props.openState === 'open')
+    const showTwitchChat = (this.props.sourceType === 'tw' && playerChannelDetails.length > 0 && this.props.openState === 'open')
   
     // build the embed player elements to display
     const embedPlayers = this.props.playerSources.map( (videoId, index) => {
@@ -85,7 +85,7 @@ class PlayerWrapper extends React.Component {
         </div>
   
         { !!showTwitchChat && 
-          (<TwitchChat hideChannelsList={this.props.hideChannelsList} chatChannels={this.props.playerChannelDetails.map( channelDetails => channelDetails.channel.name )} selectedChannel={this.props.chatChannel}/>)
+          (<TwitchChat hideChannelsList={this.props.hideChannelsList} chatChannels={playerChannelDetails.map( channelDetails => channelDetails.channel.name )} selectedChannel={this.props.chatChannel}/>)
         }
         
         <PlayerControls 

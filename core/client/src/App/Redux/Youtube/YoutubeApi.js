@@ -3,11 +3,10 @@ import { config } from './YoutubeConfig'
 import { getToken } from '../../Util/tokenYoutube'
 import { youtubeLoginFailure } from './YoutubeActionCreators'
 
-export const doYoutubeRequest = (store, url) => {
+export const doYoutubeRequest = (store, url, options = {} ) => {
 
   return new Promise( (resolve,reject) => {
     
-    let options = {};
     if ( getToken() !== null ) {
       options.headers = {
         'Authorization': 'Bearer ' + getToken()
@@ -18,7 +17,13 @@ export const doYoutubeRequest = (store, url) => {
 
     fetch(url, options)
     // fetch(url)
-      .then(resp => resp.json())
+      .then(resp => {
+        if ( resp.status === 204 ) {
+          return Promise.resolve({})
+        } else {
+          return resp.json()
+        }
+      })
       .then(json => {
         if ( !json.error ) {
           resolve(json);

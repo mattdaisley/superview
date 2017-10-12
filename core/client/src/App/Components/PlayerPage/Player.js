@@ -4,6 +4,9 @@ import PropTypes   from 'prop-types';
 
 import PlayerWrapper        from './PlayerWrapper';
 import PlayerLoadingWrapper from './PlayerLoadingWrapper';
+import PlayerChannelDetails from './PlayerChannelDetails/PlayerChannelDetails';
+
+import { rateYoutubeVideo } from '../../Redux/Youtube/YoutubeActionCreators';
 
 import './Styles/Player.css';
 
@@ -14,10 +17,12 @@ class Player extends React.Component {
     super(props);
 
     this.onFullScreenChange = this.onFullScreenChange.bind(this);
+    this.toggleLike    = this.toggleLike.bind(this);
+    this.toggleDislike = this.toggleDislike.bind(this);
     
     this.state = {
       loaded: false,
-      playerSources: [],
+      playerChannelDetails: [],
 
       hideChat: false,
       hideChannelsList: false,
@@ -30,6 +35,7 @@ class Player extends React.Component {
   }
 
   componentWillMount() {
+    this.setState( {playerSources: this.props.playerSources} )
     // console.log('componentWillMount', this.props);
     // this.registerPlayerSources(this.props);
     // this.props.getYoutubeLoginStatus();
@@ -38,6 +44,11 @@ class Player extends React.Component {
   componentWillUnmount() {
     // console.log('unmounting');
     // this.resetChannels();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const playerChannelDetails = ( nextProps.sourceType === 'tw' ) ? nextProps.twitchChannelDetails : ( nextProps.sourceType === 'yt' ? nextProps.youtubeChannelDetails : [] );
+    this.setState( {playerChannelDetails: playerChannelDetails} )
   }
 
   onFullScreenChange() {
@@ -50,15 +61,28 @@ class Player extends React.Component {
     });
   }
 
+  toggleLike(index) {
+    let { playerChannelDetails } = this.state
+    // console.log('liked', playerChannelDetails[index].id)
+    this.props.rateYoutubeVideo(playerChannelDetails[index].id, 'like')
+    playerChannelDetails[index].stats.likes ++;
+    this.setState( { playerChannelDetails: playerChannelDetails } )
+  }
+  
+  toggleDislike(index) {
+    let { playerChannelDetails } = this.state
+    // console.log('dislike', playerChannelDetails[index].id)
+    this.props.rateYoutubeVideo(playerChannelDetails[index].id, 'dislike')
+    playerChannelDetails[index].stats.dislikes ++;
+    this.setState( { playerChannelDetails: playerChannelDetails } )
+  }
+
   render() {
-    const { sourceType } = this.props;
-    const { hideChannelsList, isFullscreen } = this.state;
+    const { sourceType, openState } = this.props;
+    const { hideChannelsList, isFullscreen, playerChannelDetails } = this.state;
     const playerLoaded = this.props.loaded;
     const playerSources = this.props.sources;
 
-    // const playerChannels = ( source === 'tw' ) ? this.props.channels : ( source === 'yt' ? this.props.youtubeChannels : [] );
-    const playerChannelDetails = ( sourceType === 'tw' ) ? this.props.channelDetails : ( sourceType === 'yt' ? this.props.youtubeChannelDetails : [] );
-    
     if ( !playerLoaded ) {
       return (
         <PlayerLoadingWrapper />
@@ -74,6 +98,10 @@ class Player extends React.Component {
             isFullscreen={isFullscreen}
             onFullScreenChange={this.onFullScreenChange}
           ></PlayerWrapper>
+
+          { (!isFullscreen && openState === 'open') && (
+            <PlayerChannelDetails sourceType={sourceType} channelDetails={playerChannelDetails} />
+          )}
         </div>
       )
     }
@@ -89,11 +117,13 @@ class Player extends React.Component {
 const mapStateToProps = state => {
   return {
     // recentActivity: state.recentChannels.recentChannels,
-    channels: state.twitchDetails.channels,
-    channelDetails: state.twitchDetails.channelDetails,
+    twitchChannels: state.twitchDetails.channels,
+    twitchChannelDetails: state.twitchDetails.channelDetails,
     // youtubeLoggedIn: state.youtubeOauth.loggedIn,
     youtubeChannels: state.youtubeDetails.channels,
     youtubeChannelDetails: state.youtubeDetails.channelDetails,
+
+    openState: state.player.openState,
     sourceType: state.player.sourceType,
     sources: state.player.sources,
     loaded: state.player.loaded
@@ -101,7 +131,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  // setRecentChannelsItem: (source, channelDetails) => dispatch(setRecentChannelsItem(source, channelDetails)),
+  rateYoutubeVideo: (videoId, rating) => dispatch(rateYoutubeVideo(videoId, rating)),
 
   // getTwitchChannel: (channels) => dispatch(getTwitchChannel(channels)),
   // resetTwitchChannel: () => dispatch(resetTwitchChannel()),

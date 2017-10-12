@@ -46,28 +46,14 @@ const youtubeApiMiddleware = store => next => action => {
         })
       break;
     case types.GET_YOUTUBE_CHANNEL:
-      const fetchChannel = ( url ) => {
-        if ( !!getToken() ) {
-          if ( !!isLoggedIn ) {
-            return doYoutubeRequest(store, url)
-          } else if ( getToken() !== null ) {
-            return Promise.reject({retry:true})
-          }
-        } else {
-          return doYoutubePassThrough(url)
-        }
-      }
-      fetchChannel( url )
+      fetchChannel( store, isLoggedIn, url )
         .then(json => {
           let actionItem = { payload: [{status:'error'}] }
           if ( !json.error && json.pageInfo.totalResults > 0) {
-    
             const formattedVideos = formatVideos(json.items);
-    
             actionItem = { payload: formattedVideos }
             store.dispatch(getYoutubeChannelDetails(formattedVideos));
           }
-          
           let newAction = Object.assign({}, action, actionItem);
           delete newAction.meta;
           store.dispatch(newAction);
@@ -75,25 +61,13 @@ const youtubeApiMiddleware = store => next => action => {
         .catch( err => handleApiError(err, store, action) )
       break
     case types.GET_YOUTUBE_CHANNEL_DETAILS:
-      const fetchChannelDetails = ( url ) => {
-        if ( !!getToken() ) {
-          if ( !!isLoggedIn ) {
-            return doYoutubeRequest(store, url)
-          } else if ( getToken() !== null ) {
-            return Promise.reject({retry:true})
-          }
-        } else {
-          return doYoutubePassThrough(url)
-        }
-      }
-    
-      let promises = action.meta.videos.map( video => {
+      const { videos } = action.meta
+
+      let promises = videos.map( video => {
         return new Promise( (resolve, reject) => {
-          fetchChannelDetails(url + video.channel.channel_id)
+          fetchChannelDetails(store, isLoggedIn, url + video.channel.channel_id)
             .then(json => {
               const formattedChannelDetails = formatChannelDetails(json.items[0], video);
-              // console.log(url + video.channel.channel_id, json, formattedChannelDetails);
-    
               resolve(formattedChannelDetails)
             })
             .catch( err => handleApiError(err, store, action) )
@@ -113,27 +87,12 @@ const youtubeApiMiddleware = store => next => action => {
     case types.YOUTUBE_SEARCH:
     case types.YOUTUBE_POPULAR:
     case types.YOUTUBE_RECENT:
-      const fetchResults = ( url ) => {
-        if ( !!getToken() ) {
-          if ( !!isLoggedIn ) {
-            return doYoutubeRequest(store, url)
-          } else if ( getToken() !== null ) {
-            return Promise.reject({retry:true})
-          }
-        } else {
-          return doYoutubePassThrough(url)
-        }
-      }
-
-      let actionItem = { payload: [] }
-      fetchResults(url)
+      fetchResults(store, isLoggedIn, url)
         .then(json => {
+          let actionItem = { payload: [] }
           if ( json.pageInfo.totalResults > 0 ) {
             const results = formatSearchResult(json.items);
-            
-            if ( results.length > 0) {
-              actionItem = { payload: results }
-            }
+            if ( results.length > 0) actionItem = { payload: results }
           }
           
           let newAction = Object.assign({}, action, actionItem);
@@ -142,11 +101,89 @@ const youtubeApiMiddleware = store => next => action => {
         })
         .catch( err => handleApiError(err, store, action) )
       break
+    case types.SET_VIDEO_RATINGS:
+    
+      fetchResults(store, isLoggedIn, url)
+        .then(json => {
+          let actionItem = { payload: [] }
+          if ( json.items.length > 0 ) actionItem.payload = json.items
 
+          let newAction = Object.assign({}, action, actionItem);
+          delete newAction.meta;
+          store.dispatch(newAction);
+        })
+        .catch( err => handleApiError(err, store, action) )
+      break
+    case types.YOUTUBE_VIDEO_RATE:
+      const pushRequest = ( url ) => {
+        if ( !!getToken() ) {
+          if ( !!isLoggedIn ) {
+            return doYoutubeRequest(store, url, {method: 'POST'})
+          } else if ( getToken() !== null ) {
+            return Promise.reject({retry:true})
+          }
+        } else {
+          return Promise.reject({retry:false})
+        }
+      }
+      
+      pushRequest(url)
+        .then(json => {
+          // if ( json.pageInfo.totalResults > 0 ) {
+          //   const results = formatSearchResult(json.items);
+            
+          //   if ( results.length > 0) {
+          //     actionItem = { payload: results }
+          //   }
+          // }
+          
+          // let newAction = Object.assign({}, action, actionItem);
+          // delete newAction.meta;
+          // store.dispatch(newAction);
+        })
+        .catch( err => handleApiError(err, store, action) )
+      break
     default:
       break
   }
 
+}
+
+
+const fetchResults = ( store, isLoggedIn, url ) => {
+  if ( !!getToken() ) {
+    if ( !!isLoggedIn ) {
+      return doYoutubeRequest(store, url)
+    } else if ( getToken() !== null ) {
+      return Promise.reject({retry:true})
+    }
+  } else {
+    return doYoutubePassThrough(url)
+  }
+}
+
+const fetchChannel = ( store, isLoggedIn, url ) => {
+  if ( !!getToken() ) {
+    if ( !!isLoggedIn ) {
+      return doYoutubeRequest(store, url)
+    } else if ( getToken() !== null ) {
+      return Promise.reject({retry:true})
+    }
+  } else {
+    return doYoutubePassThrough(url)
+  }
+}
+
+const fetchChannelDetails = ( store, isLoggedIn, url ) => {
+  if ( !!getToken() ) {
+    if ( !!isLoggedIn ) {
+      return doYoutubeRequest(store, url)
+    } else if ( getToken() !== null ) {
+      return Promise.reject({retry:true})
+    }
+  } else {
+    return doYoutubePassThrough(url)
+  }
 }
 
 const handleApiError = ( err, store, action ) => {

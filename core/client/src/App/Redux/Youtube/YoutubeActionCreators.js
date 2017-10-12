@@ -29,7 +29,8 @@ export const youtubeLogin = ( referrer ) => {
   
   const requestEnpoint = 'o/oauth2/v2/auth'
   const responseType = 'token';
-  const scope = 'https://www.googleapis.com/auth/youtube.readonly';
+  // const scope = 'https://www.googleapis.com/auth/youtube.readonly';
+  const scope = 'https://www.googleapis.com/auth/youtube.force-ssl';
   const state = 'youtubeLoggedIn,' + referrer;
   const includeGrantedScopes = true;
   const prompt = 'consent';
@@ -240,4 +241,34 @@ export const getYoutubeRecent = ( videoIds ) => {
     }
   })
 
+}
+
+export const rateYoutubeVideo = ( videoId, rating ) => {
+  const requestEnpoint = 'videos/rate'
+
+  return ({
+    type: types.YOUTUBE_VIDEO_RATE,
+    meta: {
+      type: 'youtubeApi',
+      url: youtubeRequestUri + requestEnpoint + '?id=' + videoId + '&rating=' + rating,
+    }
+  })
+}
+
+export const setVideoRatings = ( videoIds ) => {
+  const requestEnpoint = 'videos/getRating'
+
+  return ({
+    type: types.SET_VIDEO_RATINGS,
+    meta: {
+      type: 'youtubeApi',
+      url: youtubeRequestUri + requestEnpoint + '?id=' + videoIds.join(','),
+    }
+  })
+}
+
+export const resetVideoRatings = () => {
+  return ({
+    type: types.RESET_VIDEO_RATINGS
+  })
 }

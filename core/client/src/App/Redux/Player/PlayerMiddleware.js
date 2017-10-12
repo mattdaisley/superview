@@ -1,6 +1,7 @@
 import * as types from '../Types';
 
 import { resetChannels } from '../ChannelsList/ChannelsListActionCreators';
+import { play } from './PlayerActionCreators';
 
 const playerMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'player') {
@@ -34,9 +35,7 @@ const playerMiddleware = store => next => action => {
     case types.PLAYER_REGISTER:
       const { sourceType, sourceId, playerObject } = action.meta;
       const prevPlayers = Object.assign( {}, store.getState().player.players );
-      // const prevPlayers = { 'tw:123': { id: '123', sourceType: 'tw', playerObject: {} }, 'tw:anthony_kongphan': { id: 'anthony_kongphan', source: 'tw', playerObject: {} } }
       let newPlayers = { ...prevPlayers };
-
       const matchingSource = getMatchingSource( prevPlayers, sourceType, sourceId )
       if ( matchingSource ){
         newPlayers[sourceType + ':' + sourceId] = { ...matchingSource, playerObject } 
@@ -44,11 +43,7 @@ const playerMiddleware = store => next => action => {
         newPlayers[sourceType + ':' + sourceId] = { id: sourceId, sourceType, playerObject } 
       }
       dispatchNewAction( store, action, { players: newPlayers });
-      if ( store.getState().channelsList.channels.length === Object.keys(newPlayers).length ) {
-        Object.keys(newPlayers).forEach( key => {
-          if ( newPlayers[key].sourceType === 'yt' ) newPlayers[key].playerObject.playVideo()
-        })
-      }
+      playPlayersIfReady( store, sourceType, newPlayers )
       break;
     case types.PLAYER_DEREGISTER:
       dispatchNewAction(store, action, { players: deRegisterPlayer(store, action.meta) })
@@ -78,17 +73,28 @@ const playerMiddleware = store => next => action => {
 
 const deRegisterPlayer = ( store, actionMeta ) => {
   const { sourceType, sourceId } = actionMeta;
-  const sources = Object.assign( {}, store.getState().player.sources );
-  if ( sources.constructor === Object && Object.keys(sources).length !== 0 ) {
-    Object.keys(sources).some( (key, index) => {
+  const players = Object.assign( {}, store.getState().player.players );
+  if ( players.constructor === Object && Object.keys(players).length !== 0 ) {
+    Object.keys(players).some( (key, index) => {
       if ( key === sourceType+':'+sourceId ) {
-        delete sources[key];
+        delete players[key];
         return true;
       }
       return false;
     });
   } 
-  return sources;
+  return players;
+}
+
+const playPlayersIfReady = ( store, sourceType, newPlayers ) => {
+  if ( store.getState().channelsList.channels.length === Object.keys(newPlayers).length ) {
+    let allReady = true;
+    Object.keys(newPlayers).forEach( (key, index) => {
+      const playerObject = newPlayers[key].playerObject
+      if ( !playerObject || (playerObject && Object.keys(playerObject).length === 0) ) allReady = false
+      if ( index === Object.keys(newPlayers).length - 1 && allReady ) store.dispatch(play())
+    })
+  }
 }
 
 const callPlayerFunction = ( players, action ) => {

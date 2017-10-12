@@ -54,7 +54,8 @@ const styles = theme => ({
     right: -12,
   },
   editButton: {
-    minWidth: 50
+    minWidth: 50,
+    lineHeight: '1.5em'
   }
 })
 
@@ -95,9 +96,9 @@ const ChannelListAvatars = (props) => {
 
   return (
     <div className={channelListAvatarsWrapper.join(' ')}>
+      { props.channels.length > 0 && <Button className={classes.editButton} color="primary" onClick={props.onEditToggle}>Edit Channels</Button> }
       { sourcesList }
       { playButton }
-      { props.channels.length > 0 && <Button className={classes.editButton} color="primary" onClick={props.onEditToggle}>Edit</Button> }
     </div>
   );
 }

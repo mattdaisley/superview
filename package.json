@@ -17,6 +17,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-infinite-scroll-component": "^2.4.0",
+    "react-number-format": "^2.0.4",
     "request": "^2.73.0",
     "request-promise-native": "^1.0.5"
   },

@@ -12,7 +12,7 @@ import ChannelListEdit    from './ChannelListEdit';
 import { setChannelIds, setChatChannel } from '../../Redux/ChannelsList/ChannelsListActionCreators';
 import { playerClose, playerSources } from '../../Redux/Player/PlayerActionCreators';
 
-import PlayerUtils from '../../Components/PlayerPage/PlayerUtils';
+import { compareArrays } from '../../Util/utils';
 
 const styles = theme => ({
   channelsListRoot: {
@@ -82,7 +82,7 @@ class ChannelsList extends React.Component {
         if ( channel.source_type && channel.source_type === 'yt' ) return channel.id
         return channel.id
       } )
-      if ( !PlayerUtils.compareArrays(newChannelNames, oldChannelNames) || this.props.openState !== 'open' ) {
+      if ( !compareArrays(newChannelNames, oldChannelNames) || this.props.openState !== 'open' ) {
         let pathname = '/'+ channels[0].source_type + '/' + newChannelNames.join('/');
         this.context.router.history.push(pathname);
       }

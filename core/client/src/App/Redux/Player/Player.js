@@ -5,7 +5,7 @@ export const initialState = {
   openState: 'closed',
   sourceType: '',
   loaded: false,
-  playing: true,
+  playing: false,
   players: [],
   sources: [],
 }
