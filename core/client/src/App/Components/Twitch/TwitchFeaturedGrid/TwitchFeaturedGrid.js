@@ -58,7 +58,8 @@ class TwitchFeaturedGrid extends React.Component {
         gridElement = <VideoGrid videoItems={twitchFeatured} />
       } else if ( windowWidth > 1280 ) {
         if ( paginate ) {
-          gridElement = <VideoGrid paginate videoItems={twitchFeatured} featuredItemFilter={this.featuredFilterFunction} />
+          gridElement = <VideoGrid paginate videoItems={twitchFeatured} />
+          // gridElement = <VideoGrid paginate videoItems={twitchFeatured} featuredItemFilter={this.featuredFilterFunction} />
         } else {
           gridElement = <VideoGrid videoItems={twitchFeatured} />
         }
