@@ -1,34 +1,35 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-// import { Switch, Route, Redirect } from 'react-router-dom';
-import querystring from 'query-string';
-import { connect } from 'react-redux';
+import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+// import { Switch, Route, Redirect } from 'react-router-dom'
+import querystring from 'query-string'
+import { connect } from 'react-redux'
+import debounce from 'lodash/debounce'
 
-import { twitchLoginSuccess }  from './Redux/Twitch/TwitchActionCreators';
-import { youtubeLoginSuccess } from './Redux/Youtube/YoutubeActionCreators';
-import { playerOpen, playerClose } from './Redux/Player/PlayerActionCreators';
-import { setWindowWidth, setWindowHeight } from './Redux/Window/WindowActionCreators';
+import { twitchLoginSuccess }  from './Redux/Twitch/TwitchActionCreators'
+import { youtubeLoginSuccess } from './Redux/Youtube/YoutubeActionCreators'
+import { playerOpen, playerClose } from './Redux/Player/PlayerActionCreators'
+import { setWindowWidth, setWindowHeight } from './Redux/Window/WindowActionCreators'
 
-import Header  from './Components/Header';
-import Main    from './Components/Main';
-import SideNav from './Components/SideNav';
-import ChannelsList from './Components/ChannelsList/ChannelsList';
-import Player  from './Components/PlayerPage/Player';
-import PlayerMinimizedHeader from './Components/PlayerPage/PlayerMinimizedHeader';
+import Header  from './Components/Header'
+import Main    from './Components/Main'
+import SideNav from './Components/SideNav'
+import ChannelsList from './Components/ChannelsList/ChannelsList'
+import Player  from './Components/PlayerPage/Player'
+import PlayerMinimizedHeader from './Components/PlayerPage/PlayerMinimizedHeader'
 
-// import Dialog from 'material-ui/Dialog';
-// import Slide  from 'material-ui/transitions/Slide';
-import blue   from 'material-ui/colors/blue';
-import green  from 'material-ui/colors/green';
-import red    from 'material-ui/colors/red';
-// import Icon       from 'material-ui/Icon';
-import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles';
+// import Dialog from 'material-ui/Dialog'
+// import Slide  from 'material-ui/transitions/Slide'
+import blue   from 'material-ui/colors/blue'
+import green  from 'material-ui/colors/green'
+import red    from 'material-ui/colors/red'
+// import Icon       from 'material-ui/Icon'
+import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles'
 
-import './App.css';
-import 'typeface-roboto';
+import './App.css'
+import 'typeface-roboto'
 
-const playerSmallWidth = 400;
-const playerTitleHeight = 40;
+const playerSmallWidth = 400
+const playerTitleHeight = 40
 
 const styles = theme => ({
   sideNav: {
@@ -152,27 +153,27 @@ const styles = theme => ({
 class App extends React.Component {
   
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.handleClickOpen    = this.handleClickOpen.bind(this);
-    this.handleRequestClose = this.handleRequestClose.bind(this);
-    this.handleSideNavOpen  = this.handleSideNavOpen.bind(this);
-    this.handleSideNavClose = this.handleSideNavClose.bind(this);
+    this.handleClickOpen    = this.handleClickOpen.bind(this)
+    this.handleRequestClose = this.handleRequestClose.bind(this)
+    this.handleSideNavOpen  = this.handleSideNavOpen.bind(this)
+    this.handleSideNavClose = this.handleSideNavClose.bind(this)
 
     this.state = {
       open: false,
       isSideNavOpen: false,
     }
 
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
 // const App = props => {
 
   //http://localhost:7768/#twitch_access_token=o365yyboxcwfh1ev8p4f4rcq6brix1&twitch_refresh_token=8hhb2azd9t71j1j8m8oehyxq77c5iqu7lnc067d1gkwuftriz4&expiry_date=14602&state=twitchLoggedIn
   componentDidMount() {
-    // this.props.updateTime();
-    const hash = window.location.hash;
+    // this.props.updateTime()
+    const hash = window.location.hash
 
     if ( hash ) {
       const response = querystring.parse(hash.substr(1))
@@ -188,49 +189,36 @@ class App extends React.Component {
           referrer,
         }
         if ( state.length > 0 && state[0] === 'twitchLoggedIn' ) {
-          this.props.twitchLoginSuccess(result);
-        }
-        // resolve(result)
-      } 
-      
-      if (response.google_access_token) {
-        let result = {
-          google_user_id: response.google_user_id,
-          token: response.google_access_token,
-          refresh: response.google_refresh_token,
-          expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
-          referrer,
-        }
-        if ( state.length > 0 && state[0] === 'googleLoggedIn' ) {
-          this.props.youtubeLoginSuccess(result);
+          this.props.twitchLoginSuccess(result)
         }
       }
     }
   
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
+    this.updateWindowDimensions()
+    window.addEventListener('resize', this.updateWindowDimensions)
   }
   
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener('resize', this.updateWindowDimensions)
   }
-  
-  updateWindowDimensions() {
+
+  updateWindowDimensions = debounce(() => {
     const width = window.innerWidth
     const height = window.innerHeight
+    console.log('updateWindowDimensions', width, height)
     
-    this.props.setWindowWidth(width);
-    this.props.setWindowHeight(height);
-  }
+    this.props.setWindowWidth(width)
+    this.props.setWindowHeight(height)
+  })
   
   handleClickOpen = () => {
-    // this.setState({ open: true });
+    // this.setState({ open: true })
     this.props.playerOpen()
-  };
+  }
 
   handleRequestClose = () => {
-    this.setState({ open: false });
-  };
+    this.setState({ open: false })
+  }
 
   handleSideNavOpen = () => {
     this.setState({ isSideNavOpen: true })
@@ -241,16 +229,16 @@ class App extends React.Component {
   }
 
   render() {
-    let source = '';
-    let placeholderHidden = false;
+    let source = ''
+    let placeholderHidden = false
 
     if ( this.props.channelDetails.length > 0 ) { 
-      placeholderHidden = true;
-      source = 'tw';
+      placeholderHidden = true
+      source = 'tw'
     }
     if ( this.props.youtubeChannelDetails.length > 0 ) { 
-      placeholderHidden = true;
-      source = 'yt';
+      placeholderHidden = true
+      source = 'yt'
     }
     
     const theme = createMuiTheme({
@@ -263,36 +251,36 @@ class App extends React.Component {
         secondary: blue,
         error: red,
       },
-    });
+    })
 
-    const classes = this.props.classes;
+    const classes = this.props.classes
 
     let playerClass = [ classes.playerPersistent ]
     if ( this.props.windowWidth <= 1280 ) playerClass.push(classes.playerPersistentMobile)
 
-    let placeholderCtrOpenClass, placeholderOpenClass, placeholderCtrHiddenClass;
+    let placeholderCtrOpenClass, placeholderOpenClass, placeholderCtrHiddenClass
     switch( this.props.openState ) {
       case 'open':
-        playerClass.push(classes.open);
-        placeholderCtrOpenClass = classes.placeholderCtrOpen;
-        placeholderOpenClass = classes.placeholderOpen;
+        playerClass.push(classes.open)
+        placeholderCtrOpenClass = classes.placeholderCtrOpen
+        placeholderOpenClass = classes.placeholderOpen
         if ( placeholderHidden ) placeholderCtrHiddenClass = classes.hidden
         if ( this.props.windowWidth <= 1280 ) playerClass.push(classes.playerPersistentMobileOpen)
-        break;
+        break
       case 'minimized':
       default:
-        playerClass.push(classes.minimized);
-        placeholderCtrOpenClass = classes.placeholderCtrMinimized;
-        placeholderOpenClass = classes.placeholderMinimized;
+        playerClass.push(classes.minimized)
+        placeholderCtrOpenClass = classes.placeholderCtrMinimized
+        placeholderOpenClass = classes.placeholderMinimized
         if ( this.props.windowWidth <= 1280 ) playerClass.push(classes.playerPersistentMobileMinimized)
-        break;
+        break
     }
-    // const playerRouteOpenClass = ( !this.props.isPlayerOpen ) ? classes.closed : classes.open;
-    // const placeholderCtrOpenClass = ( !this.props.isPlayerOpen ) ? classes.placeholderCtrClosed : classes.placeholderCtrOpen;
-    // const placeholderOpenClass = ( !this.props.isPlayerOpen ) ? classes.placeholderClosed : classes.placeholderOpen;
-    // const playerRouteOpenClass = classes.closed;
-    // const placeholderCtrOpenClass =  classes.placeholderCtrClosed;
-    // const placeholderOpenClass = classes.placeholderClosed;
+    // const playerRouteOpenClass = ( !this.props.isPlayerOpen ) ? classes.closed : classes.open
+    // const placeholderCtrOpenClass = ( !this.props.isPlayerOpen ) ? classes.placeholderCtrClosed : classes.placeholderCtrOpen
+    // const placeholderOpenClass = ( !this.props.isPlayerOpen ) ? classes.placeholderClosed : classes.placeholderOpen
+    // const playerRouteOpenClass = classes.closed
+    // const placeholderCtrOpenClass =  classes.placeholderCtrClosed
+    // const placeholderOpenClass = classes.placeholderClosed
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -335,7 +323,7 @@ class App extends React.Component {
           </div>
         </Router>
       </MuiThemeProvider>
-    );
+    )
   }
 
 }
@@ -360,5 +348,5 @@ const mapDispatchToProps = dispatch => ({
   setWindowHeight: (height) => dispatch(setWindowHeight(height)),
 })
 
-const AppWithStyles = withStyles(styles)(App);
-export default connect(mapStateToProps, mapDispatchToProps)(AppWithStyles);
+const AppWithStyles = withStyles(styles)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(AppWithStyles)
