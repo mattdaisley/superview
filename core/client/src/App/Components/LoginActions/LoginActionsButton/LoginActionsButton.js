@@ -39,20 +39,26 @@ const styles = theme => ({
   },
   profile: {
     display: 'inline-flex',
-    padding: '15px 25px',
+    padding: '8px 25px',
     color: '#444',
     fontSize: 14,
+  },
+  profileTw: {
+    borderBottom: '2px solid #653F99'
+  },
+  profileYt: {
+    borderBottom: '2px solid #FB0013'
   },
   inSideNav: {
     width: '100%',
   },
-  yt: {
-    color: '#fff',
-    backgroundColor: '#FB0013',
-  },
   tw: {
     color: '#fff',
     backgroundColor: '#653F99',
+  },
+  yt: {
+    color: '#fff',
+    backgroundColor: '#FB0013',
   },
 })
 
@@ -133,6 +139,8 @@ class LoginActionsButton extends React.PureComponent {
     if ( !isInHeader ) logoutButton.push( classes.inSideNav )
     let profileWrapper = [ classes.actionStateWrapper ]
     let profileClass   = [ classes.profile ]
+    if ( sourceType === 'tw' ) profileClass.push(classes.profileTw)
+    if ( sourceType === 'yt' ) profileClass.push(classes.profileYt)
 
     return (
       <div className={classes.container}>
