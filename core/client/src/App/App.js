@@ -18,9 +18,9 @@ import PlayerMinimizedHeader from './Components/PlayerPage/PlayerMinimizedHeader
 
 // import Dialog from 'material-ui/Dialog';
 // import Slide  from 'material-ui/transitions/Slide';
-// import blue   from 'material-ui/colors/blue';
-// import green  from 'material-ui/colors/green';
-// import red    from 'material-ui/colors/red';
+import blue   from 'material-ui/colors/blue';
+import green  from 'material-ui/colors/green';
+import red    from 'material-ui/colors/red';
 // import Icon       from 'material-ui/Icon';
 import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles';
 
@@ -254,15 +254,15 @@ class App extends React.Component {
     }
     
     const theme = createMuiTheme({
-      // palette: {
-      //   primary: {
-      //     ...blue,
-      //     A400: '#00e677',
-      //   },
-      //   accent: green,
-      //   secondary: blue,
-      //   error: red,
-      // },
+      palette: {
+        primary: {
+          ...blue,
+          A400: '#00e677',
+        },
+        accent: green,
+        secondary: blue,
+        error: red,
+      },
     });
 
     const classes = this.props.classes;
