@@ -59,7 +59,8 @@ class PlayerOpener extends React.Component {
     let videoIds       = PlayerUtils.getVideoIds(props.match.params);
     let uniqueVideoIds = PlayerUtils.getUniqueVideoIds(props.match.params);
 
-    if ( this.reRouteIfDuplicateSources(sourceType, videoIds, uniqueVideoIds, this.context.router) ) return;
+    console.log(this.context)
+    if ( this.reRouteIfDuplicateSources(sourceType, videoIds, uniqueVideoIds, this.context.router.history) ) return;
 
     // this.setState( {playerSources: uniqueVideoIds} );
     this.props.playerSources( sourceType, uniqueVideoIds )
@@ -74,8 +75,9 @@ class PlayerOpener extends React.Component {
   reRouteIfDuplicateSources(source, videoIds, uniqueVideoIds, history) {
     if ( !compareArrays(videoIds, uniqueVideoIds) ) {
       let pathname = '/'+source + '/' + uniqueVideoIds.join('/');
-      history.push(pathname);
-      return true; 
+      console.log(pathname)
+      this.context.router.history.push(pathname);
+      return; 
     }
   }
   
@@ -87,7 +89,7 @@ class PlayerOpener extends React.Component {
     if ( this.props.location.pathname !== nextProps.location.pathname ) {
       this.resetChannels();
       this.registerPlayerSources(nextProps);
-      return true;
+      return
     }
   }
 

@@ -61,7 +61,7 @@ class PlayerControls extends React.Component {
       isFullscreen: false
     }
 
-    this.togglePlayPause = this.togglePlayPause.bind(this);
+    this.togglePlayPause  = this.togglePlayPause.bind(this);
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
   }
 
@@ -100,7 +100,11 @@ class PlayerControls extends React.Component {
               {/* left controls */}
 
               <MainControls playing={playing} togglePlayPause={this.togglePlayPause}/>
-              <RightControls fullscreenContainer={fullscreenContainer} isFullscreen={isFullscreen} toggleFullScreen={this.toggleFullScreen}/>
+              <RightControls 
+                fullscreenContainer={fullscreenContainer} 
+                isFullscreen={isFullscreen} 
+                toggleFullScreen={this.toggleFullScreen}
+                onLayoutChange={this.props.onLayoutChange}/>
             </Toolbar>
           </AppBar>
         </MuiThemeProvider>
@@ -121,8 +125,9 @@ const mapDispatchToProps = dispatch => ({
 })
 
 PlayerControls.propTypes = {
-  onFullScreenChange: PropTypes.func,
   fullscreenContainer: PropTypes.string,
+  onFullScreenChange: PropTypes.func,
+  onLayoutChange: PropTypes.func,
 }
 
 const PlayerControlsStyles = withStyles(styles)(PlayerControls);

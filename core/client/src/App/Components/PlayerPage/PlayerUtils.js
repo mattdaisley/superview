@@ -7,13 +7,13 @@ export const getUniqueVideoIds = ( params ) => {
   return getVideoIds(params).filter( (elem, pos, arr) => arr.indexOf(elem) === pos )
 }
 
-export const getLayout = ( videoIds ) => {
+export const getDefaultLayout = ( videoIds ) => {
   switch(videoIds.length) {
-    case 6: return 10;
-    case 5: return 7;
-    case 4: return 5;
-    case 3: return 3;
-    case 2: return 1;
+    case 6: return '10';
+    case 5: return '7';
+    case 4: return '5';
+    case 3: return '3';
+    case 2: return '1';
     case 1:
     default:
       return 0;
@@ -23,5 +23,5 @@ export const getLayout = ( videoIds ) => {
 export default {
   getVideoIds,
   getUniqueVideoIds,
-  getLayout
+  getDefaultLayout
 }

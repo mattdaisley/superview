@@ -42,6 +42,8 @@ const styles = theme => ({
     // height: '100%',
     backgroundColor: '#000',
     position: 'relative',
+    display: 'flex',
+    flexWrap: 'wrap',
     [theme.breakpoints.up('md')]: {
       maxHeight: 'calc(100vh - 220px)',
       overflow: 'hidden',
@@ -57,6 +59,8 @@ const styles = theme => ({
     position: 'relative',
     width: '100%',
     height: 'calc(100% - 50px)',
+    display: 'flex',
+    flexWrap: 'wrap',
   },
 
   player: {
@@ -102,13 +106,11 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {}
   },
   
-  player0layout2: {
-    [theme.breakpoints.up('md')]: { width: '100%', height: '50%', top: '0', left: '0', },
-    [theme.breakpoints.down('md')]: {}
+  player0layout1v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '100%', maxHeight: '50%', position: 'relative', } 
   },
-  player1layout2: {
-    [theme.breakpoints.up('md')]: { width: '100%', height: '50%', bottom: '0', left: '0', },
-    [theme.breakpoints.down('md')]: {}
+  player1layout1v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '100%', maxHeight: '50%', position: 'relative', } 
   },
 
   player0layout3: {
@@ -143,18 +145,18 @@ const styles = theme => ({
   player3layout5: {
     [theme.breakpoints.up('md')]: { width: '50%', height: '50%', bottom: '0', right: '0', } 
   },
-
-  player0layout6: {
-    [theme.breakpoints.up('md')]: { width: '100%', height: '50%', top: '0', left: '0', } 
+  
+  player0layout5v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '100%', maxHeight: '54%', position: 'relative', } 
   },
-  player1layout6: {
-    [theme.breakpoints.up('md')]: { width: 'calc(100% / 3)', height: '50%', bottom: '0', left: '0', } 
+  player1layout5v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '33.333%', maxHeight: '46%', position: 'relative', } 
   },
-  player2layout6: {
-    [theme.breakpoints.up('md')]: { width: 'calc(100% / 3)', height: '50%', bottom: '0', left: 'calc(100% / 3)', } 
+  player2layout5v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '33.333%', maxHeight: '46%', position: 'relative', } 
   },
-  player3layout6: {
-    [theme.breakpoints.up('md')]: { width: 'calc(100% / 3)', height: '50%', bottom: '0', right: '0', } 
+  player3layout5v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '33.333%', maxHeight: '46%', position: 'relative', } 
   },
 
   player0layout7: {
@@ -172,10 +174,26 @@ const styles = theme => ({
   player4layout7: {
     [theme.breakpoints.up('md')]: { width: 'calc(100% / 3)', height: '50%', bottom: '0', right: '0', } 
   },
+  
+  player0layout7v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '100%', maxHeight: '60%', position: 'relative', } 
+  },
+  player1layout7v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '25%', maxHeight: '40%', position: 'relative', } 
+  },
+  player2layout7v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '25%', maxHeight: '40%', position: 'relative', } 
+  },
+  player3layout7v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '25%', maxHeight: '40%', position: 'relative', } 
+  },
+  player4layout7v2: {
+    [theme.breakpoints.up('md')]: { maxWidth: '25%', maxHeight: '40%', position: 'relative', } 
+  },
+
   player0layout8: {
     [theme.breakpoints.up('md')]: { width: 'calc(100% / 3)', height: '50%', top: '0', left: '0', } 
   },
-
   player1layout8: {
     [theme.breakpoints.up('md')]: { width: 'calc(100% / 3)', height: '50%', top: '0', left: 'calc(100% / 3)', } 
   },
