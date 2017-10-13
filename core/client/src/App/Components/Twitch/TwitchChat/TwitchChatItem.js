@@ -32,7 +32,7 @@ class TwitchChatItem extends React.Component {
 
     return (
       <iframe frameBorder="0"
-        scrolling="yes"
+        scrolling="false"
         id={id}
         title={id}
         src={chatUrl}

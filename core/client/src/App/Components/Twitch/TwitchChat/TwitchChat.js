@@ -41,13 +41,13 @@ class TwitchChat extends React.Component {
   // }
 
   render() {
-    const { chatChannels, selectedChannel, hideChannelsList, classes, windowWidth, windowHeight} = this.props
+    const { chatChannels, selectedChannel, hideChannelsList, classes, chatHeight} = this.props
 
     let hiddenClass = ( !!hideChannelsList ) ? classes.hidden : '';
 
     // 414x736 device dimensions
     // 414x380
-    const chatHeight = windowHeight - 56 - 70 - ( windowWidth * 9/16 )
+    // const chatHeight = windowHeight - 56 - 50 - ( windowWidth * 9/16 )
     const chatStyle = { minHeight: chatHeight }
     // 736 - 56 - 70 - ( 414 * 9/16 )
       
@@ -71,10 +71,7 @@ TwitchChat.propTypes = {
   hideChannelsList: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = state => ({
-  windowWidth: state.window.width,
-  windowHeight: state.window.height,
-})
+const mapStateToProps = state => ({ })
 
 const mapDispatchToProps = dispatch => ({ })
 

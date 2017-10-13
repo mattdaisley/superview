@@ -64,34 +64,39 @@ class PlayerWrapper extends React.Component {
 
   render() {
     
-    const { playerChannelDetails, classes } = this.props
+    const { playerChannelDetails, windowWidth, windowHeight, classes } = this.props
     const { layout, layoutVersion } = this.state
-  
-    const fullscreenClass = (this.props.isFullscreen) ? 'fullscreen' : ''
-  
-    let playerWrapperClass     = ( !this.props.isFullscreen ) ? classes.playerWrapper : classes.playerWrapperFullscreen
-        playerWrapperClass     = ( this.props.openState === 'minimized') ? [playerWrapperClass, classes.playerWrapperMinimized].join(' ') : [playerWrapperClass, classes.playerWrapperOpen].join(' ')
-    const playerContainerClass = []
-    if ( !this.props.isFullscreen ) {
-      playerContainerClass.push(classes.playerContainer)
-    } else {
-      playerContainerClass.push(classes.playerContainerFullscreen)
-    }
-    if ( this.props.openState === 'minimized' ) playerContainerClass.push(classes.playerContainerMinimized)
     
+    // Set twitch chat state
+    const showTwitchChat = (this.props.sourceType === 'tw' && playerChannelDetails.length > 0 && this.props.openState === 'open')
+    let chatHeight = windowHeight - 56 - 50 - ( windowWidth * 9/16 )
+  
+    // Set PlayerWrapper classes
+    let playerWrapperClass = []
+    if ( !this.props.isFullscreen ) { playerWrapperClass.push( classes.playerWrapper ) }
+    else { playerWrapperClass.push( classes.playerWrapperFullscreen ) }
+    if ( this.props.openState !== 'minimized' ) { playerWrapperClass.push( classes.playerWrapperOpen ) }
+    else { playerWrapperClass.push( classes.playerWrapperMinimized ) }
+    if ( windowWidth <= 1280 ) playerWrapperClass.push(classes.playerWrapperMobile)
+    let playerWrapperStyle = {}
+    if ( windowWidth <= 1280 && this.props.openState === 'open' ) playerWrapperStyle = { height: 'auto', maxHeight: (this.props.playerSources.length || 1) * ( windowWidth * 9/16 ) }
+    if ( this.props.sourceType === 'tw' ) playerWrapperStyle.maxHeight += chatHeight
+    
+    // Set PlayerContainer classes and styles
+    let playerContainerClass = []
+    if ( !this.props.isFullscreen ) playerContainerClass.push(classes.playerContainer)
+    if ( this.props.isFullscreen ) playerContainerClass.push(classes.playerContainerFullscreen)
+    if ( this.props.openState === 'minimized' ) playerContainerClass.push(classes.playerContainerMinimized)
+    let playerContainerStyle = {}
+    if ( windowWidth <= 1280 && this.props.openState === 'open' ) playerContainerStyle = { minHeight: (this.props.playerSources.length || 1) * ( windowWidth * 9/16 ) }
+    
+    // build the embed player elements to display
     const playerClass = [ classes.player ]
     if ( !this.props.isFullscreen ) playerClass.push(classes.playerFullscreen)
     if ( this.props.openState === 'minimized' ) playerClass.push(classes.playerMinimized)
-    // const playerClass          = ( !this.props.isFullscreen ) ? classes.player : classes.player + ' ' + classes.playerFullscreen
   
-    const showTwitchChat = (this.props.sourceType === 'tw' && playerChannelDetails.length > 0 && this.props.openState === 'open')
-  
-    // build the embed player elements to display
     const embedPlayers = this.props.playerSources.map( (videoId, index) => {
       let playerLayoutClass = classes['player' + index + 'layout' + layout + layoutVersion]
-      console.log(playerLayoutClass)
-      // let playerLayoutClass = classes['player' + index + 'layout5v2']
-      // let playerLayoutClass = classes['player' + index + 'layout6']
       return (
         <EmbedPlayer
           key={this.props.sourceType + ':' + videoId}
@@ -102,18 +107,26 @@ class PlayerWrapper extends React.Component {
         />
       )
     })
-    const onLayoutChange = (this.v2Layouts.indexOf(layout) !== -1) ? this.onLayoutChange : undefined
-    console.log(this.v2Layouts.indexOf(layout), layout, onLayoutChange);
-    return (
-      <div id="player-wrapper" className={['flex', playerWrapperClass].join(' ')}>
   
-        <div className={[...playerContainerClass].join(' ')}>
+    // Set player controls props
+    const fullscreenClass = (this.props.isFullscreen) ? 'fullscreen' : ''
+    const onLayoutChange = (this.v2Layouts.indexOf(layout) !== -1) ? this.onLayoutChange : undefined
+    
+    return (
+      <div id="player-wrapper" className={['flex', ...playerWrapperClass].join(' ')} style={playerWrapperStyle}>
+  
+        <div className={[...playerContainerClass].join(' ')} style={playerContainerStyle}>
           {embedPlayers}
         </div>
   
-        { !!showTwitchChat && 
-          (<TwitchChat hideChannelsList={this.props.hideChannelsList} chatChannels={playerChannelDetails.map( channelDetails => channelDetails.channel.name )} selectedChannel={this.props.chatChannel}/>)
-        }
+        { !!showTwitchChat && (
+          <TwitchChat 
+            hideChannelsList={this.props.hideChannelsList} 
+            chatChannels={playerChannelDetails.map( channelDetails => channelDetails.channel.name )} 
+            selectedChannel={this.props.chatChannel}
+            chatHeight={chatHeight}
+          />
+        )}
         
         <PlayerControls 
           className={[fullscreenClass].join(' ')}
@@ -129,6 +142,8 @@ class PlayerWrapper extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    windowWidth: state.window.width,
+    windowHeight: state.window.height,
     sourceType: state.player.sourceType,
     openState: state.player.openState,
     chatChannel: state.channelsList.chatChannel

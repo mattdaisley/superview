@@ -19,6 +19,7 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('md')]: {
       width: '100%',
+      maxHeight: '100%',
     }
   },
   playerWrapperMinimized: {

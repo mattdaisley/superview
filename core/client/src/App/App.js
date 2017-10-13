@@ -109,7 +109,14 @@ const styles = theme => ({
     bottom: 120
   },
   playerPersistentMobileOpen: {
-    top: 56,
+    // top: 56,
+    // bottom: 50,
+    // height: 'auto'
+    height: '100%',
+    paddingBottom: 50,
+    paddingTop: 56,
+    position: 'relative',
+    boxSizing: 'border-box',
   },
   player: {
     position: 'relative',
