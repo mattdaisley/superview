@@ -110,7 +110,8 @@ class PlayerWrapper extends React.Component {
   
     // Set player controls props
     const fullscreenClass = (this.props.isFullscreen) ? 'fullscreen' : ''
-    const onLayoutChange = (this.v2Layouts.indexOf(layout) !== -1) ? this.onLayoutChange : undefined
+    let onLayoutChange = undefined
+    if ( this.v2Layouts.indexOf(layout) !== -1 && windowWidth > 1280 ) { onLayoutChange = this.onLayoutChange }
     
     return (
       <div id="player-wrapper" className={['flex', ...playerWrapperClass].join(' ')} style={playerWrapperStyle}>

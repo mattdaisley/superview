@@ -12,7 +12,7 @@ import { getGoogleProfile, getYoutubeLoginStatus, youtubeLogout }  from '../../R
 const styles = theme => ({
   loginActionsHeader: {
     height: 64,
-    flex: 1,
+    // flex: 1,
     justifyContent: 'flex-end',
     [theme.breakpoints.up('md')]: {
       display: 'flex',

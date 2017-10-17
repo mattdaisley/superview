@@ -5,6 +5,7 @@ export const doApiRequest = (store, url) => {
   return new Promise( (resolve,reject) => {
 
     const options = {};
+    console.log(url)
     fetch(url, options)
       .then(resp => resp.json() )
       .then(json => {

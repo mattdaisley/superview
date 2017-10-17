@@ -34,7 +34,7 @@
     "build-local": "cd core/client && npm run build-local",
     "start": "node index.js",
     "start-prod": "pm2 start index.js",
-    "start-dev": "NODE_ENV=dev pm2 start index.js",
+    "start-dev": "NODE_ENV=dev node index.js",
     "restart": "rm /Users/mattdaisley/.pm2/logs/*.log; pm2 restart index",
     "stop": "pm2 stop index",
     "pretest": "npm run stop",

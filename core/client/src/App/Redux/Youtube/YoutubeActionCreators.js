@@ -189,14 +189,14 @@ export const youtubeSearch = (query) => {
   const requestEnpoint = 'search?q='
   const part = 'snippet'
   const type = 'video'
-  const limit = 10
+  const maxResults = 10
 
   return ({
     type: types.YOUTUBE_SEARCH,
     meta: {
       type: 'youtubeApi',
       clientId: clientId,
-      url: youtubeRequestUri + requestEnpoint + encodeURIComponent(query) + '&limit=' + limit + '&part=' + part + '&type=' + type,
+      url: youtubeRequestUri + requestEnpoint + encodeURIComponent(query) + '&maxResults=' + maxResults + '&part=' + part + '&type=' + type,
     }
   })
 }

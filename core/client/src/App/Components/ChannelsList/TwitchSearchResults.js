@@ -57,7 +57,7 @@ const TwitchSearchResults = (props) => {
 }
 
 TwitchSearchResults.propTypes = {
-  currentSources: PropTypes.arrayOf( PropTypes.object ).isRequired,
+  currentSources: PropTypes.arrayOf( PropTypes.object ),
   searchSources: PropTypes.arrayOf( PropTypes.object ).isRequired,
   addSource: PropTypes.func,
   className: PropTypes.any

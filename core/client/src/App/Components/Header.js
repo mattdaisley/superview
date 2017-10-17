@@ -14,6 +14,8 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
 
+import Search from '../Components/Search/Search'
+
 import LoginActions from './LoginActions/LoginActions';
 
 
@@ -32,9 +34,18 @@ const styles = theme => ({
     position: 'fixed',
     // overflow: 'hidden',
   },
+  appLogoText: {
+    maxWidth: 100
+  },
   menuButtonWrapper: {
-    marginLeft: 25,
-    marginRight: 25,
+    [theme.breakpoints.up('md')]: {
+      marginLeft: 25,
+      marginRight: 25,
+    },
+    [theme.breakpoints.down('md')]: {
+      marginLeft: 10,
+      marginRight: 10,
+    },
   }
 })
 
@@ -98,10 +109,12 @@ class Header extends React.Component {
           </div>
 
           { ( this.props.windowWidth > 1280 ) && (
-            <Typography type="title" className="App-logo-text flex-item-grow">
+            <Typography type="title" className={classNames(classes.appLogoText,"App-logo-text","flex-item-grow")}>
               SuperView
             </Typography>
           )}
+
+          <Search />
 
           <LoginActions isInHeader={true}/>
 

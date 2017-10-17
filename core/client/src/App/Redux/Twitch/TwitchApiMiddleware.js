@@ -176,6 +176,7 @@ const twitchApiMiddleware = store => next => action => {
       fetch(url, {headers: headers})
         .then(resp => resp.json())
         .then(json => {
+          console.log(json)
           let actionItem = { payload: [{status:'error'}] }
           if ( json._total > 0) {
             

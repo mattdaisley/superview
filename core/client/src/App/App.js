@@ -252,8 +252,12 @@ class App extends React.Component {
       palette: {
         primary: {
           ...blue,
-          A400: '#00e677',
+          A700: '#3A93F1',
         },
+        // primary: {
+        //   ...blue,
+        //   A400: '#00e677',
+        // },
         accent: green,
         secondary: blue,
         error: red,

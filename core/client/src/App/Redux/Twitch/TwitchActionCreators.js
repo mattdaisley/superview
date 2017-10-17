@@ -183,17 +183,18 @@ export const getTwitchFeatured = () => {
 }
 
 export const twitchSearch = ( query ) => {
-   const requestEnpoint = 'search/streams?query='
-   const limit = 10;
+  const requestEnpoint = 'search/streams?query='
+  // const limit = 10;
 
-   return ({
-     type: types.TWITCH_SEARCH,
-     meta: {
-       type: 'twitchApi',
-       clientId: clientId,
-       url: requestUri + requestEnpoint + encodeURIComponent(query) + '&limit=' + limit
-     }
-   })
+  return ({
+    type: types.TWITCH_SEARCH,
+    meta: {
+      type: 'twitchApi',
+      clientId: clientId,
+      // url: requestUri + requestEnpoint + encodeURIComponent(query) + '&limit=' + limit
+      url: requestUri + requestEnpoint + encodeURIComponent(query)
+    }
+  })
 }
 
 export const resetTwitchSearch = () => {

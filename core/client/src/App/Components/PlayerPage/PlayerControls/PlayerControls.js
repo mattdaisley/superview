@@ -81,7 +81,7 @@ class PlayerControls extends React.Component {
 
   render() {
 
-    const { classes, fullscreenContainer, playing } = this.props
+    const { fullscreenContainer, playing, classes } = this.props
     const { isFullscreen } = this.state
     const theme = (isFullscreen) ? darkTheme : lightTheme;
 

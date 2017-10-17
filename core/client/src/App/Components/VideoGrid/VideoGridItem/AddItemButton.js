@@ -44,7 +44,6 @@ const overrideStyles = {
   },
 }
 
-// const ItemImage = (props) => {
 class AddItemButton extends React.PureComponent {
   
   constructor(props) {
@@ -59,26 +58,22 @@ class AddItemButton extends React.PureComponent {
     this.handleClick      = this.handleClick.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if ( !nextProps.parentHover && nextState.hover ) return false;
-    return true;
-  }
-
-  handleMouseEnter() {
+  handleMouseEnter = () => {
     this.setState({hover:true})
-    this.props.onMouseEnter();
+    if ( this.props.onMouseEnter ) this.props.onMouseEnter();
   }
 
-  handleMouseLeave() {
+  handleMouseLeave = () => {
     this.setState({hover:false})
-    this.props.onMouseLeave();
+    if ( this.props.onMouseLeave ) this.props.onMouseLeave();
   }
 
-  handleClick() {
+  handleClick = (e) => {
+    e.preventDefault()
     this.props.onClick()
   }
 
-  render() {
+  render = () => {
     const {
       parentHover,
       windowWidth
@@ -89,19 +84,21 @@ class AddItemButton extends React.PureComponent {
     let addButtonClass = [classes.addButton];
 
     if ( !!this.state.hover ) { addButtonClass.push(classes.addHover) };
-    if ( windowWidth <= 1280 ) { 
-      addButtonClass.push(classes.parentHover)
-      addButtonClass.push(classes.addHover)
-    } else {
-      if ( !!parentHover ) { addButtonClass.push(classes.parentHover) } else { addButtonClass.push(classes.addButtonOut) };
+    if ( parentHover !== undefined ) {
+      if ( windowWidth <= 1280 ) { 
+        addButtonClass.push(classes.parentHover)
+        addButtonClass.push(classes.addHover)
+      } else {
+        if ( !!parentHover ) { addButtonClass.push(classes.parentHover) } else { addButtonClass.push(classes.addButtonOut) };
+      }
     }
 
-
     
-    // console.log(classes, addButtonClass)
     return (
       <Button style={overrideStyles.addButton} fab color="accent" aria-label="edit" className={addButtonClass.join(' ')}
-        onMouseEnter={ this.handleMouseEnter } onMouseLeave={ this.handleMouseLeave } onClick={ this.handleClick } >
+        onMouseEnter={ this.handleMouseEnter } 
+        onMouseLeave={ this.handleMouseLeave } 
+        onClick={ this.handleClick } >
         <AddIcon/>
       </Button>
     );
