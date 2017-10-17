@@ -212,7 +212,6 @@ class App extends React.Component {
   updateWindowDimensions = debounce(() => {
     const width = window.innerWidth
     const height = window.innerHeight
-    console.log('updateWindowDimensions', width, height)
     
     this.props.setWindowWidth(width)
     this.props.setWindowHeight(height)

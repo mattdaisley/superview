@@ -5,7 +5,7 @@ export const doApiRequest = (store, url) => {
   return new Promise( (resolve,reject) => {
 
     const options = {};
-    console.log(url)
+    // console.log(url)
     fetch(url, options)
       .then(resp => resp.json() )
       .then(json => {
@@ -16,7 +16,7 @@ export const doApiRequest = (store, url) => {
         }
       })
       .catch(err => { 
-        console.log('error:',err); 
+        // console.log('error:',err); 
         reject(err) }  
       )
         
