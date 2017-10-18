@@ -8,9 +8,8 @@ export const doYoutubeRequest = (store, url, options = {} ) => {
   return new Promise( (resolve,reject) => {
     
     if ( getToken() !== null ) {
-      options.headers = {
-        'Authorization': 'Bearer ' + getToken()
-      }
+      if ( !options.headers ) options.headers = {}
+      options.headers.Authorization = 'Bearer ' + getToken()
     } else {
       url += '&key=' + config.clientId
     }

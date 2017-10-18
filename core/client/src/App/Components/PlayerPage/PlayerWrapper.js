@@ -41,7 +41,6 @@ class PlayerWrapper extends React.Component {
     if ( nextProps.playerChannelDetails.length > 0 ) {
       this.setChatChannel(nextProps.playerChannelDetails[0].channel.name)
     }
-    console.log(!compareArrays(nextProps.playerSources, this.props.playerSources), nextProps.playerSources, this.props.playerSources)
     if ( !compareArrays(nextProps.playerSources, this.props.playerSources) || this.state.layout === undefined ) {
       const layout = PlayerUtils.getDefaultLayout(nextProps.playerSources)
       this.setState({layout: layout})
@@ -54,10 +53,8 @@ class PlayerWrapper extends React.Component {
 
   onLayoutChange() {
     const layout = this.state.layout
-    console.log(this.state.layout,this.v2Layouts.indexOf(layout));
     if ( this.v2Layouts.indexOf(layout) !== -1 ) {
       let newLayoutVersion = ( this.state.layoutVersion !== 'v2' ) ? 'v2' : ''
-      console.log(newLayoutVersion)
       this.setState( { layoutVersion: newLayoutVersion } )
     }
   }

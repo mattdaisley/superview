@@ -5,6 +5,7 @@ export const initialState = {
   googleProfile: undefined,
   youtubeSearchResults: [],
   youtubePopularResults: [],
+  youtubeChannelSubscriptions: [],
   youtubeRecentResults: [],
   youtubeVideoRatings: [],
 }
@@ -22,9 +23,13 @@ export const reducer = (state = initialState, action) => {
     case types.RESET_YOUTUBE_SEARCH:
       return { ...state, youtubeSearchResults: [] }
     case types.YOUTUBE_POPULAR:
-      return { ...state, youtubePopularResults: action.payload }
+      return { ...state, youtubePopularResults: [ ...action.payload ] }
     case types.YOUTUBE_RECENT:
-      return { ...state, youtubeRecentResults: action.payload }
+      return { ...state, youtubeRecentResults: [ ...action.payload ] }
+    case types.SET_CHANNEL_SUBSCRIPTIONS:
+      return { ...state, youtubeChannelSubscriptions: [ ...action.payload ] }
+    case types.RESET_CHANNEL_SUBSCRIPTIONS:
+      return { ...state, youtubeChannelSubscriptions: [] }
     case types.SET_VIDEO_RATINGS:
       return { ...state, youtubeVideoRatings: [ ...action.payload ] }
     case types.RESET_VIDEO_RATINGS:

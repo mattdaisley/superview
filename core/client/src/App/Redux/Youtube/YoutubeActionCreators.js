@@ -243,14 +243,50 @@ export const getYoutubeRecent = ( videoIds ) => {
 
 }
 
-export const rateYoutubeVideo = ( videoId, rating ) => {
-  const requestEnpoint = 'videos/rate'
+export const getChannelSubscriptions = ( arrChannelIds ) => {
+  const requestEnpoint = 'subscriptions'
+  const part = 'snippet,contentDetails'
+  const channelIds = arrChannelIds.join(',')
 
   return ({
-    type: types.YOUTUBE_VIDEO_RATE,
+    type: types.GET_CHANNEL_SUBSCRIPTIONS,
     meta: {
       type: 'youtubeApi',
-      url: youtubeRequestUri + requestEnpoint + '?id=' + videoId + '&rating=' + rating,
+      url: youtubeRequestUri + requestEnpoint + '?part='+part+'&forChannelId='+channelIds+'&mine=true'
+    }
+  })
+}
+
+export const setChannelSubscriptions = ( subscriptions ) => {
+  return ({
+    type: types.SET_CHANNEL_SUBSCRIPTIONS,
+    payload: subscriptions
+  })
+}
+
+export const youtubeSubscribe = ( channelId ) => {
+  let requestEnpoint = 'subscriptions'
+  const part = 'snippet'
+  const body = '{ "snippet": { "resourceId": { "kind": "youtube#channel", "channelId": "' + channelId + '" } } }'
+  
+  return ({
+    type: types.YOUTUBE_SUBSCRIBE,
+    meta: {
+      type: 'youtubeApi',
+      url: youtubeRequestUri + requestEnpoint + '?part=' + part,
+      body: body
+    }
+  })
+}
+
+export const youtubeUnsubscribe = ( subscriptionId ) => {
+  let requestEnpoint = 'subscriptions'
+  
+  return ({
+    type: types.YOUTUBE_UNSUBSCRIBE,
+    meta: {
+      type: 'youtubeApi',
+      url: youtubeRequestUri + requestEnpoint + '?id=' + subscriptionId
     }
   })
 }
@@ -270,5 +306,17 @@ export const setVideoRatings = ( videoIds ) => {
 export const resetVideoRatings = () => {
   return ({
     type: types.RESET_VIDEO_RATINGS
+  })
+}
+
+export const rateYoutubeVideo = ( videoId, rating ) => {
+  const requestEnpoint = 'videos/rate'
+
+  return ({
+    type: types.YOUTUBE_VIDEO_RATE,
+    meta: {
+      type: 'youtubeApi',
+      url: youtubeRequestUri + requestEnpoint + '?id=' + videoId + '&rating=' + rating,
+    }
   })
 }

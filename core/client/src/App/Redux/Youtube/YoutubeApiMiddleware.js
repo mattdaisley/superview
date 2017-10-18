@@ -1,6 +1,6 @@
 import * as types from '../Types'
 
-import { getYoutubeChannelDetails, youtubeAddRetry, setYoutubeLoggedIn } from './YoutubeActionCreators'
+import { getYoutubeChannelDetails, youtubeAddRetry, setYoutubeLoggedIn, setChannelSubscriptions } from './YoutubeActionCreators'
 
 import { setChannels } from '../ChannelsList/ChannelsListActionCreators'
 
@@ -101,6 +101,59 @@ const youtubeApiMiddleware = store => next => action => {
         })
         .catch( err => handleApiError(err, store, action) )
       break
+
+    case types.GET_CHANNEL_SUBSCRIPTIONS:
+      fetchResults(store, isLoggedIn, url)
+        .then(json => {
+          if ( json.pageInfo.totalResults > 0 ) {
+            const results = formatSubscriptionResults(json.items);
+            store.dispatch(setChannelSubscriptions(results));
+          }
+          
+        })
+        .catch( err => handleApiError(err, store, action) )
+      break
+    case types.YOUTUBE_SUBSCRIBE:
+      const postChannelSubscription = ( url ) => {
+        if ( !!getToken() ) {
+          if ( !!isLoggedIn ) {
+            return doYoutubeRequest(store, url, {method: 'POST', headers: { 'content-type': 'application/json; charset=UTF-8' }, body: action.meta.body})
+          } else if ( getToken() !== null ) {
+            return Promise.reject({retry:true})
+          }
+        } else {
+          return Promise.reject({retry:false})
+        }
+      }
+      
+      postChannelSubscription(url)
+        .then(json => {
+          const results = formatSubscriptionResults([json]);
+          const oldSubscriptions = store.getState().youtubeBrowse.youtubeChannelSubscriptions;
+          store.dispatch(setChannelSubscriptions([ ...oldSubscriptions, ...results ]));
+        })
+        .catch( err => handleApiError(err, store, action) )
+      break
+    case types.YOUTUBE_UNSUBSCRIBE:
+      const deleteChannelSubscription = ( url ) => {
+        if ( !!getToken() ) {
+          if ( !!isLoggedIn ) {
+            return doYoutubeRequest(store, url, {method: 'DELETE'})
+          } else if ( getToken() !== null ) {
+            return Promise.reject({retry:true})
+          }
+        } else {
+          return Promise.reject({retry:false})
+        }
+      }
+      
+      deleteChannelSubscription(url)
+        .then(json => {
+          // console.log(json)
+        })
+        .catch( err => handleApiError(err, store, action) )
+      break
+
     case types.SET_VIDEO_RATINGS:
     
       fetchResults(store, isLoggedIn, url)
@@ -115,7 +168,7 @@ const youtubeApiMiddleware = store => next => action => {
         .catch( err => handleApiError(err, store, action) )
       break
     case types.YOUTUBE_VIDEO_RATE:
-      const pushRequest = ( url ) => {
+      const postVideoRating = ( url ) => {
         if ( !!getToken() ) {
           if ( !!isLoggedIn ) {
             return doYoutubeRequest(store, url, {method: 'POST'})
@@ -127,7 +180,7 @@ const youtubeApiMiddleware = store => next => action => {
         }
       }
       
-      pushRequest(url)
+      postVideoRating(url)
         .then(json => {
           // if ( json.pageInfo.totalResults > 0 ) {
           //   const results = formatSearchResult(json.items);
@@ -194,6 +247,17 @@ const handleApiError = ( err, store, action ) => {
     }
     store.dispatch( youtubeAddRetry(retryOptions) )
   }
+}
+
+const formatSubscriptionResults = ( subscriptions ) => {
+  
+  return [...subscriptions].map( subscription => {
+    return {
+      source_type: 'yt',
+      id: subscription.id,
+      channel_id: subscription.snippet.resourceId.channelId,
+    }
+  })
 }
 
 

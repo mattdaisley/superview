@@ -43,7 +43,7 @@ const playerMiddleware = store => next => action => {
         newPlayers[sourceType + ':' + sourceId] = { id: sourceId, sourceType, playerObject } 
       }
       dispatchNewAction( store, action, { players: newPlayers });
-      playPlayersIfReady( store, sourceType, newPlayers )
+      // playPlayersIfReady( store, sourceType, newPlayers )
       break;
     case types.PLAYER_DEREGISTER:
       dispatchNewAction(store, action, { players: deRegisterPlayer(store, action.meta) })

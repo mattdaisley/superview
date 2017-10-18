@@ -9,7 +9,6 @@ import ViewModuleIcon from 'material-ui-icons/ViewModule';
 import ToggleFullscreenButton from '../Buttons/ToggleFullscreenButton/ToggleFullscreenButton';
 
 const MainControls = (props) => {
-  console.log(props)
   return (
     <div className="controls-container right-controls flex-item">
       <Grid className="controls-grid" container spacing={0} direction="row" align="center" justify="center">

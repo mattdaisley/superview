@@ -5,9 +5,10 @@ import NumberFormat from 'react-number-format';
 
 import Avatar from 'material-ui/Avatar';
 
+import SubscribeButton from './SubscribeButton/SubscribeButton'
 import RatingButtons from './RatingButtons/RatingButtons'
 
-import { rateYoutubeVideo, setVideoRatings, resetVideoRatings } from '../../../Redux/Youtube/YoutubeActionCreators';
+import { getChannelSubscriptions, setChannelSubscriptions, youtubeSubscribe, youtubeUnsubscribe, rateYoutubeVideo, setVideoRatings, resetVideoRatings } from '../../../Redux/Youtube/YoutubeActionCreators';
 import { compareArrays } from '../../../Util/utils'
 
 
@@ -17,17 +18,20 @@ class PlayerChannelDetails extends React.Component {
     super(props)
 
     this.setVideoRatings = this.setVideoRatings.bind(this)
+    this.toggleSubscribe = this.toggleSubscribe.bind(this)
     this.toggleLike      = this.toggleLike.bind(this)
     this.toggleDislike   = this.toggleDislike.bind(this)
     this.setRating       = this.setRating.bind(this)
     
     this.state = {
       playerChannelDetails: [],
-      videoRatings: []
+      videoRatings: [],
+      channelSubscriptions: []
     }
   }
 
   componentWillMount() {
+    this.getChannelSubscriptions(this.props)
     this.setVideoRatings(this.props)
   }
 
@@ -37,13 +41,22 @@ class PlayerChannelDetails extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if ( !compareArrays(this.props.channelDetails, nextProps.channelDetails ) ) {
+      this.getChannelSubscriptions(nextProps)
       this.setVideoRatings(nextProps)
     }
     if ( !compareArrays(this.props.videoRatings, nextProps.videoRatings ) ) {
       this.setState( { videoRatings: nextProps.videoRatings })
     }
+    if ( !compareArrays(this.props.channelSubscriptions, nextProps.channelSubscriptions ) ) {
+      this.setState( { channelSubscriptions: nextProps.channelSubscriptions })
+    }
   }
 
+  getChannelSubscriptions(props) {
+    if ( props.channelDetails.length > 0 ) {
+      if ( props.sourceType === 'yt') props.getChannelSubscriptions( props.channelDetails.map( playerChannel => playerChannel.channel.channel_id ))
+    }
+  }
 
   setVideoRatings(props) {
     if ( props.channelDetails.length > 0  ) {
@@ -53,6 +66,20 @@ class PlayerChannelDetails extends React.Component {
       })
       if ( props.sourceType === 'yt') props.setVideoRatings( props.channelDetails.map( playerChannel => playerChannel.id ))
     }
+  }
+  
+  toggleSubscribe(id) {
+    const { channelSubscriptions } = this.state
+    const { youtubeSubscribe, youtubeUnsubscribe, setChannelSubscriptions } = this.props
+
+    let subscriptions = channelSubscriptions.filter( subscription => subscription.channel_id === id )
+    if ( subscriptions.length === 0 ) {
+      youtubeSubscribe(id)
+    } else {
+      youtubeUnsubscribe(subscriptions[0].id)
+      setChannelSubscriptions(channelSubscriptions.filter( subscription => subscription.channel_id !== id ))
+    }
+    
   }
 
   toggleLike(id) {
@@ -105,7 +132,7 @@ class PlayerChannelDetails extends React.Component {
   }
 
   render() {
-    const { playerChannelDetails, videoRatings } = this.state;
+    const { playerChannelDetails, channelSubscriptions, videoRatings } = this.state;
   
     return (
       <div style={{
@@ -117,31 +144,42 @@ class PlayerChannelDetails extends React.Component {
         </div> */}
         <div style={{width: '70%'}}>
         { (playerChannelDetails.length > 0) && 
-          playerChannelDetails.map( (playerChannel, index) => (
-            <div key={playerChannel.id} style={{display: 'flex', padding: 12}}>
-              <Avatar alt={playerChannel.channel.title} src={playerChannel.channel.logo} />
-              <div style={{paddingLeft: 8, display: 'flex', flexDirection: 'column', flex: 1}}>
-                
-                <div style={{display: 'flex', alignItems: 'center', borderBottom: '1px solid #ccc', paddingBottom: 5}}>
-                  <div style={{flex: 1, color: '#444', fontSize: 14, lineHeight: '1.7em'}}>
-                    <div style={{fontWeight: 500}}>{playerChannel.channel.title}</div>
-                    <div style={{fontSize: 16}}>{playerChannel.title}</div>
-                    { playerChannel.stats.views && ( <div><NumberFormat value={parseInt(playerChannel.stats.views, 10)} thousandSeparator={true} displayType={'text'} /> views</div> )}
-                  </div>
+          playerChannelDetails.map( (playerChannel, index) => {
+            const subscription = channelSubscriptions.filter( subscription => subscription.channel_id === playerChannel.channel.channel_id )
+            const isSubscribed = ( subscription.length > 0 ) ? true : false
+            return (
+              <div key={playerChannel.id} style={{display: 'flex', padding: 12}}>
+                <Avatar alt={playerChannel.channel.title} src={playerChannel.channel.logo} />
+                <div style={{paddingLeft: 8, display: 'flex', flexDirection: 'column', flex: 1}}>
                   
-                  { playerChannel.source_type === 'yt' && (
-                    <RatingButtons
-                      playerChannel={playerChannel}
-                      rating={videoRatings.filter( rating => rating.videoId === playerChannel.id )}
-                      toggleLike={this.toggleLike}
-                      toggleDislike={this.toggleDislike} />
-                  )}
+                  <div style={{display: 'flex', alignItems: 'center', borderBottom: '1px solid #ccc', paddingBottom: 5}}>
+                    <div style={{flex: 1, color: '#444', fontSize: 14, lineHeight: '1.7em'}}>
+                      <div style={{fontWeight: 500}}>{playerChannel.channel.title}</div>
+                      <div style={{fontSize: 16}}>{playerChannel.title}</div>
+                      { playerChannel.stats.views && ( <div><NumberFormat value={parseInt(playerChannel.stats.views, 10)} thousandSeparator={true} displayType={'text'} /> views</div> )}
+                    </div>
+
+                    { playerChannel.source_type === 'yt' && (
+                      <RatingButtons
+                        playerChannel={playerChannel}
+                        rating={videoRatings.filter( rating => rating.videoId === playerChannel.id )}
+                        toggleLike={this.toggleLike}
+                        toggleDislike={this.toggleDislike} />
+                    )}
+                    
+                    { playerChannel.source_type === 'yt' && (
+                      <SubscribeButton 
+                        playerChannel={playerChannel}
+                        isSubscribed={isSubscribed}
+                        toggleSubscribe={this.toggleSubscribe} />
+                    )}
+
+                  </div>
 
                 </div>
-
               </div>
-            </div>
-          ))
+            )
+          })
         }
         </div>
         <div style={{width: '30%'}}></div>
@@ -153,14 +191,19 @@ class PlayerChannelDetails extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    channelSubscriptions: state.youtubeBrowse.youtubeChannelSubscriptions,
     videoRatings: state.youtubeBrowse.youtubeVideoRatings
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  rateYoutubeVideo: (videoId, rating) => dispatch(rateYoutubeVideo(videoId, rating)),
+  getChannelSubscriptions: (channels) => dispatch(getChannelSubscriptions(channels)),
+  setChannelSubscriptions: (subscriptions) => dispatch(setChannelSubscriptions(subscriptions)),
+  youtubeSubscribe: (channelId) => dispatch(youtubeSubscribe(channelId)),
+  youtubeUnsubscribe: (subscriptionId) => dispatch(youtubeUnsubscribe(subscriptionId)),
   setVideoRatings: (videoIds) => dispatch(setVideoRatings(videoIds)),
   resetVideoRatings: () => dispatch(resetVideoRatings()),
+  rateYoutubeVideo: (videoId, rating) => dispatch(rateYoutubeVideo(videoId, rating)),
 })
 
 PlayerChannelDetails.propTypes = {
