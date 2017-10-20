@@ -29,7 +29,7 @@ var oauth2Client = new OAuth2(
 passthrough = function passthrough(options) {
   
   return new Promise( (resolve, reject) => {
-    const validEndpoints = ['videos', 'channels']
+    const validEndpoints = ['videos', 'channels', 'search']
     const baseUri = 'https://www.googleapis.com/youtube/v3/'
 
     const url = options.query.url;
