@@ -10,7 +10,6 @@ import Toolbar    from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon   from 'material-ui-icons/Menu';
-import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
 
@@ -30,7 +29,7 @@ const styles = theme => ({
   },
   topNavAppBar: {
     backgroundColor: 'white',
-    zIndex: 11000,
+    zIndex: 10000,
     position: 'fixed',
     // overflow: 'hidden',
   },
@@ -95,17 +94,9 @@ class Header extends React.Component {
       <AppBar position="fixed" className={classNames(classes.topNavAppBar, this.props.isSideNavOpen && classes.topNavAppBarShift)}>
         <Toolbar disableGutters className="flex">
           <div className={classes.menuButtonWrapper}>
-            { !this.props.isSideNavOpen && (
-              <IconButton className="menu-button" aria-label="Menu" onClick={this.props.handleSideNavOpen}>
-                <MenuIcon />
-              </IconButton>
-            )}
-
-            { !!this.props.isSideNavOpen && (
-              <IconButton className="menu-button" onClick={this.props.handleSideNavClose}>
-                <ChevronLeftIcon />
-              </IconButton>
-            )}
+            <IconButton className="menu-button" aria-label="Menu" onClick={this.props.handleSideNavOpen}>
+              <MenuIcon />
+            </IconButton>
           </div>
 
           { ( this.props.windowWidth > 1280 ) && (

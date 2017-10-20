@@ -2,6 +2,7 @@ import React       from 'react';
 import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
 
+import Avatar     from 'material-ui/Avatar';
 import Button     from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 
@@ -42,12 +43,18 @@ const styles = theme => ({
     padding: '8px 25px',
     color: '#444',
     fontSize: 14,
+    alignItems: 'center'
   },
-  profileTw: {
-    borderBottom: '2px solid #653F99'
+  avatar: {
+    width: 30,
+    height: 30,
+    marginRight: 8,
   },
-  profileYt: {
-    borderBottom: '2px solid #FB0013'
+  avatarTw: {
+    border: '2px solid #653F99'
+  },
+  avatarYt: {
+    border: '2px solid #FB0013'
   },
   inSideNav: {
     width: '100%',
@@ -62,7 +69,7 @@ const styles = theme => ({
   },
 })
 
-class LoginActionsButton extends React.PureComponent {
+class LoginActionsButton extends React.Component {
   
   constructor(props) {
     super(props);
@@ -89,6 +96,7 @@ class LoginActionsButton extends React.PureComponent {
   }
 
   checkProfile( props ) {
+    console.log('checkingProfile', props)
     const { sourceType, profile } = props;
 
     if ( !profile ) return;
@@ -101,8 +109,8 @@ class LoginActionsButton extends React.PureComponent {
   }
 
   formatProfile( sourceType, profile ) {
-    if ( sourceType === 'yt' ) return { displayName: profile.displayName }
-    if ( sourceType === 'tw' ) return { displayName: profile.display_name }
+    if ( sourceType === 'yt' ) return { displayName: profile.displayName, avatar: profile.image.url }
+    if ( sourceType === 'tw' ) return { displayName: profile.display_name, avatar: (profile.logo || 'https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png') }
   }
 
   getLoginActionsButtonWrapper() {
@@ -110,6 +118,7 @@ class LoginActionsButton extends React.PureComponent {
     const { loadingProfile, isProfileSet } = this.state;
     let result = [ classes.wrapper ]
 
+    console.log('loadingProfle:', loadingProfile, sourceLoggedIn, isProfileSet, isInHeader)
     if ( loadingProfile ) return [ ...result, classes.wrapperOut ]
     if ( sourceLoggedIn  ) {
       if ( isProfileSet ) {
@@ -130,6 +139,7 @@ class LoginActionsButton extends React.PureComponent {
     const { profile, source } = this.state;
 
     const wrapperClass = this.getLoginActionsButtonWrapper();
+    console.log(wrapperClass)
 
     let loginWrapper   = [ classes.actionStateWrapper ]
     let loginButton    = [ classes[sourceType] ]
@@ -139,14 +149,20 @@ class LoginActionsButton extends React.PureComponent {
     if ( !isInHeader ) logoutButton.push( classes.inSideNav )
     let profileWrapper = [ classes.actionStateWrapper ]
     let profileClass   = [ classes.profile ]
-    if ( sourceType === 'tw' ) profileClass.push(classes.profileTw)
-    if ( sourceType === 'yt' ) profileClass.push(classes.profileYt)
+    let avatarClass    = [ classes.avatar ]
+    if ( sourceType === 'tw' ) avatarClass.push(classes.avatarTw)
+    if ( sourceType === 'yt' ) avatarClass.push(classes.avatarYt)
 
     return (
       <div className={classes.container}>
         <div className={wrapperClass.join(' ')}>
           <div className={loginWrapper.join(' ')}><Button className={logoutButton.join(' ')} onClick={onLoginClick}>Login to {source}</Button></div>
-          <div className={profileWrapper.join(' ')}><div className={profileClass.join(' ')}>{profile.displayName}</div></div>
+          <div className={profileWrapper.join(' ')}>
+            <div className={profileClass.join(' ')}>
+              <Avatar alt={profile.displayName} src={profile.avatar} className={avatarClass.join(' ')}/>
+              {profile.displayName}
+            </div>
+          </div>
           <div className={logoutWrapper.join(' ')}><Button className={logoutButton.join(' ')} onClick={onLogoutClick}>Logout of {source}</Button></div>
         </div>
       </div>

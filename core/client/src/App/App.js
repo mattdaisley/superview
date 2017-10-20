@@ -12,7 +12,7 @@ import { setWindowWidth, setWindowHeight } from './Redux/Window/WindowActionCrea
 
 import Header  from './Components/Header'
 import Main    from './Components/Main'
-import SideNav from './Components/SideNav'
+import SideNav from './Components/SideNav/SideNav'
 import ChannelsList from './Components/ChannelsList/ChannelsList'
 import Player  from './Components/PlayerPage/Player'
 import PlayerMinimizedHeader from './Components/PlayerPage/PlayerMinimizedHeader'
@@ -33,7 +33,7 @@ const playerTitleHeight = 40
 
 const styles = theme => ({
   sideNav: {
-    zIndex: 10000,
+    zIndex: 11000,
     position: 'fixed',
     [theme.breakpoints.up('md')]: {
       display: 'block',
@@ -295,41 +295,45 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <Router>
-          <div className="router-container">
-            <Header isSideNavOpen={this.state.isSideNavOpen} handleSideNavOpen={this.handleSideNavOpen} handleSideNavClose={this.handleSideNavClose}/>
-
-            <Main />
-
-            {/* <Player /> */}
-            {/* <Dialog
-              fullScreen
-              open={this.props.isPlayerOpen}
-              onRequestClose={this.handleRequestClose}
-              transition={<Slide direction="up" />}
-            > */}
-            { this.props.openState !== 'closed' && (
-              <div className={playerClass.join(' ')}>
-                { this.props.openState === 'minimized' && (
-                  <PlayerMinimizedHeader 
-                    sourceType={this.props.sourceType} 
-                    playerClose={() => this.props.playerClose()} />
-                )}
-                <div className={classes.player}>
-
-                  <div className={[classes.placeholderContainer, placeholderCtrOpenClass, placeholderCtrHiddenClass].join(' ')}>
-                    <div className={[classes.placeholder, placeholderOpenClass].join(' ')}></div>
-                  </div>
-
-                  <Player />
-                </div>
-              </div>
-            )}
-            {/* </Dialog> */}
+          <div>
 
             {/* <div className={classes.sideNav}><SideNav isSideNavOpen={this.state.isSideNavOpen}/></div> */}
-            <SideNav isSideNavOpen={this.state.isSideNavOpen} handleSideNavClose={this.handleSideNavClose}/>
+            <SideNav isSideNavOpen={this.state.isSideNavOpen} handleSideNavClose={this.handleSideNavClose} />
 
-            <ChannelsList source={source}/>
+            <div>
+
+              <Header isSideNavOpen={this.state.isSideNavOpen} handleSideNavOpen={this.handleSideNavOpen} />
+
+              <Main />
+
+              {/* <Player /> */}
+              {/* <Dialog
+                fullScreen
+                open={this.props.isPlayerOpen}
+                onRequestClose={this.handleRequestClose}
+                transition={<Slide direction="up" />}
+              > */}
+              { this.props.openState !== 'closed' && (
+                <div className={playerClass.join(' ')}>
+                  { this.props.openState === 'minimized' && (
+                    <PlayerMinimizedHeader 
+                      sourceType={this.props.sourceType} 
+                      playerClose={() => this.props.playerClose()} />
+                  )}
+                  <div className={classes.player}>
+
+                    <div className={[classes.placeholderContainer, placeholderCtrOpenClass, placeholderCtrHiddenClass].join(' ')}>
+                      <div className={[classes.placeholder, placeholderOpenClass].join(' ')}></div>
+                    </div>
+
+                    <Player />
+                  </div>
+                </div>
+              )}
+              {/* </Dialog> */}
+
+              <ChannelsList source={source}/>
+            </div>
           </div>
         </Router>
       </MuiThemeProvider>
