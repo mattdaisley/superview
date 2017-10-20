@@ -58,9 +58,15 @@ oauth2Routes = function oauth2Routes(middleware) {
                 if(err) console.log(err);
                 // console.log(err, 'response', body);
                 // console.log('setting twitch token cookies');
-                const token = JSON.parse(utils.decrypt(body));
-                
-                res.send(token)
+                try {
+                    const token = JSON.parse(utils.decrypt(body));
+                    
+                    res.send(token)
+                } catch( error ) {
+                    if ( error ) {
+                        res.send(error)
+                    }
+                }
             });
         } else {
             res.status(401).send({ error: { message: 'no refresh token provided' } });

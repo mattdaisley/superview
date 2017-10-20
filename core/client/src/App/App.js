@@ -183,20 +183,33 @@ class App extends React.Component {
     const hash = window.location.hash
 
     if ( hash ) {
+      console.log(hash)
       const response = querystring.parse(hash.substr(1))
       const expiresIn = response.expiry_date ? parseInt(response.expiry_date, 10) : NaN
       const state = ( response.state ) ? response.state.split(',') : []
       const referrer = state[1] || '/'
 
       if (response.twitch_access_token) {
-        let result = {
+        let twitchResult = {
           token: response.twitch_access_token,
           refresh: response.twitch_refresh_token,
           expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
           referrer,
         }
         if ( state.length > 0 && state[0] === 'twitchLoggedIn' ) {
-          this.props.twitchLoginSuccess(result)
+          this.props.twitchLoginSuccess(twitchResult)
+        }
+      }
+
+      if ( response.google_access_token ) {
+        let googleResult = {
+          token: response.google_access_token,
+          refresh: response.google_refresh_token,
+          expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
+          referrer
+        }
+        if ( state.length > 0 && state[0] === 'googleLoggedIn' ) {
+          this.props.youtubeLoginSuccess(googleResult)
         }
       }
     }

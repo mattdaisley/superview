@@ -39,8 +39,7 @@ class SideNavLoginActions extends React.Component {
 }
 
 SideNavLoginActions.propTypes = {
-  navLinks: PropTypes.array,
-  handleSideNavClose: PropTypes.func,
+  isSideNavOpen: PropTypes.bool,
 }
 
 export default withStyles(styles)(SideNavLoginActions);
