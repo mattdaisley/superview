@@ -70,7 +70,7 @@ class AddItemButton extends React.PureComponent {
 
   handleClick = (e) => {
     e.preventDefault()
-    this.props.onClick()
+    this.props.onClick(e)
   }
 
   render = () => {

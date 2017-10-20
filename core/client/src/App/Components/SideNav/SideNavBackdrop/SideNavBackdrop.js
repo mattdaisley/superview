@@ -38,7 +38,7 @@ class SideNavBackdrop extends React.Component {
 }
 
 SideNavBackdrop.propTypes = {
-  isSideNavOpen: PropTypes.func,
+  isSideNavOpen: PropTypes.bool,
   onClick: PropTypes.func,
 }
 

@@ -172,8 +172,9 @@ class SideNav extends React.Component {
 
     return (
       [
-        <SideNavBackdrop isSideNavOpen={this.props.isSideNavOpen} onClick={this.props.handleSideNavClose} />,
+        <SideNavBackdrop key="SideNavBackdrop" isSideNavOpen={this.props.isSideNavOpen} onClick={this.props.handleSideNavClose} />,
         <Drawer
+          key="Drawer"
           type={drawerType}
           open={this.props.isSideNavOpen}
           onClick={this.props.handleSideNavClose}

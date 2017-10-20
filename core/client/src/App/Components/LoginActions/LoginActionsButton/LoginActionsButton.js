@@ -96,7 +96,6 @@ class LoginActionsButton extends React.Component {
   }
 
   checkProfile( props ) {
-    console.log('checkingProfile', props)
     const { sourceType, profile } = props;
 
     if ( !profile ) return;
@@ -118,7 +117,6 @@ class LoginActionsButton extends React.Component {
     const { loadingProfile, isProfileSet } = this.state;
     let result = [ classes.wrapper ]
 
-    console.log('loadingProfle:', loadingProfile, sourceLoggedIn, isProfileSet, isInHeader)
     if ( loadingProfile ) return [ ...result, classes.wrapperOut ]
     if ( sourceLoggedIn  ) {
       if ( isProfileSet ) {
@@ -139,7 +137,6 @@ class LoginActionsButton extends React.Component {
     const { profile, source } = this.state;
 
     const wrapperClass = this.getLoginActionsButtonWrapper();
-    console.log(wrapperClass)
 
     let loginWrapper   = [ classes.actionStateWrapper ]
     let loginButton    = [ classes[sourceType] ]

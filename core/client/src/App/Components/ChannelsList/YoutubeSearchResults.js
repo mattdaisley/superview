@@ -71,7 +71,6 @@ class YoutubeSearchResults extends React.Component {
 
         const title = ( windowWidth > 960 ) ? video.title : truncateText(video.title, 47)
         const description = ( windowWidth > 960 ) ? video.description : null
-        console.log(video)
         return (
           <ListItem button 
             key={video.id + index} 
@@ -83,12 +82,12 @@ class YoutubeSearchResults extends React.Component {
 
             <ListItemText primary={title} secondary={(
               // <div>Views etc.</div>
-              <div>{description}</div>
+              <span>{description}</span>
             )} />
 
             <ListItemSecondaryAction
               classes={{root: classes.secondaryActionRoot}}>
-              <AddItemButton onClick={() => this.handleAddClick(video)} />
+              <AddItemButton onClick={(e) => { e.preventDefault(); this.handleAddClick(video) } } />
             </ListItemSecondaryAction>
           </ListItem>
         )
