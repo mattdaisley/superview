@@ -206,7 +206,8 @@ class App extends React.Component {
           token: response.google_access_token,
           refresh: response.google_refresh_token,
           expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
-          referrer
+          referrer,
+          google_user_id: response.google_user_id
         }
         if ( state.length > 0 && state[0] === 'googleLoggedIn' ) {
           this.props.youtubeLoginSuccess(googleResult)
