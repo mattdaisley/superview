@@ -4,7 +4,8 @@ import PropTypes   from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 
 // import TwitchSearchResults    from '../../../Components/ChannelsList/TwitchSearchResults'
-import YoutubeSearchResults   from '../../../Components/ChannelsList/YoutubeSearchResults'
+import YoutubeSearchResults   from './YoutubeSearchResults/YoutubeSearchResults'
+import YoutubeChannelSearchResult from './YoutubeChannelSearchResult/YoutubeChannelSearchResult'
 
 const styles = theme => ({
   searchResults: {
@@ -37,7 +38,7 @@ class SearchResults extends React.Component {
 
   render = () => {
 
-    const { hidden, sources, gotoSource, addSource, classes } = this.props
+    const { hidden, videoSources, channelSources, gotoSource, addSource, classes } = this.props
 
     let searchResultsClasses = [ classes.searchResults ]
     if ( hidden ) searchResultsClasses.push(classes.hidden)
@@ -48,10 +49,19 @@ class SearchResults extends React.Component {
           searchSources={twitchSearchResults} 
           addSource={() => console.log('added twitch')} 
         /> */}
-        <YoutubeSearchResults 
-          sources={sources} 
-          gotoSource={gotoSource}
-          addSource={addSource} />
+        { channelSources.length > 0 && (
+          <YoutubeChannelSearchResult 
+            sources={channelSources} 
+            gotoSource={gotoSource}
+            addSource={addSource} />
+        )}
+
+        { videoSources.length > 0 && (
+          <YoutubeSearchResults 
+            sources={videoSources} 
+            gotoSource={gotoSource}
+            addSource={addSource} />
+        )}
       </div>
     )
   }
@@ -59,7 +69,8 @@ class SearchResults extends React.Component {
 
 SearchResults.propTypes = {
   hidden: PropTypes.bool,
-  sources: PropTypes.array,
+  videoSources: PropTypes.array,
+  channelSources: PropTypes.array,
   gotoSource: PropTypes.func,
   addSource: PropTypes.func,
 }

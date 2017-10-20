@@ -2,22 +2,35 @@ import React       from 'react'
 import PropTypes   from 'prop-types'
 import { connect } from 'react-redux'
 
+import Avatar  from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider'
-import List, { ListItem, ListItemText, ListItemSecondaryAction, ListSubheader } from 'material-ui/List'
+import List, { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/List'
 import { withStyles } from 'material-ui/styles'
 
-// import PlayItemButton from '../../Components/VideoGrid/VideoGridItem/PlayItemButton'
-import AddItemButton  from '../../Components/VideoGrid/VideoGridItem/AddItemButton'
-
-import { truncateText } from '../../Util/utils';
+import { truncateText } from '../../../../Util/utils';
 
 const styles = theme => ({
   container: {
     display: 'flex'
   },
-  channelAvatar: {
+  avatarWrapper: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 16,
+    boxSizing: 'border-box',
     [theme.breakpoints.up('md')]: {
       maxWidth: 246
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 100
+    },
+  },
+  channelAvatar: {
+    width: '100%',
+    height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      maxWidth: 100
     },
     [theme.breakpoints.down('md')]: {
       maxWidth: 100
@@ -41,20 +54,10 @@ const styles = theme => ({
   }
 })
 
-class YoutubeSearchResults extends React.Component {
-  
-  constructor(props) {
-    super(props);
+class YoutubeChannelSearchResult extends React.Component {
 
-    this.handleAddClick = this.handleAddClick.bind(this);
-  }
-
-  handleItemClick = (video) => {
-    this.props.gotoSource(video)
-  }
-  
-  handleAddClick = (video) => {
-    this.props.addSource(video) 
+  handleItemClick = (channel) => {
+    this.props.gotoSource(channel)
   }
 
   render = () => {
@@ -67,27 +70,33 @@ class YoutubeSearchResults extends React.Component {
 
     if ( sources.length > 0 && !!sources[0] && !sources[0].status ) {
       
-      youtubeSearchList = sources.map( (video, index) => {
+      youtubeSearchList = sources.map( (channel, index) => {
 
-        const title = ( windowWidth > 960 ) ? video.title : truncateText(video.title, 47)
-        const description = ( windowWidth > 960 ) ? video.description : null
+        const title = ( windowWidth > 960 ) ? channel.title : truncateText(channel.title, 47)
+        const description = ( windowWidth > 960 ) ? channel.description : null
         return (
           <ListItem button 
-            key={video.id + index} 
-            title={video.title}
+            key={channel.channel_id} 
+            title={channel.title}
             classes={{secondaryAction: classes.listItemSecondaryAction}}
-            onClick={() => this.handleItemClick(video)} >
+            onClick={() => this.handleItemClick(channel)} >
 
-            <img alt={video.title} className={classes.channelAvatar} src={video.thumbnail} />
+            <div className={classes.avatarWrapper}>
+              <Avatar
+                alt={channel.title}
+                src={channel.logo}
+                className={classes.channelAvatar}
+              />
+            </div>
+            
 
             <ListItemText primary={title} secondary={(
               // <div>Views etc.</div>
               <span>{description}</span>
             )} />
 
-            <ListItemSecondaryAction
-              classes={{root: classes.secondaryActionRoot}}>
-              <AddItemButton onClick={(e) => { e.preventDefault(); this.handleAddClick(video) } } />
+            <ListItemSecondaryAction classes={{root: classes.secondaryActionRoot}}>
+
             </ListItemSecondaryAction>
           </ListItem>
         )
@@ -96,7 +105,7 @@ class YoutubeSearchResults extends React.Component {
 
     return (
       <div className={parentClassName}>
-        <List dense className="youtube-search-list" subheader={<ListSubheader disableSticky={true}>YouTube videos based on your search</ListSubheader>}>
+        <List dense className="youtube-search-list">
           <div className="youtube-search-wrapper">
               { sources.length > 0 && sources[0] && !sources[0].status &&
                 youtubeSearchList
@@ -109,10 +118,9 @@ class YoutubeSearchResults extends React.Component {
   }
 }
 
-YoutubeSearchResults.propTypes = {
+YoutubeChannelSearchResult.propTypes = {
   sources: PropTypes.arrayOf( PropTypes.object ).isRequired,
   gotoSource: PropTypes.func,
-  addSource: PropTypes.func,
   className: PropTypes.any
 }
 
@@ -124,6 +132,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
 })
 
-const YoutubeSearchResultsStyles = withStyles(styles)(YoutubeSearchResults)
+const YoutubeChannelSearchResultStyles = withStyles(styles)(YoutubeChannelSearchResult)
 
-export default connect(mapStateToProps, mapDispatchToProps)(YoutubeSearchResultsStyles)
+export default connect(mapStateToProps, mapDispatchToProps)(YoutubeChannelSearchResultStyles)

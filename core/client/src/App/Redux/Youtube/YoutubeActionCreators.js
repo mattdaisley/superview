@@ -207,6 +207,29 @@ export const resetYoutubeSearch = () => {
   })
 }
 
+export const youtubeChannelSearch = (query) => {
+  
+  const requestEnpoint = 'search?q='
+  const part = 'snippet'
+  const type = 'channel'
+  const maxResults = 1
+
+  return ({
+    type: types.YOUTUBE_CHANNEL_SEARCH,
+    meta: {
+      type: 'youtubeApi',
+      clientId: clientId,
+      url: youtubeRequestUri + requestEnpoint + encodeURIComponent(query) + '&maxResults=' + maxResults + '&part=' + part + '&type=' + type,
+    }
+  })
+}
+
+export const resetYoutubeChannelSearch = () => {
+  return ({
+    type: types.RESET_YOUTUBE_CHANNEL_SEARCH
+  })
+}
+
 export const getYoutubePopular = () => {
   
   const requestEnpoint = 'videos'

@@ -183,7 +183,7 @@ class App extends React.Component {
     const hash = window.location.hash
 
     if ( hash ) {
-      console.log(hash)
+      // console.log(hash)
       const response = querystring.parse(hash.substr(1))
       const expiresIn = response.expiry_date ? parseInt(response.expiry_date, 10) : NaN
       const state = ( response.state ) ? response.state.split(',') : []

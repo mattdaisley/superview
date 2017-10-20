@@ -101,6 +101,21 @@ const youtubeApiMiddleware = store => next => action => {
         })
         .catch( err => handleApiError(err, store, action) )
       break
+    case types.YOUTUBE_CHANNEL_SEARCH:
+      fetchResults(store, isLoggedIn, url)
+        .then(json => {
+          let actionItem = { payload: [] }
+          if ( json.pageInfo.totalResults > 0 ) {
+            const results = formatChannelSearchResult(json.items);
+            if ( results.length > 0) actionItem = { payload: results }
+          }
+          
+          let newAction = Object.assign({}, action, actionItem);
+          delete newAction.meta;
+          store.dispatch(newAction);
+        })
+        .catch( err => handleApiError(err, store, action) )
+        break
 
     case types.GET_CHANNEL_SUBSCRIPTIONS:
       fetchResults(store, isLoggedIn, url)
@@ -278,6 +293,19 @@ const formatSearchResult = ( videos ) => {
     }
   })
 
+}
+
+const formatChannelSearchResult = ( channels ) => {
+  return [...channels].map( channel => {
+    return {
+      source_type: 'yt',
+      channel_id: channel.id.channelId || channel.id,
+      title: channel.snippet.channelTitle,
+      name: channel.snippet.channelTitle,
+      logo: channel.snippet.thumbnails.high.url,
+      description: channel.snippet.description
+    }
+  })
 }
 
 const formatVideos = ( videos ) => {

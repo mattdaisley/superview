@@ -4,6 +4,7 @@ import * as types from '../Types'
 export const initialState = {
   googleProfile: undefined,
   youtubeSearchResults: [],
+  youtubeChannelSearchResults: [],
   youtubePopularResults: [],
   youtubeChannelSubscriptions: [],
   youtubeRecentResults: [],
@@ -22,6 +23,10 @@ export const reducer = (state = initialState, action) => {
       return { ...state, youtubeSearchResults: action.payload }
     case types.RESET_YOUTUBE_SEARCH:
       return { ...state, youtubeSearchResults: [] }
+    case types.YOUTUBE_CHANNEL_SEARCH:
+      return { ...state, youtubeChannelSearchResults: action.payload }
+    case types.RESET_YOUTUBE_CHANNEL_SEARCH:
+      return { ...state, youtubeChannelSearchResults: [] }
     case types.YOUTUBE_POPULAR:
       return { ...state, youtubePopularResults: [ ...action.payload ] }
     case types.YOUTUBE_RECENT:

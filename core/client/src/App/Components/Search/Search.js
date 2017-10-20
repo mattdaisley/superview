@@ -6,11 +6,12 @@ import { connect } from 'react-redux'
 import List from 'material-ui/List'
 import { withStyles } from 'material-ui/styles'
 
-import SearchBox     from './SearchBox/SearchBox'
-import SearchResults from './SearchResults/SearchResults'
+import SearchBox            from './SearchBox/SearchBox'
+import SearchResults        from './SearchResults/SearchResults'
+// import ChannelSearchResults from './ChannelSearchResults/ChannelSearchResults'
 
 import { twitchSearch, resetTwitchSearch } from '../../Redux/Twitch/TwitchActionCreators'
-import { youtubeSearch, resetYoutubeSearch } from '../../Redux/Youtube/YoutubeActionCreators'
+import { youtubeSearch, youtubeChannelSearch } from '../../Redux/Youtube/YoutubeActionCreators'
 import { addChannelId } from '../../Redux/ChannelsList/ChannelsListActionCreators'
 
 const styles = theme => ({
@@ -76,6 +77,7 @@ class Search extends React.Component {
     const timeoutId = setTimeout( () => {
       // this.props.twitchSearch(searchValue)
       this.props.youtubeSearch(searchValue.trim())
+      this.props.youtubeChannelSearch(searchValue.trim())
     }, 300)
     this.setState( {timeoutId, searchValue} )
   }
@@ -92,14 +94,22 @@ class Search extends React.Component {
 
   render = () => {
 
-    const { youtubeSearchResults, classes } = this.props
+    const { youtubeSearchResults, youtubeChannelSearchResults, classes } = this.props
+    const { open, searchValue } = this.state
+
+    console.log(youtubeChannelSearchResults)
 
     return (
       <List dense className={classes.searchContainer}>
 
-        <SearchBox open={this.open} searchValue={this.state.searchValue} onSearchChange={this.onSearchChange} />
+        <SearchBox open={this.open} searchValue={searchValue} onSearchChange={this.onSearchChange} />
 
-        <SearchResults hidden={!this.state.open || this.state.searchValue === ''} sources={youtubeSearchResults} gotoSource={this.handleItemClicked} addSource={this.handleAddClicked} />
+        <SearchResults 
+          hidden={!open || searchValue === ''} 
+          videoSources={youtubeSearchResults} 
+          channelSources={youtubeChannelSearchResults}
+          gotoSource={this.handleItemClicked} 
+          addSource={this.handleAddClicked} />
 
       </List>
     )
@@ -118,13 +128,16 @@ const mapStateToProps = state => {
     youtubeLoggedIn: state.youtubeOauth.loggedIn,
     twitchSearchResults: state.twitchBrowse.twitchSearchResults,
     youtubeSearchResults: state.youtubeBrowse.youtubeSearchResults,
+    youtubeChannelSearchResults: state.youtubeBrowse.youtubeChannelSearchResults,
   }
 }
 const mapDispatchToProps = dispatch => ({
   twitchSearch: (query) => dispatch(twitchSearch(query)),
   resetTwitchSearch: () => dispatch(resetTwitchSearch()),
   youtubeSearch: (query) => dispatch(youtubeSearch(query)),
-  resetYoutubeSearch: (query) => dispatch(resetYoutubeSearch(query)),
+  // resetYoutubeSearch: (query) => dispatch(resetYoutubeSearch(query)),
+  youtubeChannelSearch: (query) => dispatch(youtubeChannelSearch(query)),
+  // resetYoutubeChannelSearch: (query) => dispatch(resetYoutubeChannelSearch(query)),
   addChannelId: (sourceType, channelIds) => dispatch(addChannelId(sourceType, channelIds)),
 })
 
