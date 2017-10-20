@@ -15,8 +15,9 @@ import blue from 'material-ui/colors/blue';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 
-import SideNavLinks from './SideNavLinks/SideNavLinks';
-import LoginActions from '../LoginActions/LoginActions';
+import SideNavLinks    from './SideNavLinks/SideNavLinks';
+import SideNavBackdrop from './SideNavBackdrop/SideNavBackdrop';
+import LoginActions    from '../LoginActions/LoginActions';
 
 const drawerWidth = 280;
 
@@ -170,42 +171,45 @@ class SideNav extends React.Component {
     } 
 
     return (
-      <Drawer
-        type={drawerType}
-        open={this.props.isSideNavOpen}
-        onClick={this.props.handleSideNavClose}
-        classes={{
-          modal: classNames(classes.sideNavDrawer),
-          docked: classNames(classes.sideNavDrawer),
-          // docked: classNames(...sideNavOverRides),
-          paper: classNames(...sideNavOverRides)
-        }}>
-        <div className={classes.sideNavInner}>
-        
-          { !!this.props.isSideNavOpen && (
-            <div className={classes.menuButtonWrapper}>
-              <IconButton className="menu-button">
-                <ChevronLeftIcon />
-              </IconButton>
+      [
+        <SideNavBackdrop isSideNavOpen={this.props.isSideNavOpen} onClick={this.props.handleSideNavClose} />,
+        <Drawer
+          type={drawerType}
+          open={this.props.isSideNavOpen}
+          onClick={this.props.handleSideNavClose}
+          classes={{
+            modal: classNames(classes.sideNavDrawer),
+            docked: classNames(classes.sideNavDrawer),
+            // docked: classNames(...sideNavOverRides),
+            paper: classNames(...sideNavOverRides)
+          }}>
+          <div className={classes.sideNavInner}>
+          
+            { !!this.props.isSideNavOpen && (
+              <div className={classes.menuButtonWrapper}>
+                <IconButton className="menu-button">
+                  <ChevronLeftIcon />
+                </IconButton>
 
-              <Typography type="title" className={[classes.appLogoText, "App-logo-text","flex-item-grow"].join(' ')}>
-                SuperView
-              </Typography>
+                <Typography type="title" className={[classes.appLogoText, "App-logo-text","flex-item-grow"].join(' ')}>
+                  SuperView
+                </Typography>
+              </div>
+            )}
+
+            <SideNavLinks navLinks={navLinks} />
+
+            <div className={loginActionsWrapperClasses.join(' ')} >
+              <LoginActions />
             </div>
-          )}
 
-          <SideNavLinks navLinks={navLinks} />
-
-          <div className={loginActionsWrapperClasses.join(' ')} >
-            <LoginActions />
+            <div className={footerWrapperClasses.join(' ')} >
+              <Divider />
+              <div className={classes.footer}>&copy; 2017 SuperView</div>
+            </div>
           </div>
-
-          <div className={footerWrapperClasses.join(' ')} >
-            <Divider />
-            <div className={classes.footer}>&copy; 2017 SuperView</div>
-          </div>
-        </div>
-      </Drawer>
+        </Drawer>
+      ]
     );
   }
 }
