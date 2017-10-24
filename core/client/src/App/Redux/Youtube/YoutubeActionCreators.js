@@ -138,7 +138,7 @@ export const resetGoogleProfile = () => {
 
 
 
-export const getYoutubeChannel = (videos) => {
+export const getYoutubeVideos = (videos) => {
 
   const requestEnpoint = 'videos'
   const part = 'snippet,contentDetails,statistics'
@@ -146,7 +146,7 @@ export const getYoutubeChannel = (videos) => {
   videos = (videos.constructor === Array) ? videos.join(',') : videos;
   
   return ({
-    type: types.GET_YOUTUBE_CHANNEL,
+    type: types.GET_YOUTUBE_VIDEOS,
     meta: {
       type: 'youtubeApi',
       payload: {},
@@ -156,19 +156,19 @@ export const getYoutubeChannel = (videos) => {
   })
 }
 
-export const resetYoutubeChannel = () => {
+export const resetYoutubeVideos = () => {
   return ({
-    type: types.RESET_YOUTUBE_CHANNEL
+    type: types.RESET_YOUTUBE_VIDEOS
   })
 }
 
-export const getYoutubeChannelDetails = (videos) => {
+export const getYoutubeChannelDetailsFromVideos = (videos) => {
   
   const requestEnpoint = 'channels'
   const part = 'snippet,contentDetails,statistics'
 
   return ({
-    type: types.GET_YOUTUBE_CHANNEL_DETAILS,
+    type: types.GET_YOUTUBE_CHANNEL_DETAILS_FROM_VIDEOS,
     meta: {
       type: 'youtubeApi',
       clientId: clientId,
@@ -180,7 +180,37 @@ export const getYoutubeChannelDetails = (videos) => {
 
 export const resetYoutubeChannelDetails = () => {
   return ({
-    type: types.RESET_YOUTUBE_CHANNEL_DETAILS
+    type: types.RESET_YOUTUBE_CHANNEL_DETAILS_FROM_VIDEOS
+  })
+}
+
+export const getYoutubeChannel = ( channelId ) => {
+  
+  const requestEnpoint = 'channels'
+  const part = 'snippet,contentDetails,statistics'
+
+  return ({
+    type: types.GET_YOUTUBE_CHANNEL,
+    meta: {
+      type: 'youtubeApi',
+      clientId: clientId,
+      url: youtubeRequestUri + requestEnpoint + '?part=' + part + '&id=' + channelId
+    }
+  })
+}
+
+export const getYoutubePlaylistItems = ( playlistId ) => {
+  
+  const requestEnpoint = 'playlistItems'
+  const part = 'snippet,contentDetails,statistics'
+
+  return ({
+    type: types.GET_YOUTUBE_PLAYLIST_ITEMS,
+    meta: {
+      type: 'youtubeApi',
+      clientId: clientId,
+      url: youtubeRequestUri + requestEnpoint + '?part=' + part + '&playlistId=' + playlistId
+    }
   })
 }
 

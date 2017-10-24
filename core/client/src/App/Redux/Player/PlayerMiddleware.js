@@ -1,6 +1,6 @@
 import * as types from '../Types';
 
-import { resetChannels } from '../ChannelsList/ChannelsListActionCreators';
+import { resetChannels } from './ChannelsList/ChannelsListActionCreators';
 import { play } from './PlayerActionCreators';
 
 const playerMiddleware = store => next => action => {

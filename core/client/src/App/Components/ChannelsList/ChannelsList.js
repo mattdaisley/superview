@@ -9,8 +9,8 @@ import withWidth from 'material-ui/utils/withWidth';
 import ChannelListAvatars from './ChannelListAvatars';
 import ChannelListEdit    from './ChannelListEdit';
 
-import { setChannelIds, setChatChannel } from '../../Redux/ChannelsList/ChannelsListActionCreators';
-import { playerClose, playerSources } from '../../Redux/Player/PlayerActionCreators';
+import { playerClose, playerSources }    from '../../Redux/Player/PlayerActionCreators';
+import { setChannelIds, setChatChannel } from '../../Redux/Player/ChannelsList/ChannelsListActionCreators';
 
 import { compareArrays } from '../../Util/utils';
 

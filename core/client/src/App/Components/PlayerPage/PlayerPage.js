@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { setRecentChannelsItem } from '../../Redux/RecentChannels/RecentChannelsActionCreators';
-import { setChannelIds }  from '../../Redux/ChannelsList/ChannelsListActionCreators';
+import { setChannelIds }         from '../../Redux/Player/ChannelsList/ChannelsListActionCreators';
 import { resetTwitchChannel, resetTwitchChannelDetails } from '../../Redux/Twitch/TwitchActionCreators';
-import { resetYoutubeChannel, resetYoutubeChannelDetails, getYoutubeLoginStatus } from '../../Redux/Youtube/YoutubeActionCreators';
+import { resetYoutubeVideos, resetYoutubeChannelDetails, getYoutubeLoginStatus } from '../../Redux/Youtube/YoutubeActionCreators';
 import { setMessage } from '../../Redux/Messages/MessagesActionCreators';
 
 import { playerOpen, playerClose, playerMinimize, playerSources, setPlayerLoaded }  from '../../Redux/Player/PlayerActionCreators';
@@ -13,7 +13,7 @@ import { playerOpen, playerClose, playerMinimize, playerSources, setPlayerLoaded
 import { compareArrays } from '../../Util/utils' 
 import PlayerUtils from './PlayerUtils';
 
-class PlayerOpener extends React.Component {
+class PlayerPage extends React.Component {
   
   static contextTypes = {
     router: PropTypes.object
@@ -54,12 +54,11 @@ class PlayerOpener extends React.Component {
     * handles getting source details from youtube or twitch
     */ 
   registerPlayerSources(props) {
-    const sourceType = props.match.params.source;
+    const sourceType = props.match.params.sourceType;
 
     let videoIds       = PlayerUtils.getVideoIds(props.match.params);
     let uniqueVideoIds = PlayerUtils.getUniqueVideoIds(props.match.params);
 
-    console.log(this.context)
     if ( this.reRouteIfDuplicateSources(sourceType, videoIds, uniqueVideoIds, this.context.router.history) ) return;
 
     // this.setState( {playerSources: uniqueVideoIds} );
@@ -119,16 +118,16 @@ class PlayerOpener extends React.Component {
 
     }
     
-    if ( nextProps.youtubeChannels.length > 0 ) {
+    if ( nextProps.youtubeVideos.length > 0 ) {
         
       // check for channels change
-      const oldChannelIds = this.props.youtubeChannels.map( channel => channel.id );
-      const newChannelIds = nextProps.youtubeChannels.map( channel => channel.id );
+      const oldVideoIds = this.props.youtubeVideos.map( video => video.id );
+      const newVideoIds = nextProps.youtubeVideos.map( video => video.id );
 
-      if ( !compareArrays(oldChannelIds, newChannelIds) ) {
+      if ( !compareArrays(oldVideoIds, newVideoIds) ) {
 
-        if ( !compareArrays(newChannelIds, this.props.sources) ) {
-          let pathname = '/'+ sourceType + '/' + newChannelIds.join('/');
+        if ( !compareArrays(newVideoIds, this.props.sources) ) {
+          let pathname = '/'+ sourceType + '/' + newVideoIds.join('/');
           this.context.router.history.push(pathname);
           return;
         }
@@ -182,12 +181,12 @@ class PlayerOpener extends React.Component {
     */
   resetChannels() {
     // console.log('reset channels')
-    if ( this.props.match.params.source === 'tw' ) {
+    if ( this.props.match.params.sourceType === 'tw' ) {
       this.props.resetTwitchChannel();
       this.props.resetTwitchChannelDetails();
     }
-    if ( this.props.match.params.source === 'yt' ) {
-      this.props.resetYoutubeChannel();
+    if ( this.props.match.params.sourceType === 'yt' ) {
+      this.props.resetYoutubeVideos();
       this.props.resetYoutubeChannelDetails();
     }
     this.setState( {channelsRequested: false, playerSources: []})
@@ -210,7 +209,7 @@ const mapStateToProps = state => {
     twitchChannelDetails: state.twitchDetails.channelDetails,
 
     youtubeLoggedIn: state.youtubeOauth.loggedIn,
-    youtubeChannels: state.youtubeDetails.channels,
+    youtubeVideos: state.youtubeDetails.videos,
     youtubeChannelDetails: state.youtubeDetails.channelDetails,
     
     sourceType: state.player.sourceType,
@@ -227,7 +226,7 @@ const mapDispatchToProps = dispatch => ({
   resetTwitchChannel: () => dispatch(resetTwitchChannel()),
   resetTwitchChannelDetails: () => dispatch(resetTwitchChannelDetails()),
 
-  resetYoutubeChannel: () => dispatch(resetYoutubeChannel()),
+  resetYoutubeVideos: () => dispatch(resetYoutubeVideos()),
   resetYoutubeChannelDetails: () => dispatch(resetYoutubeChannelDetails()),
   getYoutubeLoginStatus: () => dispatch(getYoutubeLoginStatus()),
 
@@ -240,11 +239,11 @@ const mapDispatchToProps = dispatch => ({
   setPlayerLoaded: (loaded) => dispatch(setPlayerLoaded(loaded)),
 })
 
-PlayerOpener.propTypes = {
+PlayerPage.propTypes = {
   history: PropTypes.object
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PlayerOpener);
+)(PlayerPage);

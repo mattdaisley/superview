@@ -1,17 +1,18 @@
-import React from 'react';
-// import { connect } from 'react-redux';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React from 'react'
+// import { connect } from 'react-redux'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
-import Grid         from 'material-ui/Grid';
-import { withStyles } from 'material-ui/styles';
+import Grid         from 'material-ui/Grid'
+import { withStyles } from 'material-ui/styles'
 
-import Home     from '../Components/HomePage/Home';
-import Recents  from '../Components/RecentsPage/Recents';
-import YtSubscriptions from '../Components/YouTube/Browse/Subscriptions/Subscriptions';
-import YtPopular       from '../Components/YouTube/Browse/Popular/Popular';
-import TwFollowing     from '../Components/Twitch/Browse/Following/Following';
-import TwFeatured      from '../Components/Twitch/Browse/Featured/Featured';
-import PlayerOpener    from '../Components/PlayerPage/PlayerOpener';
+import ChannelPage     from './ChannelPage/ChannelPage'
+import HomePage        from './HomePage/HomePage'
+import PlayerPage      from './PlayerPage/PlayerPage'
+import Recents         from './RecentsPage/Recents'
+import TwFollowing     from './Twitch/Browse/Following/Following'
+import TwFeatured      from './Twitch/Browse/Featured/Featured'
+import YtSubscriptions from './YouTube/Browse/Subscriptions/Subscriptions'
+import YtPopular       from './YouTube/Browse/Popular/Popular'
 
 
 const styles = theme => ({
@@ -47,7 +48,7 @@ const styles = theme => ({
 class Main extends React.Component {
 
   render() {    
-    const classes = this.props.classes;
+    const classes = this.props.classes
   
     return (
       <div className="main-container">
@@ -60,23 +61,23 @@ class Main extends React.Component {
                 <Route exact path='/browse/yt/popular' component={YtPopular}/>
                 <Route exact path='/browse/tw/following' component={TwFollowing}/>
                 <Route exact path='/browse/tw/featured' component={TwFeatured}/>
-
-                {/* <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={Player}/> */}
-                <Route path='/:source/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={PlayerOpener}/>
-                <Route exact path='/' component={Home}/>
+                <Route exact path='/channel/:sourceType/:channelId' component={ChannelPage}/>
+                <Route exact path='/channel/:sourceType/:channelId' component={ChannelPage}/>
+                <Route path='/:sourceType/:id1/:id2?/:id3?/:id4?/:id5?/:id6?' component={PlayerPage}/>
+                <Route exact path='/' component={HomePage}/>
                 <Redirect from='/' to='/'/>
               </Switch>
             </div>
           </Grid>
         </div>
       </div>
-    );
+    )
   }
 }
 
 // const mapStateToProps = state => { return { } }
 // const mapDispatchToProps = dispatch => ({ })
 
-const MainWithStyles = withStyles(styles)(Main);
-// export default connect(mapStateToProps, mapDispatchToProps)(MainWithStyles);
-export default MainWithStyles;
+const MainWithStyles = withStyles(styles)(Main)
+// export default connect(mapStateToProps, mapDispatchToProps)(MainWithStyles)
+export default MainWithStyles

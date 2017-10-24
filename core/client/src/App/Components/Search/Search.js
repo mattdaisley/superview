@@ -12,7 +12,7 @@ import SearchResults        from './SearchResults/SearchResults'
 
 import { twitchSearch, resetTwitchSearch } from '../../Redux/Twitch/TwitchActionCreators'
 import { youtubeSearch, youtubeChannelSearch } from '../../Redux/Youtube/YoutubeActionCreators'
-import { addChannelId } from '../../Redux/ChannelsList/ChannelsListActionCreators'
+import { addChannelId } from '../../Redux/Player/ChannelsList/ChannelsListActionCreators'
 
 const styles = theme => ({
   searchContainer: {
@@ -82,9 +82,15 @@ class Search extends React.Component {
     this.setState( {timeoutId, searchValue} )
   }
 
-  handleItemClicked = ( video ) => {
+  handleSourceClicked = ( video ) => {
     this.setState({open: false})
     const route = '/' + video.source_type + '/' + video.id
+    this.context.router.history.push(route)
+  }
+  
+  handleChannelClicked = ( channel ) => {
+    this.setState({open: false})
+    const route = '/channel/' + channel.source_type + '/' + channel.channel_id
     this.context.router.history.push(route)
   }
   
@@ -97,8 +103,6 @@ class Search extends React.Component {
     const { youtubeSearchResults, youtubeChannelSearchResults, classes } = this.props
     const { open, searchValue } = this.state
 
-    console.log(youtubeChannelSearchResults)
-
     return (
       <List dense className={classes.searchContainer}>
 
@@ -108,7 +112,8 @@ class Search extends React.Component {
           hidden={!open || searchValue === ''} 
           videoSources={youtubeSearchResults} 
           channelSources={youtubeChannelSearchResults}
-          gotoSource={this.handleItemClicked} 
+          gotoSource={this.handleSourceClicked} 
+          gotoChannel={this.handleChannelClicked}
           addSource={this.handleAddClicked} />
 
       </List>

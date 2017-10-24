@@ -120,7 +120,7 @@ const mapStateToProps = state => {
     twitchChannels: state.twitchDetails.channels,
     twitchChannelDetails: state.twitchDetails.channelDetails,
     // youtubeLoggedIn: state.youtubeOauth.loggedIn,
-    youtubeChannels: state.youtubeDetails.channels,
+    youtubeVideos: state.youtubeDetails.videos,
     youtubeChannelDetails: state.youtubeDetails.channelDetails,
 
     openState: state.player.openState,

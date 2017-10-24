@@ -1,6 +1,6 @@
 
 export const getVideoIds = (params) => {
-  return Object.keys(params).map( key => ( key === 'source' ) ? undefined : params[key] ).filter( item => item !== undefined )
+  return Object.keys(params).map( key => ( key === 'sourceType' ) ? undefined : params[key] ).filter( item => item !== undefined )
 }
 
 export const getUniqueVideoIds = ( params ) => {

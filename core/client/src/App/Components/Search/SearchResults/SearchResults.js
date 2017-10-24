@@ -38,7 +38,7 @@ class SearchResults extends React.Component {
 
   render = () => {
 
-    const { hidden, videoSources, channelSources, gotoSource, addSource, classes } = this.props
+    const { hidden, videoSources, channelSources, gotoSource, addSource, gotoChannel, classes } = this.props
 
     let searchResultsClasses = [ classes.searchResults ]
     if ( hidden ) searchResultsClasses.push(classes.hidden)
@@ -52,7 +52,7 @@ class SearchResults extends React.Component {
         { channelSources.length > 0 && (
           <YoutubeChannelSearchResult 
             sources={channelSources} 
-            gotoSource={gotoSource}
+            gotoSource={gotoChannel}
             addSource={addSource} />
         )}
 
@@ -73,6 +73,7 @@ SearchResults.propTypes = {
   channelSources: PropTypes.array,
   gotoSource: PropTypes.func,
   addSource: PropTypes.func,
+  gotoChannel: PropTypes.func,
 }
 
 export default withStyles(styles)(SearchResults)

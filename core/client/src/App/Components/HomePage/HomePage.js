@@ -23,7 +23,7 @@ const styles = theme => ({
   },
 })
 
-class Home extends React.Component {
+class HomePage extends React.Component {
   
   // constructor(props) {
   //   super(props);
@@ -78,5 +78,5 @@ const mapDispatchToProps = dispatch => ({
 })
 
 
-const HomeWithStyles = withStyles(styles)(Home);
-export default connect(mapStateToProps, mapDispatchToProps)(HomeWithStyles);
+const HomePageWithStyles = withStyles(styles)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePageWithStyles);

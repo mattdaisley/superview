@@ -1,8 +1,8 @@
 import * as types from '../Types'
 
-import { getYoutubeChannelDetails, youtubeAddRetry, setYoutubeLoggedIn, setChannelSubscriptions } from './YoutubeActionCreators'
+import { getYoutubeChannelDetailsFromVideos, youtubeAddRetry, setYoutubeLoggedIn, setChannelSubscriptions } from './YoutubeActionCreators'
 
-import { setChannels } from '../ChannelsList/ChannelsListActionCreators'
+import { setChannels } from '../Player/ChannelsList/ChannelsListActionCreators'
 
 import { getToken } from '../../Util/tokenYoutube'
 
@@ -46,13 +46,27 @@ const youtubeApiMiddleware = store => next => action => {
         })
       break;
     case types.GET_YOUTUBE_CHANNEL:
-      fetchChannel( store, isLoggedIn, url )
+      fetchChannelDetails(store, isLoggedIn, url)
+        .then(json => {
+          let actionItem = { payload: [{status:'error'}] }
+          if ( !json.error && json.pageInfo.totalResults > 0) {
+            const formattedChannelDetails = formatChannelDetails(json.items[0]);
+            actionItem = { payload: formattedChannelDetails.channel }
+          }
+          let newAction = Object.assign({}, action, actionItem);
+          delete newAction.meta;
+          store.dispatch(newAction);
+        })
+        .catch( err => handleApiError(err, store, action) )
+      break;
+    case types.GET_YOUTUBE_VIDEOS:
+      fetchVideos( store, isLoggedIn, url )
         .then(json => {
           let actionItem = { payload: [{status:'error'}] }
           if ( !json.error && json.pageInfo.totalResults > 0) {
             const formattedVideos = formatVideos(json.items);
             actionItem = { payload: formattedVideos }
-            store.dispatch(getYoutubeChannelDetails(formattedVideos));
+            store.dispatch(getYoutubeChannelDetailsFromVideos(formattedVideos));
           }
           let newAction = Object.assign({}, action, actionItem);
           delete newAction.meta;
@@ -60,7 +74,7 @@ const youtubeApiMiddleware = store => next => action => {
         })
         .catch( err => handleApiError(err, store, action) )
       break
-    case types.GET_YOUTUBE_CHANNEL_DETAILS:
+    case types.GET_YOUTUBE_CHANNEL_DETAILS_FROM_VIDEOS:
       const { videos } = action.meta
 
       let promises = videos.map( video => {
@@ -230,7 +244,7 @@ const fetchResults = ( store, isLoggedIn, url ) => {
   }
 }
 
-const fetchChannel = ( store, isLoggedIn, url ) => {
+const fetchVideos = ( store, isLoggedIn, url ) => {
   if ( !!getToken() ) {
     if ( !!isLoggedIn ) {
       return doYoutubeRequest(store, url)
@@ -330,7 +344,7 @@ const formatVideos = ( videos ) => {
   })
 }
 
-const formatChannelDetails = ( channelDetails, resource ) => {
+const formatChannelDetails = ( channelDetails, resource = {} ) => {
   
   let formattedResource = Object.assign( {}, resource );
 
@@ -340,7 +354,11 @@ const formatChannelDetails = ( channelDetails, resource ) => {
     title: channelDetails.snippet.title,
     name: channelDetails.snippet.title,
     logo: channelDetails.snippet.thumbnails.high.url,
-    description: channelDetails.snippet.description
+    description: channelDetails.snippet.description,
+    uploadsPlaylist: channelDetails.contentDetails.relatedPlaylists.uploads,
+    viewCount: channelDetails.statistics.viewCount,
+    subscriberCount: channelDetails.statistics.subscriberCount,
+    videoCount: channelDetails.statistics.videoCount
   }
 
   return formattedResource;

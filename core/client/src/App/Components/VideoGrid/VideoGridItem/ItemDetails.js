@@ -8,7 +8,7 @@ import { withStyles } from 'material-ui/styles';
 import PlayItemButton from './PlayItemButton';
 import AddItemButton  from './AddItemButton';
 
-import { addChannelId } from '../../../Redux/ChannelsList/ChannelsListActionCreators';
+import { addChannelId } from '../../../Redux/Player/ChannelsList/ChannelsListActionCreators';
 
 
 const styles = theme => ({

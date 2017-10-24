@@ -6,8 +6,6 @@ import loggingMiddleware     from './LoggingMiddleware';
 
 import superViewApiMiddleware   from './SuperViewApi/SuperViewApiMiddleware';
 
-import channelsListMiddleware from './ChannelsList/ChannelsListMiddleware';
-
 import recentChannelsMiddleware from './RecentChannels/RecentChannelsMiddleware';
 
 import twitchOauthMiddleware from './Twitch/TwitchOauthMiddleware';
@@ -20,7 +18,8 @@ import messagesMiddleware from './Messages/MessagesMiddleware';
 
 import windowMiddleware from './Window/WindowMiddleware';
 
-import playerMiddleware from './Player/PlayerMiddleware';
+import playerMiddleware       from './Player/PlayerMiddleware';
+import channelsListMiddleware from './Player/ChannelsList/ChannelsListMiddleware';
 
 export const ConfigureStore = () => {
   const store = createStore(

@@ -1,4 +1,4 @@
-import * as types from '../Types';
+import * as types from '../../Types';
 
 export const setChannelIds = ( sourceType, channelIds ) => ({
   type: types.SET_CHANNEL_IDS,

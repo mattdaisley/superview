@@ -2,7 +2,7 @@ import * as types from '../Types';
 
 import { getTwitchChannelDetails, twitchLoginFailure, setTwitchLoggedIn } from './TwitchActionCreators'
 
-import { setChannels } from '../ChannelsList/ChannelsListActionCreators'
+import { setChannels } from '../Player/ChannelsList/ChannelsListActionCreators'
 
 import { hasToken, getToken } from '../../Util/tokenTwitch';
 

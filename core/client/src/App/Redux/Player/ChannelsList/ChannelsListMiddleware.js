@@ -1,9 +1,9 @@
-import * as types from '../Types';
+import * as types from '../../Types';
 
 import { setChannelIds, setChatChannel } from './ChannelsListActionCreators'
 
-import { getTwitchChannel } from '../Twitch/TwitchActionCreators'
-import { getYoutubeChannel } from '../Youtube/YoutubeActionCreators'
+import { getTwitchChannel } from '../../Twitch/TwitchActionCreators'
+import { getYoutubeVideos } from '../../Youtube/YoutubeActionCreators'
 
 const channelsListMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'channelsList') {
@@ -21,7 +21,7 @@ const channelsListMiddleware = store => next => action => {
       delete newAction.meta;
       store.dispatch(newAction);
       if ( action.meta.sourceType === 'tw' ) store.dispatch(getTwitchChannel(channelIds));
-      if ( action.meta.sourceType === 'yt' ) store.dispatch(getYoutubeChannel(channelIds));
+      if ( action.meta.sourceType === 'yt' ) store.dispatch(getYoutubeVideos(channelIds));
       break
 
     case types.SET_CHANNELS:
