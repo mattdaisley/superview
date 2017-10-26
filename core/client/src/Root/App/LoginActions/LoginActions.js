@@ -10,7 +10,7 @@ import LoginActionsButton from './LoginActionsButton/LoginActionsButton.js';
 // import { getTwitchProfile, getTwitchLoginStatus, twitchLogout }    from '../../Redux/Twitch/TwitchActionCreators';
 // import { getGoogleProfile, getYoutubeLoginStatus, youtubeLogout }  from '../../Redux/Youtube/YoutubeActionCreators';
 import { twitchAuthActionCreators } from '../store/modules/twitch/twitchAuth'
-console.log(twitchAuthActionCreators)
+import { twitchApiActionCreators } from '../store/modules/twitch/twitchApi'
 
 const styles = theme => ({
   loginActionsHeader: {
@@ -51,7 +51,7 @@ class LoginActions extends React.Component {
 
   componentDidMount() {
     if ( !!this.props.isInHeader ) {
-      // this.props.getTwitchProfile();
+      this.props.getTwitchProfile();
       // this.props.getGoogleProfile();
     }
   }
@@ -130,7 +130,7 @@ const mapStateToProps = state => {
   return {
     twitchLoggedIn:  state.twitchAuth.loggedIn,
     // youtubeLoggedIn: state.youtubeOauth.loggedIn,
-    // twitchProfile: state.twitchBrowse.twitchProfile,
+    twitchProfile: state.twitchApi.profile,
     // googleProfile: state.youtubeBrowse.googleProfile,
   }
 }
@@ -146,6 +146,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     ...twitchAuthActionCreators,
+    ...twitchApiActionCreators,
   }, dispatch)
 )
 
