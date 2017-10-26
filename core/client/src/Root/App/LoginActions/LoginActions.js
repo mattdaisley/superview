@@ -10,7 +10,9 @@ import LoginActionsButton from './LoginActionsButton/LoginActionsButton.js';
 // import { getTwitchProfile, getTwitchLoginStatus, twitchLogout }    from '../../Redux/Twitch/TwitchActionCreators';
 // import { getGoogleProfile, getYoutubeLoginStatus, youtubeLogout }  from '../../Redux/Youtube/YoutubeActionCreators';
 import { twitchAuthActionCreators } from '../store/modules/twitch/twitchAuth'
-import { twitchApiActionCreators } from '../store/modules/twitch/twitchApi'
+import { twitchApiActionCreators }  from '../store/modules/twitch/twitchApi'
+import { googleAuthActionCreators } from '../store/modules/google/googleAuth'
+import { googleApiActionCreators }  from '../store/modules/google/googleApi'
 
 const styles = theme => ({
   loginActionsHeader: {
@@ -37,22 +39,22 @@ class LoginActions extends React.Component {
     super(props);
 
     this.twitchLogin  = this.twitchLogin.bind(this);
-    // this.youtubeLogin = this.youtubeLogin.bind(this);
+    this.youtubeLogin = this.youtubeLogin.bind(this);
     this.state = {
       twitchLoadingProfile: true,
-      // googleLoadingProfile: true
+      googleLoadingProfile: true,
     }
   }
 
   componentWillMount() {
     this.props.getTwitchLoginStatus();
-    // this.props.getYoutubeLoginStatus();
+    this.props.getGoogleLoginStatus();
   }
 
   componentDidMount() {
     if ( !!this.props.isInHeader ) {
       this.props.getTwitchProfile();
-      // this.props.getGoogleProfile();
+      this.props.getGoogleProfile();
     }
   }
 
@@ -92,9 +94,7 @@ class LoginActions extends React.Component {
   }
 
   render() {
-    console.log(this.props)
-
-    const { isInHeader, twitchLoggedIn, twitchLogout, classes } = this.props;
+    const { isInHeader, twitchLoggedIn, twitchLogout, googleLoggedIn, googleLogout, classes } = this.props;
 
     return (
       <div className={ (!!isInHeader) ? classes.loginActionsHeader : classes.loginActions }>
@@ -107,16 +107,14 @@ class LoginActions extends React.Component {
           isInHeader={isInHeader}
           />
         
-        {/* 
         <LoginActionsButton 
           sourceType="yt"
-          sourceLoggedIn={this.props.youtubeLoggedIn}
+          sourceLoggedIn={googleLoggedIn}
           onLoginClick={this.youtubeLogin}
-          onLogoutClick={() => this.props.youtubeLogout()}
+          onLogoutClick={googleLogout}
           profile={this.state.googleProfile}
-          isInHeader={this.props.isInHeader}
+          isInHeader={isInHeader}
           /> 
-        */}
       </div>
     );
   }
@@ -129,9 +127,9 @@ LoginActions.propTypes = {
 const mapStateToProps = state => {
   return {
     twitchLoggedIn:  state.twitchAuth.loggedIn,
-    // youtubeLoggedIn: state.youtubeOauth.loggedIn,
     twitchProfile: state.twitchApi.profile,
-    // googleProfile: state.youtubeBrowse.googleProfile,
+    googleLoggedIn: state.googleAuth.loggedIn,
+    googleProfile: state.googleApi.profile,
   }
 }
 // const mapDispatchToProps = dispatch => ({
@@ -147,6 +145,8 @@ const mapDispatchToProps = dispatch => (
   bindActionCreators({
     ...twitchAuthActionCreators,
     ...twitchApiActionCreators,
+    ...googleAuthActionCreators,
+    ...googleApiActionCreators,
   }, dispatch)
 )
 

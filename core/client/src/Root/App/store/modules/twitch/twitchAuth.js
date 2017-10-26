@@ -34,17 +34,18 @@ const setTwitchLoggedIn = ( isLoggedIn ) => {
   })
 }
 
-const getTwitchLoginStatus = () => (dispatch, getState) => {
-  const prevStatus = getState().twitchAuth.loggedIn
-  const isLoggedIn = hasToken() && !!prevStatus
-  dispatch(setTwitchLoggedIn(isLoggedIn));
-}
-
 const setTwitchLogginRequested = ( isLoginRequested ) => {
   return ({
     type: SET_AUTH_REQUESTED,
     payload: isLoginRequested
   })
+}
+
+
+const getTwitchLoginStatus = () => (dispatch, getState) => {
+  const prevStatus = getState().twitchAuth.loggedIn
+  const isLoggedIn = hasToken() && !!prevStatus
+  dispatch(setTwitchLoggedIn(isLoggedIn));
 }
 
 
@@ -87,8 +88,6 @@ const doAuthRefresh = ( tokens ) => (dispatch, getState) => {
   }
 
   let refreshUrl = basePath + '/oauth2/twitch/refresh?access_token=' + tokens.access_token + '&refresh_token=' + tokens.refresh_token;
-  // let headers = { 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000' };
-  // fetch(refreshUrl, headers)
 
   fetch(refreshUrl)
     .then(resp => resp.json())

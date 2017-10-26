@@ -34,18 +34,15 @@ const getTwitchProfile = () => (dispatch, getState) => {
 
   const requestEnpoint = 'user'
   const url = config.requestUri + requestEnpoint
-  console.log(url)
   fetch(url, {headers: headers})
     .then(resp => resp.json())
     .then(json => {
-      console.log(json);
       if ( !json.error ) {
         if ( json._id ) {
           const twitchProfile = json
           dispatch(setTwitchProfile(twitchProfile))
           dispatch(twitchAuthActionCreators.setTwitchLoggedIn(true));
         }
-
       } else {
         // console.log('GET_TWITCH_FOLLOWING error', json, json.error, json.status === 401);
         if ( json.status === 401 ) {
