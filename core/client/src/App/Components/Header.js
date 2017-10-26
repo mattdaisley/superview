@@ -2,8 +2,8 @@ import React       from 'react';
 import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getTwitchLoginStatus, twitchLogin, twitchLogout }    from '../Redux/Twitch/TwitchActionCreators';
-import { getYoutubeLoginStatus, youtubeLogin, youtubeLogout } from '../Redux/Youtube/YoutubeActionCreators';
+import { getTwitchLoginStatus }    from '../Redux/Twitch/TwitchActionCreators';
+import { getYoutubeLoginStatus } from '../Redux/Youtube/YoutubeActionCreators';
 
 import AppBar     from 'material-ui/AppBar';
 import Toolbar    from 'material-ui/Toolbar';
@@ -49,41 +49,10 @@ const styles = theme => ({
 })
 
 class Header extends React.Component {
-  
-  constructor(props) {
-    super(props);
-
-    this.twitchLogin  = this.twitchLogin.bind(this);
-    this.youtubeLogin = this.youtubeLogin.bind(this);
-  }
 
   componentWillMount() {
     this.props.getTwitchLoginStatus();
     this.props.getYoutubeLoginStatus();
-  }
-
-  twitchLogin() {
-    switch (process.env.NODE_ENV) {
-      case 'development':
-        window.location.replace('http://127.0.0.1:3000/oauth2/twitch');
-        break;
-      case 'production':
-      default:
-        window.location.replace('https://auth.superview.tv/oauth2/twitch');
-        break;
-    }
-  }
-  
-  youtubeLogin() {
-    switch (process.env.NODE_ENV) {
-      case 'development':
-        window.location.replace('http://127.0.0.1:3000/oauth2/google');
-        break;
-      case 'production':
-      default:
-        window.location.replace('https://auth.superview.tv/oauth2/google');
-        break;
-    }
   }
 
   render() {
@@ -133,18 +102,12 @@ Header.defaultProps = {
 
 const mapStateToProps = state => {
   return {
-    twitchLoggedIn:  state.twitchOauth.loggedIn,
-    youtubeLoggedIn: state.youtubeOauth.loggedIn,
     messages: state.messages.messages,
     windowWidth: state.window.width,
   }
 }
 const mapDispatchToProps = dispatch => ({
-  twitchLogin: (referrer)   => dispatch(twitchLogin(referrer)),
-  twitchLogout: ()          => dispatch(twitchLogout()),
   getTwitchLoginStatus: ()  => dispatch(getTwitchLoginStatus()),
-  youtubeLogin: (referrer)  => dispatch(youtubeLogin(referrer)),
-  youtubeLogout: ()         => dispatch(youtubeLogout()),
   getYoutubeLoginStatus: () => dispatch(getYoutubeLoginStatus()),
 })
 

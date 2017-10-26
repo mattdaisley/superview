@@ -59,6 +59,9 @@ const youtubeApiMiddleware = store => next => action => {
         })
         .catch( err => handleApiError(err, store, action) )
       break;
+    case types.GET_YOUTUBE_PLAYLIST_ITEMS:
+      
+      break
     case types.GET_YOUTUBE_VIDEOS:
       fetchVideos( store, isLoggedIn, url )
         .then(json => {
