@@ -27,7 +27,8 @@ switch ( process.env.NODE_ENV ) {
 		config.db.tablePrefix = "sv_";
 
 		config.authAppUrl = 'http://127.0.0.1:3000';
-		config.appUrl = 'http://' + config.web.host + ':' + config.web.port;
+		// config.appUrl = 'http://' + config.web.host + ':' + config.web.port;
+		config.appUrl = 'http://' + config.web.host + ':7767';
 
 		break;
 	default:

@@ -5,7 +5,21 @@ var express     = require('express'),
     oauth2Routes;
 
 oauth2Routes = function oauth2Routes(middleware) {
-    var router = express.Router();
+    var router = express.Router(),
+        // Authentication for public endpoints
+        authenticatePublic = [
+        //     middleware.api.authenticateClient,
+        //     middleware.api.authenticateUser,
+        //     middleware.api.requiresAuthorizedUserPublicAPI,
+            middleware.oauth2.cors
+        ],
+        // Require user for private endpoints
+        authenticatePrivate = [
+            // middleware.api.authenticateClient,
+            // middleware.api.authenticateUser,
+            // middleware.api.requiresAuthorizedUser,
+            // middleware.api.cors
+        ];
 
     // alias delete with del
     router.del = router.delete;
@@ -18,7 +32,7 @@ oauth2Routes = function oauth2Routes(middleware) {
     router.options('*', middleware.oauth2.cors);
     
 
-    router.get('/google/', function( req, res, next ) {
+    router.get('/google/', authenticatePublic, function( req, res, next ) {
         if ( !!req.query.token && req.query.token !== 'null' ) {
             // console.log('setting google token cookies');
             const token = JSON.parse(utils.decrypt(req.query.token));
@@ -32,12 +46,14 @@ oauth2Routes = function oauth2Routes(middleware) {
             const redirectUrl = config.appUrl + '#google_access_token=' + tokens.access_token + '&google_refresh_token=' + tokens.refresh_token + '&expiry_date=' + tokens.expiry_date + '&google_user_id=' + tokens.google_user_id + '&state=googleLoggedIn';
             res.redirect(redirectUrl);
         } else {
-            res.status(401).send({ error: { message: 'no token provided' } });
+            const query = req.url.substr(req.url.indexOf('?')+1);
+            const redirectUrl = config.appUrl + '#' + query
+            res.redirect(redirectUrl);
+            // res.status(401).send({ error: { message: 'no token provided' } });
         }
     })
     
-    router.get('/google/refresh', function( req, res, next ) {
-        console.log(!!req.query.refresh_token && req.query.refresh_token !== 'null', req.query.refresh_token)
+    router.get('/google/refresh', authenticatePublic, function( req, res, next ) {
         if ( !!req.query.refresh_token && req.query.refresh_token !== 'null' ) {
             // console.log( req.query.refresh_token, req.query.access_token );
             const token = {
@@ -85,7 +101,7 @@ oauth2Routes = function oauth2Routes(middleware) {
     //     }
     // })
     
-    router.get('/twitch/', function( req, res, next ) {
+    router.get('/twitch/', authenticatePublic, function( req, res, next ) {
         if ( !!req.query.token && req.query.token !== 'null' ) {
             // console.log('setting twitch token cookies');
             const token = JSON.parse(utils.decrypt(req.query.token));
@@ -95,11 +111,14 @@ oauth2Routes = function oauth2Routes(middleware) {
             res.redirect(redirectUrl);
             // next();
         } else {
-            res.status(401).send({ error: { message: 'no token provided' } });
+            const query = req.url.substr(req.url.indexOf('?')+1);
+            const redirectUrl = config.appUrl + '#' + query
+            res.redirect(redirectUrl);
+            // res.status(401).send({ error: { message: 'no token provided' } });
         }
     })
     
-    router.get('/twitch/refresh', function( req, res, next ) {
+    router.get('/twitch/refresh', authenticatePublic, function( req, res, next ) {
         if ( !!req.query.refresh_token && req.query.refresh_token !== 'null' ) {
             // console.log( req.query.refresh_token, req.query.access_token );
             const token = {
@@ -129,7 +148,7 @@ oauth2Routes = function oauth2Routes(middleware) {
         }
     })
     
-    router.get('/twitch/refresh/callback', function( req, res, next ) {
+    router.get('/twitch/refresh/callback', authenticatePublic, function( req, res, next ) {
         if ( req.query.token ) {
             // console.log('setting twitch token cookies');
             const token = JSON.parse(utils.decrypt(req.query.token));

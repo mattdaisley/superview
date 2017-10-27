@@ -14,7 +14,8 @@ var cors   = require('cors'),
 function getIPs() {
     var ifaces = os.networkInterfaces(),
         ips = [
-            'localhost'
+            'localhost',
+            '127.0.0.1'
         ];
 
     Object.keys(ifaces).forEach( ifname => {
@@ -60,15 +61,15 @@ function getWhitelist() {
  * @return {null}
  */
 function handleCORS(req, cb) {
-    console.log('in hdanleCORs');
+    // console.log('in hdanleCORs', cb);
     var origin = req.get('origin'),
         trustedDomains = req.client && req.client.trustedDomains;
 
     // Request must have an Origin header
-    console.log('in handleCORS orgin:', origin);
-    if (!origin) {
-        return cb(null, DISABLE_CORS);
-    }
+    // console.log('in handleCORS orgin:', origin, trustedDomains);
+    // if (!origin) {
+        // return cb(null, DISABLE_CORS);
+    // }
 
     // Origin matches a client_trusted_domain
     // if (_.some(trustedDomains, {trusted_domain: origin})) {

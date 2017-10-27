@@ -63,7 +63,7 @@ const twitchLoginSuccess = ({token, refresh, expiresAt, referrer}) => (dispatch,
 
 const twitchLoginFailure = ( {refresh = false} ) => (dispatch, getState)=> {
   const isLogginRequested = getState().twitchAuth.loginRequested
-  if ( !isLogginRequested && !!refresh ) {
+  if ( !isLogginRequested && !!refresh && hasToken() ) {
     const tokens = {
       access_token: getToken(),
       refresh_token: getRefresh(),
@@ -76,6 +76,7 @@ const twitchLoginFailure = ( {refresh = false} ) => (dispatch, getState)=> {
 }
 
 const doAuthRefresh = ( tokens ) => (dispatch, getState) => {
+  console.log(tokens)
   let basePath;
   switch (process.env.NODE_ENV) {
     case 'development':
@@ -178,6 +179,7 @@ const twitchLogout = () => ({
 const twitchAuthActionCreators = {
   setTwitchLoggedIn,
   getTwitchLoginStatus,
+  twitchLoginSuccess,
   twitchLoginFailure,
   doAuthRefresh,
 };

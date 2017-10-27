@@ -1,7 +1,7 @@
 var bodyParser      = require('body-parser'),
     express         = require('express'),
     path            = require('path'),
-    cors            = require('cors'),
+    cors            = require('./cors'),
     helmet          = require('helmet'),
     cookieParser    = require('cookie-parser'),
     google          = require('googleapis'),
@@ -30,7 +30,8 @@ setupMiddleware = function setupMiddleware(app) {
         api: {
             // forceApiSubdomain: 
             errorHandler: errors.handleAPIError,
-            requiresAdminUser: auth.requiresAdminUser
+            requiresAdminUser: auth.requiresAdminUser,
+            cors:cors
         },
         oauth2: {
             cors:cors

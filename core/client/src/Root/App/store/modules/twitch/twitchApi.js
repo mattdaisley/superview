@@ -10,7 +10,7 @@ const initialState = {
 }
 
 
-const setTwitchProfile = ( profile ) => {
+const setTwitchProfile = ( profile = {} ) => {
   return ({
     type: SET_PROFILE,
     payload: profile
@@ -37,10 +37,10 @@ const getTwitchProfile = () => (dispatch, getState) => {
   fetch(url, {headers: headers})
     .then(resp => resp.json())
     .then(json => {
+      let twitchProfile
       if ( !json.error ) {
         if ( json._id ) {
-          const twitchProfile = json
-          dispatch(setTwitchProfile(twitchProfile))
+          twitchProfile = json
           dispatch(twitchAuthActionCreators.setTwitchLoggedIn(true));
         }
       } else {
@@ -49,6 +49,7 @@ const getTwitchProfile = () => (dispatch, getState) => {
           dispatch(twitchAuthActionCreators.twitchLoginFailure({refresh:true}));
         }
       }
+      dispatch(setTwitchProfile(twitchProfile))
 
     })
     .catch(err => console.log(err))

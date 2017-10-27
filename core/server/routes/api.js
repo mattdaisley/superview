@@ -4,14 +4,14 @@ var express     = require('express'),
     apiRoutes;
 
 apiRoutes = function apiRoutes(middleware) {
-    var router = express.Router();
+    var router = express.Router(),
         // Authentication for public endpoints
-        // authenticatePublic = [
+        authenticatePublic = [
         //     middleware.api.authenticateClient,
         //     middleware.api.authenticateUser,
         //     middleware.api.requiresAuthorizedUserPublicAPI,
-        //     middleware.api.cors
-        // ]
+            middleware.api.cors
+        ],
         // // Require user for private endpoints
         // authenticatePrivate = [
         //     middleware.api.authenticateClient,
@@ -22,7 +22,7 @@ apiRoutes = function apiRoutes(middleware) {
         authenticateAdmin = [
             middleware.auth.verifyToken,
             middleware.api.requiresAdminUser
-        ];
+        ],
         authenticatePrivate = [
             middleware.auth.verifyToken
         ];
@@ -39,8 +39,8 @@ apiRoutes = function apiRoutes(middleware) {
     
     router.get('/discover', authenticateAdmin, api.http(api.discover.browse));
 
-    router.get('/youtube/subscriptions', api.http(api.youtube.subscriptions.list));
-    router.get('/youtube/passthrough', api.http(api.youtube.passthrough))
+    router.get('/youtube/subscriptions', authenticatePublic, api.http(api.youtube.subscriptions.list));
+    router.get('/youtube/passthrough', authenticatePublic, api.http(api.youtube.passthrough))
 
     // ## Users
     // router.get('/users', authenticatePublic, api.http(api.users.browse));

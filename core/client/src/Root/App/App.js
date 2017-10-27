@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter }    from 'react-router-dom'
 import { connect }          from 'react-redux'
+import { bindActionCreators } from 'redux'
 // import PropTypes            from 'prop-types'
 // import querystring          from 'query-string'
 import MuiThemeProvider     from 'material-ui/styles/MuiThemeProvider'
@@ -10,12 +11,13 @@ import blue                 from 'material-ui/colors/blue'
 import Main      from './Main/Main'
 import Header    from './Header/Header'
 
-import { setWidth, setHeight } from './store/modules/window'
+import { windowActionCreators } from './store/modules/window'
 
 class App extends Component {
 
   componentDidMount() {
     this.updateWindowDimensions()
+    this.props.handleHash( window.location.hash )
     window.addEventListener('resize', this.updateWindowDimensions)
   }
 
@@ -60,10 +62,11 @@ const mapStateToProps = state => {
     windowWidth: state.window.width,
   }
 }
-const mapDispatchToProps = dispatch => ({
-  setWidth:  (width) => dispatch(setWidth(width)),
-  setHeight: (height) => dispatch(setHeight(height)),
-})
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    ...windowActionCreators,
+  }, dispatch)
+)
 
 // const AppWithStyles = withStyles(styles)(App)
 export default connect(mapStateToProps, mapDispatchToProps)(App)

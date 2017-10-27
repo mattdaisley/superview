@@ -180,6 +180,7 @@ const googleLogout = () => ({
 const googleAuthActionCreators = {
   setGoogleLoggedIn,
   getGoogleLoginStatus,
+  googleLoginSuccess,
   googleLoginFailure,
   doAuthRefresh,
 };
