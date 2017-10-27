@@ -1,22 +1,23 @@
-import config from './config';
-import { setToken, setRefresh, removeToken, hasToken, getToken, getRefresh, setGoogleUserId } from './tokens';
+import config from './config'
+import { setToken, setRefresh, removeToken, hasToken, getToken, getRefresh, setGoogleUserId } from './utils/tokens'
 
 import { googleApiActionCreators } from './googleApi'
 
-const clientId = config.clientId;
-const requestUri = config.requestUri;
-const redirectUri = config.redirectUri;
+const clientId = config.clientId
+const requestUri = config.requestUri
+const redirectUri = config.redirectUri
 
 
 const SET_ISLOGGEDIN     = 'app/google/googleAuth/SET_ISLOGGEDIN'
 const SET_AUTH_REQUESTED = 'app/google/googleAuth/SET_AUTH_REQUESTED'
-
-const AUTH_REQUEST   = 'app/google/googleAuth/AUTH_REQUEST'
-const AUTH_SUCCESS   = 'app/google/googleAuth/AUTH_SUCCESS'
-const AUTH_FAILURE   = 'app/google/googleAuth/AUTH_FAILURE'
-const LOGOUT         = 'app/google/googleAuth/LOGOUT'
+const SET_RETRY_STACK    = 'app/google/googleAuth/SET_RETRY_STACK'
 const ADD_RETRY      = 'app/google/googleAuth/ADD_RETRY'
 const DO_RETRY       = 'app/google/googleAuth/DO_RETRY'
+
+// const AUTH_REQUEST   = 'app/google/googleAuth/AUTH_REQUEST'
+// const AUTH_SUCCESS   = 'app/google/googleAuth/AUTH_SUCCESS'
+// const AUTH_FAILURE   = 'app/google/googleAuth/AUTH_FAILURE'
+const LOGOUT         = 'app/google/googleAuth/LOGOUT'
 
 
 
@@ -41,11 +42,19 @@ const setGoogleLogginRequested = ( isLoginRequested ) => {
   })
 }
 
+const setRetryStack = ( retryStack = [] ) => {
+  return ({
+    type: ADD_RETRY,
+    payload: retryStack
+  })
+}
+
+
 
 const getGoogleLoginStatus = () => (dispatch, getState) => {
   const prevStatus = getState().googleAuth.loggedIn
   const isLoggedIn = hasToken() && !!prevStatus
-  dispatch(setGoogleLoggedIn(isLoggedIn));
+  dispatch(setGoogleLoggedIn(isLoggedIn))
 }
 
 
@@ -69,26 +78,26 @@ const googleLoginFailure = ( {refresh = false} ) => (dispatch, getState)=> {
       access_token: getToken(),
       refresh_token: getRefresh(),
     }
-    dispatch(setGoogleLogginRequested(true));
+    dispatch(setGoogleLogginRequested(true))
     dispatch(doAuthRefresh(tokens))
-    dispatch(googleApiActionCreators.setGoogleProfile(undefined));
+    dispatch(googleApiActionCreators.setGoogleProfile(undefined))
   }
-  dispatch(setGoogleLoggedIn(false));
+  dispatch(setGoogleLoggedIn(false))
 }
 
 const doAuthRefresh = ( tokens ) => (dispatch, getState) => {
-  let basePath;
-  switch (process.env.NODE_ENV) {
-    case 'development':
-      basePath = 'http://127.0.0.1:7768';
-      break;
-    case 'production':
-    default:
-      basePath = 'https://www.superview.tv';
-      break;
-  }
+  // let basePath
+  // switch (process.env.NODE_ENV) {
+  //   case 'development':
+  //     basePath = 'http://127.0.0.1:7768'
+  //     break
+  //   case 'production':
+  //   default:
+  //     basePath = 'https://www.superview.tv'
+  //     break
+  // }
 
-  let refreshUrl = basePath + '/oauth2/google/refresh?access_token=' + tokens.access_token + '&refresh_token=' + tokens.refresh_token;
+  let refreshUrl = config.basePath + '/oauth2/google/refresh?access_token=' + tokens.access_token + '&refresh_token=' + tokens.refresh_token
 
   fetch(refreshUrl)
     .then(resp => resp.json())
@@ -105,21 +114,37 @@ const doAuthRefresh = ( tokens ) => (dispatch, getState) => {
           expiresAt: !isNaN(expiresIn) ? new Date().getTime() + expiresIn * 1000 : null,
           referrer,
         }
-        dispatch(googleLoginSuccess(result));
+        dispatch(googleLoginSuccess(result))
       }
     })
     .catch( err => dispatch(googleLoginFailure({})) )
 }
 
+const googleAddRetry = (retryOptions) => (dispatch, getState) => {
+  const prevRetryStack = getState().googleAuth.retryStack
+  const newRetryStack = [ ...prevRetryStack, retryOptions ]
+  dispatch(setRetryStack(newRetryStack))
+}
 
+const googleDoRetry = () => (dispatch, getState) => {
+  let retryStack = getState().googleAuth.retryStack
+  if ( retryStack.length > 0 ) {
+    retryStack.forEach( stackItem => {
+      if ( stackItem.retryOptions.expires > Date.now() ) {
+        stackItem.retryOptions.functionToRetry()
+      }
+    })
+  }
+  dispatch(setRetryStack())
+}
 
 
 // const googleLogin = ( referrer ) => {
   
 //   const requestEnpoint = 'oauth2/authorize'
-//   const responseType = 'token';
-//   const scope = 'user_read';
-//   const state = 'googleLoggedIn,' + referrer;
+//   const responseType = 'token'
+//   const scope = 'user_read'
+//   const state = 'googleLoggedIn,' + referrer
 
 //   return ({
 //     type: AUTH_REQUEST,
@@ -159,7 +184,7 @@ const doAuthRefresh = ( tokens ) => (dispatch, getState) => {
 // }
 
 // const googleLoginFailure = ({refresh}) => {
-//   // console.log('in GoogleActionCreators googleLoginFailure');
+//   // console.log('in GoogleActionCreators googleLoginFailure')
 //   return ({
 //     type: AUTH_FAILURE,
 //     payload: false,
@@ -183,24 +208,27 @@ const googleAuthActionCreators = {
   googleLoginSuccess,
   googleLoginFailure,
   doAuthRefresh,
-};
+  googleAddRetry,
+  googleDoRetry,
+}
 
 const googleAuthActionTypes = {
   SET_ISLOGGEDIN,
   SET_AUTH_REQUESTED,
+  SET_RETRY_STACK,
 
-  AUTH_REQUEST,
-  AUTH_SUCCESS,
-  AUTH_FAILURE,
+  // AUTH_REQUEST,
+  // AUTH_SUCCESS,
+  // AUTH_FAILURE,
   LOGOUT,
-  ADD_RETRY,
-  DO_RETRY,
-};
+}
 
 export {
   googleAuthActionCreators,
   googleAuthActionTypes,
-};
+  googleAddRetry,
+  googleDoRetry,
+}
 
 
 export default function googleAuthReducer(state = initialState, action = {}) {
@@ -210,19 +238,21 @@ export default function googleAuthReducer(state = initialState, action = {}) {
       return { ...state, loggedIn: action.payload}
     case SET_AUTH_REQUESTED:
       return { ...state, loginRequested: action.payload }
+    case SET_RETRY_STACK:
+      return { ...state, retryStack: action.payload }
+    // case ADD_RETRY:
+    //   return { ...state, retryStack: [ ...state.retryStack, action.payload ] }
+    // case DO_RETRY:
+    //   return { ...state, retryStack: action.payload }
 
-    case AUTH_REQUEST:
-      return { ...state }
-    case AUTH_SUCCESS:
-      return { ...state, loggedIn: action.payload}
-    case AUTH_FAILURE:
-      return { ...state, loggedIn: action.payload}
+    // case AUTH_REQUEST:
+      // return { ...state }
+    // case AUTH_SUCCESS:
+      // return { ...state, loggedIn: action.payload}
+    // case AUTH_FAILURE:
+      // return { ...state, loggedIn: action.payload}
     case LOGOUT:
       return { ...state, loggedIn: action.payload}
-    case ADD_RETRY:
-      return { ...state, retryStack: [ ...state.retryStack, action.payload ] }
-    case DO_RETRY:
-      return { ...state, retryStack: action.payload }
     default:
       return state
   }
