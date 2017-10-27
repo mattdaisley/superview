@@ -1,62 +1,62 @@
-import React       from 'react';
-import PropTypes   from 'prop-types';
-import { connect } from 'react-redux';
-import classNames  from 'classnames';
+import React       from 'react'
+import PropTypes   from 'prop-types'
+import { connect } from 'react-redux'
+import classNames  from 'classnames'
 
-// import { getTwitchLoginStatus, twitchLogin, twitchLogout }    from '../Redux/Twitch/TwitchActionCreators';
-// import { getYoutubeLoginStatus, youtubeLogin, youtubeLogout } from '../Redux/Youtube/YoutubeActionCreators';
+// import { getTwitchLoginStatus, twitchLogin, twitchLogout }    from '../Redux/Twitch/TwitchActionCreators'
+// import { getYoutubeLoginStatus, youtubeLogin, youtubeLogout } from '../Redux/Youtube/YoutubeActionCreators'
 
-import AppBar     from 'material-ui/AppBar';
-import Toolbar    from 'material-ui/Toolbar';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon   from 'material-ui-icons/Menu';
-import { withStyles } from 'material-ui/styles';
+import AppBar     from 'material-ui/AppBar'
+import Toolbar    from 'material-ui/Toolbar'
+import IconButton from 'material-ui/IconButton'
+import MenuIcon   from 'material-ui-icons/Menu'
+import { withStyles } from 'material-ui/styles'
 
-import HeaderLogo from './HeaderLogo/HeaderLogo'
-// import Search from '../Components/Search/Search'
+import HeaderLogo from 'components/Header/HeaderLogo/HeaderLogo'
+import Search     from 'components/Search/Search'
 
-import LoginActions from '../LoginActions/LoginActions';
+import LoginActions from 'components/LoginActions/LoginActions'
 
-import { openSideNav } from '../store/modules/leftSideNav'
+import { openSideNav } from 'store/modules/leftSideNav'
 
 
-import styles from './styles'
+import styles from './Header.styles'
 
 class Header extends React.Component {
   
   // constructor(props) {
-  //   super(props);
+  //   super(props)
 
-  //   this.twitchLogin  = this.twitchLogin.bind(this);
-  //   this.youtubeLogin = this.youtubeLogin.bind(this);
+  //   this.twitchLogin  = this.twitchLogin.bind(this)
+  //   this.youtubeLogin = this.youtubeLogin.bind(this)
   // }
 
   componentWillMount() {
-    // this.props.getTwitchLoginStatus();
-    // this.props.getYoutubeLoginStatus();
+    // this.props.getTwitchLoginStatus()
+    // this.props.getYoutubeLoginStatus()
   }
 
   // twitchLogin() {
   //   switch (process.env.NODE_ENV) {
   //     case 'development':
-  //       window.location.replace('http://127.0.0.1:3000/oauth2/twitch');
-  //       break;
+  //       window.location.replace('http://127.0.0.1:3000/oauth2/twitch')
+  //       break
   //     case 'production':
   //     default:
-  //       window.location.replace('https://auth.superview.tv/oauth2/twitch');
-  //       break;
+  //       window.location.replace('https://auth.superview.tv/oauth2/twitch')
+  //       break
   //   }
   // }
   
   // youtubeLogin() {
   //   switch (process.env.NODE_ENV) {
   //     case 'development':
-  //       window.location.replace('http://127.0.0.1:3000/oauth2/google');
-  //       break;
+  //       window.location.replace('http://127.0.0.1:3000/oauth2/google')
+  //       break
   //     case 'production':
   //     default:
-  //       window.location.replace('https://auth.superview.tv/oauth2/google');
-  //       break;
+  //       window.location.replace('https://auth.superview.tv/oauth2/google')
+  //       break
   //   }
   // }
 
@@ -75,7 +75,7 @@ class Header extends React.Component {
 
           <HeaderLogo />
 
-          {/* <Search /> */}
+          <Search />
 
           <LoginActions isInHeader={true}/>
 
@@ -89,7 +89,7 @@ class Header extends React.Component {
          */}
       </AppBar>
       
-    );
+    )
   }
 }
 
@@ -119,6 +119,6 @@ const mapDispatchToProps = dispatch => ({
   // getYoutubeLoginStatus: () => dispatch(getYoutubeLoginStatus()),
 })
 
-const HeaderWithStyles = withStyles(styles)(Header);
+const HeaderWithStyles = withStyles(styles)(Header)
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderWithStyles)

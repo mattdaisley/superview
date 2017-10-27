@@ -8,6 +8,12 @@ const SET_PROFILE = 'app/google/googleApi/SET_PROFILE'
 
 const initialState = {
   profile: undefined,
+  youtubeSearchResults: {
+    videos: [],
+    channels: []
+  }
+  // youtubeSearchResults: [],
+  // youtubeChannelSearchResults: []
 }
 
 

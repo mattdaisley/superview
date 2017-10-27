@@ -5,7 +5,7 @@ import Grid           from 'material-ui/Grid'
 import { withStyles } from 'material-ui/styles'
 
 // import ChannelPage     from './ChannelPage/ChannelPage'
-import Home            from '../Home/Home'
+import Home            from 'components/Home/Home'
 // import PlayerPage      from './PlayerPage/PlayerPage'
 // import Recents         from './RecentsPage/Recents'
 // import TwFollowing     from './Twitch/Browse/Following/Following'

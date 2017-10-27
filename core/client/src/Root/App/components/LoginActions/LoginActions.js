@@ -9,10 +9,10 @@ import LoginActionsButton from './LoginActionsButton/LoginActionsButton.js';
 
 // import { getTwitchProfile, getTwitchLoginStatus, twitchLogout }    from '../../Redux/Twitch/TwitchActionCreators';
 // import { getGoogleProfile, getYoutubeLoginStatus, youtubeLogout }  from '../../Redux/Youtube/YoutubeActionCreators';
-import { twitchAuthActionCreators } from '../store/modules/twitch/twitchAuth'
-import { twitchApiActionCreators }  from '../store/modules/twitch/twitchApi'
-import { googleAuthActionCreators } from '../store/modules/google/googleAuth'
-import { googleApiActionCreators }  from '../store/modules/google/googleApi'
+import { twitchAuthActionCreators } from 'store/modules/twitch/twitchAuth'
+import { twitchApiActionCreators }  from 'store/modules/twitch/twitchApi'
+import { googleAuthActionCreators } from 'store/modules/google/googleAuth'
+import { googleApiActionCreators }  from 'store/modules/google/googleApi'
 
 const styles = theme => ({
   loginActionsHeader: {

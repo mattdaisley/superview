@@ -8,8 +8,8 @@ import MuiThemeProvider     from 'material-ui/styles/MuiThemeProvider'
 import createMuiTheme       from 'material-ui/styles/createMuiTheme'
 import blue                 from 'material-ui/colors/blue'
 
-import Main      from './Main/Main'
-import Header    from './Header/Header'
+import Main      from './components/Main/Main'
+import Header    from './components/Header/Header'
 
 import { windowActionCreators } from './store/modules/window'
 
