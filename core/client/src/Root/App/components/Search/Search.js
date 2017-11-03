@@ -47,7 +47,7 @@ class Search extends React.Component {
 
   handleClickOutside = (e) => {
     const domNode = ReactDOM.findDOMNode(this);
-    if (!domNode || !domNode.contains(e.target)) this.close()
+    if ( (!domNode || !domNode.contains(e.target)) && this.state.open === true ) this.close()
   }
 
   open = () => {
@@ -65,8 +65,8 @@ class Search extends React.Component {
     const searchValue = event.target.value
     const timeoutId = setTimeout( () => {
       // this.props.twitchSearch(searchValue)
-      this.props.youtubeSearch(searchValue.trim())
-      this.props.youtubeChannelSearch(searchValue.trim())
+      this.props.getSearchVideos(searchValue.trim())
+      this.props.getSearchChannels(searchValue.trim())
     }, 300)
     this.setState( {timeoutId, searchValue} )
   }
@@ -89,8 +89,10 @@ class Search extends React.Component {
 
   render = () => {
 
-    const { videos, channels, classes } = this.props
+    const { search, classes } = this.props
     const { open, searchValue } = this.state
+    
+    const { videos, channels } = search
 
     return (
       <List dense className={classes.searchContainer}>
@@ -120,9 +122,12 @@ const mapStateToProps = state => {
   return {
     twitchLoggedIn:  state.twitchAuth.loggedIn,
     youtubeLoggedIn: state.googleAuth.loggedIn,
-    twitchSearchResults: state.twitchApi.twitchSearchResults,
-    videos: state.googleApi.youtubeSearchResults.videos,
-    channels: state.googleApi.youtubeSearchResults.channels,
+    // twitchSearchResults: state.twitchApi.twitchSearchResults,
+    search: state.googleApi.search,
+    // videos: state.googleApi.search.videos,
+    // channels: state.googleApi.search.channels,
+    // videos: state.googleApi.youtubeSearchResults.videos,
+    // channels: state.googleApi.youtubeSearchResults.channels,
   }
 }
 // const mapDispatchToProps = dispatch => ({

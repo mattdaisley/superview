@@ -53,10 +53,11 @@ class YoutubeSearchResults extends React.Component {
 
             <img alt={video.title} className={classes.channelAvatar} src={video.thumbnail} />
 
-            <ListItemText primary={title} secondary={(
-              // <div>Views etc.</div>
-              <span>{description}</span>
-            )} />
+            <ListItemText primary={title} secondary={[
+              <span key="sourceType">{video.source_type === 'yt' ? 'YouTube Video' : 'Twitch Stream'}</span>,
+              <br key="break" />,
+              <span key="description">{description}</span>
+            ]} />
 
             <ListItemSecondaryAction
               classes={{root: classes.secondaryActionRoot}}>

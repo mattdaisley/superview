@@ -13,6 +13,14 @@ export default theme => ({
       border: '1px solid #ccc',
       borderTop: 0,
     },
+    [theme.breakpoints.up('lg')]: {
+      width: 'calc(100vw - 600px)',
+      top: 64,
+      left: 300,
+      padding: '0 16px 10px 16px',
+      border: '1px solid #ccc',
+      borderTop: 0,
+    },
     [theme.breakpoints.down('md')]: {
       width: 'calc(100vw)',
       top: 56,

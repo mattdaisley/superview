@@ -51,3 +51,42 @@ export const handleApiError = ( err, dispatch, functionToRetry ) => {
     dispatch( googleAuthActionCreators.googleAddRetry(retryOptions) )
   }
 }
+
+export const formatVideoSearchResult = ( videos ) => {
+  
+  return [...videos].map( video => {
+    return {
+      source_type: 'yt',
+      id: video.id.videoId || video.id,
+      channel_id: video.snippet.channelId,
+      title: video.snippet.title,
+      description: video.snippet.description,
+      published_at: video.snippet.publishedAt,
+      thumbnail: ( video.snippet.thumbnails.medium ) ? video.snippet.thumbnails.medium.url : video.snippet.thumbnails.default.url,
+      channel: {
+        name: ( video.snippet.channelTitle ) ? video.snippet.channelTitle : null
+      }
+    }
+  })
+
+}
+
+export const formatChannelSearchResult = ( channels ) => {
+  return [...channels].map( channel => {
+    return {
+      source_type: 'yt',
+      channel_id: channel.id.channelId || channel.id,
+      title: channel.snippet.channelTitle,
+      name: channel.snippet.channelTitle,
+      logo: channel.snippet.thumbnails.high.url,
+      description: channel.snippet.description
+    }
+  })
+}
+
+export default {
+  doApiRequest,
+  handleApiError,
+  formatVideoSearchResult,
+  formatChannelSearchResult,
+}

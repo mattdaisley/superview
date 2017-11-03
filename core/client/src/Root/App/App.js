@@ -15,22 +15,22 @@ import { windowActionCreators } from './store/modules/window'
 
 class App extends Component {
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.updateWindowDimensions()
     this.props.handleHash( window.location.hash )
     window.addEventListener('resize', this.updateWindowDimensions)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     window.removeEventListener('resize', this.updateWindowDimensions)
   }
 
-  updateWindowDimensions() {
+  updateWindowDimensions = () => {
     this.props.setWidth(window.innerWidth)
     this.props.setHeight(window.innerHeight)
   }
 
-  render() { 
+  render = () => { 
 
     const theme = createMuiTheme({
       palette: {

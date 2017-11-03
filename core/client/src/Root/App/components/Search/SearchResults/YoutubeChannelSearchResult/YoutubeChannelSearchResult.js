@@ -47,10 +47,11 @@ class YoutubeChannelSearchResult extends React.Component {
             </div>
             
 
-            <ListItemText primary={title} secondary={(
-              // <div>Views etc.</div>
-              <span>{description}</span>
-            )} />
+            <ListItemText primary={title} secondary={[
+              <span key="sourceType">{channel.source_type === 'yt' ? 'YouTube Channel' : 'Twitch Channel'}</span>,
+              <br key="break" />,
+              <span key="description">{description}</span>
+            ]} />
 
             <ListItemSecondaryAction classes={{root: classes.secondaryActionRoot}}>
 
