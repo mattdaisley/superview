@@ -62,11 +62,15 @@ class Search extends React.Component {
     if ( !this.state.open ) this.setState({open: true})
     if ( this.state.timeoutId ) clearInterval(this.state.timeoutId)
 
-    const searchValue = event.target.value
+    const searchValue = event.target.value.trim()
     const timeoutId = setTimeout( () => {
-      // this.props.twitchSearch(searchValue)
-      this.props.getSearchVideos(searchValue.trim())
-      this.props.getSearchChannels(searchValue.trim())
+      if ( searchValue !== '' ) {
+        this.props.getSearchVideos(searchValue)
+        this.props.getSearchChannels(searchValue)
+      } else {
+        this.props.setSearchVideos()
+        this.props.setSearchChannels()
+      }
     }, 300)
     this.setState( {timeoutId, searchValue} )
   }
@@ -91,7 +95,7 @@ class Search extends React.Component {
 
     const { search, classes } = this.props
     const { open, searchValue } = this.state
-    
+
     const { videos, channels } = search
 
     return (

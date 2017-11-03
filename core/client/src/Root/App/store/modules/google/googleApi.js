@@ -1,8 +1,8 @@
 import config from './config'
 
 import { googleAuthActionCreators } from './googleAuth'
+import { hasToken, getToken }       from './utils/tokens'
 import utils from './utils/utils'
-import { hasToken, getToken } from './utils/tokens'
 
 const SET_PROFILE         = 'app/google/googleApi/SET_PROFILE'
 const SET_SEARCH_VIDEOS   = 'app/google/googleApi/SET_SEARCH_VIDEOS'
@@ -14,8 +14,6 @@ const initialState = {
     videos: [],
     channels: []
   }
-  // youtubeSearchResults: [],
-  // youtubeChannelSearchResults: []
 }
 
 
